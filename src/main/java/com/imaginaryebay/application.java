@@ -17,15 +17,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 //@SpringBootApplication
 public class application {
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
     	
         	ApplicationContext applicationContext = 
                new AnnotationConfigApplicationContext(MailConfiguration.class);
         	 
         	SendEmail sm = (SendEmail) applicationContext.getBean(SendEmail.class);
-            sm.sendEmailAccountCreation(new Userr("rahmtho90@gmail.com","Rahul","raughOZ:SRHGia;ro"));
+            sm.sendEmailAccountCreation(new Userr("t_vivio@yahoo.com","Rahul","raughOZ:SRHGia;ro"));
             
-        }
+        }*/
         //SpringApplication.run(application.class,args);
 
         //ApplicationContext applicationContext = new AnnotationConfigApplicationContext(DatabaseConfiguration.class, ModelConfiguration.class);
