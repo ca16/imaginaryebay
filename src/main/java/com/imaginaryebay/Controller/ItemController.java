@@ -14,32 +14,32 @@ import java.util.List;
  * Created by Chloe on 6/23/16.
  */
 @RestController
-@RequestMapping("/Item")
+@RequestMapping("/item")
 public interface ItemController {
 
     @RequestMapping(method= RequestMethod.POST)
     public void save(@RequestBody Item item);
 
-    @RequestMapping(value="/{ID}", method= RequestMethod.GET)
-    public Item getItemByID(@PathVariable("ID") Long id);
+    @RequestMapping(value="/{id}", method= RequestMethod.GET)
+    public Item getItemByID(@PathVariable("id") Long id);
 /*
     @RequestMapping(value="/Owner/{ID}", method= RequestMethod.GET)
     public Userr getOwnerByID(@PathVariable("ID") Long id);
 */
-    @RequestMapping(value="/Price/{ID}", method= RequestMethod.GET)
-    public Double getPriceByID(@PathVariable("ID") Long id);
+    @RequestMapping(value="/price/{id}", method= RequestMethod.GET)
+    public Double getPriceByID(@PathVariable("id") Long id);
 
-    @RequestMapping(value="/Category/{ID}", method= RequestMethod.GET)
-    public Category getCategoryByID(@PathVariable("ID") Long id);
+    @RequestMapping(value="/category/{id}", method= RequestMethod.GET)
+    public Category getCategoryByID(@PathVariable("id") Long id);
 
-    @RequestMapping(value="/Description/{ID}", method= RequestMethod.GET)
-    public String getDescriptionByID(@PathVariable("ID") Long id);
+    @RequestMapping(value="/description/{id}", method= RequestMethod.GET)
+    public String getDescriptionByID(@PathVariable("id") Long id);
 
-    @RequestMapping(value="/EndTime/{ID}", method= RequestMethod.GET)
-    public Timestamp getEndtimeByID(@PathVariable("ID") Long id);
+    @RequestMapping(value="/endtime/{id}", method= RequestMethod.GET)
+    public Timestamp getEndtimeByID(@PathVariable("id") Long id);
 
-    @RequestMapping(value="/{ID}", method= RequestMethod.PUT)
-    public Item updateItemByID(@PathVariable("ID") Long id, @RequestBody Item item);
+    @RequestMapping(value="/{id}", method= RequestMethod.PUT)
+    public Item updateItemByID(@PathVariable("id") Long id, @RequestBody Item item);
 
     @RequestMapping(method= RequestMethod.GET)
     public List<Item> getAllItems(@RequestParam(value = "cat", required = false) Category cat);
