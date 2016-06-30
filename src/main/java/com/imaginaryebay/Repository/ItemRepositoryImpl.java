@@ -142,6 +142,11 @@ public class ItemRepositoryImpl implements ItemRepository{
             return new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST);
         }
 
+        /*
+        Anyway we can put a different status for this case? Or add something to it?
+        NOT_FOUND gets returned when the resource doesn't exist too (e.g. if I tried
+        item/1/otherthing so it's hard to distinguish between the two in tests..
+         */
         if (itemPictures.isEmpty()){
             return new ResponseEntity<List<ItemPicture>>(HttpStatus.NOT_FOUND);
         }
