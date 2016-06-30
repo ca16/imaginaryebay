@@ -31,11 +31,12 @@ public class S3FileUploader {
      * Define some constants for setting credentials, and building URLs to store in the DB
      * TODO: The Credentials need to go somewhere safer. Make a config file.
      */
-    private static final String         BUCKET          = "***NAME OF YOUR BUCKET***";
+    private static final String         BUCKET          = "odbneu";
     private static       String         keyName         = "Object-" + UUID.randomUUID();
     private static final String         HTTPS           = "https://";
-    private static final String         REGION          = ".s3.us-oregon-west-2.com/";
-    private static final AWSCredentials AWS_CREDENTIALS = new BasicAWSCredentials("ACCESS_KEY", "SECRET_KEY");
+    private static final String         REGION          = ".s3.us-west-2.com/";
+    private static final AWSCredentials AWS_CREDENTIALS = new BasicAWSCredentials("AKIAJSNMBTJ6HVQZ3CKQ",
+                                                                   "HM8jw0ZSIZekX/b1Rcohu39Mfq1mlNWQ+o2Qk54N");
 
 
     /**
