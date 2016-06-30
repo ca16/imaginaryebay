@@ -1,6 +1,7 @@
 package com.imaginaryebay.Repository;
 
 import com.imaginaryebay.DAO.UserrDao;
+import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.Userr;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +32,7 @@ public class UserrRepositoryImpl implements UserrRepository {
     }
 
 
-    public Userr getUserrByID (long id) {
+    public Userr getUserrByID (Long id) {
         return userrDao.getUserrByID(id);
     }
 

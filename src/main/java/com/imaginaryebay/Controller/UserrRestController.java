@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 
-@RestController
-@RequestMapping("/user")
-public class UserrRestController {
+//@RestController
+//@RequestMapping("/user")
+public class UserrRestController implements UserrController {
 
 
     private UserrRepository userrRepository;
@@ -30,8 +30,9 @@ public class UserrRestController {
         userrRepository.createNewUserr(userr);
     }
 */
-    @RequestMapping (value="/{id}", method = RequestMethod.GET)
-    public Userr getUserrByID(@PathVariable ("id") long id){
+    //@RequestMapping (value="/{id}", method = RequestMethod.GET)
+    //public Userr getUserrByID(@PathVariable ("id") Long id){
+    public Userr getUserrByID(Long id){
         return userrRepository.getUserrByID(id);
     }
 

@@ -29,7 +29,14 @@ public class application {
         //SendEmail sm = (SendEmail) applicationContext.getBean(SendEmail.class);
         //sm.sendEmailAccountCreation(new Userr("t_vivio@yahoo.com","Rahul","raughOZ:SRHGia;ro"));
 
-        ItemRepository ir = applicationContext.getBean(ItemRepositoryImpl.class);
-        System.out.println(ir.findAllItems());
+        UserrRepository ur = applicationContext.getBean(UserrRepository.class);
+        System.out.println(ur.getUserrByID(1L));
+
+        ItemRepository ir = applicationContext.getBean(ItemRepository.class);
+        System.out.println(ir.findByID(1L));
+
+        //See MessageDaoImpl comments on findAllMessagesByReceiverID()
+        //MessageRepository mr = applicationContext.getBean(MessageRepository.class);
+        //System.out.println(mr.returnAllMessagesByReceiverID(1L));
     }
 }

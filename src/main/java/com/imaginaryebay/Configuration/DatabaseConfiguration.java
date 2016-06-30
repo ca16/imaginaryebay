@@ -39,7 +39,7 @@ public class DatabaseConfiguration {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
         dataSource.setDriverClass("org.postgresql.Driver");
         dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb");
-        dataSource.setUser("postgres");
+        datSaSource.setUser("postgres");
         dataSource.setPassword("jingo123");
         return dataSource;
     }

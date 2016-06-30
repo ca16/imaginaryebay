@@ -6,6 +6,8 @@ import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.Userr;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
 /**
  * Created by Chloe on 6/28/16.
  */
+@Transactional
 public class ItemRepositoryImpl implements ItemRepository{
 
     private ItemDAO itemDAO;

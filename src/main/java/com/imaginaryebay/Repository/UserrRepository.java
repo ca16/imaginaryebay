@@ -8,7 +8,7 @@ public interface UserrRepository {
 
     public void createNewUserr(Userr userr);
 
-    public Userr getUserrByID(long id);
+    public Userr getUserrByID(Long id);
 
     public Userr getUserrByEmail(String email);
 

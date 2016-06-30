@@ -11,21 +11,23 @@ import org.springframework.web.bind.annotation.RestController;
 import com.imaginaryebay.Models.Message;
 import com.imaginaryebay.Repository.MessageRepository;
 
-@RestController
-@RequestMapping("/message")
-public class MessageRestController {
+//@RestController
+//@RequestMapping("/message")
+public class MessageRestController implements MessageController{
 
     private MessageRepository messageRepository;
     public void setMessageRepository(MessageRepository messageRepository){
         this.messageRepository=messageRepository;
     }
-    @RequestMapping(method= RequestMethod.POST)
-    public void createNewMessage(@RequestBody Message message){
+    //@RequestMapping(method= RequestMethod.POST)
+    //public void createNewMessage(@RequestBody Message message){
+    public void createNewMessage(Message message){
         this.messageRepository.createNewMessage(message);
     }
 
-    @RequestMapping(value="/{ID}", method=RequestMethod.GET)
-    public List<Message> returnMessagesByReceiverID(@PathVariable("ID") Long id){
+    //@RequestMapping(value="/{ID}", method=RequestMethod.GET)
+    //public List<Message> returnMessagesByReceiverID(@PathVariable("ID") Long id){
+    public List<Message> returnMessagesByReceiverID(Long id){
         return this.messageRepository.returnAllMessagesByReceiverID(id);
     }
 }

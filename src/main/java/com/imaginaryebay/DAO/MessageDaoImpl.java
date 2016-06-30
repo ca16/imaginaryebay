@@ -29,6 +29,9 @@ public class MessageDaoImpl implements  MessageDao {
     public List<Message> findAllMessagesByReceiverID(Long receiver_id) {
         Query query = this.entityManager.createQuery(
                 "select m from Message m where m.receiver_id = ?1");
+        /* I kept getting exceptions with the above, but they went away if I replaced it with this:
+        Query query = this.entityManager.createQuery(
+                "select m from Message m where m.receiver_id.id = ?1");*/
         query.setParameter(1, receiver_id);
         return query.getResultList();
     }
