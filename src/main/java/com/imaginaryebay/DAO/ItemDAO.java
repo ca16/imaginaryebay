@@ -2,7 +2,7 @@ package com.imaginaryebay.DAO;
 
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
-import com.imaginaryebay.Models.Userr;
+import com.imaginaryebay.Models.ItemPicture;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -35,4 +35,8 @@ public interface ItemDAO {
     public List<Item> findAllItemsByCategory(Category category);
 
     public List<Item> findAllItems();
+
+    List<ItemPicture> returnAllItemPicturesForItemID(Long id);
+
+    List<ItemPicture> returnAllItemPictureURLsForItemID(Long id);
 }

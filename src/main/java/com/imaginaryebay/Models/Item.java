@@ -1,17 +1,7 @@
 package com.imaginaryebay.Models;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 /**
  * Created by Chloe on 6/23/16.
@@ -29,6 +19,8 @@ public class Item {
 
     private String description;
 
+    // TODO: @Brian: I had to add this to get the endpoints to work properly.
+    @Enumerated(EnumType.STRING)
     private Category category;
 /*
     @ManyToOne

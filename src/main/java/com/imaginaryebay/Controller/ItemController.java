@@ -2,14 +2,10 @@ package com.imaginaryebay.Controller;
 
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
-import com.imaginaryebay.Models.Userr;
-
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.imaginaryebay.Models.ItemPicture;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -48,6 +44,17 @@ public interface ItemController {
     @RequestMapping(method= RequestMethod.GET)
     public List<Item> getAllItems(@RequestParam(value = "cat", required = false) Category cat);
 
+    @RequestMapping(value = "/{id}/picture", method = RequestMethod.GET)
+    public ResponseEntity<List<ItemPicture>>
+    returnItemPicturesForItem(@PathVariable("id")
+                                      Long id,
+                              @RequestParam(value = "urlOnly", required = false, defaultValue = "false")
+                                      String urlOnly
+    );
+
+    @RequestMapping(value = "/{id}/picture", method = RequestMethod.POST)
+    public ResponseEntity<String> createItemPicturesForItem(@PathVariable("id") Long id,
+                                                            @RequestParam("file") MultipartFile[] files);
 }
 
 

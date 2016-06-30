@@ -2,14 +2,14 @@ package com.imaginaryebay.DAO;
 
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
-import com.imaginaryebay.Models.Userr;
-
-import java.sql.Timestamp;
-import java.util.List;
+import com.imaginaryebay.Models.ItemPicture;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Chloe on 6/23/16.
@@ -91,5 +91,31 @@ public class ItemDAOImpl implements ItemDAO{
                 "select i from Item i order by i.price");
         return query.getResultList();
 
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<ItemPicture> returnAllItemPicturesForItemID(Long id){
+        String hql = "Select ip from ItemPicture ip join fetch ip.auction_item where ip.auction_item.id = :id";
+        Query query = entityManager
+                .createQuery(hql)
+                .setParameter("id", id);
+        List<ItemPicture> itemPictures = query.getResultList();
+        return itemPictures;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<ItemPicture> returnAllItemPictureURLsForItemID(Long id){
+        String hql = "Select ip.id, ip.url from ItemPicture ip join ip.auction_item where ip.auction_item.id = :id";
+        Query query = entityManager
+                .createQuery(hql)
+                .setParameter("id", id);
+        List<Object[]> selection = query.getResultList();
+        List<ItemPicture> itemPictures = selection
+                .stream()
+                .map( (x) -> new ItemPicture( (Long) x[0], x[1].toString() ) )
+                .collect( Collectors.toList() );
+        return itemPictures;
     }
 }

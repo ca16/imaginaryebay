@@ -1,27 +1,11 @@
 package com.imaginaryebay.Configuration;
 
-import com.imaginaryebay.Controller.MessageRestController;
 import com.imaginaryebay.Controller.ItemController;
 import com.imaginaryebay.Controller.ItemControllerImpl;
 import com.imaginaryebay.Controller.MessageRestController;
 import com.imaginaryebay.Controller.UserrRestController;
-import com.imaginaryebay.DAO.MessageDao;
-import com.imaginaryebay.DAO.MessageDaoImpl;
-import com.imaginaryebay.DAO.ItemDAO;
-import com.imaginaryebay.DAO.ItemDAOImpl;
-import com.imaginaryebay.DAO.MessageDao;
-import com.imaginaryebay.DAO.MessageDaoImpl;
-import com.imaginaryebay.DAO.UserrDao;
-import com.imaginaryebay.DAO.UserrDaoImpl;
-import com.imaginaryebay.Repository.MessageRepository;
-import com.imaginaryebay.Repository.MessageRepositoryImpl;
-import com.imaginaryebay.Repository.ItemRepository;
-import com.imaginaryebay.Repository.ItemRepositoryImpl;
-import com.imaginaryebay.Repository.MessageRepository;
-import com.imaginaryebay.Repository.MessageRepositoryImpl;
-import com.imaginaryebay.Repository.UserrRepository;
-import com.imaginaryebay.Repository.UserrRepositoryImpl;
-
+import com.imaginaryebay.DAO.*;
+import com.imaginaryebay.Repository.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -89,12 +73,17 @@ public class ModelConfiguration {
     }
 
     @Bean
-    public ItemController itemService() {
-        ItemControllerImpl bean = new ItemControllerImpl();
-        bean.setItemRepository(itemRepository());
+    public ItemPictureDAO itemPictureDAO() {
+        ItemPictureDAOImpl bean = new ItemPictureDAOImpl();
         return bean;
     }
 
-
+    @Bean
+    public ItemController itemService() {
+        ItemControllerImpl bean = new ItemControllerImpl();
+        bean.setItemRepository(itemRepository());
+        bean.setItemPictureDAO(itemPictureDAO());
+        return bean;
+    }
 
 }
