@@ -21,7 +21,7 @@ import static org.junit.Assert.assertNotNull;
  */
 //See comments on ItemEnpointsTest for this actually covers
 public class MessageEnpointsTest {
-/*
+
     @Test
     public void getsWorkOK() {
 
@@ -58,5 +58,5 @@ public class MessageEnpointsTest {
         item.setCategory(Category.Clothes);
         item.setDescription("Scarf");
         template.put("http://localhost:8080/item/1", item);
-    }*/
+    }
 }

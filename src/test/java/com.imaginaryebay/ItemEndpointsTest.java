@@ -26,7 +26,7 @@ import static org.junit.Assert.assertThat;
  */
 
 //Just tests if endpoints are accessible, doesn't really check what they do
-public class ItemEndpointsTest {/*
+public class ItemEndpointsTest {
     @Test
     public void getsWorkOK() {
 
@@ -62,12 +62,10 @@ public class ItemEndpointsTest {/*
 
         template.getForEntity("http://localhost:8080/item/category/1", Category.class);
 
-        //Not totally right, would be the same status even if it didn't work
-        // See comments on item repo impl class
         try {
             template.getForEntity("http://localhost:8080/item/1/picture", List.class);
         } catch (HttpClientErrorException exc) {
-            assertEquals(exc.getStatusCode(), HttpStatus.NOT_FOUND);
+            assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -98,5 +96,5 @@ public class ItemEndpointsTest {/*
         item.setCategory(Category.Clothes);
         item.setDescription("Scarf");
         template.put("http://localhost:8080/item/1", item);
-    }*/
+    }
 }

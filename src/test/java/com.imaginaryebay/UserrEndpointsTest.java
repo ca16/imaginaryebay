@@ -21,12 +21,12 @@ import static org.junit.Assert.assertNotNull;
  */
 //See ItemEnpointsTest comments for what this actually covers
 public class UserrEndpointsTest {
-/*
+
     @Test
     public void getsWorkOK() {
 
         RestTemplate template = new RestTemplate();
         template.getForEntity("http://localhost:8080/user/1", List.class);
     }
-*/
+
 }
