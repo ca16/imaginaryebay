@@ -1,14 +1,19 @@
 package com.imaginaryebay.Configuration;
 
+//import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -25,8 +30,10 @@ import java.util.HashMap;
 
 @Configuration
 @EnableTransactionManagement
+@ComponentScan(basePackages = {"com.imaginaryebay"})
+@EnableWebMvc
 public class DatabaseConfiguration {
-
+/*
     @Bean(destroyMethod = "close")
     public DataSource dataSource() throws PropertyVetoException{
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
@@ -43,6 +50,21 @@ public class DatabaseConfiguration {
 
         //ToDo: "update" property should only be used during development
         jpaPropertiesMap.put("hibernate.hbm2ddl.auto", "update");
+        return jpaPropertiesMap;
+    }*/
+@Bean
+public DataSource dataSource() throws PropertyVetoException{
+    ComboPooledDataSource dataSource = new ComboPooledDataSource();
+    dataSource.setDriverClass("org.postgresql.Driver");
+    dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/firstdb");
+    dataSource.setUser("Chloe");
+    dataSource.setPassword("");
+    return dataSource;
+}
+    private Map<String,?> jpaProperties() {
+        Map<String,String> jpaPropertiesMap = new HashMap<String,String>();
+        jpaPropertiesMap.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL82Dialect");
+        jpaPropertiesMap.put("hibernate.hbm2ddl.auto", "create");
         return jpaPropertiesMap;
     }
 

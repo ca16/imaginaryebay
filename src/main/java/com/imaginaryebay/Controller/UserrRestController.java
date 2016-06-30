@@ -4,6 +4,7 @@ import com.imaginaryebay.Models.Userr;
 import com.imaginaryebay.Repository.UserrRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +24,12 @@ public class UserrRestController {
         this.userrRepository=userrRepository;
     }
 
-
-
+/*
+    @RequestMapping (method = RequestMethod.POST)
+    public void saveUserr(@RequestBody Userr userr){
+        userrRepository.createNewUserr(userr);
+    }
+*/
     @RequestMapping (value="/{id}", method = RequestMethod.GET)
     public Userr getUserrByID(@PathVariable ("id") long id){
         return userrRepository.getUserrByID(id);

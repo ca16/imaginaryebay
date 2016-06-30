@@ -4,6 +4,7 @@ import com.imaginaryebay.DAO.ItemDAO;
 import com.imaginaryebay.DAO.UserrDao;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
+import com.imaginaryebay.Models.Userr;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -41,6 +42,7 @@ public class ItemRepositoryImpl implements ItemRepository{
                 return price;
             }
             System.out.println("Item does not have a price.");
+            return null;
         }
         System.out.println("Item with that ID does not exist.");
         return null;
@@ -55,6 +57,8 @@ public class ItemRepositoryImpl implements ItemRepository{
                 return cat;
             }
             System.out.println("Item does not have a category.");
+            return null;
+
         }
         System.out.println("Item with that ID does not exist.");
         return null;
@@ -68,6 +72,8 @@ public class ItemRepositoryImpl implements ItemRepository{
                 return time;
             }
             System.out.println("Item does not have a time.");
+            return null;
+
         }
         System.out.println("Item with that ID does not exist.");
         return null;
@@ -81,6 +87,8 @@ public class ItemRepositoryImpl implements ItemRepository{
                 return description;
             }
             System.out.println("Item does not have a description.");
+            return null;
+
         }
         System.out.println("Item with that ID does not exist.");
         return null;
@@ -113,5 +121,21 @@ public class ItemRepositoryImpl implements ItemRepository{
         System.out.println("No items available.");
         return null;
     }
+/*
+    public Userr findOwnerByID(Long id){
+        Item item = this.itemDAO.findByID(id);
+        if (item != null){
+            Userr owner = itemDAO.findOwnerByID(id);
+            if (owner != null) {
+                return owner;
+            }
+            System.out.println("Item does not have an owner.");
+            return null;
+
+        }
+        System.out.println("Item with that ID does not exist.");
+        return null;
+    }*/
+
 
 }

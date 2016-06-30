@@ -30,11 +30,10 @@ public class Item {
     private String description;
 
     private Category category;
-
-    //@ManyToOne
-    //@JoinColumn(name = "userr_id")
-    //private Userr userr;
-
+/*
+    @ManyToOne
+    @JoinColumn(name = "userr_id")
+    private Userr userr;*/
 
     public Long getId() {
         return id;
@@ -71,4 +70,13 @@ public class Item {
     public void setCategory(Category category) {
         this.category = category;
     }
+/*
+    public Userr getUserr() {
+        return userr;
+    }
+
+    public void setUserr(Userr userr) {
+        this.userr = userr;
+    }
+    */
 }

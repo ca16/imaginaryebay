@@ -2,6 +2,7 @@ package com.imaginaryebay.Repository;
 
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
+import com.imaginaryebay.Models.Userr;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -20,6 +21,8 @@ public interface ItemRepository {
     public Category findCategoryByID(Long id);
 
     public Timestamp findEndtimeByID(Long id);
+
+    //public Userr findOwnerByID(Long id);
 
     public String findDescriptionByID(Long id);
 

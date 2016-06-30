@@ -2,6 +2,7 @@ package com.imaginaryebay.DAO;
 
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
+import com.imaginaryebay.Models.Userr;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -58,7 +59,12 @@ public class ItemDAOImpl implements ItemDAO{
     public String findDescriptionByID(Long id){
         return entityManager.find(Item.class, id).getDescription();
     }
-
+/*
+    @Override
+    public Userr findOwnerByID(Long id){
+        return entityManager.find(Item.class, id).getUserr();
+    }
+*/
     @Override
     public Item updateItemByID(Long id, Item item){
         Item toChange = entityManager.find(Item.class, id);
@@ -66,6 +72,7 @@ public class ItemDAOImpl implements ItemDAO{
         toChange.setCategory(item.getCategory());
         toChange.setEndtime(item.getEndtime());
         toChange.setDescription(item.getDescription());
+        //toChange.setUserr(item.getUserr());
         return entityManager.find(Item.class, id);
     }
 

@@ -2,6 +2,7 @@ package com.imaginaryebay.Controller;
 
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
+import com.imaginaryebay.Models.Userr;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +26,10 @@ public interface ItemController {
 
     @RequestMapping(value="/{ID}", method= RequestMethod.GET)
     public Item getItemByID(@PathVariable("ID") Long id);
-
+/*
+    @RequestMapping(value="/Owner/{ID}", method= RequestMethod.GET)
+    public Userr getOwnerByID(@PathVariable("ID") Long id);
+*/
     @RequestMapping(value="/Price/{ID}", method= RequestMethod.GET)
     public Double getPriceByID(@PathVariable("ID") Long id);
 

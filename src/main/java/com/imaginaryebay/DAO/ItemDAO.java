@@ -2,6 +2,7 @@ package com.imaginaryebay.DAO;
 
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
+import com.imaginaryebay.Models.Userr;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -26,6 +27,8 @@ public interface ItemDAO {
     public Timestamp findEndtimeByID(Long id);
 
     public String findDescriptionByID(Long id);
+
+//    public Userr findOwnerByID(Long id);
 
     public Item updateItemByID(Long id, Item item);
 

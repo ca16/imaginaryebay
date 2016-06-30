@@ -3,6 +3,7 @@ package com.imaginaryebay.Controller;
 import com.imaginaryebay.DAO.ItemDAO;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
+import com.imaginaryebay.Models.Userr;
 import com.imaginaryebay.Repository.ItemRepository;
 import com.imaginaryebay.Repository.UserrRepository;
 
@@ -36,7 +37,12 @@ public class ItemControllerImpl implements ItemController {
     public Double getPriceByID(Long id){
         return this.itemRepository.findPriceByID(id);
     }
-
+/*
+    @Override
+    public Userr getOwnerByID(Long id){
+        return this.itemRepository.findOwnerByID(id);
+    }
+*/
     @Override
     public Category getCategoryByID(Long id){
         return this.itemRepository.findCategoryByID(id);
