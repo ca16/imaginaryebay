@@ -7,6 +7,7 @@ import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.Userr;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -120,6 +121,7 @@ public class ItemRepositoryImpl implements ItemRepository{
         }
         System.out.println("No items available.");
         return null;
+
     }
 /*
     public Userr findOwnerByID(Long id){

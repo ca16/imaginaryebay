@@ -3,17 +3,22 @@ package com.imaginaryebay.Configuration;
 import com.imaginaryebay.Controller.MessageRestController;
 import com.imaginaryebay.Controller.ItemController;
 import com.imaginaryebay.Controller.ItemControllerImpl;
+import com.imaginaryebay.Controller.MessageRestController;
 import com.imaginaryebay.Controller.UserrRestController;
 import com.imaginaryebay.DAO.MessageDao;
 import com.imaginaryebay.DAO.MessageDaoImpl;
 import com.imaginaryebay.DAO.ItemDAO;
 import com.imaginaryebay.DAO.ItemDAOImpl;
+import com.imaginaryebay.DAO.MessageDao;
+import com.imaginaryebay.DAO.MessageDaoImpl;
 import com.imaginaryebay.DAO.UserrDao;
 import com.imaginaryebay.DAO.UserrDaoImpl;
 import com.imaginaryebay.Repository.MessageRepository;
 import com.imaginaryebay.Repository.MessageRepositoryImpl;
 import com.imaginaryebay.Repository.ItemRepository;
 import com.imaginaryebay.Repository.ItemRepositoryImpl;
+import com.imaginaryebay.Repository.MessageRepository;
+import com.imaginaryebay.Repository.MessageRepositoryImpl;
 import com.imaginaryebay.Repository.UserrRepository;
 import com.imaginaryebay.Repository.UserrRepositoryImpl;
 
@@ -55,6 +60,7 @@ public class ModelConfiguration {
         return bean;
     }
 
+
     @Bean
     public MessageRepository messageRepository(){
         MessageRepositoryImpl bean=new MessageRepositoryImpl();
@@ -62,6 +68,14 @@ public class ModelConfiguration {
         return bean;
     }
 
+    @Bean
+    public MessageRestController messageRestController(){
+        MessageRestController bean=new MessageRestController();
+        bean.setMessageRepository(messageRepository());
+        return bean;
+    }
+
+    @Bean
     public ItemDAO itemDAO() {
         ItemDAOImpl bean = new ItemDAOImpl();
         return bean;
@@ -81,12 +95,6 @@ public class ModelConfiguration {
         return bean;
     }
 
-    @Bean
-    public MessageRestController messageRestController(){
-        MessageRestController bean=new MessageRestController();
-        bean.setMessageRepository(messageRepository());
-        return bean;
-    }
 
 
 }

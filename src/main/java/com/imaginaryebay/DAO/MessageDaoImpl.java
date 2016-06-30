@@ -15,22 +15,21 @@ import java.util.List;
 @Transactional
 public class MessageDaoImpl implements  MessageDao {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	@Override
-	public void persist(Message message) {
-		this.entityManager.persist(message);
-		
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Message> findAllMessagesByReceiverID(Long receiver_id) {
-		Query query = this.entityManager.createQuery(
+    @Override
+    public void persist(Message message) {
+        this.entityManager.persist(message);
+
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Message> findAllMessagesByReceiverID(Long receiver_id) {
+        Query query = this.entityManager.createQuery(
                 "select m from Message m where m.receiver_id = ?1");
         query.setParameter(1, receiver_id);
         return query.getResultList();
-	}
-
+    }
 }

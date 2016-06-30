@@ -24,18 +24,14 @@ public class SendEmail {
         SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
         msg.setTo(userr.getEmail());
         msg.setText(
-            "Dear " + userr.getName()
-                + ", thank you for creating an account. Your account username is "
-                + userr.getEmail()+" and your password is " +userr.getPassword()+".");
-        try{
+                "Dear " + userr.getName()
+                        + ", thank you for creating an account. Your account username is "
+                        + userr.getEmail() + " and your password is " + userr.getPassword() + ".");
+        try {
             this.mailSender.send(msg);
             System.out.println("Message sent successfully");
-        }
-        catch (MailException ex) {
+        } catch (MailException ex) {
             System.err.println(ex.getMessage());
         }
     }
-    
-    
-
 }

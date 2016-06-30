@@ -23,39 +23,39 @@ public class Message {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "r_id")
     private Userr receiver_id;
-    
+
     @Column(name="date_sent")
     private Timestamp date_sent;
-    
+
     public Message(){
-    	
+
     }
 
-	public Message(Userr receiver_id, Timestamp date_sent) {
-		this.receiver_id = receiver_id;
-		this.date_sent = date_sent;
-	}
+    public Message(Userr receiver_id, Timestamp date_sent) {
+        this.receiver_id = receiver_id;
+        this.date_sent = date_sent;
+    }
 
-	public Userr getReceiver_id() {
-		return receiver_id;
-	}
+    public Userr getReceiver_id() {
+        return receiver_id;
+    }
 
-	public void setReceiver_id(Userr receiver_id) {
-		this.receiver_id = receiver_id;
-	}
+    public void setReceiver_id(Userr receiver_id) {
+        this.receiver_id = receiver_id;
+    }
 
-	public Timestamp getDate_sent() {
-		return date_sent;
-	}
+    public Timestamp getDate_sent() {
+        return date_sent;
+    }
 
-	public void setDate_sent(Timestamp date_sent) {
-		this.date_sent = date_sent;
-	}
+    public void setDate_sent(Timestamp date_sent) {
+        this.date_sent = date_sent;
+    }
 
-	public Long getId() {
-		return id;
-	}
-    
+    public Long getId() {
+        return id;
+    }
+
 }

@@ -14,18 +14,18 @@ import com.imaginaryebay.Repository.MessageRepository;
 @RestController
 @RequestMapping("/message")
 public class MessageRestController {
-	
-	private MessageRepository messageRepository;
+
+    private MessageRepository messageRepository;
     public void setMessageRepository(MessageRepository messageRepository){
         this.messageRepository=messageRepository;
     }
-	@RequestMapping(method= RequestMethod.POST)
+    @RequestMapping(method= RequestMethod.POST)
     public void createNewMessage(@RequestBody Message message){
-		this.messageRepository.createNewMessage(message);
-	}
+        this.messageRepository.createNewMessage(message);
+    }
 
     @RequestMapping(value="/{ID}", method=RequestMethod.GET)
     public List<Message> returnMessagesByReceiverID(@PathVariable("ID") Long id){
-    	return this.messageRepository.returnAllMessagesByReceiverID(id);
+        return this.messageRepository.returnAllMessagesByReceiverID(id);
     }
 }

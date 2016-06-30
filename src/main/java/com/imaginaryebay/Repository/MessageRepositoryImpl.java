@@ -20,11 +20,10 @@ public class MessageRepositoryImpl implements MessageRepository {
         this.messageDao.persist(message);
     }
 
-	@Override
-	public List<Message> returnAllMessagesByReceiverID(Long id) {
-		return this.messageDao.findAllMessagesByReceiverID(id);
-	}
+    @Override
+    public List<Message> returnAllMessagesByReceiverID(Long id) {
+        return this.messageDao.findAllMessagesByReceiverID(id);
+    }
 
 
 }
-

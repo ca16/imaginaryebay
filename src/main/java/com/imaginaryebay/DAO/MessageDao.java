@@ -6,8 +6,8 @@ import com.imaginaryebay.Models.Message;
 
 public interface MessageDao {
 
-	void persist(Message message);
-	
-	List<Message> findAllMessagesByReceiverID(Long receiver_id);
+    void persist(Message message);
+
+    List<Message> findAllMessagesByReceiverID(Long receiver_id);
 
 }
