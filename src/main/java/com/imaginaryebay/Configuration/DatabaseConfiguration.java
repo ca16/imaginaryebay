@@ -37,10 +37,10 @@ public class DatabaseConfiguration {
     @Bean(destroyMethod = "close")
     public DataSource dataSource() throws PropertyVetoException{
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
-        dataSource.setDriverClass("org.h2.Driver");
-        dataSource.setJdbcUrl("jdbc:h2:file:/Users/ben/Desktop/Hello");
-        dataSource.setUser("sa");
-        dataSource.setPassword("");
+        dataSource.setDriverClass("org.postgresql.Driver");
+        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb");
+        dataSource.setUser("postgres");
+        dataSource.setPassword("jingo123");
         return dataSource;
     }
 
