@@ -1,13 +1,15 @@
 package com.imaginaryebay.Controller;
 
-import com.imaginaryebay.DAO.ItemDAO;
+import com.imaginaryebay.DAO.ItemPictureDAO;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
-import com.imaginaryebay.Models.Userr;
+import com.imaginaryebay.Models.ItemPicture;
+import com.imaginaryebay.Models.S3FileUploader;
 import com.imaginaryebay.Repository.ItemRepository;
-import com.imaginaryebay.Repository.UserrRepository;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -22,6 +24,16 @@ public class ItemControllerImpl implements ItemController {
     public void setItemRepository(ItemRepository itemRepository){
         this.itemRepository=itemRepository;
     }
+
+    private ItemPictureDAO itemPictureDAO;
+    public void setItemPictureDAO(ItemPictureDAO itemPictureDAO){
+        this.itemPictureDAO=itemPictureDAO;
+    }
+
+    private static final String FAIL_STEM           = "Unable to upload.";
+    private static final String FAIL_EMPTY_FILES    = "Unable to upload. File is empty.";
+    private static final String COLON_SEP           = ": ";
+    private static final String HTML_BREAK          = "</br>";
 
     @Override
     public void save(Item item) {
@@ -69,5 +81,41 @@ public class ItemControllerImpl implements ItemController {
             return this.itemRepository.findAllItemsByCategory(cat);
         }
         return this.itemRepository.findAllItems();
+    }
+
+    public ResponseEntity<List<ItemPicture>> returnItemPicturesForItem(Long id, String urlOnly) {
+        return itemRepository.returnItemPicturesForItem(id, urlOnly);
+    }
+
+    // TODO: Doesn't really qualify as a DAO. Should we place this in a class or leave here?
+    public ResponseEntity<String> createItemPicturesForItem(Long id, MultipartFile[] files){
+
+        String fileName = null;
+        String imageURL = "";
+        Item item = itemRepository.findByID(id);
+
+        if (files != null && files.length > 0) {
+            for (MultipartFile mpFile : files) {
+                try {
+                    fileName = mpFile.getOriginalFilename();
+
+                    S3FileUploader s3FileUploader = new S3FileUploader();
+                    imageURL = s3FileUploader.fileUploader(mpFile);
+
+                    if (imageURL == null){
+                        return new ResponseEntity<>(FAIL_STEM , HttpStatus.INTERNAL_SERVER_ERROR);
+                    }else{
+                        itemPictureDAO.persist(new ItemPicture(item, imageURL));
+                    }
+
+                } catch (Exception e) {
+                    String message = FAIL_STEM   + fileName + COLON_SEP + e.getMessage() + HTML_BREAK;
+                    return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+            return new ResponseEntity<>(imageURL, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(FAIL_EMPTY_FILES, HttpStatus.BAD_REQUEST);
+        }
     }
 }

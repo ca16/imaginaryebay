@@ -2,7 +2,8 @@ package com.imaginaryebay.Repository;
 
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
-import com.imaginaryebay.Models.Userr;
+import com.imaginaryebay.Models.ItemPicture;
+import org.springframework.http.ResponseEntity;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -31,4 +32,6 @@ public interface ItemRepository {
     public List<Item> findAllItemsByCategory(Category category);
 
     public List<Item> findAllItems();
+
+    public ResponseEntity<List<ItemPicture>> returnItemPicturesForItem(Long id, String urlOnly);
 }
