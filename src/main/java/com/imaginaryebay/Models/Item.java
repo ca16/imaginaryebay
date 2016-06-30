@@ -20,7 +20,7 @@ public class Item {
     private String description;
 
     // TODO: @Brian: I had to add this to get the endpoints to work properly.
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     private Category category;
 /*
     @ManyToOne
