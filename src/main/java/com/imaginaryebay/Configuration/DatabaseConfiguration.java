@@ -31,7 +31,7 @@ import java.util.HashMap;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(basePackages = {"com.imaginaryebay"})
-@EnableWebMvc
+//@EnableWebMvc
 public class DatabaseConfiguration {
 /*
     @Bean(destroyMethod = "close")
