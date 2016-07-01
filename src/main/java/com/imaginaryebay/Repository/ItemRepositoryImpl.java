@@ -151,7 +151,7 @@ public class ItemRepositoryImpl implements ItemRepository{
         }
 
         if (itemPictures.isEmpty()){
-            return new ResponseEntity<List<ItemPicture>>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<List<ItemPicture>>(itemPictures, HttpStatus.OK);

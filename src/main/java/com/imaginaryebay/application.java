@@ -36,7 +36,7 @@ public class application {
         System.out.println(ir.findByID(1L));
 
         //See MessageDaoImpl comments on findAllMessagesByReceiverID()
-        //MessageRepository mr = applicationContext.getBean(MessageRepository.class);
-        //System.out.println(mr.returnAllMessagesByReceiverID(1L));
+        MessageRepository mr = applicationContext.getBean(MessageRepository.class);
+        System.out.println(mr.returnAllMessagesByReceiverID(1L));
     }
 }
