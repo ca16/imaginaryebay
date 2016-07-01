@@ -51,7 +51,7 @@ public class DatabaseConfiguration {
         return jpaPropertiesMap;
     }*/
 
-    @Bean
+/*    @Bean
     public DataSource dataSource() throws PropertyVetoException{
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
         dataSource.setDriverClass("org.postgresql.Driver");
@@ -59,17 +59,17 @@ public class DatabaseConfiguration {
         dataSource.setUser("postgres");
         dataSource.setPassword("fizz4101");
         return dataSource;
+    }*/
+
+    @Bean
+    public DataSource dataSource() throws PropertyVetoException{
+        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+        dataSource.setDriverClass("org.postgresql.Driver");
+        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/firstdb");
+        dataSource.setUser("Chloe");
+        dataSource.setPassword("");
+        return dataSource;
     }
-//
-//    @Bean
-//    public DataSource dataSource() throws PropertyVetoException{
-//        ComboPooledDataSource dataSource = new ComboPooledDataSource();
-//        dataSource.setDriverClass("org.postgresql.Driver");
-//        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/firstdb");
-//        dataSource.setUser("Chloe");
-//        dataSource.setPassword("");
-//        return dataSource;
-//    }
 
     private Map<String,?> jpaProperties() {
         Map<String,String> jpaPropertiesMap = new HashMap<String,String>();
