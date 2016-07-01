@@ -54,7 +54,7 @@ public interface ItemController {
 
     @RequestMapping(value = "/{id}/picture", method = RequestMethod.POST)
     public ResponseEntity<String> createItemPicturesForItem(@PathVariable("id") Long id,
-                                                            @RequestParam("file") MultipartFile[] files);
+                                                            @RequestParam("files") MultipartFile[] files);
 }
 
 

@@ -10,7 +10,6 @@ import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
 import com.imaginaryebay.Models.S3FileUploader;
 import com.imaginaryebay.Repository.ItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,23 +23,22 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class FileUploadController {
 
-    private static final String UPLOAD_LOCATION     = "C:/Users/Brian/Desktop/";
     private static final String FAIL_EMPTY_FILES    = "Unable to upload. File is empty.";
     private static final String FAIL_UPLOAD_ERR     = "You failed to upload ";
     private static final String COLON_SEP           = ": ";
     private static final String HTML_BREAK          = "</br>";
 
-    @Autowired
+//    @Autowired
     private ItemRepository itemRepository;
-//    public void setItemRepository(ItemRepository itemRepository) {
-//        this.itemRepository = itemRepository;
-//    }
+    public void setItemRepository(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
+    }
 
-    @Autowired
+//    @Autowired
     private ItemPictureDAO itemPictureDAO;
-//    public void setItemPictureDAO(ItemPictureDAO itemPictureDAO){
-//        this.itemPictureDAO=itemPictureDAO;
-//    }
+    public void setItemPictureDAO(ItemPictureDAO itemPictureDAO){
+        this.itemPictureDAO=itemPictureDAO;
+    }
 
 
     @RequestMapping(value = "/multipleUpload")
