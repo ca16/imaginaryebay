@@ -19,6 +19,10 @@ public class ItemDAOImpl implements ItemDAO{
     @PersistenceContext
     private EntityManager entityManager;
 
+    public void setEntityManager(EntityManager entityManager){
+        this.entityManager = entityManager;
+    }
+
     @Override
     public void persist(Item item) {
         entityManager.persist(item);
@@ -82,8 +86,8 @@ public class ItemDAOImpl implements ItemDAO{
     public List<Item> findAllItemsByCategory(Category category){
         Query query = entityManager.createQuery(
                 "select i from Item i where i.category = ?1 order by i.price");
-        query.setParameter(1, category);
-        return query.getResultList();
+        Query query2 = query.setParameter(1, category);
+        return query2.getResultList();
 
     }
 

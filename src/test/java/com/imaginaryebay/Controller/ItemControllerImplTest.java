@@ -89,8 +89,6 @@ public class ItemControllerImplTest {
         when(itemRepo.findDescriptionByID(10L)).thenReturn("Watch");
         when(itemRepo.findEndtimeByID(10L)).thenReturn(valueOf("2016-9-2 11:10:10"));
 
-        //when(itemRepo.find(toUpdate)).thenReturn(item2);
-
         when(itemRepo.findAllItems()).thenReturn(all);
         when(itemRepo.findAllItemsByCategory(Category.Clothes)).thenReturn(clothes);
         when(itemRepo.findAllItemsByCategory(Category.Electronics)).thenReturn(electronics);
