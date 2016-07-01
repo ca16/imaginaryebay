@@ -2,6 +2,8 @@ package com.imaginaryebay.Models;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Chloe on 6/23/16.
@@ -22,6 +24,9 @@ public class Item {
     // TODO: @Brian: I had to add this to get the endpoints to work properly.
     //@Enumerated(EnumType.STRING)
     private Category category;
+
+    @OneToMany(mappedBy = "auction_item", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ItemPicture> itemPictures = new ArrayList<>();
 /*
     @ManyToOne
     @JoinColumn(name = "userr_id")
@@ -62,6 +67,12 @@ public class Item {
     public void setCategory(Category category) {
         this.category = category;
     }
+
+
+    public void addItemPicture(ItemPicture itemPicture){
+        itemPicture.setAuction_item(this);
+        itemPictures.add(itemPicture);
+    }
 /*
     public Userr getUserr() {
         return userr;
@@ -71,4 +82,16 @@ public class Item {
         this.userr = userr;
     }
     */
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", price=" + price +
+                ", endtime=" + endtime +
+                ", description='" + description + '\'' +
+                ", category=" + category +
+                ", itemPictures=" + itemPictures +
+                '}';
+    }
 }

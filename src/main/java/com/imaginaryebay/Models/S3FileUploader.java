@@ -9,6 +9,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.transfer.TransferManager;
 import org.apache.commons.fileupload.FileItem;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -105,12 +106,20 @@ public class S3FileUploader {
 
             ByteArrayInputStream bis = new ByteArrayInputStream(multipartFile.getBytes());
 
-            s3Object.setObjectContent(bis);
-            s3.putObject(new PutObjectRequest(BUCKET, keyName, bis, omd));
-            s3Object.close();
+//            s3Object.setObjectContent(bis);
+//            s3.putObject(new PutObjectRequest(BUCKET, keyName, bis, omd));
+//            s3Object.close();
+
+            System.out.println(multipartFile.getContentType());
+
+            TransferManager transferManager = new TransferManager(s3);
+            transferManager.upload(BUCKET, keyName, bis, omd);
+
+            String extension = multipartFile.getContentType().split("/")[1];
 
             // TODO: Test URL building (i.e. is the URL correct) then add URL storage
-            result = HTTPS + BUCKET + REGION + keyName;
+            result = HTTPS + BUCKET + REGION + keyName + "." + extension;
+            System.out.println(result);
         } catch (AmazonServiceException ase) {
 
             printErrorInfo(ase);

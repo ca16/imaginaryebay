@@ -1,6 +1,7 @@
 package com.imaginaryebay.DAO;
 
 import com.imaginaryebay.Models.ItemPicture;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -8,6 +9,8 @@ import javax.persistence.PersistenceContext;
 /**
  * Created by Brian on 6/29/2016.
  */
+
+@Transactional
 public class ItemPictureDAOImpl implements ItemPictureDAO{
 
     @PersistenceContext

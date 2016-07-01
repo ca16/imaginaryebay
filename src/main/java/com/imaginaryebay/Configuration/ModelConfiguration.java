@@ -1,12 +1,6 @@
 package com.imaginaryebay.Configuration;
 
-import com.imaginaryebay.Controller.MessageController;
-import com.imaginaryebay.Controller.MessageRestController;
-import com.imaginaryebay.Controller.ItemController;
-import com.imaginaryebay.Controller.ItemControllerImpl;
-import com.imaginaryebay.Controller.MessageRestController;
-import com.imaginaryebay.Controller.UserrController;
-import com.imaginaryebay.Controller.UserrRestController;
+import com.imaginaryebay.Controller.*;
 import com.imaginaryebay.DAO.*;
 import com.imaginaryebay.Repository.*;
 import org.springframework.context.annotation.Bean;
@@ -90,5 +84,4 @@ public class ModelConfiguration {
         bean.setItemPictureDAO(itemPictureDAO());
         return bean;
     }
-
 }

@@ -18,6 +18,8 @@ public interface ItemDAO {
 
     public void refresh(Item item);
 
+    public Item find(Item item);
+
     public Item findByID(Long id);
 
     public Double findPriceByID(Long id);

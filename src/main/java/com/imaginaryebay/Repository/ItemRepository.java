@@ -15,6 +15,8 @@ public interface ItemRepository {
 
     public void save(Item item);
 
+    public void update(Item item);
+
     public Item findByID(Long id);
 
     public Double findPriceByID(Long id);

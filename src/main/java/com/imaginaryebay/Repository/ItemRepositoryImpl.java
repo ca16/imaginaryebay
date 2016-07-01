@@ -28,6 +28,14 @@ public class ItemRepositoryImpl implements ItemRepository{
         this.itemDAO.persist(item);
     }
 
+    public void update(Item item) {
+        if (this.itemDAO.find(item) == null){
+            System.out.println("Attempted to update Item, but Item does not exist!");
+        }else {
+            this.itemDAO.merge(item);
+        }
+    }
+
     public Item findByID(Long id){
         Item toRet = this.itemDAO.findByID(id);
         if (toRet != null){

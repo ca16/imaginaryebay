@@ -96,21 +96,24 @@ public class ItemControllerImpl implements ItemController {
 
         if (files != null && files.length > 0) {
             for (MultipartFile mpFile : files) {
-                try {
-                    fileName = mpFile.getOriginalFilename();
+                if (!mpFile.isEmpty()) {
+                    try {
+                        fileName = mpFile.getOriginalFilename();
 
-                    S3FileUploader s3FileUploader = new S3FileUploader();
-                    imageURL = s3FileUploader.fileUploader(mpFile);
+                        S3FileUploader s3FileUploader = new S3FileUploader();
+                        imageURL = s3FileUploader.fileUploader(mpFile);
 
-                    if (imageURL == null){
-                        return new ResponseEntity<>(FAIL_STEM , HttpStatus.INTERNAL_SERVER_ERROR);
-                    }else{
-                        itemPictureDAO.persist(new ItemPicture(item, imageURL));
+                        if (imageURL == null) {
+                            return new ResponseEntity<>(FAIL_STEM, HttpStatus.INTERNAL_SERVER_ERROR);
+                        } else {
+                            item.addItemPicture(new ItemPicture(imageURL));
+                            itemRepository.updateItemByID(id, item);
+                        }
+
+                    } catch (Exception e) {
+                        String message = FAIL_STEM + fileName + COLON_SEP + e.getMessage() + HTML_BREAK;
+                        return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
                     }
-
-                } catch (Exception e) {
-                    String message = FAIL_STEM   + fileName + COLON_SEP + e.getMessage() + HTML_BREAK;
-                    return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
             return new ResponseEntity<>(imageURL, HttpStatus.OK);

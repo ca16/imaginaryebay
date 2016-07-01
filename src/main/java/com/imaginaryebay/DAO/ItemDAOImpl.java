@@ -34,6 +34,8 @@ public class ItemDAOImpl implements ItemDAO{
         entityManager.refresh(item);
     }
 
+    @Override
+    public Item find(Item item) { return entityManager.find(Item.class, item.getId()); }
 
     @Override
     public Item findByID(Long id){

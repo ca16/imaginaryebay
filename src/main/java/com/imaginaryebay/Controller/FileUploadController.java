@@ -5,8 +5,12 @@ package com.imaginaryebay.Controller;
  */
 
 
+import com.imaginaryebay.DAO.ItemPictureDAO;
+import com.imaginaryebay.Models.Item;
+import com.imaginaryebay.Models.ItemPicture;
 import com.imaginaryebay.Models.S3FileUploader;
 import com.imaginaryebay.Repository.ItemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,11 +30,17 @@ public class FileUploadController {
     private static final String COLON_SEP = ": ";
     private static final String HTML_BREAK = "</br>";
 
+    @Autowired
     private ItemRepository itemRepository;
+//    public void setItemRepository(ItemRepository itemRepository) {
+//        this.itemRepository = itemRepository;
+//    }
 
-    public void setItemRepository(ItemRepository itemRepository) {
-        this.itemRepository = itemRepository;
-    }
+    @Autowired
+    private ItemPictureDAO itemPictureDAO;
+//    public void setItemPictureDAO(ItemPictureDAO itemPictureDAO){
+//        this.itemPictureDAO=itemPictureDAO;
+//    }
 
 
     @RequestMapping(value = "/multipleUpload")
@@ -45,6 +55,10 @@ public class FileUploadController {
 
         String fileName = null;
         String message = "";
+        Long id = new Long(1);
+
+        Item item = itemRepository.findByID(id);
+        System.out.println(item.toString());
 
         if (files != null && files.length > 0) {
             for (MultipartFile mpFile : files) {
@@ -53,6 +67,13 @@ public class FileUploadController {
 
                     S3FileUploader s3FileUploader = new S3FileUploader();
                     message = s3FileUploader.fileUploader(mpFile);
+
+                    item.addItemPicture(new ItemPicture(message));
+                    System.out.println(item.toString());
+                    itemRepository.update(item);
+
+                    System.out.println(itemRepository.findByID(id).toString());
+
 
                 } catch (Exception e) {
                     message = FAIL_UPLOAD_ERR + fileName + COLON_SEP + e.getMessage() + HTML_BREAK;

@@ -1,5 +1,6 @@
 package com.imaginaryebay.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
@@ -18,9 +19,10 @@ public class ItemPicture {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name = "item_id")
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonIgnore
     private Item auction_item;
 
     @Column(name = "url")
@@ -35,8 +37,7 @@ public class ItemPicture {
         this.url = url;
     }
 
-    public ItemPicture(Item item, String url){
-        this.auction_item = item;
+    public ItemPicture(String url){
         this.url = url;
     }
 
@@ -62,5 +63,13 @@ public class ItemPicture {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemPicture{" +
+                "url='" + url + '\'' +
+                ", id=" + id +
+                '}';
     }
 }
