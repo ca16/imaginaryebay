@@ -2,6 +2,8 @@ package com.imaginaryebay;
 
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
+import com.imaginaryebay.Models.Message;
+import com.imaginaryebay.Models.Userr;
 
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.sql.Timestamp;
 import java.util.List;
 
+import static java.sql.Timestamp.valueOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -33,30 +36,20 @@ public class MessageEndpointsTest {
 
 
     @Test
-    public void addItemWorksOK() {
+    public void addMessageWorksOK() {
         RestTemplate template = new RestTemplate();
-        Item item = new Item();
-        item.setPrice(20.0);
-        item.setCategory(Category.Clothes);
-        item.setDescription("Scarf");
-        ResponseEntity<Void> resultSave = template.postForEntity("http://localhost:8080/item", item, Void.class);
-        assertNotNull(resultSave);
+        Message mess = new Message();
+        mess.setReceiver_id(new Userr("a@gmail.com", "a", "aaa"));
+        mess.setDate_sent(valueOf("2016-05-05 00:04:04"));
 
         //If the path was wrong it would be NOT_FOUND so the path works (I think)
+
         try {
-            template.postForEntity("http://localhost:8080/item/1/picture", null, List.class);
-        } catch (HttpServerErrorException exc) {
-            assertEquals(exc.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+            template.postForEntity("http://localhost:8080/message", mess, Void.class);
+        } catch (HttpClientErrorException exc) {
+            assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
         }
+
     }
 
-    @Test
-    public void updateItemWorksOK() {
-        RestTemplate template = new RestTemplate();
-        Item item = new Item();
-        item.setPrice(40.0);
-        item.setCategory(Category.Clothes);
-        item.setDescription("Scarf");
-        template.put("http://localhost:8080/item/1", item);
-    }
 }
