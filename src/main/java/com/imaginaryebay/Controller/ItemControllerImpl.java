@@ -107,7 +107,7 @@ public class ItemControllerImpl implements ItemController {
                             return new ResponseEntity<>(FAIL_STEM, HttpStatus.INTERNAL_SERVER_ERROR);
                         } else {
                             item.addItemPicture(new ItemPicture(imageURL));
-                            itemRepository.updateItemByID(id, item);
+                            itemRepository.update(item);
                         }
 
                     } catch (Exception e) {

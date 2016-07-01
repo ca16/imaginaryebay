@@ -30,7 +30,7 @@ public class S3FileUploader {
      */
     private static final String         FILENAME_HEADER = "filename";
     private static final String         BUCKET          = "odbneu";
-    private static       String         keyName         = "Object-" + UUID.randomUUID();
+    private static final String         keyName         = "Object-" + UUID.randomUUID();
     private static final String         HTTPS           = "https://";
     private static final String         REGION          = ".s3.us-west-2.com/";
     private static final AWSCredentials AWS_CREDENTIALS = new BasicAWSCredentials("AKIAJSNMBTJ6HVQZ3CKQ",
@@ -74,8 +74,8 @@ public class S3FileUploader {
     }
 
     private void printErrorInfo(AmazonServiceException ase){
-        System.out.println("AmazonServiceException! Your request made it to Amazon S3, but was "
-                + "rejected with an error response for some reason.");
+        System.out.println("AmazonServiceException! Your request made it to Amazon S3, but it was "
+                + "rejected with an error response.");
 
         System.out.println("Error Message:    " + ase.getMessage());
         System.out.println("HTTP Status Code: " + ase.getStatusCode());
