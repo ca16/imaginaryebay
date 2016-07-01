@@ -36,6 +36,8 @@ public class ItemRepositoryImplTest {
     private Item item1;
     private Item item2;
     private Item item3;
+    private Item noFields;
+    private Item notInDB;
     private Item toUpdate;
 
     private List<Item> all;
@@ -62,6 +64,9 @@ public class ItemRepositoryImplTest {
         item3.setPrice(30.0);
         item3.setDescription("Watch");
         item3.setEndtime(valueOf("2016-9-2 11:10:10"));
+
+        noFields = new Item();
+        notInDB = new Item();
 
         all = new ArrayList<>();
         clothes = new ArrayList<>();
@@ -92,6 +97,15 @@ public class ItemRepositoryImplTest {
         when(itemDao.findDescriptionByID(10L)).thenReturn("Watch");
         when(itemDao.findEndtimeByID(10L)).thenReturn(valueOf("2016-9-2 11:10:10"));
 
+        when(itemDao.findByID(24L)).thenReturn(noFields);
+        when(itemDao.findByID(25L)).thenReturn(null);
+        when(itemDao.findPriceByID(24L)).thenReturn(null);
+        when(itemDao.findDescriptionByID(24L)).thenReturn(null);
+        when(itemDao.findCategoryByID(24L)).thenReturn(null);
+        when(itemDao.findEndtimeByID(24L)).thenReturn(null);
+
+
+        when(itemDao.find(notInDB)).thenReturn(null);
         when(itemDao.find(toUpdate)).thenReturn(item2);
 
         when(itemDao.findAllItems()).thenReturn(all);
@@ -116,6 +130,10 @@ public class ItemRepositoryImplTest {
         assertEquals(impl.findByID(2L), item2);
         assertEquals(impl.findByID(10L), item3);
 
+        // Case where item does not exist
+        //Eventually will be testing an exception here
+        assertEquals(impl.findByID(25L), null);
+
 
     }
 
@@ -125,6 +143,13 @@ public class ItemRepositoryImplTest {
         assertEquals(impl.findPriceByID(2L), new Double(200.0));
         assertEquals(impl.findPriceByID(10L), new Double(30.0));
 
+        // Case where item exists but has no price
+        //Eventually will be testing an exception here
+        assertEquals(impl.findPriceByID(24L), null);
+
+        // Case where item does not exist
+        //Eventually will be testing an exception here
+        assertEquals(impl.findPriceByID(25L), null);
 
     }
 
@@ -134,6 +159,15 @@ public class ItemRepositoryImplTest {
         assertEquals(impl.findCategoryByID(2L), Category.Clothes);
         assertEquals(impl.findCategoryByID(10L), Category.Electronics);
 
+        // Case where item exists but has no category
+        //Eventually will be testing an exception here
+        assertEquals(impl.findCategoryByID(24L), null);
+
+        // Case where item does not exist
+        //Eventually will be testing an exception here
+        assertEquals(impl.findCategoryByID(25L), null);
+
+        //Should be able to differentiate between the two cases with exception messages
     }
 
     @Test
@@ -142,6 +176,16 @@ public class ItemRepositoryImplTest {
         assertEquals(impl.findEndtimeByID(2L), valueOf("2016-11-5 06:00:00"));
         assertEquals(impl.findEndtimeByID(10L), valueOf("2016-9-2 11:10:10"));
 
+        // Case where item exists but has no endtime
+        //Eventually will be testing an exception here
+        assertEquals(impl.findEndtimeByID(24L), null);
+
+        // Case where item does not exist
+        //Eventually will be testing an exception here
+        assertEquals(impl.findEndtimeByID(25L), null);
+
+        //Should be able to differentiate between the two cases with exception messages
+
     }
 
     @Test
@@ -149,6 +193,16 @@ public class ItemRepositoryImplTest {
         assertEquals(impl.findDescriptionByID(1L), "Scarf");
         assertEquals(impl.findDescriptionByID(2L), "Expensive Scarf");
         assertEquals(impl.findDescriptionByID(10L), "Watch");
+
+        // Case where item exists but has no description
+        //Eventually will be testing an exception here
+        assertEquals(impl.findDescriptionByID(24L), null);
+
+        // Case where item does not exist
+        //Eventually will be testing an exception here
+        assertEquals(impl.findDescriptionByID(25L), null);
+
+        //Should be able to differentiate between the two cases with exception messages
 
     }
 
@@ -159,6 +213,10 @@ public class ItemRepositoryImplTest {
         verify(itemDao).find(toUpdate);
         verify(itemDao).merge(toUpdate);
 
+        // Case where item does not exist
+        //Eventually will be testing an exception here
+        impl.update(notInDB);
+
     }
 
     @Test
@@ -166,6 +224,10 @@ public class ItemRepositoryImplTest {
         impl.updateItemByID(2L, toUpdate);
         verify(itemDao).findByID(2L);
         verify(itemDao).updateItemByID(2L, toUpdate);
+
+        // Case where item does not exist
+        //Eventually will be testing an exception here
+        assertEquals(impl.updateItemByID(25L, toUpdate), null);
     }
 
     @Test
