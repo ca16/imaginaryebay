@@ -24,11 +24,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class FileUploadController {
 
-    private static final String UPLOAD_LOCATION = "C:/Users/Brian/Desktop/";
-    private static final String FAIL_EMPTY_FILES = "Unable to upload. File is empty.";
-    private static final String FAIL_UPLOAD_ERR = "You failed to upload ";
-    private static final String COLON_SEP = ": ";
-    private static final String HTML_BREAK = "</br>";
+    private static final String UPLOAD_LOCATION     = "C:/Users/Brian/Desktop/";
+    private static final String FAIL_EMPTY_FILES    = "Unable to upload. File is empty.";
+    private static final String FAIL_UPLOAD_ERR     = "You failed to upload ";
+    private static final String COLON_SEP           = ": ";
+    private static final String HTML_BREAK          = "</br>";
 
     @Autowired
     private ItemRepository itemRepository;
