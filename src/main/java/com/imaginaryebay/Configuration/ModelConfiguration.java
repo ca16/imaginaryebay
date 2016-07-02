@@ -84,4 +84,12 @@ public class ModelConfiguration {
         bean.setItemPictureDAO(itemPictureDAO());
         return bean;
     }
+
+
+
+    @Bean
+    public FrontPageController frontPageController(){
+        FrontPageController bean=new FrontPageControllerImpl();
+        return bean;
+    }
 }
