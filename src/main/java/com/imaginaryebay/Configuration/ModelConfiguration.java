@@ -84,4 +84,13 @@ public class ModelConfiguration {
         bean.setItemPictureDAO(itemPictureDAO());
         return bean;
     }
+
+
+
+    //FrontPageController has to be in ModelConfiguration
+    @Bean
+    public FrontPageController frontPageController(){
+        FrontPageController bean=new FrontPageControllerImpl();
+        return bean;
+    }
 }
