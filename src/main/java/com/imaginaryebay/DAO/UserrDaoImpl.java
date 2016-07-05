@@ -15,6 +15,9 @@ public class UserrDaoImpl implements UserrDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+    public void setEntityManager(EntityManager entityManager){
+        this.entityManager = entityManager;
+    }
 
     public void createNewUserr (Userr userr){
         entityManager.persist(userr);
@@ -32,7 +35,7 @@ public class UserrDaoImpl implements UserrDao {
     public Userr getUserByEmail (String email){
         String queryString = "SELECT u FROM Userr u WHERE u.email = :EMA";
         Query query = entityManager.createQuery(queryString);
-        query.setParameter("EMA",email);
+        query = query.setParameter("EMA",email);
         List<Userr> listOfUserr=query.getResultList();
         Iterator<Userr> itr=listOfUserr.iterator();
         if (itr.hasNext()){
