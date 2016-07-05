@@ -18,6 +18,10 @@ public class MessageDaoImpl implements  MessageDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+    public void setEntityManager(EntityManager entityManager){
+        this.entityManager = entityManager;
+    }
+
     @Override
     public void persist(Message message) {
         this.entityManager.persist(message);
@@ -27,11 +31,6 @@ public class MessageDaoImpl implements  MessageDao {
     @SuppressWarnings("unchecked")
     @Override
     public List<Message> findAllMessagesByReceiverID(Long receiver_id) {
-
-        /*Query query = this.entityManager.createQuery(
-                "select m from Message m where m.receiver_id = ?1");
-       I kept getting exceptions with the above, but they went away
-       if I replaced it with this:*/
         Query query = this.entityManager.createQuery(
                 "select m from Message m where m.receiver_id.id = ?1");
         query.setParameter(1, receiver_id);

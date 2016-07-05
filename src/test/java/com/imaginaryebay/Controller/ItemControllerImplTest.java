@@ -1,10 +1,8 @@
 package com.imaginaryebay.Controller;
 
-import com.imaginaryebay.DAO.ItemDAO;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Repository.ItemRepository;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -14,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.sql.Timestamp.valueOf;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -111,7 +109,6 @@ public class ItemControllerImplTest {
         assertEquals(impl.getItemByID(1L), item1);
         assertEquals(impl.getItemByID(2L), item2);
         assertEquals(impl.getItemByID(10L), item3);
-
 
     }
 
