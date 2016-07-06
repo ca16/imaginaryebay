@@ -40,6 +40,12 @@ public class ItemControllerImplTest {
     private ItemPicture itempic4;
     private ItemPicture itempic5;
     private ItemPicture itempic6;
+    private ItemPicture itempic7;
+    private ItemPicture itempic8;
+    private ItemPicture itempic9;
+    private ItemPicture itempic10;
+    private ItemPicture itempic11;
+    private ItemPicture itempic12;
 
     private List<Item> all;
     private List<Item> clothes;
@@ -47,10 +53,16 @@ public class ItemControllerImplTest {
     private List<ItemPicture> item1pics;
     private List<ItemPicture> item2pics;
     private List<ItemPicture> item3pics;
+    private List<ItemPicture> item1picurls;
+    private List<ItemPicture> item2picurls;
+    private List<ItemPicture> item3picurls;
     
     private ResponseEntity<List<ItemPicture>> item1picresponse;
     private ResponseEntity<List<ItemPicture>> item2picresponse;
     private ResponseEntity<List<ItemPicture>> item3picresponse;
+    private ResponseEntity<List<ItemPicture>> item1picurlresponse;
+    private ResponseEntity<List<ItemPicture>> item2picurlresponse;
+    private ResponseEntity<List<ItemPicture>> item3picurlresponse;
 
     @Before
     public void setUp() throws Exception {
@@ -93,6 +105,18 @@ public class ItemControllerImplTest {
         itempic6 = new ItemPicture();
         itempic6.setAuction_item(item3);
         itempic6.setUrl("http://6iee.com/790839.html");
+        itempic7 = new ItemPicture();
+        itempic7.setUrl("http://scarfheroes.wikia.com/wiki/File:Royal-stewart-tartan-lambswool-scarf.jpg");
+        itempic8 =new ItemPicture();
+        itempic8.setUrl("http://www.shopazil.com/products/solid-silk-linen-scarf");
+        itempic9 = new ItemPicture();
+        itempic9.setUrl("http://99fungames.com/knot-your-scarf-game/");
+        itempic10=new ItemPicture();
+        itempic10.setUrl("http://www.overstock.com/Clothing-Shoes/Burberry-Plaid-Camel-Cashmere-Scarf/5400771/product.html");
+        itempic11=new ItemPicture();
+        itempic11.setUrl("http://www.shinola.com/shop/therunwell47-leather-watch-s0110.html");
+        itempic12 = new ItemPicture();
+        itempic12.setUrl("http://6iee.com/790839.html");
 
         all = new ArrayList<>();
         clothes = new ArrayList<>();
@@ -100,6 +124,9 @@ public class ItemControllerImplTest {
         item1pics = new ArrayList<>();
         item2pics = new ArrayList<>();
         item3pics = new ArrayList<>();
+        item1picurls=new ArrayList<>();
+        item2picurls=new ArrayList<>();
+        item3picurls=new ArrayList<>();
 
         all.add(item1);
         all.add(item2);
@@ -113,10 +140,19 @@ public class ItemControllerImplTest {
         item2pics.add(itempic4);
         item3pics.add(itempic5);
         item3pics.add(itempic6);
+        item1picurls.add(itempic7);
+        item1picurls.add(itempic8);
+        item2picurls.add(itempic9);
+        item2picurls.add(itempic10);
+        item3picurls.add(itempic11);
+        item3picurls.add(itempic12);
         
         item1picresponse=new ResponseEntity<>(item1pics,HttpStatus.OK);
         item2picresponse=new ResponseEntity<>(item2pics,HttpStatus.OK);
         item3picresponse=new ResponseEntity<>(item3pics,HttpStatus.OK);
+        item1picurlresponse=new ResponseEntity<>(item1picurls,HttpStatus.OK);
+        item2picurlresponse=new ResponseEntity<>(item2picurls,HttpStatus.OK);
+        item3picurlresponse=new ResponseEntity<>(item3picurls,HttpStatus.OK);
 
         when(itemRepo.findByID(1L)).thenReturn(item1);
         when(itemRepo.findPriceByID(1L)).thenReturn(20.0);
@@ -141,8 +177,11 @@ public class ItemControllerImplTest {
         when(itemRepo.findAllItemsByCategory(Category.Electronics)).thenReturn(electronics);
         
         when(itemRepo.returnItemPicturesForItem(1L,"false")).thenReturn(item1picresponse);
+        when(itemRepo.returnItemPicturesForItem(1L,"true")).thenReturn(item1picurlresponse);
         when(itemRepo.returnItemPicturesForItem(2L,"false")).thenReturn(item2picresponse);
+        when(itemRepo.returnItemPicturesForItem(2L,"true")).thenReturn(item2picurlresponse);
         when(itemRepo.returnItemPicturesForItem(10L,"false")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
+        when(itemRepo.returnItemPicturesForItem(10L,"true")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
         when(itemRepo.returnItemPicturesForItem(10L,"fdahfh")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
         
 
@@ -219,8 +258,11 @@ public class ItemControllerImplTest {
     @Test
     public void returnItemPicturesForItem() throws Exception {
     	assertEquals(impl.returnItemPicturesForItem(1L,"false"),item1picresponse);
+    	assertEquals(impl.returnItemPicturesForItem(1L,"true"),item1picurlresponse);
     	assertEquals(impl.returnItemPicturesForItem(2L,"false"),item2picresponse);
+    	assertEquals(impl.returnItemPicturesForItem(2L,"true"),item2picurlresponse);
     	assertEquals(impl.returnItemPicturesForItem(10L,"false"),new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
+    	assertEquals(impl.returnItemPicturesForItem(10L,"true"),new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
     	assertEquals(impl.returnItemPicturesForItem(10L,"fdahfh"),new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
     }
 /*
