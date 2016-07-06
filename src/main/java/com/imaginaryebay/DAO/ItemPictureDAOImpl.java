@@ -15,7 +15,9 @@ public class ItemPictureDAOImpl implements ItemPictureDAO{
 
     @PersistenceContext
     private EntityManager entityManager;
-
+    public void setEntityManager(EntityManager entityManager){
+        this.entityManager = entityManager;
+    }
     @Override
     public void merge(ItemPicture itemPicture) {
         entityManager.merge(itemPicture);

@@ -103,9 +103,8 @@ public class ItemDAOImpl implements ItemDAO{
     @SuppressWarnings("unchecked")
     public List<ItemPicture> returnAllItemPicturesForItemID(Long id){
         String hql = "Select ip from ItemPicture ip join fetch ip.auction_item where ip.auction_item.id = :id";
-        Query query = entityManager
-                .createQuery(hql)
-                .setParameter("id", id);
+        Query query = entityManager.createQuery(hql);
+        query =query.setParameter("id", id);
         List<ItemPicture> itemPictures = query.getResultList();
         return itemPictures;
     }
