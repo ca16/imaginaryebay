@@ -86,8 +86,8 @@ public class ItemDAOImpl implements ItemDAO{
     public List<Item> findAllItemsByCategory(Category category){
         Query query = entityManager.createQuery(
                 "select i from Item i where i.category = ?1 order by i.price");
-        query = query.setParameter(1, category);
-        return query.getResultList();
+        Query query2 = query.setParameter(1, category);
+        return query2.getResultList();
 
     }
 
@@ -103,9 +103,8 @@ public class ItemDAOImpl implements ItemDAO{
     @SuppressWarnings("unchecked")
     public List<ItemPicture> returnAllItemPicturesForItemID(Long id){
         String hql = "Select ip from ItemPicture ip join fetch ip.auction_item where ip.auction_item.id = :id";
-        Query query = entityManager
-                .createQuery(hql)
-                .setParameter("id", id);
+        Query query = entityManager.createQuery(hql);
+        query =query.setParameter("id", id);
         List<ItemPicture> itemPictures = query.getResultList();
         return itemPictures;
     }
@@ -115,8 +114,9 @@ public class ItemDAOImpl implements ItemDAO{
     public List<ItemPicture> returnAllItemPictureURLsForItemID(Long id){
         String hql = "Select ip.id, ip.url from ItemPicture ip join ip.auction_item where ip.auction_item.id = :id";
         Query query = entityManager
-                .createQuery(hql)
-                .setParameter("id", id);
+                .createQuery(hql);
+        
+        query=query.setParameter("id", id);
         List<Object[]> selection = query.getResultList();
         List<ItemPicture> itemPictures = selection
                 .stream()
