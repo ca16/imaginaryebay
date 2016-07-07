@@ -1,7 +1,6 @@
 package com.imaginaryebay.Controller;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,12 +14,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleInvalidRequest(RestException e,
                                                           ServletWebRequest request) {
         RestErrorMessage error =
-                new RestErrorMessage(HttpStatus.valueOf(request.getResponse().getStatus()),
+//                new RestErrorMessage(HttpStatus.valueOf(request.getResponse().getStatus()),
+                new RestErrorMessage(
+                        e.getStatusCode(),
                         e.getMessage(),
                         e.getDetailedMessage(),
-                        e.toString());
+                        e.toString()
+                );
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        return handleExceptionInternal(e, error, headers, HttpStatus.OK, request);
+        return handleExceptionInternal(e, error, headers, e.getStatusCode(), request);
     }
 }

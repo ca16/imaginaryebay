@@ -1,20 +1,13 @@
 package com.imaginaryebay.Controller;
 
-import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.Userr;
-import com.imaginaryebay.Repository.ItemRepository;
 import com.imaginaryebay.Repository.UserrRepository;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.List;
-
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 /**

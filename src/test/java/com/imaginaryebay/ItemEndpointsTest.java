@@ -2,10 +2,6 @@ package com.imaginaryebay;
 
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
-import com.imaginaryebay.Models.ItemPicture;
-import com.sun.mail.iap.Response;
-import com.sun.tools.classfile.Code_attribute;
-
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +9,9 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Created by Chloe on 6/30/16.

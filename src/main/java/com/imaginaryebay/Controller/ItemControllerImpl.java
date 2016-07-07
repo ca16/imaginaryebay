@@ -84,7 +84,8 @@ public class ItemControllerImpl implements ItemController {
     }
 
     public ResponseEntity<List<ItemPicture>> returnItemPicturesForItem(Long id, String urlOnly) {
-        return itemRepository.returnItemPicturesForItem(id, urlOnly);
+        return new ResponseEntity<List<ItemPicture>>(itemRepository.returnItemPicturesForItem(id, urlOnly),
+                                                     HttpStatus.OK);
     }
 
     // TODO: Doesn't really qualify as a DAO. Should we place this in a class or leave here?

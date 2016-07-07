@@ -5,10 +5,7 @@ import com.imaginaryebay.DAO.ItemDAO;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
@@ -147,7 +144,7 @@ public class ItemRepositoryImpl implements ItemRepository {
      * TODO: @Brian: I'm returning the ResponseEntities through the repository interface. TODO:
      * Do we want to manage this here or move to Controller?
      **/
-    public ResponseEntity<List<ItemPicture>> returnItemPicturesForItem(Long id, String urlOnly) {
+    public List<ItemPicture> returnItemPicturesForItem(Long id, String urlOnly) {
 
         List<ItemPicture> itemPictures;
 
@@ -156,15 +153,40 @@ public class ItemRepositoryImpl implements ItemRepository {
         } else if (urlOnly.equalsIgnoreCase("false")) {
             itemPictures = itemDAO.returnAllItemPicturesForItemID(id);
         } else {
-            return new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST);
+            throw new RestException("Invalid request parameter.",
+                    "The supplied request parameter is invalid for this URL.",
+                    HttpStatus.BAD_REQUEST);
         }
-
         if (itemPictures.isEmpty()) {
-            return new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST);
+            throw new RestException("Not available.",
+                    "There are no entries for the requested resource.",
+                    HttpStatus.OK);
         }
-
-        return new ResponseEntity<List<ItemPicture>>(itemPictures, HttpStatus.OK);
+        return itemPictures;
     }
+
+//    /**
+//     * TODO: @Brian: I'm returning the ResponseEntities through the repository interface. TODO:
+//     * Do we want to manage this here or move to Controller?
+//     **/
+//    public ResponseEntity<List<ItemPicture> returnItemPicturesForItem(Long id, String urlOnly) {
+//
+//        List<ItemPicture> itemPictures;
+//
+//        if (urlOnly.equalsIgnoreCase("true")) {
+//            itemPictures = itemDAO.returnAllItemPictureURLsForItemID(id);
+//        } else if (urlOnly.equalsIgnoreCase("false")) {
+//            itemPictures = itemDAO.returnAllItemPicturesForItemID(id);
+//        } else {
+//            return new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST);
+//        }
+//
+//        if (itemPictures.isEmpty()) {
+//            return new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST);
+//        }
+//
+//        return new ResponseEntity<List<ItemPicture>>(itemPictures, HttpStatus.OK);
+//    }
 
 
 /*
