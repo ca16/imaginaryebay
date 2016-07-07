@@ -1,32 +1,23 @@
 package com.imaginaryebay.Repository;
 
 import com.imaginaryebay.DAO.ItemDAO;
-import com.imaginaryebay.DAO.ItemDAOImpl;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
-
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import static java.sql.Timestamp.valueOf;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
-
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static java.sql.Timestamp.valueOf;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Chloe on 6/30/16.
@@ -334,7 +325,7 @@ public class ItemRepositoryImplTest {
 
     @Test
     public void findAllItems() throws Exception {
-        assertEquals(impl.findAllItems(), all);i
+        assertEquals(impl.findAllItems(), all);
     }
 
     @Test
