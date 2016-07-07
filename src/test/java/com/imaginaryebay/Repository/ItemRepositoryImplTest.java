@@ -1,11 +1,13 @@
 package com.imaginaryebay.Repository;
 
+import com.imaginaryebay.Controller.RestException;
 import com.imaginaryebay.DAO.ItemDAO;
 import com.imaginaryebay.DAO.ItemDAOImpl;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +34,12 @@ public class ItemRepositoryImplTest {
     @Mock
     private ItemDAO itemDao;
 
+    @Mock
+    private ItemDAO itemDaoEmpties;
+
     private ItemRepositoryImpl impl;
+    private ItemRepositoryImpl implEmpties;
+
     private Item item1;
     private Item item2;
     private Item item3;
@@ -43,6 +50,8 @@ public class ItemRepositoryImplTest {
     private List<Item> all;
     private List<Item> clothes;
     private List<Item> electronics;
+    private List<Item> empties;
+
 
     @Before
     public void setUp() throws Exception {
@@ -71,6 +80,7 @@ public class ItemRepositoryImplTest {
         all = new ArrayList<>();
         clothes = new ArrayList<>();
         electronics = new ArrayList<>();
+        empties = new ArrayList<>();
 
         all.add(item1);
         all.add(item2);
@@ -115,6 +125,14 @@ public class ItemRepositoryImplTest {
         impl = new ItemRepositoryImpl();
         impl.setItemDAO(itemDao);
 
+        when(itemDaoEmpties.findAllItems()).thenReturn(empties);
+        when(itemDaoEmpties.findAllItemsByCategory(Category.Clothes)).thenReturn(empties);
+        when(itemDaoEmpties.findAllItemsByCategory(Category.Electronics)).thenReturn(empties);
+
+        implEmpties = new ItemRepositoryImpl();
+        implEmpties.setItemDAO(itemDaoEmpties);
+
+
     }
 
     @Test
@@ -130,12 +148,14 @@ public class ItemRepositoryImplTest {
         assertEquals(impl.findByID(2L), item2);
         assertEquals(impl.findByID(10L), item3);
 
-        // Case where item does not exist
-        //Eventually will be testing an exception here
-        assertEquals(impl.findByID(25L), null);
-
-
+       try{
+            impl.findByID(25L);
+        }
+        catch(RestException exc){
+            Assert.assertEquals("Item not found.", exc.getMessage());
+        }
     }
+
 
     @Test
     public void findPriceByID() throws Exception {
@@ -143,14 +163,19 @@ public class ItemRepositoryImplTest {
         assertEquals(impl.findPriceByID(2L), new Double(200.0));
         assertEquals(impl.findPriceByID(10L), new Double(30.0));
 
-        // Case where item exists but has no price
-        //Eventually will be testing an exception here
-        assertEquals(impl.findPriceByID(24L), null);
+        try{
+            impl.findPriceByID(24L);
+        }
+        catch(RestException exc){
+            Assert.assertEquals("Item does not have a price.", exc.getMessage());
+        }
 
-        // Case where item does not exist
-        //Eventually will be testing an exception here
-        assertEquals(impl.findPriceByID(25L), null);
-
+        try{
+            impl.findPriceByID(25L);
+        }
+        catch(RestException exc){
+            Assert.assertEquals("Item not found.", exc.getMessage());
+        }
     }
 
     @Test
@@ -159,15 +184,19 @@ public class ItemRepositoryImplTest {
         assertEquals(impl.findCategoryByID(2L), Category.Clothes);
         assertEquals(impl.findCategoryByID(10L), Category.Electronics);
 
-        // Case where item exists but has no category
-        //Eventually will be testing an exception here
-        assertEquals(impl.findCategoryByID(24L), null);
+        try{
+            impl.findCategoryByID(24L);
+        }
+        catch(RestException exc){
+            Assert.assertEquals("Item does not have a category.", exc.getMessage());
+        }
 
-        // Case where item does not exist
-        //Eventually will be testing an exception here
-        assertEquals(impl.findCategoryByID(25L), null);
-
-        //Should be able to differentiate between the two cases with exception messages
+        try{
+            impl.findCategoryByID(25L);
+        }
+        catch(RestException exc){
+            Assert.assertEquals("Item not found.", exc.getMessage());
+        }
     }
 
     @Test
@@ -176,16 +205,19 @@ public class ItemRepositoryImplTest {
         assertEquals(impl.findEndtimeByID(2L), valueOf("2016-11-5 06:00:00"));
         assertEquals(impl.findEndtimeByID(10L), valueOf("2016-9-2 11:10:10"));
 
-        // Case where item exists but has no endtime
-        //Eventually will be testing an exception here
-        assertEquals(impl.findEndtimeByID(24L), null);
+        try{
+            impl.findEndtimeByID(24L);
+        }
+        catch(RestException exc){
+            Assert.assertEquals("Item does not have an endtime.", exc.getMessage());
+        }
 
-        // Case where item does not exist
-        //Eventually will be testing an exception here
-        assertEquals(impl.findEndtimeByID(25L), null);
-
-        //Should be able to differentiate between the two cases with exception messages
-
+        try{
+            impl.findEndtimeByID(25L);
+        }
+        catch(RestException exc){
+            Assert.assertEquals("Item not found.", exc.getMessage());
+        }
     }
 
     @Test
@@ -194,15 +226,19 @@ public class ItemRepositoryImplTest {
         assertEquals(impl.findDescriptionByID(2L), "Expensive Scarf");
         assertEquals(impl.findDescriptionByID(10L), "Watch");
 
-        // Case where item exists but has no description
-        //Eventually will be testing an exception here
-        assertEquals(impl.findDescriptionByID(24L), null);
+        try{
+            impl.findDescriptionByID(24L);
+        }
+        catch(RestException exc){
+            Assert.assertEquals("Item does not have a description.", exc.getMessage());
+        }
 
-        // Case where item does not exist
-        //Eventually will be testing an exception here
-        assertEquals(impl.findDescriptionByID(25L), null);
-
-        //Should be able to differentiate between the two cases with exception messages
+        try{
+            impl.findDescriptionByID(25L);
+        }
+        catch(RestException exc){
+            Assert.assertEquals("Item not found.", exc.getMessage());
+        }
 
     }
 
@@ -213,9 +249,12 @@ public class ItemRepositoryImplTest {
         verify(itemDao).find(toUpdate);
         verify(itemDao).merge(toUpdate);
 
-        // Case where item does not exist
-        //Eventually will be testing an exception here
-        impl.update(notInDB);
+        try{
+            impl.update(notInDB);
+        }
+        catch(RestException exc){
+            Assert.assertEquals("Item to be updated does not exist.", exc.getMessage());
+        }
 
     }
 
@@ -225,20 +264,43 @@ public class ItemRepositoryImplTest {
         verify(itemDao).findByID(2L);
         verify(itemDao).updateItemByID(2L, toUpdate);
 
-        // Case where item does not exist
-        //Eventually will be testing an exception here
-        assertEquals(impl.updateItemByID(25L, toUpdate), null);
+        try{
+            impl.updateItemByID(25L, toUpdate);
+        }
+        catch(RestException exc){
+            Assert.assertEquals("Item not found.", exc.getMessage());
+        }
     }
 
     @Test
     public void findAllItemsByCategory() throws Exception {
         assertEquals(impl.findAllItemsByCategory(Category.Clothes), clothes);
         assertEquals(impl.findAllItemsByCategory(Category.Electronics), electronics);
+
+        try{
+            implEmpties.findAllItemsByCategory(Category.Clothes);
+        }
+        catch(RestException exc){
+            Assert.assertEquals("No items of that category.", exc.getMessage());
+        }
+        try{
+            implEmpties.findAllItemsByCategory(Category.Electronics);
+        }
+        catch(RestException exc){
+            Assert.assertEquals("No items of that category.", exc.getMessage());
+        }
     }
 
     @Test
     public void findAllItems() throws Exception {
         assertEquals(impl.findAllItems(), all);
+
+        try{
+            implEmpties.findAllItems();
+        }
+        catch(RestException exc){
+            Assert.assertEquals("No items available.", exc.getMessage());
+        }
     }
 /*
     @Test

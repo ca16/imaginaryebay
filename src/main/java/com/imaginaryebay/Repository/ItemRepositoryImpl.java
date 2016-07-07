@@ -1,9 +1,11 @@
 package com.imaginaryebay.Repository;
 
+import com.imaginaryebay.Controller.RestException;
 import com.imaginaryebay.DAO.ItemDAO;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -16,12 +18,12 @@ import java.util.List;
  * Created by Chloe on 6/28/16.
  */
 @Transactional
-public class ItemRepositoryImpl implements ItemRepository{
+public class ItemRepositoryImpl implements ItemRepository {
 
     private ItemDAO itemDAO;
 
-    public void setItemDAO(ItemDAO itemDAO){
-        this.itemDAO=itemDAO;
+    public void setItemDAO(ItemDAO itemDAO) {
+        this.itemDAO = itemDAO;
     }
 
     public void save(Item item) {
@@ -29,128 +31,135 @@ public class ItemRepositoryImpl implements ItemRepository{
     }
 
     public void update(Item item) {
-        if (this.itemDAO.find(item) == null){
-            System.out.println("Attempted to update Item, but Item does not exist!");
-        }else {
+        if (this.itemDAO.find(item) == null) {
+            throw new RestException("Item to be updated does not exist.",
+                    "Item with id " + item.getId() + " was not found");
+        } else {
             this.itemDAO.merge(item);
         }
     }
 
-    public Item findByID(Long id){
+
+    public Item findByID(Long id) {
         Item toRet = this.itemDAO.findByID(id);
-        if (toRet != null){
+        if (toRet == null) {
+            // what should the number be here?
+            throw new RestException("Item not found.",
+                    "Item with id " + id + " was not found");
+        } else {
             return toRet;
         }
-        System.out.println("Item with that ID does not exist");
-        return null;
     }
 
     // What if item doesn't have a price? Is price required?
-    public Double findPriceByID(Long id){
+    public Double findPriceByID(Long id) {
         Item item = this.itemDAO.findByID(id);
-        if (item != null){
+        if (item != null) {
             Double price = itemDAO.findPriceByID(id);
             if (price != null) {
                 return price;
             }
-            System.out.println("Item does not have a price.");
-            return null;
+            //figure out code
+            throw new RestException("Item does not have a price.",
+                    "Item with id " + id + " does not have a price");
         }
-        System.out.println("Item with that ID does not exist.");
-        return null;
+        //figure out code
+        throw new RestException("Item not found.",
+                "Item with id " + id + " was not found");
     }
 
     // Same comment as for price, is category required?
-    public Category findCategoryByID(Long id){
+    public Category findCategoryByID(Long id) {
         Item item = this.itemDAO.findByID(id);
-        if (item != null){
+        if (item != null) {
             Category cat = itemDAO.findCategoryByID(id);
             if (cat != null) {
                 return cat;
             }
-            System.out.println("Item does not have a category.");
-            return null;
+            throw new RestException("Item does not have a category.",
+                    "Item with id " + id + " does not have a category");
 
         }
-        System.out.println("Item with that ID does not exist.");
-        return null;
+        throw new RestException("Item not found.",
+                "Item with id " + id + " was not found");
     }
 
-    public Timestamp findEndtimeByID(Long id){
+    public Timestamp findEndtimeByID(Long id) {
         Item item = this.itemDAO.findByID(id);
-        if (item != null){
+        if (item != null) {
             Timestamp time = itemDAO.findEndtimeByID(id);
             if (time != null) {
                 return time;
             }
-            System.out.println("Item does not have a time.");
-            return null;
+            throw new RestException("Item does not have an endtime.",
+                    "Item with id " + id + " does not have a endtime");
 
         }
-        System.out.println("Item with that ID does not exist.");
-        return null;
+        throw new RestException("Item not found.",
+                "Item with id " + id + " was not found");
     }
 
-    public String findDescriptionByID(Long id){
+    public String findDescriptionByID(Long id) {
         Item item = this.itemDAO.findByID(id);
-        if (item != null){
+        if (item != null) {
             String description = itemDAO.findDescriptionByID(id);
             if (description != null) {
                 return description;
             }
-            System.out.println("Item does not have a description.");
-            return null;
+            throw new RestException("Item does not have a description.",
+                    "Item with id " + id + " does not have a description");
 
         }
-        System.out.println("Item with that ID does not exist.");
-        return null;
+        throw new RestException("Item not found.",
+                "Item with id " + id + " was not found");
     }
 
-    public Item updateItemByID(Long id, Item item){
+    public Item updateItemByID(Long id, Item item) {
         Item current = this.itemDAO.findByID(id);
-        if (current != null){
+        if (current != null) {
             //See price comment
             return itemDAO.updateItemByID(id, item);
         }
-        System.out.println("Item with that ID does not exist");
-        return null;
+        throw new RestException("Item not found.",
+                "Item with id " + id + " was not found");
     }
 
-    public List<Item> findAllItemsByCategory(Category category){
+    public List<Item> findAllItemsByCategory(Category category) {
         List<Item> toRet = this.itemDAO.findAllItemsByCategory(category);
-        if (!toRet.isEmpty()){
+        if (!toRet.isEmpty()) {
             return toRet;
         }
-        System.out.println("No items of that category.");
-        return null;
+        throw new RestException("No items of that category.",
+                "Items of category " + category + " were not found");
     }
 
-    public List<Item> findAllItems(){
+    public List<Item> findAllItems() {
         List<Item> toRet = this.itemDAO.findAllItems();
-        if (!toRet.isEmpty()){
+        if (!toRet.isEmpty()) {
             return toRet;
         }
-        System.out.println("No items available.");
-        return null;
+        throw new RestException("No items available.",
+                "There are not items available.");
 
     }
 
-    /** TODO: @Brian: I'm returning the ResponseEntities through the repository interface.
-     *  TODO:         Do we want to manage this here or move to Controller?
+    /**
+     * TODO: @Brian: I'm returning the ResponseEntities through the repository interface. TODO:
+     * Do we want to manage this here or move to Controller?
      **/
-    public ResponseEntity<List<ItemPicture>> returnItemPicturesForItem(Long id, String urlOnly){
+    public ResponseEntity<List<ItemPicture>> returnItemPicturesForItem(Long id, String urlOnly) {
 
         List<ItemPicture> itemPictures;
 
-        if (urlOnly.equalsIgnoreCase("true")){
+        if (urlOnly.equalsIgnoreCase("true")) {
             itemPictures = itemDAO.returnAllItemPictureURLsForItemID(id);
-        }else if(urlOnly.equalsIgnoreCase("false")){
+        } else if (urlOnly.equalsIgnoreCase("false")) {
             itemPictures = itemDAO.returnAllItemPicturesForItemID(id);
-        }else{
+        } else {
             return new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST);
         }
 
-        if (itemPictures.isEmpty()){
+        if (itemPictures.isEmpty()) {
             return new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST);
         }
 

@@ -86,8 +86,8 @@ public class ItemDAOImpl implements ItemDAO{
     public List<Item> findAllItemsByCategory(Category category){
         Query query = entityManager.createQuery(
                 "select i from Item i where i.category = ?1 order by i.price");
-        Query query2 = query.setParameter(1, category);
-        return query2.getResultList();
+        query = query.setParameter(1, category);
+        return query.getResultList();
 
     }
 

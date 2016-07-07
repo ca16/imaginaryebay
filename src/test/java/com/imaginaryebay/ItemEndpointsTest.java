@@ -4,6 +4,7 @@ import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
 import com.sun.mail.iap.Response;
+import com.sun.tools.classfile.Code_attribute;
 
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
@@ -30,37 +32,89 @@ public class ItemEndpointsTest {
     @Test
     public void getsWorkOK() {
 
-        // assertNotNulls should work if there is at least on thing of each category in the database
-
         RestTemplate template = new RestTemplate();
-        ResponseEntity<List> result =
-                template.getForEntity("http://localhost:8080/item", List.class);
-        //assertNotNull(result);
-        //assertNotNull(result.getBody());
 
-        ResponseEntity<List> resultClothes =
-                template.getForEntity("http://localhost:8080/item?cat=Clothes", List.class);
-        //assertNotNull(resultClothes);
-        //assertNotNull(resultClothes.getBody());
+        try {
+            template.getForEntity("http://localhost:8080/item", List.class);
+            //assertNotNull(result);
+            //assertNotNull(result.getBody());
+        } catch (Exception exc) {
+            if (exc.getClass() == HttpClientErrorException.class){
+                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
+                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
+            }
+        }
 
-        ResponseEntity<List> resultElectronics =
-                template.getForEntity("http://localhost:8080/item?cat=Electronics", List.class);
-        //assertNotNull(resultElectronics);
-        //assertNotNull(resultElectronics.getBody());
-        //System.out.println(result.getBody());
-        //assertThat(result.getBody().size(), is(2));
+        try {
+            template.getForEntity("http://localhost:8080/item?cat=Clothes", List.class);
+            //assertNotNull(resultClothes);
+            //assertNotNull(resultClothes.getBody());
+        } catch (Exception exc) {
+            if (exc.getClass() == HttpClientErrorException.class){
+                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
+                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
+            }
+        }
 
-        ResponseEntity<Item> resultItem = template.getForEntity("http://localhost:8080/item/1", Item.class);
-        //assertNotNull(resultItem);
-        //assertNotNull(resultItem.getBody());
+        try {
+            template.getForEntity("http://localhost:8080/item?cat=Electronics", List.class);
+            //assertNotNull(resultElectronics);
+            //assertNotNull(resultElectronics.getBody());
+            //System.out.println(result.getBody());
+            //assertThat(result.getBody().size(), is(2));
+        } catch (Exception exc) {
+            if (exc.getClass() == HttpClientErrorException.class){
+                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
+                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
+            }
+        }
 
-        template.getForEntity("http://localhost:8080/item/description/1", String.class);
+        try {
+            template.getForEntity("http://localhost:8080/item/1", List.class);
+            //assertNotNull(resultItem);
+            //assertNotNull(resultItem.getBody());
+        } catch (Exception exc) {
+            if (exc.getClass() == HttpClientErrorException.class){
+                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
+                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
+            }
+        }
 
-        template.getForEntity("http://localhost:8080/item/price/1", Double.class);
+        try {
+            template.getForEntity("http://localhost:8080/item/description/1", List.class);
+        } catch (Exception exc) {
+            if (exc.getClass() == HttpClientErrorException.class){
+                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
+                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
+            }
+        }
 
-        template.getForEntity("http://localhost:8080/item/endtime/1", Timestamp.class);
+        try {
+            template.getForEntity("http://localhost:8080/item/price/1", List.class);
+        } catch (Exception exc) {
+            if (exc.getClass() == HttpClientErrorException.class){
+                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
+                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
+            }
+        }
 
-        template.getForEntity("http://localhost:8080/item/category/1", Category.class);
+        try {
+            template.getForEntity("http://localhost:8080/item/endtime/1", List.class);
+        } catch (Exception exc) {
+            if (exc.getClass() == HttpClientErrorException.class){
+                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
+                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
+            }
+        }
+
+        try {
+            template.getForEntity("http://localhost:8080/item/category/1", List.class);
+        } catch (Exception exc) {
+            if (exc.getClass() == HttpClientErrorException.class){
+                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
+                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
+            };
+        }
 
         try {
             template.getForEntity("http://localhost:8080/item/1/picture", List.class);
