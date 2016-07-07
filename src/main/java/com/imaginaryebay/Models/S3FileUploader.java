@@ -6,8 +6,10 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
@@ -45,6 +47,7 @@ public class S3FileUploader {
      */
     public String fileUploader(MultipartFile multipartFile) throws IOException {
         AmazonS3 s3 = new AmazonS3Client(AWS_CREDENTIALS);
+        S3Object s3Object = new S3Object();
         String result = null;
         try {
             ObjectMetadata omd = new ObjectMetadata();
@@ -54,12 +57,12 @@ public class S3FileUploader {
 
             ByteArrayInputStream bis = new ByteArrayInputStream(multipartFile.getBytes());
 
-            TransferManager transferManager = new TransferManager(s3);
-            transferManager.upload(BUCKET, keyName, bis, omd);
-
-            String extension = multipartFile.getContentType().split("/")[1];
-            // TODO: Test URL building (i.e. is the URL correct) then add URL storage
-            result = HTTPS + BUCKET + REGION + keyName + "." + extension;
+            s3Object.setObjectContent(bis);
+            s3.putObject(new PutObjectRequest(BUCKET, keyName, bis, omd)
+                            .withCannedAcl(CannedAccessControlList.PublicRead));
+            result = s3.getUrl(BUCKET, keyName).toString();
+            s3Object.close();
+            
             System.out.println("File uploaded to: " + result);
 
         } catch (AmazonServiceException ase) {

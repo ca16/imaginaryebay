@@ -176,14 +176,14 @@ public class ItemControllerImplTest {
         when(itemRepo.findAllItemsByCategory(Category.Clothes)).thenReturn(clothes);
         when(itemRepo.findAllItemsByCategory(Category.Electronics)).thenReturn(electronics);
         
-        when(itemRepo.returnItemPicturesForItem(1L,"false")).thenReturn(item1picresponse);
-        when(itemRepo.returnItemPicturesForItem(1L,"true")).thenReturn(item1picurlresponse);
-        when(itemRepo.returnItemPicturesForItem(2L,"false")).thenReturn(item2picresponse);
-        when(itemRepo.returnItemPicturesForItem(2L,"true")).thenReturn(item2picurlresponse);
-        when(itemRepo.returnItemPicturesForItem(10L,"false")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
-        when(itemRepo.returnItemPicturesForItem(10L,"true")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
-        when(itemRepo.returnItemPicturesForItem(10L,"fdahfh")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
-        
+//        when(itemRepo.returnItemPicturesForItem(1L,"false")).thenReturn(item1picresponse);
+//        when(itemRepo.returnItemPicturesForItem(1L,"true")).thenReturn(item1picurlresponse);
+//        when(itemRepo.returnItemPicturesForItem(2L,"false")).thenReturn(item2picresponse);
+//        when(itemRepo.returnItemPicturesForItem(2L,"true")).thenReturn(item2picurlresponse);
+//        when(itemRepo.returnItemPicturesForItem(10L,"false")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
+//        when(itemRepo.returnItemPicturesForItem(10L,"true")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
+//        when(itemRepo.returnItemPicturesForItem(10L,"fdahfh")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
+//
 
         impl = new ItemControllerImpl();
         impl.setItemRepository(itemRepo);
