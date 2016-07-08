@@ -22,7 +22,7 @@ public class Message {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "r_id")
     private Userr receiver_id;
 
@@ -57,5 +57,16 @@ public class Message {
     public Long getId() {
         return id;
     }
+    public void setId(Long id){
+    	this.id=id;
+    }
+
+	@Override
+	public String toString() {
+		return "Message [receiver_id=" + receiver_id + ", date_sent="
+				+ date_sent + "]";
+	}
+    
+    
 
 }

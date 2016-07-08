@@ -72,4 +72,5 @@ public class ItemPicture {
                 ", id=" + id +
                 '}';
     }
+    
 }

@@ -7,7 +7,9 @@ import com.imaginaryebay.Models.ItemPicture;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -118,10 +120,11 @@ public class ItemDAOImpl implements ItemDAO{
         
         query=query.setParameter("id", id);
         List<Object[]> selection = query.getResultList();
-        List<ItemPicture> itemPictures = selection
+        /*List<ItemPicture> itemPictures = selection
                 .stream()
                 .map( (x) -> new ItemPicture( (Long) x[0], x[1].toString() ) )
                 .collect( Collectors.toList() );
-        return itemPictures;
+        return itemPictures;*/
+        return new ArrayList<>();
     }
 }
