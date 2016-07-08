@@ -29,11 +29,6 @@ public class ItemControllerImpl implements ItemController {
         this.itemPictureDAO=itemPictureDAO;
     }
 
-    private static final String FAIL_STEM           = "Unable to upload.";
-    private static final String FAIL_EMPTY_FILES    = "Unable to upload. File is empty.";
-    private static final String COLON_SEP           = ": ";
-    private static final String HTML_BREAK          = "</br>";
-
     @Override
     public void save(Item item) {
         this.itemRepository.save(item);

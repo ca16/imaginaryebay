@@ -19,7 +19,10 @@ import java.util.List;
 @Transactional
 public class ItemRepositoryImpl implements ItemRepository {
 
-    private static final String FAIL_STEM = "Unable to upload.";
+    private static final String FAIL_STEM           = "Unable to upload.";
+    private static final String FAIL_EMPTY_FILES    = "Unable to upload. File is empty.";
+    private static final String COLON_SEP           = ": ";
+    private static final String UNCAUGHT_EXCEPTION  = "An uncaught exception was raised during upload.";
 
     private ItemDAO itemDAO;
 
@@ -180,28 +183,25 @@ public class ItemRepositoryImpl implements ItemRepository {
                 if (!mpFile.isEmpty()) {
                     try {
                         fileName = mpFile.getOriginalFilename();
-
                         S3FileUploader s3FileUploader = new S3FileUploader();
                         imageURL = s3FileUploader.fileUploader(mpFile);
 
                         if (imageURL == null) {
-                            throw new RestException(FAIL_STEM,
-                                                    "An uncaught exception was raised during upload.",
-                                                    HttpStatus.INTERNAL_SERVER_ERROR);
+                            throw new RestException(FAIL_STEM, UNCAUGHT_EXCEPTION, HttpStatus.INTERNAL_SERVER_ERROR);
                         } else {
                             item.addItemPicture(new ItemPicture(imageURL));
                             this.update(item);
                         }
 
                     } catch (Exception e) {
-                        String message = FAIL_STEM + fileName + ":" + e.getMessage();
+                        String message = FAIL_STEM + fileName + COLON_SEP + e.getMessage();
                         throw new RestException(FAIL_STEM, message, HttpStatus.INTERNAL_SERVER_ERROR);
                     }
                 }
             }
             return imageURL;
         } else {
-            throw new RestException(FAIL_STEM, FAIL_STEM + " The file is empty.", HttpStatus.BAD_REQUEST);
+            throw new RestException(FAIL_STEM, FAIL_EMPTY_FILES, HttpStatus.BAD_REQUEST);
         }
     }
 }
