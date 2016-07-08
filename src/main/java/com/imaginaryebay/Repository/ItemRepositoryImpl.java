@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -174,32 +175,37 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     public String createItemPicturesForItem(Long id, MultipartFile[] files){
 
-        String fileName = null;
-        String imageURL = "";
+        String uploadResponse = "";
         Item item = this.findByID(id);
 
         if (files != null && files.length > 0) {
             for (MultipartFile mpFile : files) {
                 if (!mpFile.isEmpty()) {
                     try {
-                        fileName = mpFile.getOriginalFilename();
                         S3FileUploader s3FileUploader = new S3FileUploader();
-                        imageURL = s3FileUploader.fileUploader(mpFile);
+                        uploadResponse = s3FileUploader.fileUploader(mpFile);
 
-                        if (imageURL == null) {
-                            throw new RestException(FAIL_STEM, UNCAUGHT_EXCEPTION, HttpStatus.INTERNAL_SERVER_ERROR);
+                        if (uploadResponse == null) {
+                            throw new RestException(FAIL_STEM, "", HttpStatus.INTERNAL_SERVER_ERROR);
                         } else {
-                            item.addItemPicture(new ItemPicture(imageURL));
+                            item.addItemPicture(new ItemPicture(uploadResponse));
                             this.update(item);
                         }
-
-                    } catch (Exception e) {
-                        String message = FAIL_STEM + fileName + COLON_SEP + e.getMessage();
-                        throw new RestException(FAIL_STEM, message, HttpStatus.INTERNAL_SERVER_ERROR);
+                    }
+                    catch (IOException ioex) {
+                        ioex.printStackTrace();
+                        throw new RestException("Error with file upload to S3!",
+                                                ioex.getMessage(),
+                                                HttpStatus.INTERNAL_SERVER_ERROR);
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                        throw new RestException("An unexpected error occurred during file upload to S3!",
+                                ex.getMessage(),
+                                HttpStatus.INTERNAL_SERVER_ERROR);
                     }
                 }
             }
-            return imageURL;
+            return uploadResponse;
         } else {
             throw new RestException(FAIL_STEM, FAIL_EMPTY_FILES, HttpStatus.BAD_REQUEST);
         }

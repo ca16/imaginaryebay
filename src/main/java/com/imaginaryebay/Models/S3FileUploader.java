@@ -40,7 +40,7 @@ public class S3FileUploader {
      * @return String result - The URL to access the uploaded MultiPartFile
      * @throws IOException
      */
-    public String fileUploader(MultipartFile multipartFile) throws IOException {
+    public String fileUploader(MultipartFile multipartFile) throws Exception {
         AmazonS3 s3 = new AmazonS3Client(AWS_CREDENTIALS);
         S3Object s3Object = new S3Object();
         String result = null;
@@ -60,16 +60,22 @@ public class S3FileUploader {
             s3.putObject(new PutObjectRequest(BUCKET, keyName, bis, omd)
                             .withCannedAcl(CannedAccessControlList.PublicRead));
             result = s3.getUrl(BUCKET, keyName).toString();
+
             s3Object.close();
 
             System.out.println("File uploaded to: " + result);
 
         } catch (AmazonServiceException ase) {
-            printErrorInfo(ase);
+            this.printErrorInfo(ase);
+            throw new IOException(getErrorInfo(ase));
+
         } catch (AmazonClientException ace) {
-            printErrorInfo(ace);
+            this.printErrorInfo(ace);
+            throw new IOException(getErrorInfo(ace));
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
         return result;
     }
@@ -86,9 +92,27 @@ public class S3FileUploader {
         System.out.println(ase.getMessage());
     }
 
+    private String getErrorInfo(AmazonServiceException ase){
+        String error_msg = "AmazonServiceException! Your request made it to Amazon S3," +
+                " but it was rejected with an error response.";
+        error_msg += "Error Message: "    + ase.getMessage();
+        error_msg += "HTTP Status Code: " + ase.getStatusCode();
+        error_msg += "AWS Error Code: "   + ase.getErrorCode();
+        error_msg += "Error Type: "       + ase.getErrorType();
+        error_msg += "Request ID: "       + ase.getRequestId();
+
+        return error_msg;
+    }
+
     private void printErrorInfo(AmazonClientException ace){
         System.out.println("AmazonClientException! The client encountered an internal error while "
                 + "trying to communicate with S3. This could be due to network issues.");
         System.out.println(ace.getMessage());
+    }
+
+    private String getErrorInfo(AmazonClientException ace){
+        System.out.println(ace.getMessage());
+        return "AmazonClientException! The client encountered an internal error while "
+                + "trying to communicate with S3. This could be due to network issues.";
     }
 }
