@@ -35,5 +35,5 @@ public interface ItemRepository {
 
     public List<Item> findAllItems();
 
-    public ResponseEntity<List<ItemPicture>> returnItemPicturesForItem(Long id, String urlOnly);
+    public List<ItemPicture> returnItemPicturesForItem(Long id, String urlOnly);
 }

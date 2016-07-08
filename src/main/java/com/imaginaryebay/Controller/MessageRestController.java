@@ -2,6 +2,8 @@ package com.imaginaryebay.Controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +23,14 @@ public class MessageRestController implements MessageController{
     }
     //@RequestMapping(method= RequestMethod.POST)
     //public void createNewMessage(@RequestBody Message message){
-    public void createNewMessage(Message message){
+    public ResponseEntity<Void> createNewMessage(Message message){
         this.messageRepository.createNewMessage(message);
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
     //@RequestMapping(value="/{ID}", method=RequestMethod.GET)
     //public List<Message> returnMessagesByReceiverID(@PathVariable("ID") Long id){
-    public List<Message> returnMessagesByReceiverID(Long id){
-        return this.messageRepository.returnAllMessagesByReceiverID(id);
+    public ResponseEntity<List<Message>> returnMessagesByReceiverID(Long id){
+        return new ResponseEntity<List<Message>>(this.messageRepository.returnAllMessagesByReceiverID(id),HttpStatus.OK);
     }
 }

@@ -1,5 +1,6 @@
 package com.imaginaryebay.Repository;
 
+import com.imaginaryebay.Controller.RestException;
 import com.imaginaryebay.DAO.ItemDAO;
 import com.imaginaryebay.DAO.ItemDAOImpl;
 import com.imaginaryebay.Models.Category;
@@ -67,13 +68,6 @@ public class ItemRepositoryImplTest {
     private List<ItemPicture> item1picurls;
     private List<ItemPicture> item2picurls;
     private List<ItemPicture> item3picurls;
-    
-    private ResponseEntity<List<ItemPicture>> item1picresponse;
-    private ResponseEntity<List<ItemPicture>> item2picresponse;
-    private ResponseEntity<List<ItemPicture>> item3picresponse;
-    private ResponseEntity<List<ItemPicture>> item1picurlresponse;
-    private ResponseEntity<List<ItemPicture>> item2picurlresponse;
-    private ResponseEntity<List<ItemPicture>> item3picurlresponse;
 
     @Before
     public void setUp() throws Exception {
@@ -160,13 +154,6 @@ public class ItemRepositoryImplTest {
         item2picurls.add(itempic10);
         item3picurls.add(itempic11);
         item3picurls.add(itempic12);
-        
-        item1picresponse=new ResponseEntity<>(item1pics,HttpStatus.OK);
-        item2picresponse=new ResponseEntity<>(item2pics,HttpStatus.OK);
-        item3picresponse=new ResponseEntity<>(item3pics,HttpStatus.OK);
-        item1picurlresponse=new ResponseEntity<>(item1picurls,HttpStatus.OK);
-        item2picurlresponse=new ResponseEntity<>(item2picurls,HttpStatus.OK);
-        item3picurlresponse=new ResponseEntity<>(item3picurls,HttpStatus.OK);
 
         when(itemDao.findByID(1L)).thenReturn(item1);
         when(itemDao.findPriceByID(1L)).thenReturn(20.0);
@@ -339,13 +326,16 @@ public class ItemRepositoryImplTest {
 
     @Test
     public void returnItemPicturesForItem() throws Exception {
-    	assertEquals(impl.returnItemPicturesForItem(1L,"false"),item1picresponse);
-    	assertEquals(impl.returnItemPicturesForItem(1L,"true"),item1picurlresponse);
-    	assertEquals(impl.returnItemPicturesForItem(2L,"false"),item2picresponse);
-    	assertEquals(impl.returnItemPicturesForItem(2L,"true"),item2picurlresponse);
-    	assertEquals(impl.returnItemPicturesForItem(10L,"false"),new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
-    	assertEquals(impl.returnItemPicturesForItem(10L,"true"),new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
-    	assertEquals(impl.returnItemPicturesForItem(1L,"dsgsfg"),new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
+    	assertEquals(impl.returnItemPicturesForItem(1L,"false"),item1pics);
+    	assertEquals(impl.returnItemPicturesForItem(1L,"true"),item1picurls);
+    	assertEquals(impl.returnItemPicturesForItem(2L,"false"),item2pics);
+    	assertEquals(impl.returnItemPicturesForItem(2L,"true"),item2picurls);
+    }
+    @Test(expected=RestException.class)
+    public void testReturnItemPicsWithException(){
+    	impl.returnItemPicturesForItem(10L,"false");
+    	impl.returnItemPicturesForItem(10L,"true");
+    	impl.returnItemPicturesForItem(1L,"dsgsfg");
     }
 
 }
