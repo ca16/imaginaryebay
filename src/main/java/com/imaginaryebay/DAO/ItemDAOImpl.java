@@ -120,11 +120,10 @@ public class ItemDAOImpl implements ItemDAO{
         
         query=query.setParameter("id", id);
         List<Object[]> selection = query.getResultList();
-        /*List<ItemPicture> itemPictures = selection
+        List<ItemPicture> itemPictures = selection
                 .stream()
                 .map( (x) -> new ItemPicture( (Long) x[0], x[1].toString() ) )
                 .collect( Collectors.toList() );
-        return itemPictures;*/
-        return new ArrayList<>();
+        return itemPictures;
     }
 }
