@@ -17,11 +17,9 @@ import java.io.IOException;
 import java.util.UUID;
 
 /**
- *
  * Created by Brian on 6/27/2016.
  *
  * S3FileUploader - Handles file uploads, configures upload settings for S3, and manages URL storage.
- *
  */
 public class S3FileUploader {
 
@@ -33,16 +31,13 @@ public class S3FileUploader {
     private static final String         FILENAME_HEADER = "filename";
     private static final String         BUCKET          = "odbneu";
     private static final String         keyName         = "Object-" + UUID.randomUUID();
-    private static final String         HTTPS           = "https://";
-    private static final String         REGION          = ".s3.us-west-2.com/";
     private static final AWSCredentials AWS_CREDENTIALS = new BasicAWSCredentials("AKIAJSNMBTJ6HVQZ3CKQ",
                                                                    "HM8jw0ZSIZekX/b1Rcohu39Mfq1mlNWQ+o2Qk54N");
-
 
     /**
      * fileUploader - Uploads a MultipartFile object to S3.
      * @param multipartFile- A MultipartFile to be uploaded to S3. The URL of this file will be stored.
-     * @return String result - A message detailing the results. Will contain error messages for bad uploads
+     * @return String result - The URL to access the uploaded MultiPartFile
      * @throws IOException
      */
     public String fileUploader(MultipartFile multipartFile) throws IOException {
@@ -50,19 +45,23 @@ public class S3FileUploader {
         S3Object s3Object = new S3Object();
         String result = null;
         try {
+
+            /** Prepare object metadata */
             ObjectMetadata omd = new ObjectMetadata();
             omd.setContentType(multipartFile.getContentType());
             omd.setContentLength(multipartFile.getSize());
             omd.setHeader(FILENAME_HEADER, multipartFile.getName());
 
+            /** Get bytestream from HTTP request */
             ByteArrayInputStream bis = new ByteArrayInputStream(multipartFile.getBytes());
 
+            /** Upload the object to S3, and get back the URL in result */
             s3Object.setObjectContent(bis);
             s3.putObject(new PutObjectRequest(BUCKET, keyName, bis, omd)
                             .withCannedAcl(CannedAccessControlList.PublicRead));
             result = s3.getUrl(BUCKET, keyName).toString();
             s3Object.close();
-            
+
             System.out.println("File uploaded to: " + result);
 
         } catch (AmazonServiceException ase) {
@@ -72,7 +71,6 @@ public class S3FileUploader {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
         return result;
     }
 

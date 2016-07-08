@@ -3,6 +3,7 @@ package com.imaginaryebay.Repository;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -35,4 +36,6 @@ public interface ItemRepository {
     public List<Item> findAllItems();
 
     public List<ItemPicture> returnItemPicturesForItem(Long id, String urlOnly);
+
+    public String createItemPicturesForItem(Long id, MultipartFile[] files);
 }

@@ -5,8 +5,10 @@ import com.imaginaryebay.DAO.ItemDAO;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
+import com.imaginaryebay.Models.S3FileUploader;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.List;
  */
 @Transactional
 public class ItemRepositoryImpl implements ItemRepository {
+
+    private static final String FAIL_STEM = "Unable to upload.";
 
     private ItemDAO itemDAO;
 
@@ -165,45 +169,39 @@ public class ItemRepositoryImpl implements ItemRepository {
         return itemPictures;
     }
 
-//    /**
-//     * TODO: @Brian: I'm returning the ResponseEntities through the repository interface. TODO:
-//     * Do we want to manage this here or move to Controller?
-//     **/
-//    public ResponseEntity<List<ItemPicture> returnItemPicturesForItem(Long id, String urlOnly) {
-//
-//        List<ItemPicture> itemPictures;
-//
-//        if (urlOnly.equalsIgnoreCase("true")) {
-//            itemPictures = itemDAO.returnAllItemPictureURLsForItemID(id);
-//        } else if (urlOnly.equalsIgnoreCase("false")) {
-//            itemPictures = itemDAO.returnAllItemPicturesForItemID(id);
-//        } else {
-//            return new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST);
-//        }
-//
-//        if (itemPictures.isEmpty()) {
-//            return new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST);
-//        }
-//
-//        return new ResponseEntity<List<ItemPicture>>(itemPictures, HttpStatus.OK);
-//    }
+    public String createItemPicturesForItem(Long id, MultipartFile[] files){
 
+        String fileName = null;
+        String imageURL = "";
+        Item item = this.findByID(id);
 
-/*
-    public Userr findOwnerByID(Long id){
-        Item item = this.itemDAO.findByID(id);
-        if (item != null){
-            Userr owner = itemDAO.findOwnerByID(id);
-            if (owner != null) {
-                return owner;
+        if (files != null && files.length > 0) {
+            for (MultipartFile mpFile : files) {
+                if (!mpFile.isEmpty()) {
+                    try {
+                        fileName = mpFile.getOriginalFilename();
+
+                        S3FileUploader s3FileUploader = new S3FileUploader();
+                        imageURL = s3FileUploader.fileUploader(mpFile);
+
+                        if (imageURL == null) {
+                            throw new RestException(FAIL_STEM,
+                                                    "An uncaught exception was raised during upload.",
+                                                    HttpStatus.INTERNAL_SERVER_ERROR);
+                        } else {
+                            item.addItemPicture(new ItemPicture(imageURL));
+                            this.update(item);
+                        }
+
+                    } catch (Exception e) {
+                        String message = FAIL_STEM + fileName + ":" + e.getMessage();
+                        throw new RestException(FAIL_STEM, message, HttpStatus.INTERNAL_SERVER_ERROR);
+                    }
+                }
             }
-            System.out.println("Item does not have an owner.");
-            return null;
-
+            return imageURL;
+        } else {
+            throw new RestException(FAIL_STEM, FAIL_STEM + " The file is empty.", HttpStatus.BAD_REQUEST);
         }
-        System.out.println("Item with that ID does not exist.");
-        return null;
-    }*/
-
-
+    }
 }

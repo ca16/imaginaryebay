@@ -19,7 +19,6 @@ public class RestErrorMessage {
     public HttpStatus getStatus() {
         return status;
     }
-
     public String getMessage() {
         return message;
     }
@@ -28,5 +27,4 @@ public class RestErrorMessage {
     }
     public String getExceptionMessage() {
         return exceptionMessage;
-
     }}

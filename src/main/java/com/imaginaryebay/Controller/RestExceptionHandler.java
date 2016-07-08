@@ -14,7 +14,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleInvalidRequest(RestException e,
                                                           ServletWebRequest request) {
         RestErrorMessage error =
-//                new RestErrorMessage(HttpStatus.valueOf(request.getResponse().getStatus()),
                 new RestErrorMessage(
                         e.getStatusCode(),
                         e.getMessage(),
