@@ -55,9 +55,9 @@ public class DatabaseConfiguration {
     public DataSource dataSource() throws PropertyVetoException{
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
         dataSource.setDriverClass("org.postgresql.Driver");
-        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
+        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb");
         dataSource.setUser("postgres");
-        dataSource.setPassword("fizz4101");
+        dataSource.setPassword("jingo123");
         return dataSource;
     }
 

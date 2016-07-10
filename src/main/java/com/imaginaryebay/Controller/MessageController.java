@@ -21,8 +21,8 @@ public interface MessageController {
 	
     @RequestMapping(method= RequestMethod.POST)
     public ResponseEntity<Void> createNewMessage(@RequestBody Message message);
-
-    @RequestMapping(value="/{ID}", method=RequestMethod.GET)
-    public ResponseEntity<List<Message>> returnMessagesByReceiverID(@PathVariable("ID") Long id);
+	/*@ApiOperation(value="get email messages for a specific user")*/
+    @RequestMapping(value="/{id}", method=RequestMethod.GET)
+    public ResponseEntity<List<Message>> returnMessagesByReceiverID(@PathVariable("id") Long id);
 
 }
