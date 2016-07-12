@@ -37,5 +37,7 @@ public interface ItemRepository {
 
     public List<ItemPicture> returnItemPicturesForItem(Long id, String urlOnly);
 
+    public String createItemPictureForItem(Long id, MultipartFile file);
+
     public String createItemPicturesForItem(Long id, MultipartFile[] files);
 }

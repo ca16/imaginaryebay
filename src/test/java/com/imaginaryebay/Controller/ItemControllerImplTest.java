@@ -4,13 +4,12 @@ import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
 import com.imaginaryebay.Repository.ItemRepository;
-
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,13 +55,16 @@ public class ItemControllerImplTest {
     private List<ItemPicture> item1picurls;
     private List<ItemPicture> item2picurls;
     private List<ItemPicture> item3picurls;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
     
-    private ResponseEntity<List<ItemPicture>> item1picresponse;
-    private ResponseEntity<List<ItemPicture>> item2picresponse;
-    private ResponseEntity<List<ItemPicture>> item3picresponse;
-    private ResponseEntity<List<ItemPicture>> item1picurlresponse;
-    private ResponseEntity<List<ItemPicture>> item2picurlresponse;
-    private ResponseEntity<List<ItemPicture>> item3picurlresponse;
+//    private ResponseEntity<List<ItemPicture>> item1picresponse;
+//    private ResponseEntity<List<ItemPicture>> item2picresponse;
+//    private ResponseEntity<List<ItemPicture>> item3picresponse;
+//    private ResponseEntity<List<ItemPicture>> item1picurlresponse;
+//    private ResponseEntity<List<ItemPicture>> item2picurlresponse;
+//    private ResponseEntity<List<ItemPicture>> item3picurlresponse;
 
     @Before
     public void setUp() throws Exception {
@@ -147,12 +149,12 @@ public class ItemControllerImplTest {
         item3picurls.add(itempic11);
         item3picurls.add(itempic12);
         
-        item1picresponse=new ResponseEntity<>(item1pics,HttpStatus.OK);
-        item2picresponse=new ResponseEntity<>(item2pics,HttpStatus.OK);
-        item3picresponse=new ResponseEntity<>(item3pics,HttpStatus.OK);
-        item1picurlresponse=new ResponseEntity<>(item1picurls,HttpStatus.OK);
-        item2picurlresponse=new ResponseEntity<>(item2picurls,HttpStatus.OK);
-        item3picurlresponse=new ResponseEntity<>(item3picurls,HttpStatus.OK);
+//        item1picresponse=new ResponseEntity<>(item1pics,HttpStatus.OK);
+//        item2picresponse=new ResponseEntity<>(item2pics,HttpStatus.OK);
+//        item3picresponse=new ResponseEntity<>(item3pics,HttpStatus.OK);
+//        item1picurlresponse=new ResponseEntity<>(item1picurls,HttpStatus.OK);
+//        item2picurlresponse=new ResponseEntity<>(item2picurls,HttpStatus.OK);
+//        item3picurlresponse=new ResponseEntity<>(item3picurls,HttpStatus.OK);
 
         when(itemRepo.findByID(1L)).thenReturn(item1);
         when(itemRepo.findPriceByID(1L)).thenReturn(20.0);
@@ -176,14 +178,14 @@ public class ItemControllerImplTest {
         when(itemRepo.findAllItemsByCategory(Category.Clothes)).thenReturn(clothes);
         when(itemRepo.findAllItemsByCategory(Category.Electronics)).thenReturn(electronics);
         
-//        when(itemRepo.returnItemPicturesForItem(1L,"false")).thenReturn(item1picresponse);
-//        when(itemRepo.returnItemPicturesForItem(1L,"true")).thenReturn(item1picurlresponse);
-//        when(itemRepo.returnItemPicturesForItem(2L,"false")).thenReturn(item2picresponse);
-//        when(itemRepo.returnItemPicturesForItem(2L,"true")).thenReturn(item2picurlresponse);
+        when(itemRepo.returnItemPicturesForItem(1L,"false")).thenReturn(item1pics);
+        when(itemRepo.returnItemPicturesForItem(1L,"true")).thenReturn(item1picurls);
+        when(itemRepo.returnItemPicturesForItem(2L,"false")).thenReturn(item2pics);
+        when(itemRepo.returnItemPicturesForItem(2L,"true")).thenReturn(item2picurls);
 //        when(itemRepo.returnItemPicturesForItem(10L,"false")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
 //        when(itemRepo.returnItemPicturesForItem(10L,"true")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
 //        when(itemRepo.returnItemPicturesForItem(10L,"fdahfh")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
-//
+
 
         impl = new ItemControllerImpl();
         impl.setItemRepository(itemRepo);
@@ -257,13 +259,10 @@ public class ItemControllerImplTest {
 
     @Test
     public void returnItemPicturesForItem() throws Exception {
-    	assertEquals(impl.returnItemPicturesForItem(1L,"false"),item1picresponse);
-    	assertEquals(impl.returnItemPicturesForItem(1L,"true"),item1picurlresponse);
-    	assertEquals(impl.returnItemPicturesForItem(2L,"false"),item2picresponse);
-    	assertEquals(impl.returnItemPicturesForItem(2L,"true"),item2picurlresponse);
-    	assertEquals(impl.returnItemPicturesForItem(10L,"false"),new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
-    	assertEquals(impl.returnItemPicturesForItem(10L,"true"),new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
-    	assertEquals(impl.returnItemPicturesForItem(10L,"fdahfh"),new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
+    	assertEquals(impl.returnItemPicturesForItem(1L,"false"),item1pics);
+    	assertEquals(impl.returnItemPicturesForItem(1L,"true"),item1picurls);
+    	assertEquals(impl.returnItemPicturesForItem(2L,"false"),item2pics);
+    	assertEquals(impl.returnItemPicturesForItem(2L,"true"),item2picurls);
     }
 /*
     @Test

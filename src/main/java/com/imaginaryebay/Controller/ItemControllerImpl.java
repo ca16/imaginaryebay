@@ -5,8 +5,6 @@ import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
 import com.imaginaryebay.Repository.ItemRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -77,13 +75,21 @@ public class ItemControllerImpl implements ItemController {
         return this.itemRepository.findAllItems();
     }
 
-    public ResponseEntity<List<ItemPicture>> returnItemPicturesForItem(Long id, String urlOnly) {
-        return new ResponseEntity<>(itemRepository.returnItemPicturesForItem(id, urlOnly),
-                                    HttpStatus.OK);
+//    public ResponseEntity<List<ItemPicture>> returnItemPicturesForItem(Long id, String urlOnly) {
+//        return new ResponseEntity<>(itemRepository.returnItemPicturesForItem(id, urlOnly),
+//                                    HttpStatus.OK);
+//    }
+
+    public List<ItemPicture> returnItemPicturesForItem(Long id, String urlOnly) {
+        return itemRepository.returnItemPicturesForItem(id, urlOnly);
     }
 
-    public ResponseEntity<String> createItemPicturesForItem(Long id, MultipartFile[] files){
-        return new ResponseEntity<>(itemRepository.createItemPicturesForItem(id, files),
-                                    HttpStatus.OK);
+//    public ResponseEntity<String> createItemPicturesForItem(Long id, MultipartFile[] files){
+//        return new ResponseEntity<>(itemRepository.createItemPicturesForItem(id, files),
+//                                    HttpStatus.OK);
+//    }
+
+    public String createItemPictureForItem(Long id, MultipartFile file){
+        return itemRepository.createItemPictureForItem(id, file);
     }
 }

@@ -24,6 +24,9 @@ public class ItemRepositoryImpl implements ItemRepository {
     private static final String FAIL_EMPTY_FILES    = "Unable to upload. File is empty.";
     private static final String COLON_SEP           = ": ";
     private static final String UNCAUGHT_EXCEPTION  = "An uncaught exception was raised during upload.";
+    private static final String NOT_AVAILABLE       = "Not available.";
+    private static final String NO_ENTRIES          = "There are no entries for the requested resource.";
+    private static final String INVALID_PARAMETER   = "Invalid request parameter.";
 
     private ItemDAO itemDAO;
 
@@ -148,10 +151,6 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     }
 
-    /**
-     * TODO: @Brian: I'm returning the ResponseEntities through the repository interface. TODO:
-     * Do we want to manage this here or move to Controller?
-     **/
     public List<ItemPicture> returnItemPicturesForItem(Long id, String urlOnly) {
 
         List<ItemPicture> itemPictures;
@@ -161,16 +160,27 @@ public class ItemRepositoryImpl implements ItemRepository {
         } else if (urlOnly.equalsIgnoreCase("false")) {
             itemPictures = itemDAO.returnAllItemPicturesForItemID(id);
         } else {
-            throw new RestException("Invalid request parameter.",
-                    "The supplied request parameter is invalid for this URL.",
+            throw new RestException(INVALID_PARAMETER,
+                    "The supplied request parameter \"" + urlOnly +  "\" is invalid for this URL.",
                     HttpStatus.BAD_REQUEST);
         }
         if (itemPictures.isEmpty()) {
-            throw new RestException("Not available.",
-                    "There are no entries for the requested resource.",
-                    HttpStatus.OK);
+            throw new RestException(NOT_AVAILABLE, NO_ENTRIES, HttpStatus.OK);
         }
         return itemPictures;
+    }
+
+    public String createItemPictureForItem(Long id, MultipartFile file) {
+
+        String uploadResponse = "";
+        Item item = this.findByID(id);
+
+        if (file != null && !file.isEmpty()) {
+            return uploadFileForItem(item, file);
+        }
+        else {
+            throw new RestException(FAIL_STEM, FAIL_EMPTY_FILES, HttpStatus.BAD_REQUEST);
+        }
     }
 
     public String createItemPicturesForItem(Long id, MultipartFile[] files){
@@ -181,33 +191,38 @@ public class ItemRepositoryImpl implements ItemRepository {
         if (files != null && files.length > 0) {
             for (MultipartFile mpFile : files) {
                 if (!mpFile.isEmpty()) {
-                    try {
-                        S3FileUploader s3FileUploader = new S3FileUploader();
-                        uploadResponse = s3FileUploader.fileUploader(mpFile);
-
-                        if (uploadResponse == null) {
-                            throw new RestException(FAIL_STEM, "", HttpStatus.INTERNAL_SERVER_ERROR);
-                        } else {
-                            item.addItemPicture(new ItemPicture(uploadResponse));
-                            this.update(item);
-                        }
-                    }
-                    catch (IOException ioex) {
-                        ioex.printStackTrace();
-                        throw new RestException("Error with file upload to S3!",
-                                                ioex.getMessage(),
-                                                HttpStatus.INTERNAL_SERVER_ERROR);
-                    }catch (Exception ex){
-                        ex.printStackTrace();
-                        throw new RestException("An unexpected error occurred during file upload to S3!",
-                                ex.getMessage(),
-                                HttpStatus.INTERNAL_SERVER_ERROR);
-                    }
+                    uploadResponse += uploadFileForItem(item, mpFile) + " ";
                 }
             }
             return uploadResponse;
         } else {
             throw new RestException(FAIL_STEM, FAIL_EMPTY_FILES, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    private String uploadFileForItem(Item item, MultipartFile file){
+        String uploadResponse;
+        try {
+            S3FileUploader s3FileUploader = new S3FileUploader();
+            uploadResponse = s3FileUploader.fileUploader(file);
+
+            if (uploadResponse == null) {
+                throw new RestException(FAIL_STEM, "", HttpStatus.INTERNAL_SERVER_ERROR);
+            } else {
+                item.addItemPicture(new ItemPicture(uploadResponse));
+                this.update(item);
+            }
+        } catch (IOException ioex) {
+            ioex.printStackTrace();
+            throw new RestException("Error with file upload to S3!",
+                    ioex.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RestException("An unexpected error occurred during file upload to S3!",
+                    ex.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return uploadResponse;
     }
 }
