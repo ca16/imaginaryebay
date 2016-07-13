@@ -5,6 +5,7 @@ import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Repository.ItemRepository;
 
+import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -17,7 +18,6 @@ import static java.sql.Timestamp.valueOf;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 /**
  * Created by Chloe on 7/1/16.
  */
@@ -108,43 +108,63 @@ public class ItemControllerImplTest {
 
     @Test
     public void findByID() throws Exception {
-        assertEquals(impl.getItemByID(1L), item1);
-        assertEquals(impl.getItemByID(2L), item2);
-        assertEquals(impl.getItemByID(10L), item3);
+        assertEquals(impl.getItemByID(1L).getBody(), item1);
+        assertEquals(impl.getItemByID(2L).getBody(), item2);
+        assertEquals(impl.getItemByID(10L).getBody(), item3);
+
+        assertEquals(impl.getItemByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getItemByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getItemByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
 
 
     }
 
     @Test
     public void findPriceByID() throws Exception {
-        assertEquals(impl.getPriceByID(1L), new Double(20.0));
-        assertEquals(impl.getPriceByID(2L), new Double(200.0));
-        assertEquals(impl.getPriceByID(10L), new Double(30.0));
+        assertEquals(impl.getPriceByID(1L).getBody(), new Double(20.0));
+        assertEquals(impl.getPriceByID(2L).getBody(), new Double(200.0));
+        assertEquals(impl.getPriceByID(10L).getBody(), new Double(30.0));
+
+        assertEquals(impl.getPriceByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getPriceByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getPriceByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
 
 
     }
 
     @Test
     public void findCategoryByID() throws Exception {
-        assertEquals(impl.getCategoryByID(1L), Category.Clothes);
-        assertEquals(impl.getCategoryByID(2L), Category.Clothes);
-        assertEquals(impl.getCategoryByID(10L), Category.Electronics);
+        assertEquals(impl.getCategoryByID(1L).getBody(), Category.Clothes);
+        assertEquals(impl.getCategoryByID(2L).getBody(), Category.Clothes);
+        assertEquals(impl.getCategoryByID(10L).getBody(), Category.Electronics);
+
+        assertEquals(impl.getCategoryByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getCategoryByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getCategoryByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
 
     }
 
     @Test
     public void findEndtimeByID() throws Exception {
-        assertEquals(impl.getEndtimeByID(1L), valueOf("2016-10-10 00:00:00"));
-        assertEquals(impl.getEndtimeByID(2L), valueOf("2016-11-5 06:00:00"));
-        assertEquals(impl.getEndtimeByID(10L), valueOf("2016-9-2 11:10:10"));
+        assertEquals(impl.getEndtimeByID(1L).getBody(), valueOf("2016-10-10 00:00:00"));
+        assertEquals(impl.getEndtimeByID(2L).getBody(), valueOf("2016-11-5 06:00:00"));
+        assertEquals(impl.getEndtimeByID(10L).getBody(), valueOf("2016-9-2 11:10:10"));
+
+        assertEquals(impl.getEndtimeByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getEndtimeByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getEndtimeByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
 
     }
 
     @Test
     public void findDescriptionByID() throws Exception {
-        assertEquals(impl.getDescriptionByID(1L), "Scarf");
-        assertEquals(impl.getDescriptionByID(2L), "Expensive Scarf");
-        assertEquals(impl.getDescriptionByID(10L), "Watch");
+        assertEquals(impl.getDescriptionByID(1L).getBody(), "Scarf");
+        assertEquals(impl.getDescriptionByID(2L).getBody(), "Expensive Scarf");
+        assertEquals(impl.getDescriptionByID(10L).getBody(), "Watch");
+
+        assertEquals(impl.getDescriptionByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getDescriptionByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getDescriptionByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
 
     }
 
@@ -157,9 +177,13 @@ public class ItemControllerImplTest {
 
     @Test
     public void getAllItems() throws Exception {
-        assertEquals(impl.getAllItems(null), all);
-        assertEquals(impl.getAllItems(Category.Clothes), clothes);
-        assertEquals(impl.getAllItems(Category.Electronics), electronics);
+        assertEquals(impl.getAllItems(null).getBody(), all);
+        assertEquals(impl.getAllItems(Category.Clothes).getBody(), clothes);
+        assertEquals(impl.getAllItems(Category.Electronics).getBody(), electronics);
+
+        assertEquals(impl.getAllItems(null).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getAllItems(Category.Clothes).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getAllItems(Category.Electronics).getStatusCode(), org.springframework.http.HttpStatus.OK);
 
 
     }
