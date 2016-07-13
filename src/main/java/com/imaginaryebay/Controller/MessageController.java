@@ -12,16 +12,32 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * Created by Chloe on 6/30/16.
+ * 
+ * Supports HTTP operations pertaining to email messages.
+ *
  */
-
 @RestController
 @RequestMapping("/message")
 public interface MessageController {
 	
+	/**
+    * Creates a new email message.
+    * @param message a new email message to be created
+    * @return an HTTP response containing the status
+    *
+    * EXAMPLE: curl -X POST -H "Content-Type: application/json" -d '{"receiver_id": {"id": 1, "address": "Seattle", "adminFlag": true, "email": "hello@gmail.com", "name": "Bobby", "password": "sdfhsfdh"},
+    *  																 "date_sent": {"day": 15, "hours": 18, "minutes": 30, "month": 4, "seconds": 20, "year": 2016}}' http://localhost:8080/message
+    */
     @RequestMapping(method= RequestMethod.POST)
     public ResponseEntity<Void> createNewMessage(@RequestBody Message message);
 	/*@ApiOperation(value="get email messages for a specific user")*/
+    /**
+    * Given the id of a user, responds with a list of the email messages associated with the user.
+    * @param id the user id representing the user for which email messages are being requested
+    * @return an HTTP response with a list of the email messages associated with the user
+    *
+    * EXAMPLE: curl -X GET localhost:8080/message/1
+    */
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
     public ResponseEntity<List<Message>> returnMessagesByReceiverID(@PathVariable("id") Long id);
 

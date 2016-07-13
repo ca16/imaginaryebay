@@ -25,6 +25,8 @@ public class MessageRestController implements MessageController{
     public void setMessageRepository(MessageRepository messageRepository){
         this.messageRepository=messageRepository;
     }
+    
+    @Override
     //@RequestMapping(method= RequestMethod.POST)
     //public void createNewMessage(@RequestBody Message message){
     //@ApiOperation(value="add new email message to the database")
@@ -32,7 +34,8 @@ public class MessageRestController implements MessageController{
         this.messageRepository.createNewMessage(message);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
-
+    
+    @Override
     //@RequestMapping(value="/{id}", method=RequestMethod.GET)
     //public List<Message> returnMessagesByReceiverID(@PathVariable("ID") Long id){
     //@ApiOperation(value="get email messages for a specific user")
