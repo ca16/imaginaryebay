@@ -39,7 +39,7 @@ public class MessageEndpointsTest {
     public void addMessageWorksOK() {
         RestTemplate template = new RestTemplate();
         Message mess = new Message();
-        mess.setReceiver_id(new Userr("a@gmail.com", "a", "aaa"));
+        mess.setReceiver_id(new Userr("a@gmail.com", "a", "aaa","Seattle",true));
         mess.setDate_sent(valueOf("2016-05-05 00:04:04"));
 
         //If the path was wrong it would be NOT_FOUND so the path works (I think)

@@ -21,6 +21,9 @@ public class Userr {
     public Long getId() {
         return id;
     }
+    public void setId(Long id){
+    	this.id=id;
+    }
     
     private String email;
 
@@ -33,6 +36,8 @@ public class Userr {
     }
     private String name;
     private String password;
+    private String address;
+    private Boolean adminFlag;
 
     public String getName() {
         return name;
@@ -50,9 +55,43 @@ public class Userr {
         this.password = password;
     }
 
-	public Userr(String email, String name, String password) {
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Boolean getAdminFlag() {
+		return adminFlag;
+	}
+
+	public void setAdminFlag(Boolean adminFlag) {
+		this.adminFlag = adminFlag;
+	}
+	public Userr(){
+		
+	}
+	public Userr(String email, String name, String password,String address,Boolean adminFlag) {
 		this.email = email;
 		this.name = name;
 		this.password = password;
+		this.address=address;
+		this.adminFlag=adminFlag;
 	}
+    public Userr(String email, String name, String password) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+    }
+	@Override
+	public String toString() {
+		return "Userr [email=" + email + ", name=" + name + ", password="
+				+ password + ", address=" + address + ", adminFlag="
+				+ adminFlag + "]";
+	}
+	
+	
+	
 }

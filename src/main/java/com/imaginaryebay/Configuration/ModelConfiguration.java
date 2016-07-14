@@ -85,9 +85,6 @@ public class ModelConfiguration {
         return bean;
     }
 
-
-
-    //FrontPageController has to be in ModelConfiguration
     @Bean
     public FrontPageController frontPageController(){
         FrontPageController bean=new FrontPageControllerImpl();

@@ -23,10 +23,10 @@
     </bean>
 
     <mvc:resources mapping="/resources/**" location="/resources/"  cache-period="31556926"/>
-
-
-
+	  <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+	<mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/"/>
 
     <mvc:annotation-driven />
+    
 
 </beans>

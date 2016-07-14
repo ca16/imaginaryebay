@@ -7,6 +7,7 @@ import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
 import com.imaginaryebay.Models.S3FileUploader;
 import org.springframework.http.HttpStatus;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -151,9 +152,11 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     }
 
-    public List<ItemPicture> returnItemPicturesForItem(Long id, String urlOnly) {
-
-        List<ItemPicture> itemPictures;
+    /** TODO: @Brian: I'm returning the ResponseEntities through the repository interface.
+     *  TODO:         Do we want to manage this here or move to Controller?
+     **/
+    public List<ItemPicture> returnItemPicturesForItem(Long id, String urlOnly){
+    	List<ItemPicture> itemPictures;
 
         if (urlOnly.equalsIgnoreCase("true")) {
             itemPictures = itemDAO.returnAllItemPictureURLsForItemID(id);

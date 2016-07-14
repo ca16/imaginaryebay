@@ -25,3 +25,4 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(e, error, headers, e.getStatusCode(), request);
     }
 }
+

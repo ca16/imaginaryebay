@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +54,12 @@ public class ItemControllerImplTest {
     private List<ItemPicture> item1picurls;
     private List<ItemPicture> item2picurls;
     private List<ItemPicture> item3picurls;
+    private ResponseEntity<List<ItemPicture>> item1picresponse;
+    private ResponseEntity<List<ItemPicture>> item2picresponse;
+    private ResponseEntity<List<ItemPicture>> item3picresponse;
+    private ResponseEntity<List<ItemPicture>> item1picurlresponse;
+    private ResponseEntity<List<ItemPicture>> item2picurlresponse;
+    private ResponseEntity<List<ItemPicture>> item3picurlresponse;
 
     @Before
     public void setUp() throws Exception {
@@ -118,6 +126,10 @@ public class ItemControllerImplTest {
         itempic12 = new ItemPicture();
         itempic12.setUrl("http://6iee.com/790839.html");
 
+        item1picurlresponse=new ResponseEntity<>(item1picurls,HttpStatus.OK);
+        item2picurlresponse=new ResponseEntity<>(item2picurls,HttpStatus.OK);
+        item3picurlresponse=new ResponseEntity<>(item3picurls,HttpStatus.OK);
+
         when(itemRepo.findByID(1L)).thenReturn(item1);
         when(itemRepo.findPriceByID(1L)).thenReturn(20.0);
         when(itemRepo.findCategoryByID(1L)).thenReturn(Category.Clothes);
@@ -144,9 +156,17 @@ public class ItemControllerImplTest {
         when(itemRepo.returnItemPicturesForItem(1L,"true")).thenReturn(item1picurls);
         when(itemRepo.returnItemPicturesForItem(2L,"false")).thenReturn(item2pics);
         when(itemRepo.returnItemPicturesForItem(2L,"true")).thenReturn(item2picurls);
-//        when(itemRepo.returnItemPicturesForItem(10L,"false")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
-//        when(itemRepo.returnItemPicturesForItem(10L,"true")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
-//        when(itemRepo.returnItemPicturesForItem(10L,"fdahfh")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
+
+        when(itemRepo.returnItemPicturesForItem(10L,"false")).thenThrow(new RestException("Not available.",
+                "There are no entries for the requested resource.",
+                HttpStatus.OK));
+        when(itemRepo.returnItemPicturesForItem(10L,"true")).thenThrow(new RestException("Not available.",
+                "There are no entries for the requested resource.",
+                HttpStatus.OK));
+        when(itemRepo.returnItemPicturesForItem(10L,"fdahfh")).thenThrow(new RestException("Invalid request parameter.",
+                "The supplied request parameter is invalid for this URL.",
+                HttpStatus.BAD_REQUEST));
+        
 
         impl = new ItemControllerImpl();
         impl.setItemRepository(itemRepo);
@@ -245,10 +265,20 @@ public class ItemControllerImplTest {
 
     @Test
     public void returnItemPicturesForItem() throws Exception {
-        assertEquals(impl.returnItemPicturesForItem(1L,"false"),item1pics);
-        assertEquals(impl.returnItemPicturesForItem(1L,"true"),item1picurls);
-        assertEquals(impl.returnItemPicturesForItem(2L,"false"),item2pics);
-        assertEquals(impl.returnItemPicturesForItem(2L,"true"),item2picurls);
+//        assertEquals(impl.returnItemPicturesForItem(1L,"false"),item1pics);
+//        assertEquals(impl.returnItemPicturesForItem(1L,"true"),item1picurls);
+//        assertEquals(impl.returnItemPicturesForItem(2L,"false"),item2pics);
+//        assertEquals(impl.returnItemPicturesForItem(2L,"true"),item2picurls);
+    	assertEquals(impl.returnItemPicturesForItem(1L,"false"),item1picresponse);
+    	assertEquals(impl.returnItemPicturesForItem(1L,"true"),item1picurlresponse);
+    	assertEquals(impl.returnItemPicturesForItem(2L,"false"),item2picresponse);
+    	assertEquals(impl.returnItemPicturesForItem(2L,"true"),item2picurlresponse);
+    }
+    @Test(expected=RestException.class)
+    public void returnItemPicsWithException(){
+    	impl.returnItemPicturesForItem(10L,"false");
+    	impl.returnItemPicturesForItem(10L,"true");
+    	impl.returnItemPicturesForItem(10L,"fdahfh");
     }
 /*
     @Test
