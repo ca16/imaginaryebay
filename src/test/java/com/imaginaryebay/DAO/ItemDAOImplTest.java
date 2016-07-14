@@ -312,11 +312,11 @@ public class ItemDAOImplTest {
     	assertEquals(impl.returnAllItemPicturesForItemID(10L),item3pics);
     }
 
-    @Test
-    public void returnAllItemPictureURLsForItemID() throws Exception {
-    	assertEquals(impl.returnAllItemPictureURLsForItemID(1L),item1picurls);
-    	assertEquals(impl.returnAllItemPictureURLsForItemID(2L),item2picurls);
-    	assertEquals(impl.returnAllItemPictureURLsForItemID(10L),item3picurls);
-    }
+//    @Test
+//    public void returnAllItemPictureURLsForItemID() throws Exception {
+//    	assertEquals(impl.returnAllItemPictureURLsForItemID(1L),item1picurls);
+//    	assertEquals(impl.returnAllItemPictureURLsForItemID(2L),item2picurls);
+//    	assertEquals(impl.returnAllItemPictureURLsForItemID(10L),item3picurls);
+//    }
 
 }

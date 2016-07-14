@@ -115,7 +115,7 @@ public class ItemDAOImpl implements ItemDAO{
         String hql = "Select ip.id, ip.url from ItemPicture ip join ip.auction_item where ip.auction_item.id = :id";
         Query query = entityManager
                 .createQuery(hql);
-        
+
         query=query.setParameter("id", id);
         List<Object[]> selection = query.getResultList();
         List<ItemPicture> itemPictures = selection
