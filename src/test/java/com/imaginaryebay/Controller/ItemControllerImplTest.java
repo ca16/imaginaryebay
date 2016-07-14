@@ -5,9 +5,7 @@ import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
 import com.imaginaryebay.Repository.ItemRepository;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -18,7 +16,6 @@ import static java.sql.Timestamp.valueOf;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 /**
  * Created by Chloe on 7/1/16.
  */
@@ -56,16 +53,6 @@ public class ItemControllerImplTest {
     private List<ItemPicture> item2picurls;
     private List<ItemPicture> item3picurls;
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-    
-//    private ResponseEntity<List<ItemPicture>> item1picresponse;
-//    private ResponseEntity<List<ItemPicture>> item2picresponse;
-//    private ResponseEntity<List<ItemPicture>> item3picresponse;
-//    private ResponseEntity<List<ItemPicture>> item1picurlresponse;
-//    private ResponseEntity<List<ItemPicture>> item2picurlresponse;
-//    private ResponseEntity<List<ItemPicture>> item3picurlresponse;
-
     @Before
     public void setUp() throws Exception {
 
@@ -88,7 +75,18 @@ public class ItemControllerImplTest {
         item3.setPrice(30.0);
         item3.setDescription("Watch");
         item3.setEndtime(valueOf("2016-9-2 11:10:10"));
-        
+
+        all = new ArrayList<>();
+        clothes = new ArrayList<>();
+        electronics = new ArrayList<>();
+
+        all.add(item1);
+        all.add(item2);
+        all.add(item3);
+        clothes.add(item1);
+        clothes.add(item2);
+        electronics.add(item3);
+
         itempic1 = new ItemPicture();
         itempic1.setAuction_item(item1);
         itempic1.setUrl("http://scarfheroes.wikia.com/wiki/File:Royal-stewart-tartan-lambswool-scarf.jpg");
@@ -120,42 +118,6 @@ public class ItemControllerImplTest {
         itempic12 = new ItemPicture();
         itempic12.setUrl("http://6iee.com/790839.html");
 
-        all = new ArrayList<>();
-        clothes = new ArrayList<>();
-        electronics = new ArrayList<>();
-        item1pics = new ArrayList<>();
-        item2pics = new ArrayList<>();
-        item3pics = new ArrayList<>();
-        item1picurls=new ArrayList<>();
-        item2picurls=new ArrayList<>();
-        item3picurls=new ArrayList<>();
-
-        all.add(item1);
-        all.add(item2);
-        all.add(item3);
-        clothes.add(item1);
-        clothes.add(item2);
-        electronics.add(item3);
-        item1pics.add(itempic1);
-        item1pics.add(itempic2);
-        item2pics.add(itempic3);
-        item2pics.add(itempic4);
-        item3pics.add(itempic5);
-        item3pics.add(itempic6);
-        item1picurls.add(itempic7);
-        item1picurls.add(itempic8);
-        item2picurls.add(itempic9);
-        item2picurls.add(itempic10);
-        item3picurls.add(itempic11);
-        item3picurls.add(itempic12);
-        
-//        item1picresponse=new ResponseEntity<>(item1pics,HttpStatus.OK);
-//        item2picresponse=new ResponseEntity<>(item2pics,HttpStatus.OK);
-//        item3picresponse=new ResponseEntity<>(item3pics,HttpStatus.OK);
-//        item1picurlresponse=new ResponseEntity<>(item1picurls,HttpStatus.OK);
-//        item2picurlresponse=new ResponseEntity<>(item2picurls,HttpStatus.OK);
-//        item3picurlresponse=new ResponseEntity<>(item3picurls,HttpStatus.OK);
-
         when(itemRepo.findByID(1L)).thenReturn(item1);
         when(itemRepo.findPriceByID(1L)).thenReturn(20.0);
         when(itemRepo.findCategoryByID(1L)).thenReturn(Category.Clothes);
@@ -177,7 +139,7 @@ public class ItemControllerImplTest {
         when(itemRepo.findAllItems()).thenReturn(all);
         when(itemRepo.findAllItemsByCategory(Category.Clothes)).thenReturn(clothes);
         when(itemRepo.findAllItemsByCategory(Category.Electronics)).thenReturn(electronics);
-        
+
         when(itemRepo.returnItemPicturesForItem(1L,"false")).thenReturn(item1pics);
         when(itemRepo.returnItemPicturesForItem(1L,"true")).thenReturn(item1picurls);
         when(itemRepo.returnItemPicturesForItem(2L,"false")).thenReturn(item2pics);
@@ -185,7 +147,6 @@ public class ItemControllerImplTest {
 //        when(itemRepo.returnItemPicturesForItem(10L,"false")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
 //        when(itemRepo.returnItemPicturesForItem(10L,"true")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
 //        when(itemRepo.returnItemPicturesForItem(10L,"fdahfh")).thenReturn(new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST));
-
 
         impl = new ItemControllerImpl();
         impl.setItemRepository(itemRepo);
@@ -202,42 +163,63 @@ public class ItemControllerImplTest {
 
     @Test
     public void findByID() throws Exception {
-        assertEquals(impl.getItemByID(1L), item1);
-        assertEquals(impl.getItemByID(2L), item2);
-        assertEquals(impl.getItemByID(10L), item3);
+        assertEquals(impl.getItemByID(1L).getBody(), item1);
+        assertEquals(impl.getItemByID(2L).getBody(), item2);
+        assertEquals(impl.getItemByID(10L).getBody(), item3);
+
+        assertEquals(impl.getItemByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getItemByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getItemByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+
 
     }
 
     @Test
     public void findPriceByID() throws Exception {
-        assertEquals(impl.getPriceByID(1L), new Double(20.0));
-        assertEquals(impl.getPriceByID(2L), new Double(200.0));
-        assertEquals(impl.getPriceByID(10L), new Double(30.0));
+        assertEquals(impl.getPriceByID(1L).getBody(), new Double(20.0));
+        assertEquals(impl.getPriceByID(2L).getBody(), new Double(200.0));
+        assertEquals(impl.getPriceByID(10L).getBody(), new Double(30.0));
+
+        assertEquals(impl.getPriceByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getPriceByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getPriceByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
 
 
     }
 
     @Test
     public void findCategoryByID() throws Exception {
-        assertEquals(impl.getCategoryByID(1L), Category.Clothes);
-        assertEquals(impl.getCategoryByID(2L), Category.Clothes);
-        assertEquals(impl.getCategoryByID(10L), Category.Electronics);
+        assertEquals(impl.getCategoryByID(1L).getBody(), Category.Clothes);
+        assertEquals(impl.getCategoryByID(2L).getBody(), Category.Clothes);
+        assertEquals(impl.getCategoryByID(10L).getBody(), Category.Electronics);
+
+        assertEquals(impl.getCategoryByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getCategoryByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getCategoryByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
 
     }
 
     @Test
     public void findEndtimeByID() throws Exception {
-        assertEquals(impl.getEndtimeByID(1L), valueOf("2016-10-10 00:00:00"));
-        assertEquals(impl.getEndtimeByID(2L), valueOf("2016-11-5 06:00:00"));
-        assertEquals(impl.getEndtimeByID(10L), valueOf("2016-9-2 11:10:10"));
+        assertEquals(impl.getEndtimeByID(1L).getBody(), valueOf("2016-10-10 00:00:00"));
+        assertEquals(impl.getEndtimeByID(2L).getBody(), valueOf("2016-11-5 06:00:00"));
+        assertEquals(impl.getEndtimeByID(10L).getBody(), valueOf("2016-9-2 11:10:10"));
+
+        assertEquals(impl.getEndtimeByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getEndtimeByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getEndtimeByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
 
     }
 
     @Test
     public void findDescriptionByID() throws Exception {
-        assertEquals(impl.getDescriptionByID(1L), "Scarf");
-        assertEquals(impl.getDescriptionByID(2L), "Expensive Scarf");
-        assertEquals(impl.getDescriptionByID(10L), "Watch");
+        assertEquals(impl.getDescriptionByID(1L).getBody(), "Scarf");
+        assertEquals(impl.getDescriptionByID(2L).getBody(), "Expensive Scarf");
+        assertEquals(impl.getDescriptionByID(10L).getBody(), "Watch");
+
+        assertEquals(impl.getDescriptionByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getDescriptionByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getDescriptionByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
 
     }
 
@@ -250,24 +232,32 @@ public class ItemControllerImplTest {
 
     @Test
     public void getAllItems() throws Exception {
-        assertEquals(impl.getAllItems(null), all);
-        assertEquals(impl.getAllItems(Category.Clothes), clothes);
-        assertEquals(impl.getAllItems(Category.Electronics), electronics);
+        assertEquals(impl.getAllItems(null).getBody(), all);
+        assertEquals(impl.getAllItems(Category.Clothes).getBody(), clothes);
+        assertEquals(impl.getAllItems(Category.Electronics).getBody(), electronics);
+
+        assertEquals(impl.getAllItems(null).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getAllItems(Category.Clothes).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getAllItems(Category.Electronics).getStatusCode(), org.springframework.http.HttpStatus.OK);
 
 
     }
 
     @Test
     public void returnItemPicturesForItem() throws Exception {
-    	assertEquals(impl.returnItemPicturesForItem(1L,"false"),item1pics);
-    	assertEquals(impl.returnItemPicturesForItem(1L,"true"),item1picurls);
-    	assertEquals(impl.returnItemPicturesForItem(2L,"false"),item2pics);
-    	assertEquals(impl.returnItemPicturesForItem(2L,"true"),item2picurls);
+        assertEquals(impl.returnItemPicturesForItem(1L,"false"),item1pics);
+        assertEquals(impl.returnItemPicturesForItem(1L,"true"),item1picurls);
+        assertEquals(impl.returnItemPicturesForItem(2L,"false"),item2pics);
+        assertEquals(impl.returnItemPicturesForItem(2L,"true"),item2picurls);
     }
 /*
+    @Test
+    public void returnItemPicturesForItem() throws Exception {
+
+    }
+
     @Test
     public void createItemPicturesForItem() throws Exception {
 
     }*/
-
 }

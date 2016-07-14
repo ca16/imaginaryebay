@@ -5,6 +5,8 @@ import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
 import com.imaginaryebay.Repository.ItemRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,13 +35,13 @@ public class ItemControllerImpl implements ItemController {
     }
 
     @Override
-    public Item getItemByID(Long id){
-        return this.itemRepository.findByID(id);
+    public ResponseEntity<Item> getItemByID(Long id){
+        return new ResponseEntity<Item>(this.itemRepository.findByID(id), HttpStatus.OK);
     }
 
     @Override
-    public Double getPriceByID(Long id){
-        return this.itemRepository.findPriceByID(id);
+    public ResponseEntity<Double> getPriceByID(Long id){
+        return new ResponseEntity<Double>(this.itemRepository.findPriceByID(id), HttpStatus.OK);
     }
 /*
     @Override
@@ -48,31 +50,31 @@ public class ItemControllerImpl implements ItemController {
     }
 */
     @Override
-    public Category getCategoryByID(Long id){
-        return this.itemRepository.findCategoryByID(id);
+    public ResponseEntity<Category> getCategoryByID(Long id){
+        return new ResponseEntity<Category>(this.itemRepository.findCategoryByID(id), HttpStatus.OK);
     }
 
     @Override
-    public String getDescriptionByID(Long id){
-        return this.itemRepository.findDescriptionByID(id);
+    public ResponseEntity<String> getDescriptionByID(Long id){
+        return new ResponseEntity<String>(this.itemRepository.findDescriptionByID(id), HttpStatus.OK);
     }
 
     @Override
-    public Timestamp getEndtimeByID(Long id){
-        return this.itemRepository.findEndtimeByID(id);
+    public ResponseEntity<Timestamp> getEndtimeByID(Long id){
+        return new ResponseEntity<Timestamp>(this.itemRepository.findEndtimeByID(id), HttpStatus.OK);
     }
 
     @Override
-    public Item updateItemByID(Long id, Item item){
-        return this.itemRepository.updateItemByID(id, item);
+    public ResponseEntity<Item> updateItemByID(Long id, Item item){
+        return new ResponseEntity<Item>(this.itemRepository.updateItemByID(id, item), HttpStatus.OK);
     }
 
     @Override
-    public List<Item> getAllItems(Category cat){
+    public ResponseEntity<List<Item>> getAllItems(Category cat){
         if (null != cat){
-            return this.itemRepository.findAllItemsByCategory(cat);
+            return new ResponseEntity<List<Item>>(this.itemRepository.findAllItemsByCategory(cat), HttpStatus.OK);
         }
-        return this.itemRepository.findAllItems();
+        return new ResponseEntity<List<Item>>(this.itemRepository.findAllItems(), HttpStatus.OK);
     }
 
 //    public ResponseEntity<List<ItemPicture>> returnItemPicturesForItem(Long id, String urlOnly) {
