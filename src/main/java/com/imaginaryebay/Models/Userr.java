@@ -23,6 +23,12 @@ public class Userr {
     }
     
     private String email;
+    private String name;
+    private String password;
+    private boolean isAdmin;
+
+
+
 
     public String getEmail() {
         return email;
@@ -31,8 +37,9 @@ public class Userr {
     public void setEmail(String email) {
         this.email = email;
     }
-    private String name;
-    private String password;
+
+
+
 
     public String getName() {
         return name;
@@ -42,6 +49,8 @@ public class Userr {
         this.name = name;
     }
 
+
+
     public String getPassword() {
         return password;
     }
@@ -50,7 +59,19 @@ public class Userr {
         this.password = password;
     }
 
-	public Userr(String email, String name, String password) {
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+
+
+
+    public Userr(String email, String name, String password) {
 		this.email = email;
 		this.name = name;
 		this.password = password;
