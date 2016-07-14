@@ -42,6 +42,8 @@ public class ItemRepositoryImpl implements ItemRepository {
         this.itemDAO.persist(item);
     }
 
+    /** TODO: RestExceptions should also provide HttpStatus Codes as arguments to the constructor. */
+
     public void update(Item item) {
         if (this.itemDAO.find(item) == null) {
             throw new RestException("Item to be updated does not exist.",
@@ -156,16 +158,14 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     }
 
-    /** TODO: @Brian: I'm returning the ResponseEntities through the repository interface.
-     *  TODO:         Do we want to manage this here or move to Controller?
-     **/
-    public List<ItemPicture> returnItemPicturesForItem(Long id, String urlOnly){
-    	List<ItemPicture> itemPictures;
+    public List<ItemPicture> findAllItemPicturesForItem(Long id, String urlOnly){
+
+        List<ItemPicture> itemPictures;
 
         if (urlOnly.equalsIgnoreCase("true")) {
-            itemPictures = itemDAO.returnAllItemPictureURLsForItemID(id);
+            itemPictures = itemDAO.findAllItemPictureURLsForItemID(id);
         } else if (urlOnly.equalsIgnoreCase("false")) {
-            itemPictures = itemDAO.returnAllItemPicturesForItemID(id);
+            itemPictures = itemDAO.findAllItemPicturesForItemID(id);
         } else {
             throw new RestException(INVALID_PARAMETER,
                     "The supplied request parameter \"" + urlOnly +  "\" is invalid for this URL.",
@@ -179,11 +179,10 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     public ItemPicture createItemPictureForItem(Long id, MultipartFile file) {
 
-        String uploadResponse = "";
         Item item = this.findByID(id);
 
         if (file != null && !file.isEmpty()) {
-            return uploadFileForItem(item, file);
+            return uploadAndReturnItemPictureForItem(item, file);
         }
         else {
             throw new RestException(FAIL_STEM, FAIL_EMPTY_FILES, HttpStatus.BAD_REQUEST);
@@ -198,7 +197,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         if (files != null && files.length > 0) {
             for (MultipartFile mpFile : files) {
                 if (!mpFile.isEmpty()) {
-                    uploadResponse += uploadFileForItem(item, mpFile) + " ";
+                    uploadResponse += uploadAndReturnItemPictureForItem(item, mpFile) + " ";
                 }
             }
             return uploadResponse;
@@ -207,7 +206,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         }
     }
 
-    private ItemPicture uploadFileForItem(Item item, MultipartFile file){
+    private ItemPicture uploadAndReturnItemPictureForItem(Item item, MultipartFile file){
         String uploadResponse;
         ItemPicture newPicture;
         try {

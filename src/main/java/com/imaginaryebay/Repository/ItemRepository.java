@@ -35,7 +35,7 @@ public interface ItemRepository {
 
     public List<Item> findAllItems();
 
-    public List<ItemPicture> returnItemPicturesForItem(Long id, String urlOnly);
+    public List<ItemPicture> findAllItemPicturesForItem(Long id, String urlOnly);
 
     public ItemPicture createItemPictureForItem(Long id, MultipartFile file);
 

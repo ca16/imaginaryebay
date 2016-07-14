@@ -38,7 +38,7 @@ public interface ItemDAO {
 
     public List<Item> findAllItems();
 
-    List<ItemPicture> returnAllItemPicturesForItemID(Long id);
+    List<ItemPicture> findAllItemPicturesForItemID(Long id);
 
-    List<ItemPicture> returnAllItemPictureURLsForItemID(Long id);
+    List<ItemPicture> findAllItemPictureURLsForItemID(Long id);
 }

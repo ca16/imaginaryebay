@@ -101,7 +101,7 @@ public class ItemDAOImpl implements ItemDAO{
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<ItemPicture> returnAllItemPicturesForItemID(Long id){
+    public List<ItemPicture> findAllItemPicturesForItemID(Long id){
         String hql = "Select ip from ItemPicture ip join fetch ip.auction_item where ip.auction_item.id = :id";
         Query query = entityManager.createQuery(hql);
         query =query.setParameter("id", id);
@@ -111,7 +111,7 @@ public class ItemDAOImpl implements ItemDAO{
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<ItemPicture> returnAllItemPictureURLsForItemID(Long id){
+    public List<ItemPicture> findAllItemPictureURLsForItemID(Long id){
         String hql = "Select ip.id, ip.url from ItemPicture ip join ip.auction_item where ip.auction_item.id = :id";
         Query query = entityManager
                 .createQuery(hql);

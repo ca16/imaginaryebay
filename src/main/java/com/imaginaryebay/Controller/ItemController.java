@@ -90,7 +90,7 @@ public interface ItemController {
      */
     @RequestMapping(value = "/{id}/picture", method = RequestMethod.GET)
     public ResponseEntity<List<ItemPicture>>
-    returnItemPicturesForItem(@PathVariable("id")
+    getAllItemPicturesForItem(@PathVariable("id")
                                       Long id,
                               @RequestParam(value = "urlOnly", required = false, defaultValue = "false")
                                       String urlOnly

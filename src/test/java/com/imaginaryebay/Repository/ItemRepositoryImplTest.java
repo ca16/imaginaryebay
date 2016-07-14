@@ -283,7 +283,7 @@ public class ItemRepositoryImplTest {
 }
 /*
     @Test
-    public void returnItemPicturesForItem() throws Exception {
+    public void findAllItemPicturesForItem() throws Exception {
 
     }*/
 //=======
@@ -477,12 +477,12 @@ public class ItemRepositoryImplTest {
 //        when(itemDao.findAllItemsByCategory(Category.Clothes)).thenReturn(clothes);
 //        when(itemDao.findAllItemsByCategory(Category.Electronics)).thenReturn(electronics);
 //
-//        when(itemDao.returnAllItemPicturesForItemID(1L)).thenReturn(item1pics);
-//        when(itemDao.returnAllItemPicturesForItemID(2L)).thenReturn(item2pics);
-//        when(itemDao.returnAllItemPicturesForItemID(10L)).thenReturn(new ArrayList<ItemPicture>());
-//        when(itemDao.returnAllItemPictureURLsForItemID(1L)).thenReturn(item1picurls);
-//        when(itemDao.returnAllItemPictureURLsForItemID(2L)).thenReturn(item2picurls);
-//        when(itemDao.returnAllItemPictureURLsForItemID(10L)).thenReturn(new ArrayList<ItemPicture>());
+//        when(itemDao.findAllItemPicturesForItemID(1L)).thenReturn(item1pics);
+//        when(itemDao.findAllItemPicturesForItemID(2L)).thenReturn(item2pics);
+//        when(itemDao.findAllItemPicturesForItemID(10L)).thenReturn(new ArrayList<ItemPicture>());
+//        when(itemDao.findAllItemPictureURLsForItemID(1L)).thenReturn(item1picurls);
+//        when(itemDao.findAllItemPictureURLsForItemID(2L)).thenReturn(item2picurls);
+//        when(itemDao.findAllItemPictureURLsForItemID(10L)).thenReturn(new ArrayList<ItemPicture>());
 //
 //        impl = new ItemRepositoryImpl();
 //        impl.setItemDAO(itemDao);
@@ -614,17 +614,17 @@ public class ItemRepositoryImplTest {
 //    }
 //
 //    @Test
-//    public void returnItemPicturesForItem() throws Exception {
-//    	assertEquals(impl.returnItemPicturesForItem(1L,"false"),item1pics);
-//    	assertEquals(impl.returnItemPicturesForItem(1L,"true"),item1picurls);
-//    	assertEquals(impl.returnItemPicturesForItem(2L,"false"),item2pics);
-//    	assertEquals(impl.returnItemPicturesForItem(2L,"true"),item2picurls);
+//    public void findAllItemPicturesForItem() throws Exception {
+//    	assertEquals(impl.findAllItemPicturesForItem(1L,"false"),item1pics);
+//    	assertEquals(impl.findAllItemPicturesForItem(1L,"true"),item1picurls);
+//    	assertEquals(impl.findAllItemPicturesForItem(2L,"false"),item2pics);
+//    	assertEquals(impl.findAllItemPicturesForItem(2L,"true"),item2picurls);
 //    }
 //    @Test(expected=RestException.class)
 //    public void testReturnItemPicsWithException(){
-//    	impl.returnItemPicturesForItem(10L,"false");
-//    	impl.returnItemPicturesForItem(10L,"true");
-//    	impl.returnItemPicturesForItem(1L,"dsgsfg");
+//    	impl.findAllItemPicturesForItem(10L,"false");
+//    	impl.findAllItemPicturesForItem(10L,"true");
+//    	impl.findAllItemPicturesForItem(1L,"dsgsfg");
 //    }
 //
 //}

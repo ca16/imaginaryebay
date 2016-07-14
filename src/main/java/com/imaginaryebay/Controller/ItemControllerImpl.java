@@ -77,8 +77,8 @@ public class ItemControllerImpl implements ItemController {
         return new ResponseEntity<List<Item>>(this.itemRepository.findAllItems(), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<ItemPicture>> returnItemPicturesForItem(Long id, String urlOnly) {
-        return new ResponseEntity<>(itemRepository.returnItemPicturesForItem(id, urlOnly),
+    public ResponseEntity<List<ItemPicture>> getAllItemPicturesForItem(Long id, String urlOnly) {
+        return new ResponseEntity<>(itemRepository.findAllItemPicturesForItem(id, urlOnly),
                                     HttpStatus.OK);
     }
 

@@ -1,10 +1,8 @@
 package com.imaginaryebay.DAO;
 
-import com.imaginaryebay.Controller.ItemControllerImpl;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
-import com.imaginaryebay.Repository.ItemRepositoryImpl;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +12,6 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -307,16 +304,16 @@ public class ItemDAOImplTest {
 
     @Test
     public void returnAllItemPicturesForItemID() throws Exception {
-    	assertEquals(impl.returnAllItemPicturesForItemID(1L),item1pics);
-    	assertEquals(impl.returnAllItemPicturesForItemID(2L),item2pics);
-    	assertEquals(impl.returnAllItemPicturesForItemID(10L),item3pics);
+    	assertEquals(impl.findAllItemPicturesForItemID(1L),item1pics);
+    	assertEquals(impl.findAllItemPicturesForItemID(2L),item2pics);
+    	assertEquals(impl.findAllItemPicturesForItemID(10L),item3pics);
     }
 
 //    @Test
-//    public void returnAllItemPictureURLsForItemID() throws Exception {
-//    	assertEquals(impl.returnAllItemPictureURLsForItemID(1L),item1picurls);
-//    	assertEquals(impl.returnAllItemPictureURLsForItemID(2L),item2picurls);
-//    	assertEquals(impl.returnAllItemPictureURLsForItemID(10L),item3picurls);
+//    public void findAllItemPictureURLsForItemID() throws Exception {
+//    	assertEquals(impl.findAllItemPictureURLsForItemID(1L),item1picurls);
+//    	assertEquals(impl.findAllItemPictureURLsForItemID(2L),item2picurls);
+//    	assertEquals(impl.findAllItemPictureURLsForItemID(10L),item3picurls);
 //    }
 
 }
