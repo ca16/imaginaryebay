@@ -3,6 +3,7 @@
 *.war
 *.jar
 *.iml
+*.jpg
 .classpath
 .project
 .settings
