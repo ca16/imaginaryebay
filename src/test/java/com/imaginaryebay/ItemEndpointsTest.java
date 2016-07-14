@@ -103,13 +103,16 @@ public class ItemEndpointsTest {
             if (exc.getClass() == HttpClientErrorException.class){
                 HttpClientErrorException httpExc = (HttpClientErrorException) exc;
                 assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
-            };
+            }
         }
 
         try {
             template.getForEntity("http://localhost:8080/item/1/picture", List.class);
-        } catch (HttpClientErrorException exc) {
-            assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+        } catch (Exception exc) {
+            if (exc.getClass() == HttpClientErrorException.class) {
+                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
+                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
+            }
         }
     }
 
@@ -122,7 +125,7 @@ public class ItemEndpointsTest {
         item.setCategory(Category.Clothes);
         item.setDescription("Scarf");
         ResponseEntity<Void> resultSave = template.postForEntity("http://localhost:8080/item", item, Void.class);
-        assertNotNull(resultSave);
+        assertEquals(resultSave.getStatusCode(), HttpStatus.OK);
 
         //If the path was wrong it would be NOT_FOUND so the path works (I think)
         try {

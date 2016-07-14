@@ -17,12 +17,13 @@ import java.util.List;
 
 import static java.sql.Timestamp.valueOf;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by Chloe on 6/30/16.
  */
-//See comments on ItemEnpointsTest for this actually covers
+//See comments on ItemEndpointsTest for this actually covers
 public class MessageEndpointsTest {
 
     @Test
@@ -31,7 +32,14 @@ public class MessageEndpointsTest {
         // assertNotNulls should work if there is at least on thing of each category in the database
 
         RestTemplate template = new RestTemplate();
-        template.getForEntity("http://localhost:8080/message/1", List.class);
+        try {
+            template.getForEntity("http://localhost:8080/message/1", List.class);
+        }catch (Exception exc){
+            if (exc.getClass() == HttpClientErrorException.class){
+                HttpClientErrorException hexc = (HttpClientErrorException) exc;
+                assertNotEquals(hexc.getStatusCode(), HttpStatus.NOT_FOUND);
+            }
+        }
     }
 
 
@@ -46,8 +54,11 @@ public class MessageEndpointsTest {
 
         try {
             template.postForEntity("http://localhost:8080/message", mess, Void.class);
-        } catch (HttpClientErrorException exc) {
-            assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+        } catch (Exception exc) {
+            if (exc.getClass() == HttpClientErrorException.class) {
+                HttpClientErrorException hexc = (HttpClientErrorException) exc;
+                assertNotEquals(hexc.getStatusCode(), HttpStatus.NOT_FOUND);
+            }
         }
 
     }

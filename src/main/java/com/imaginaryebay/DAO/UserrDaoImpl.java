@@ -28,7 +28,7 @@ public class UserrDaoImpl implements UserrDao {
     //getReference() is actually problematic, as it is not called immediately.
     public Userr getUserrByID (Long id){
         Userr userr=entityManager.find(Userr.class, id);
-        System.out.println(userr);
+        //System.out.println(userr);
         return userr;
     }
 
