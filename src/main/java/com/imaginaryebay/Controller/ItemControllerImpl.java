@@ -77,21 +77,18 @@ public class ItemControllerImpl implements ItemController {
         return new ResponseEntity<List<Item>>(this.itemRepository.findAllItems(), HttpStatus.OK);
     }
 
-//    public ResponseEntity<List<ItemPicture>> returnItemPicturesForItem(Long id, String urlOnly) {
-//        return new ResponseEntity<>(itemRepository.returnItemPicturesForItem(id, urlOnly),
-//                                    HttpStatus.OK);
-//    }
-
-    public List<ItemPicture> returnItemPicturesForItem(Long id, String urlOnly) {
-        return itemRepository.returnItemPicturesForItem(id, urlOnly);
+    public ResponseEntity<List<ItemPicture>> returnItemPicturesForItem(Long id, String urlOnly) {
+        return new ResponseEntity<>(itemRepository.returnItemPicturesForItem(id, urlOnly),
+                                    HttpStatus.OK);
     }
+
 
 //    public ResponseEntity<String> createItemPicturesForItem(Long id, MultipartFile[] files){
 //        return new ResponseEntity<>(itemRepository.createItemPicturesForItem(id, files),
 //                                    HttpStatus.OK);
 //    }
 
-    public ItemPicture createItemPictureForItem(Long id, MultipartFile file){
-        return itemRepository.createItemPictureForItem(id, file);
+    public ResponseEntity<ItemPicture> createItemPictureForItem(Long id, MultipartFile file){
+        return new ResponseEntity<ItemPicture>(itemRepository.createItemPictureForItem(id, file), HttpStatus.OK);
     }
 }

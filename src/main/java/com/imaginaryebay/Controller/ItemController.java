@@ -89,19 +89,12 @@ public interface ItemController {
      * EXAMPLE - curl -X GET localhose:8080/item/1/picture
      */
     @RequestMapping(value = "/{id}/picture", method = RequestMethod.GET)
-    public List<ItemPicture>
+    public ResponseEntity<List<ItemPicture>>
     returnItemPicturesForItem(@PathVariable("id")
                                       Long id,
                               @RequestParam(value = "urlOnly", required = false, defaultValue = "false")
                                       String urlOnly
     );
-//    @RequestMapping(value = "/{id}/picture", method = RequestMethod.GET)
-//    public ResponseEntity<List<ItemPicture>>
-//    returnItemPicturesForItem(@PathVariable("id")
-//                                      Long id,
-//                              @RequestParam(value = "urlOnly", required = false, defaultValue = "false")
-//                                      String urlOnly
-//    );
 
     /**
      *
@@ -113,11 +106,8 @@ public interface ItemController {
      * EXAMPLE : curl -X POST -F "file=@/path/to/image.jpg" localhost:8080/item/1/picture
      */
     @RequestMapping(value = "/{id}/picture", method = RequestMethod.POST)
-    public ItemPicture createItemPictureForItem(@PathVariable("id") Long id,
+    public ResponseEntity<ItemPicture> createItemPictureForItem(@PathVariable("id") Long id,
                                                            @RequestParam("file") MultipartFile file);
-//    @RequestMapping(value = "/{id}/picture", method = RequestMethod.POST)
-//    public ResponseEntity<String> createItemPictureForItem(@PathVariable("id") Long id,
-//                                                           @RequestParam("file") MultipartFile file);
 }
 
 

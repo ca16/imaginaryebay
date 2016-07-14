@@ -87,6 +87,12 @@ public class ItemControllerImplTest {
         all = new ArrayList<>();
         clothes = new ArrayList<>();
         electronics = new ArrayList<>();
+        item1pics = new ArrayList<>();
+        item2pics = new ArrayList<>();
+        item3pics = new ArrayList<>();
+        item1picurls=new ArrayList<>();
+        item2picurls=new ArrayList<>();
+        item3picurls=new ArrayList<>();
 
         all.add(item1);
         all.add(item2);
@@ -126,6 +132,21 @@ public class ItemControllerImplTest {
         itempic12 = new ItemPicture();
         itempic12.setUrl("http://6iee.com/790839.html");
 
+        item1pics.add(itempic2);
+        item2pics.add(itempic3);
+        item2pics.add(itempic4);
+        item3pics.add(itempic5);
+        item3pics.add(itempic6);
+        item1picurls.add(itempic7);
+        item1picurls.add(itempic8);
+        item2picurls.add(itempic9);
+        item2picurls.add(itempic10);
+        item3picurls.add(itempic11);
+        item3picurls.add(itempic12);
+
+        item1picresponse=new ResponseEntity<>(item1pics,HttpStatus.OK);
+        item2picresponse=new ResponseEntity<>(item2pics,HttpStatus.OK);
+        item3picresponse=new ResponseEntity<>(item3pics,HttpStatus.OK);
         item1picurlresponse=new ResponseEntity<>(item1picurls,HttpStatus.OK);
         item2picurlresponse=new ResponseEntity<>(item2picurls,HttpStatus.OK);
         item3picurlresponse=new ResponseEntity<>(item3picurls,HttpStatus.OK);

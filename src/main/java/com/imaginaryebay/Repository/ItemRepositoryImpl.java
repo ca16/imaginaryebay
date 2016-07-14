@@ -1,11 +1,13 @@
 package com.imaginaryebay.Repository;
 
+import com.imaginaryebay.Controller.ItemControllerImpl;
 import com.imaginaryebay.Controller.RestException;
 import com.imaginaryebay.DAO.ItemDAO;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
 import com.imaginaryebay.Models.S3FileUploader;
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,7 @@ import java.util.List;
 @Transactional
 public class ItemRepositoryImpl implements ItemRepository {
 
+    private static final Logger logger              = Logger.getLogger(ItemControllerImpl.class);
     private static final String FAIL_STEM           = "Unable to upload.";
     private static final String FAIL_EMPTY_FILES    = "Unable to upload. File is empty.";
     private static final String COLON_SEP           = ": ";
@@ -53,6 +56,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         Item toRet = this.itemDAO.findByID(id);
         if (toRet == null) {
             // what should the number be here?
+            logger.error("Item not found!", new RestException("Item not found.", "Item with id " + id + " was not found"));
             throw new RestException("Item not found.",
                     "Item with id " + id + " was not found");
         } else {
