@@ -26,7 +26,7 @@ public class S3FileUploader {
 
     /**
      * Define some constants for setting credentials, and building URLs to store in the DB
-     * TODO: The Credentials need to go somewhere safer. Make a config file.
+     * TODO: The Credentials need to go somewhere safer. Make a config file. (Could set as context property and request it)
      */
     private static final String         FILENAME_HEADER = "filename";
     private static final String         BUCKET          = "odbneu";
@@ -38,7 +38,7 @@ public class S3FileUploader {
      * fileUploader - Uploads a MultipartFile object to S3.
      * @param multipartFile- A MultipartFile to be uploaded to S3. The URL of this file will be stored.
      * @return String result - The URL to access the uploaded MultiPartFile
-     * @throws IOException
+     * @throws Exception
      */
     public String fileUploader(MultipartFile multipartFile) throws Exception {
         AmazonS3 s3 = new AmazonS3Client(AWS_CREDENTIALS);

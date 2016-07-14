@@ -77,7 +77,7 @@ public interface ItemController {
      * EXAMPLE : curl -X POST -F "file=@/path/to/image.jpg" localhost:8080/item/1/picture
      */
     @RequestMapping(value = "/{id}/picture", method = RequestMethod.POST)
-    public String createItemPictureForItem(@PathVariable("id") Long id,
+    public ItemPicture createItemPictureForItem(@PathVariable("id") Long id,
                                                            @RequestParam("file") MultipartFile file);
 //    @RequestMapping(value = "/{id}/picture", method = RequestMethod.POST)
 //    public ResponseEntity<String> createItemPictureForItem(@PathVariable("id") Long id,

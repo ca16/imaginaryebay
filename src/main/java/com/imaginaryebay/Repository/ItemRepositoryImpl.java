@@ -170,7 +170,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         return itemPictures;
     }
 
-    public String createItemPictureForItem(Long id, MultipartFile file) {
+    public ItemPicture createItemPictureForItem(Long id, MultipartFile file) {
 
         String uploadResponse = "";
         Item item = this.findByID(id);
@@ -200,8 +200,9 @@ public class ItemRepositoryImpl implements ItemRepository {
         }
     }
 
-    private String uploadFileForItem(Item item, MultipartFile file){
+    private ItemPicture uploadFileForItem(Item item, MultipartFile file){
         String uploadResponse;
+        ItemPicture newPicture;
         try {
             S3FileUploader s3FileUploader = new S3FileUploader();
             uploadResponse = s3FileUploader.fileUploader(file);
@@ -209,7 +210,8 @@ public class ItemRepositoryImpl implements ItemRepository {
             if (uploadResponse == null) {
                 throw new RestException(FAIL_STEM, "", HttpStatus.INTERNAL_SERVER_ERROR);
             } else {
-                item.addItemPicture(new ItemPicture(uploadResponse));
+                newPicture = new ItemPicture(uploadResponse);
+                item.addItemPicture(newPicture);
                 this.update(item);
             }
         } catch (IOException ioex) {
@@ -223,6 +225,7 @@ public class ItemRepositoryImpl implements ItemRepository {
                     ex.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return uploadResponse;
+//        return uploadResponse;
+        return newPicture;
     }
 }

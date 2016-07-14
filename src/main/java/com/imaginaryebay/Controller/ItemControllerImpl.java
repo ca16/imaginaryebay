@@ -89,7 +89,7 @@ public class ItemControllerImpl implements ItemController {
 //                                    HttpStatus.OK);
 //    }
 
-    public String createItemPictureForItem(Long id, MultipartFile file){
+    public ItemPicture createItemPictureForItem(Long id, MultipartFile file){
         return itemRepository.createItemPictureForItem(id, file);
     }
 }
