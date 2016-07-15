@@ -40,6 +40,24 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     public void save(Item item) {
+        // do items have to have a price?
+        if ((null != item.getPrice()) && !(item.getPrice() > 0)){
+            throw new RestException("Invalid price", "Price must be greater than 0.", HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            Category.valueOf(item.getCategory().toString());
+        } catch (NullPointerException exc){
+            // do items have to have a category
+        } catch (IllegalArgumentException exc){
+            throw new RestException("Invalid category", item.getCategory() + " is not a valid category name", HttpStatus.BAD_REQUEST);
+        }
+
+        // do items have to have an endtime?
+        if ((null != item.getEndtime()) && ((item.getEndtime().before(new Timestamp(System.currentTimeMillis()))))){
+            throw new RestException("Invalid endtime", "Auction must end in the future", HttpStatus.BAD_REQUEST);
+        }
+
         this.itemDAO.persist(item);
     }
 
@@ -147,7 +165,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             cat = Category.valueOf(category);
         }catch (IllegalArgumentException exc){
             // Should we also give them a list of options?
-            throw new RestException("Given string is not a valid Category name", category + " is not a valid Category name", HttpStatus.BAD_REQUEST);
+            throw new RestException(INVALID_PARAMETER, category + " is not a valid Category name", HttpStatus.BAD_REQUEST);
         }
         List<Item> toRet = this.itemDAO.findAllItemsByCategory(cat);
         if (!toRet.isEmpty()) {

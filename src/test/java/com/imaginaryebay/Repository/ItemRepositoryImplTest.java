@@ -9,8 +9,12 @@ import org.apache.http.protocol.HTTP;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
@@ -24,6 +28,9 @@ import static org.mockito.Mockito.when;
 /**
  * Created by Chloe on 6/30/16.
  */
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({Category.class})
 public class ItemRepositoryImplTest {
 
     private static final String NOT_AVAILABLE = "Not available.";
@@ -34,12 +41,18 @@ public class ItemRepositoryImplTest {
     @Mock
     private ItemDAO itemDaoEmpties;
 
+    private Category invalidCategory;
+
+
     private ItemRepositoryImpl impl;
     private ItemRepositoryImpl implEmpties;
 
     private Item item1;
     private Item item2;
     private Item item3;
+    private Item itemInvalidPrice;
+    private Item itemInvalidCategory;
+    private Item itemInvalidEndtime;
     private Item noFields;
     private Item notInDB;
     private Item toUpdate;
@@ -53,6 +66,8 @@ public class ItemRepositoryImplTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        invalidCategory = PowerMockito.mock(Category.class);
+
         item1 = new Item();
         item1.setCategory(Category.Clothes);
         item1.setPrice(20.0);
@@ -70,6 +85,24 @@ public class ItemRepositoryImplTest {
         item3.setPrice(30.0);
         item3.setDescription("Watch");
         item3.setEndtime(valueOf("2016-9-2 11:10:10"));
+
+        itemInvalidPrice = new Item();
+        itemInvalidPrice.setCategory(Category.Clothes);
+        itemInvalidPrice.setPrice(-20.0);
+        itemInvalidPrice.setDescription("Scarf");
+        itemInvalidPrice.setEndtime(valueOf("2016-10-10 00:00:00"));
+
+        itemInvalidCategory = new Item();
+        itemInvalidCategory.setCategory(invalidCategory);
+        itemInvalidCategory.setPrice(20.0);
+        itemInvalidCategory.setDescription("Scarf");
+        itemInvalidCategory.setEndtime(valueOf("2016-10-10 00:00:00"));
+
+        itemInvalidEndtime = new Item();
+        itemInvalidEndtime.setCategory(Category.Clothes);
+        itemInvalidEndtime.setPrice(20.0);
+        itemInvalidEndtime.setDescription("Scarf");
+        itemInvalidEndtime.setEndtime(valueOf("2015-10-10 00:00:00"));
 
         noFields = new Item();
         notInDB = new Item();
@@ -119,6 +152,8 @@ public class ItemRepositoryImplTest {
         when(itemDao.findAllItemsByCategory(Category.Clothes)).thenReturn(clothes);
         when(itemDao.findAllItemsByCategory(Category.Electronics)).thenReturn(electronics);
 
+        when(invalidCategory.toString()).thenReturn("Books");
+
         impl = new ItemRepositoryImpl();
         impl.setItemDAO(itemDao);
 
@@ -137,7 +172,48 @@ public class ItemRepositoryImplTest {
         Item toSave = new Item();
         impl.save(toSave);
         verify(itemDao).persist(toSave);
+
+        try {
+            impl.save(itemInvalidPrice);
+        } catch (RestException exc) {
+            Assert.assertEquals("Invalid price", exc.getMessage());
+            Assert.assertEquals("Price must be greater than 0.", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            impl.save(itemInvalidCategory);
+        } catch (RestException exc) {
+            Assert.assertEquals("Invalid category", exc.getMessage());
+            Assert.assertEquals("Books is not a valid category name", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            impl.save(itemInvalidEndtime);
+        } catch (RestException exc) {
+            Assert.assertEquals("Invalid endtime", exc.getMessage());
+            Assert.assertEquals("Auction must end in the future", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+        }
+
     }
+
+    @Test(expected = RestException.class)
+    public void invalidPrice() throws Exception{
+        impl.save(itemInvalidPrice);
+    }
+
+    @Test(expected = RestException.class)
+    public void invalidCategory() throws Exception{
+        impl.save(itemInvalidCategory);
+    }
+
+    @Test(expected = RestException.class)
+    public void invalidEndtime() throws Exception{
+        impl.save(itemInvalidEndtime);
+    }
+
 
     @Test
     public void findByID() throws Exception {
@@ -342,7 +418,7 @@ public class ItemRepositoryImplTest {
             impl.findAllItemsByCategory("Books");
         } catch(RestException exc){
             Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
-            Assert.assertEquals("Given string is not a valid Category name", exc.getMessage());
+            Assert.assertEquals("Invalid request parameter.", exc.getMessage());
             Assert.assertEquals("Books is not a valid Category name", exc.getDetailedMessage());
         }
     }
