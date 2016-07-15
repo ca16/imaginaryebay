@@ -19,9 +19,9 @@ public class UserrRepositoryImpl implements UserrRepository {
     @Autowired
     private UserrDao userrDao;
 
-    public void setUserrDao(UserrDao userrDao){
+    /*public void setUserrDao(UserrDao userrDao){
         this.userrDao=userrDao;
-    }
+    }*/
 
     //ToDo: First see if this newUserr exists or not, only create if it does not exist. If it does exist I probably should throw an exception here
     public void createNewUserr(Userr newUserr) {

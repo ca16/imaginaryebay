@@ -25,9 +25,9 @@ public class UserrRestController implements UserrController {
     @Autowired
     private UserrRepository userrRepository;
 
-    public void setUserrRepository(UserrRepository userrRepository){
+    /*public void setUserrRepository(UserrRepository userrRepository){
         this.userrRepository=userrRepository;
-    }
+    }*/
 
 /*
     @RequestMapping (method = RequestMethod.POST)
