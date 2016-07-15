@@ -2,6 +2,8 @@ package com.imaginaryebay.Repository;
 import com.imaginaryebay.Models.Userr;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Created by Ben_Big on 6/27/16.
  */
@@ -13,4 +15,5 @@ public interface UserrRepository {
 
     public Userr getUserrByEmail(String email);
 
+    public List<Userr> getAllUserrs();
 }

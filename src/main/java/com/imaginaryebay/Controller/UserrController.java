@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * Created by Chloe on 6/30/16.
  */
@@ -22,6 +24,10 @@ public interface UserrController {
             userrRepository.createNewUserr(userr);
         }
     */
+
+    @RequestMapping (method = RequestMethod.GET)
+    public List<Userr> getAllUserrs();
+
     @RequestMapping (value="/{id}", method = RequestMethod.GET)
     public Userr getUserrByID(@PathVariable("id") Long id);
 }

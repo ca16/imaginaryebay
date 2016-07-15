@@ -99,5 +99,13 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
 
     }
 
+    @Override
+    public List<Userr> getAllUserrs(){
+        String queryString="select u from Userr u";
+        Query query=entityManager.createQuery(queryString);
+        List<Userr> listOfUserrs=query.getResultList();
+        return listOfUserrs;
+    }
+
 
 }

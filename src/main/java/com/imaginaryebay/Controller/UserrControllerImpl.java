@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * Created by Ben_Big on 6/28/16.
  */
@@ -36,8 +38,9 @@ public class UserrControllerImpl implements UserrController {
         userrRepository.createNewUserr(userr);
     }
 */
-    //@RequestMapping (value="/{id}", method = RequestMethod.GET)
-    //public Userr getUserrByID(@PathVariable ("id") Long id){
+
+    public List<Userr> getAllUserrs (){ return userrRepository.getAllUserrs();}
+
     public Userr getUserrByID(Long id){
         return userrRepository.getUserrByID(id);
     }

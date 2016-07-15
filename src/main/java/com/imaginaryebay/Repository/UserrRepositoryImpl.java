@@ -8,6 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by Ben_Big on 6/27/16.
  */
@@ -44,5 +46,7 @@ public class UserrRepositoryImpl implements UserrRepository {
     public Userr getUserrByEmail(String email){
         return userrDao.getUserrByEmail(email);
     }
+
+    public List<Userr> getAllUserrs(){ return userrDao.getAllUserrs();}
 
 }
