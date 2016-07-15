@@ -26,9 +26,9 @@ public class UserrRepositoryImpl implements UserrRepository {
 
     //ToDo: First see if this newUserr exists or not, only create if it does not exist. If it does exist I probably should throw an exception here
     public void createNewUserr(Userr newUserr) {
-        Userr u=userrDao.getUserByEmail(newUserr.getEmail());
+        Userr u=userrDao.getUserrByEmail(newUserr.getEmail());
         if (u==null) {
-            userrDao.createNewUserr(newUserr);
+            userrDao.persist(newUserr);
         }
         else{
             System.out.println("The user has existed");
@@ -42,7 +42,7 @@ public class UserrRepositoryImpl implements UserrRepository {
 
 
     public Userr getUserrByEmail(String email){
-        return userrDao.getUserByEmail(email);
+        return userrDao.getUserrByEmail(email);
     }
 
 }

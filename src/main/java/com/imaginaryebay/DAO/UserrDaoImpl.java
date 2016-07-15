@@ -70,21 +70,21 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
     }
 
 
-
-    public void createNewUserr (Userr userr){
+    @Override
+    public void persist (Userr userr){
         entityManager.persist(userr);
     }
 
 
-    //ToDo: For method that returns an whole object, use find() or getReference()
-    //getReference() is actually problematic, as it is not called immediately.
+    @Override
     public Userr getUserrByID (long id){
         Userr userr=entityManager.find(Userr.class, id);
         return userr;
     }
 
 
-    public Userr getUserByEmail (String email){
+    @Override
+    public Userr getUserrByEmail (String email) {
         String queryString = "SELECT u FROM Userr u WHERE u.email = :EMA";
         Query query = entityManager.createQuery(queryString);
         query.setParameter("EMA",email);

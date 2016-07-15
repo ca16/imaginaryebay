@@ -10,11 +10,12 @@ import com.imaginaryebay.Models.Userr;
 public interface UserrDao {
 
 
-    public void createNewUserr (Userr userr);
+    public void persist (Userr userr);
 
     public Userr getUserrByID (long id);
 
-    public Userr getUserByEmail(String email);
+    public Userr getUserrByEmail(String email);
+
 
 
 }
