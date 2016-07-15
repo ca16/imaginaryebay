@@ -27,15 +27,15 @@ public class ModelConfiguration {
         UserrRepositoryImpl bean=new UserrRepositoryImpl();
         bean.setUserrDao(userrDao());
         return bean;
-    }
+    }*/
 
     @Bean
    // public UserrRestController userrRestController(){
     public UserrController userrController(){
         UserrRestController bean=new UserrRestController();
-        bean.setUserrRepository(userrRepository());
+        //bean.setUserrRepository(userrRepository());
         return bean;
-    }*/
+    }
     
     @Bean
     public MessageDao messageDao(){

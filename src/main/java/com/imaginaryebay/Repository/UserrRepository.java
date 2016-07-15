@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 /**
  * Created by Ben_Big on 6/27/16.
  */
-@Component
 public interface UserrRepository {
 
     public void createNewUserr(Userr userr);

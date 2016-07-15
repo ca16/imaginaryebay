@@ -5,14 +5,15 @@ import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.Userr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by Ben_Big on 6/27/16.
  */
 
-
-@ComponentScan("com.imaginaryebay")
+@Component
+@ComponentScan("com.imaginaryebay.DAO")
 @Transactional
 public class UserrRepositoryImpl implements UserrRepository {
 
