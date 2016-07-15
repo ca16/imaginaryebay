@@ -2,10 +2,7 @@ package com.imaginaryebay.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -24,8 +21,10 @@ public class Userr implements Serializable{
     public Long getId() {
         return id;
     }
-    
+
+    @Column(unique=true)
     private String email;
+
     private String name;
     private String password;
     private boolean isAdmin;
