@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * Created by Ben_Big on 6/27/16.
@@ -12,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Userr")
-public class Userr {
+public class Userr implements Serializable{
 
     @Id
     @GeneratedValue
@@ -27,7 +28,7 @@ public class Userr {
     private String password;
     private boolean isAdmin;
 
-
+    protected Userr(){}
 
 
     public String getEmail() {
