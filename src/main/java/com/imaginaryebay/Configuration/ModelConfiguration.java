@@ -15,6 +15,7 @@ public class ModelConfiguration {
 
     //All the bean dependencies use setter injection
 
+    /*
     @Bean
     public UserrDao userrDao(){
         UserrDaoImpl bean = new UserrDaoImpl();
@@ -34,7 +35,7 @@ public class ModelConfiguration {
         UserrRestController bean=new UserrRestController();
         bean.setUserrRepository(userrRepository());
         return bean;
-    }
+    }*/
     
     @Bean
     public MessageDao messageDao(){

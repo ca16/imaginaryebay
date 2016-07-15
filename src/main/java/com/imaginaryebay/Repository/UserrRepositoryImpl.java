@@ -3,6 +3,8 @@ package com.imaginaryebay.Repository;
 import com.imaginaryebay.DAO.UserrDao;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.Userr;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -10,10 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 
-
+@ComponentScan("com.imaginaryebay")
 @Transactional
 public class UserrRepositoryImpl implements UserrRepository {
 
+    @Autowired
     private UserrDao userrDao;
 
     public void setUserrDao(UserrDao userrDao){

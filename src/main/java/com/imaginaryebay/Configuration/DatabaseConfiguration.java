@@ -23,6 +23,7 @@ import java.util.Map;
 
 /**
  * Created by Ben_Big on 6/27/16.
+ *
  */
 
 
@@ -55,9 +56,9 @@ public class DatabaseConfiguration {
     public DataSource dataSource() throws PropertyVetoException{
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
         dataSource.setDriverClass("org.postgresql.Driver");
-        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
+        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/test");
         dataSource.setUser("postgres");
-        dataSource.setPassword("fizz4101");
+        dataSource.setPassword("");
         return dataSource;
     }
 //
@@ -75,7 +76,7 @@ public class DatabaseConfiguration {
         Map<String,String> jpaPropertiesMap = new HashMap<String,String>();
         jpaPropertiesMap.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
         jpaPropertiesMap.put("hibernate.show_sql", "true");
-//        jpaPropertiesMap.put("hibernate.hbm2ddl.auto", "create");
+        jpaPropertiesMap.put("hibernate.hbm2ddl.auto", "create");
         return jpaPropertiesMap;
     }
 
