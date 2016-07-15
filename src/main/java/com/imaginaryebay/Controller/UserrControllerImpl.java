@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 //@RequestMapping("/user")
 @ComponentScan("com.imaginaryebay.Repository")
 
-public class UserrRestController implements UserrController {
+public class UserrControllerImpl implements UserrController {
 
     @Autowired
     private UserrRepository userrRepository;
