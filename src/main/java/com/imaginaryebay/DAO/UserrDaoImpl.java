@@ -96,7 +96,6 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
         else{
             return null;
         }
-
     }
 
     @Override
@@ -108,4 +107,33 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
     }
 
 
+    @Override
+    public List<Userr> getUserrByName(String name) throws UsernameNotFoundException{
+        String queryString="select u from Userr u where u.name= : N";
+        Query query = entityManager.createQuery(queryString);
+        query.setParameter("N",name);
+        List<Userr> listOfUserr=query.getResultList();
+        return listOfUserr;
+    }
+
+    @Override
+    public void updateUserrByID(long id, Userr u){
+        String queryString="select u from Userr u where u.name= : I";
+        Query query = entityManager.createQuery(queryString);
+        query.setParameter("I",id);
+        List<Userr> listOfUserr=query.getResultList();
+        Iterator<Userr> itr=listOfUserr.iterator();
+        if (itr.hasNext()){
+            Userr toChange= itr.next();
+            toChange.setPassword(u.getPassword());
+            toChange.setAdmin(u.isAdmin());
+            toChange.setEmail(u.getEmail());
+            toChange.setName(u.getName());
+            entityManager.refresh(toChange);
+        }
+        else{
+            throw new UsernameNotFoundException("No user with this id");
+        }
+
+    }
 }
