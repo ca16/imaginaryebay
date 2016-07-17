@@ -129,6 +129,7 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
             toChange.setAdmin(u.isAdmin());
             toChange.setEmail(u.getEmail());
             toChange.setName(u.getName());
+            toChange.setAddress(u.getAddress());
             entityManager.refresh(toChange);
         }
         else{

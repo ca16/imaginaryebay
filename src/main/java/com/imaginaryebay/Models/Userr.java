@@ -22,14 +22,38 @@ public class Userr implements Serializable{
         return id;
     }
 
-    @Column(unique=true)
+    @Column(nullable = false, unique=true)
     private String email;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private boolean isAdmin;
 
+    @Column(nullable = true)
+    private String address;
+
     protected Userr(){}
+
+
+    public Userr(String email, String name, String password) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.isAdmin=false;
+    }
+
+    public Userr(String email, String name, String password, boolean isAdmin) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.isAdmin=isAdmin;
+    }
+
 
 
     public String getEmail() {
@@ -71,11 +95,15 @@ public class Userr implements Serializable{
     }
 
 
+    public String getAddress() {
+        return address;
+    }
 
 
-    public Userr(String email, String name, String password) {
-		this.email = email;
-		this.name = name;
-		this.password = password;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+
+
 }
