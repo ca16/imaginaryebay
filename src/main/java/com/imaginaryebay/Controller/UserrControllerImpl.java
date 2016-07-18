@@ -19,8 +19,6 @@ import java.util.List;
  */
 
 
-//@RestController
-//@RequestMapping("/user")
 @ComponentScan("com.imaginaryebay.Repository")
 
 public class UserrControllerImpl implements UserrController {
@@ -28,23 +26,32 @@ public class UserrControllerImpl implements UserrController {
     @Autowired
     private UserrRepository userrRepository;
 
-    /*public void setUserrRepository(UserrRepository userrRepository){
-        this.userrRepository=userrRepository;
-    }*/
-
-/*
-    @RequestMapping (method = RequestMethod.POST)
-    public void saveUserr(@RequestBody Userr userr){
+    @Override
+    public void createNewUserr(Userr userr){
         userrRepository.createNewUserr(userr);
     }
-*/
 
-    public List<Userr> getAllUserrs (){ return userrRepository.getAllUserrs();}
-
+    @Override
     public Userr getUserrByID(Long id){
         return userrRepository.getUserrByID(id);
     }
 
+    @Override
+    public Userr getUserrByEmail(String email){
+        return userrRepository.getUserrByEmail(email);
+    }
 
+    @Override
+    public List<Userr> getAllUserrs (){ return userrRepository.getAllUserrs();}
+
+    @Override
+    public List<Userr> getUserrByName(String name){
+        return userrRepository.getUserrByName(name);
+    }
+
+    @Override
+    public Userr updateUserrByID(Long id, Userr u){
+        return userrRepository.updateUserrByID(id,u);
+    }
 
 }
