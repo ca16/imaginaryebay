@@ -130,7 +130,7 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
             toChange.setEmail(u.getEmail());
             toChange.setName(u.getName());
             toChange.setAddress(u.getAddress());
-            entityManager.refresh(toChange);
+            entityManager.flush();
         }
         else{
             throw new UsernameNotFoundException("No user with this id");
