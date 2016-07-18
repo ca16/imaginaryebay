@@ -16,4 +16,9 @@ public interface UserrRepository {
     public Userr getUserrByEmail(String email);
 
     public List<Userr> getAllUserrs();
+
+    public List<Userr> getUserrByName(String name);
+
+    public Userr updateUserrByID(long id, Userr u);
+
 }

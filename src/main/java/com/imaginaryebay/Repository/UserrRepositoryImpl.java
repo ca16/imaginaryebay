@@ -5,6 +5,7 @@ import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.Userr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,11 +23,8 @@ public class UserrRepositoryImpl implements UserrRepository {
     @Autowired
     private UserrDao userrDao;
 
-    /*public void setUserrDao(UserrDao userrDao){
-        this.userrDao=userrDao;
-    }*/
 
-    //ToDo: First see if this newUserr exists or not, only create if it does not exist. If it does exist I probably should throw an exception here
+
     public void createNewUserr(Userr newUserr) {
         Userr u=userrDao.getUserrByEmail(newUserr.getEmail());
         if (u==null) {
@@ -47,6 +45,20 @@ public class UserrRepositoryImpl implements UserrRepository {
         return userrDao.getUserrByEmail(email);
     }
 
+
     public List<Userr> getAllUserrs(){ return userrDao.getAllUserrs();}
+
+    public List<Userr> getUserrByName(String name){ return userrDao.getUserrByName(name);}
+
+    public Userr updateUserrByID (long id, Userr u){
+        try{
+            userrDao.updateUserrByID(id, u);
+            return getUserrByID(id);
+        }catch (UsernameNotFoundException unfe ){
+            System.out.println("The user does not exist");
+            return null;
+        }
+
+    }
 
 }
