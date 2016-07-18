@@ -17,7 +17,7 @@ import java.util.List;
 public interface UserrController {
 
 
-    @RequestMapping (method = RequestMethod.POST)
+    @RequestMapping (value="/new", method = RequestMethod.POST)
     public void createNewUserr(@RequestBody  Userr userr);
 
 
