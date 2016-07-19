@@ -15,7 +15,7 @@ User:
 #####REST Api:
 1. create a new user: (no login is needed)
 
-	curl -X POST -H "Content-Type:application/json" -d '{"password":"Testaburger", "name":"Wendy", "email":"wendy@gmail.com"}' -i  http://localhost:8080/	user
+	curl -X POST -H "Content-Type:application/json" -d '{"password":"Testaburger", "name":"Wendy", "email":"wendy@gmail.com"}' -i  http://localhost:8080/user/new
 
 
 2. update user with ID: (need to login first, and must be the user himself or an admin)
