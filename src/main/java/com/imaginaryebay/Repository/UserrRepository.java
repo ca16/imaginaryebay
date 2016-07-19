@@ -1,33 +1,23 @@
 package com.imaginaryebay.Repository;
-import java.util.List;
-
 import com.imaginaryebay.Models.Userr;
+
+import java.util.List;
 
 /**
  * Created by Ben_Big on 6/27/16.
  */
 public interface UserrRepository {
 
-	public void createNewUserr(Userr userr);
+    public void createNewUserr(Userr userr);
 
     public Userr getUserrByID(Long id);
 
-    public Userr getUserByEmail(String email);
-    
-    public Userr getUserByName(String name);
+    public Userr getUserrByEmail(String email);
 
-	public List<Userr> returnAllUserrs();
-	
-	public String getAddressByUserID(Long id);
-	
-	public String getAddressByUserName(String name);
-	
-	public String getEmailByUserID(Long id);
-	
-	public String getEmailByUserName(String name);
-	
-	public Boolean isAdminByUserID(Long id);
+    public List<Userr> getAllUserrs();
 
-    public Userr updateUserByID(Long id, Userr userr);
+    public List<Userr> getUserrByName(String name);
+
+    public Userr updateUserrByID(long id, Userr u);
 
 }

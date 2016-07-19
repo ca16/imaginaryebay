@@ -1,90 +1,64 @@
 package com.imaginaryebay.Repository;
 
-import java.util.List;
-
 import com.imaginaryebay.DAO.UserrDao;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.Userr;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by Ben_Big on 6/27/16.
  */
 
-
-
+@Component
+@ComponentScan("com.imaginaryebay.DAO")
 @Transactional
 public class UserrRepositoryImpl implements UserrRepository {
 
+	@Autowired
 	private UserrDao userrDao;
 
-    public void setUserrDao(UserrDao userrDao){
-        this.userrDao=userrDao;
-    }
-
-    //ToDo: First see if this newUserr exists or not, only create if it does not exist. If it does exist I probably should throw an exception here
-    public void createNewUserr(Userr newUserr) {
-        Userr u=userrDao.getUserByEmail(newUserr.getEmail());
-        if (u==null) {
-            userrDao.createNewUserr(newUserr);
-        }
-        else{
-            System.out.println("The user has existed");
-        }
-    }
 
 
-    public Userr getUserrByID (Long id) {
-        return userrDao.getUserrByID(id);
-    }
-
-
-    public Userr getUserrByEmail(String email){
-        return userrDao.getUserByEmail(email);
-    }
-    
-    public List<Userr> returnAllUserrs(){
-    	return userrDao.findAllUserrs();
-    }
-
-	@Override
-	public Userr getUserByEmail(String email) {
-		return userrDao.getUserByEmail(email);
+	public void createNewUserr(Userr newUserr) {
+		Userr u=userrDao.getUserrByEmail(newUserr.getEmail());
+		if (u==null) {
+			userrDao.persist(newUserr);
+		}
+		else{
+			System.out.println("The user has existed");
+		}
 	}
 
-	@Override
-	public Userr getUserByName(String name) {
-		return userrDao.getUserByName(name);
+
+	public Userr getUserrByID (Long id) {
+		return userrDao.getUserrByID(id);
 	}
 
-	@Override
-	public String getAddressByUserID(Long id) {
-		return userrDao.getAddressByUserID(id);
+
+	public Userr getUserrByEmail(String email){
+		return userrDao.getUserrByEmail(email);
 	}
 
-	@Override
-	public String getAddressByUserName(String name) {
-		return userrDao.getAddressByUserName(name);
+
+	public List<Userr> getAllUserrs(){ return userrDao.getAllUserrs();}
+
+	public List<Userr> getUserrByName(String name){ return userrDao.getUserrByName(name);}
+
+	public Userr updateUserrByID (long id, Userr u){
+		try{
+			userrDao.updateUserrByID(id, u);
+			return getUserrByID(id);
+		}catch (UsernameNotFoundException unfe ){
+			System.out.println("The user does not exist");
+			return null;
+		}
+
 	}
 
-	@Override
-	public String getEmailByUserID(Long id) {
-		return userrDao.getEmailByUserID(id);
-	}
-
-	@Override
-	public String getEmailByUserName(String name) {
-		return userrDao.getEmailByUserName(name);
-	}
-
-	@Override
-	public Boolean isAdminByUserID(Long id) {
-		return userrDao.isAdminByUserID(id);
-	}
-
-	@Override
-	public Userr updateUserByID(Long id, Userr userr) {
-		return userrDao.updateUserByID(id,userr);
-	}
 }

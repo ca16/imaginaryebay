@@ -26,6 +26,7 @@ import java.util.Map;
 
 /**
  * Created by Ben_Big on 6/27/16.
+ *
  */
 
 
@@ -57,6 +58,8 @@ public class DatabaseConfiguration {
     private Map<String,?> jpaProperties() {
         Map<String,String> jpaPropertiesMap = new HashMap<String,String>();
         jpaPropertiesMap.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
+        jpaPropertiesMap.put("hibernate.show_sql", "true");
+        jpaPropertiesMap.put("hibernate.hbm2ddl.auto", "update");
         return jpaPropertiesMap;
     }
 

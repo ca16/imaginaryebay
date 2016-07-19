@@ -1,9 +1,10 @@
 package com.imaginaryebay.Models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Ben_Big on 6/27/16.
@@ -12,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Userr")
-public class Userr {
+public class Userr implements Serializable{
 
     @Id
     @GeneratedValue
@@ -21,11 +22,41 @@ public class Userr {
     public Long getId() {
         return id;
     }
-    public void setId(Long id){
-    	this.id=id;
-    }
-    
+
+    @Column(nullable = false, unique=true)
     private String email;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    @JsonIgnore
+    private String password;
+
+    @Column(nullable = false)
+    private boolean isAdmin;
+
+    @Column(nullable = true)
+    private String address;
+
+    protected Userr(){}
+
+
+    public Userr(String email, String name, String password) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.isAdmin=false;
+    }
+
+    public Userr(String email, String name, String password, boolean isAdmin) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.isAdmin=isAdmin;
+    }
+
+
 
     public String getEmail() {
         return email;
@@ -34,10 +65,9 @@ public class Userr {
     public void setEmail(String email) {
         this.email = email;
     }
-    private String name;
-    private String password;
-    private String address;
-    private Boolean adminFlag;
+
+
+
 
     public String getName() {
         return name;
@@ -47,51 +77,36 @@ public class Userr {
         this.name = name;
     }
 
+
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }
 
-	public String getAddress() {
-		return address;
-	}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public Boolean getAdminFlag() {
-		return adminFlag;
-	}
-
-	public void setAdminFlag(Boolean adminFlag) {
-		this.adminFlag = adminFlag;
-	}
-	public Userr(){
-		
-	}
-	public Userr(String email, String name, String password,String address,Boolean adminFlag) {
-		this.email = email;
-		this.name = name;
-		this.password = password;
-		this.address=address;
-		this.adminFlag=adminFlag;
-	}
-    public Userr(String email, String name, String password) {
-        this.email = email;
-        this.name = name;
-        this.password = password;
+    public boolean isAdmin() {
+        return isAdmin;
     }
-	@Override
-	public String toString() {
-		return "Userr [email=" + email + ", name=" + name + ", password="
-				+ password + ", address=" + address + ", adminFlag="
-				+ adminFlag + "]";
-	}
-	
-	
-	
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+
+    public String getAddress() {
+        return address;
+    }
+
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+
+
 }

@@ -82,7 +82,6 @@ public class ItemControllerImpl implements ItemController {
                                     HttpStatus.OK);
     }
 
-
 //    public ResponseEntity<String> createItemPicturesForItem(Long id, MultipartFile[] files){
 //        return new ResponseEntity<>(itemRepository.createItemPicturesForItem(id, files),
 //                                    HttpStatus.OK);

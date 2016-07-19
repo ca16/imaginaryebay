@@ -13,7 +13,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         ItemEndpointsTest.class,
-        MessageEndpointsTest.class,
+//        MessageEndpointsTest.class,
         UserrEndpointsTest.class,
 
 })

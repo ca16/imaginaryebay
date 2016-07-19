@@ -17,7 +17,7 @@ public class UserrRestControllerTest {
     @Mock
     private UserrRepository userrRepo;
 
-    private UserrRestController impl;
+    private UserrController impl;
 
     private Userr userr1;
     private Userr userr2;
@@ -36,8 +36,8 @@ public class UserrRestControllerTest {
         when(userrRepo.getUserrByID(2L)).thenReturn(userr2);
         when(userrRepo.getUserrByID(3L)).thenReturn(userr3);
 
-        impl = new UserrRestController();
-        impl.setUserrRepository(userrRepo);
+        impl = new UserrControllerImpl();
+//        impl.setUserRepository(userrRepo);
 
     }
 

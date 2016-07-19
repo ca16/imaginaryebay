@@ -1,9 +1,9 @@
 package com.imaginaryebay.DAO;
 
 
-import java.util.List;
-
 import com.imaginaryebay.Models.Userr;
+
+import java.util.List;
 
 
 /**
@@ -12,27 +12,15 @@ import com.imaginaryebay.Models.Userr;
 public interface UserrDao {
 
 
-	public void createNewUserr (Userr userr);
+    public void persist (Userr userr);
 
-    public Userr getUserrByID (Long id);
+    public Userr getUserrByID (long id);
 
-    public Userr getUserByEmail(String email);
-    
-    public Userr getUserByName(String name);
+    public Userr getUserrByEmail(String email);
 
-	public List<Userr> findAllUserrs();
-	
-	public String getEmailByUserID(Long id);
-    
-    public String getEmailByUserName(String name);
+    public List<Userr> getAllUserrs();
 
-    public String getAddressByUserID(Long id);
-    
-    public String getAddressByUserName(String name);
-    
-    public Boolean isAdminByUserID(Long id);
+    public List<Userr> getUserrByName(String name);
 
-    public Userr updateUserByID(Long id, Userr userr);
-
-
+    public void updateUserrByID(long id,Userr u);
 }

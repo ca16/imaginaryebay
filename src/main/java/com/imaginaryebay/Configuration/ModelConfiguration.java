@@ -13,29 +13,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ModelConfiguration {
 
-    //All the bean dependencies use setter injection
+
 
     @Bean
-    public UserrDao userrDao(){
-        UserrDaoImpl bean = new UserrDaoImpl();
-        return bean;
-    }
-
-    @Bean
-    public UserrRepository userrRepository(){
-        UserrRepositoryImpl bean=new UserrRepositoryImpl();
-        bean.setUserrDao(userrDao());
-        return bean;
-    }
-
-    @Bean
-   // public UserrRestController userrRestController(){
     public UserrController userrController(){
-        UserrRestController bean=new UserrRestController();
-        bean.setUserrRepository(userrRepository());
+        UserrController bean=new UserrControllerImpl();
         return bean;
     }
-    
+
+
+
     @Bean
     public MessageDao messageDao(){
         MessageDaoImpl bean = new MessageDaoImpl();
