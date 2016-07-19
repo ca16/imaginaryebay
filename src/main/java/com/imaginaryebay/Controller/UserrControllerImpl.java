@@ -114,7 +114,22 @@ public class UserrControllerImpl implements UserrController {
 
     @Override
     public Userr updateUserrByID(Long id, Userr u){
-        return userrRepository.updateUserrByID(id,u);
+        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        String email=auth.getName();
+        boolean isAdmin=auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"));
+        Userr temp=userrRepository.getUserrByID(id);
+        if(temp==null){
+            return null;
+        }
+        else if (isAdmin) {
+            return userrRepository.updateUserrByID(id, u);
+        }
+        else if (temp.getEmail().equals(email)){
+            return userrRepository.updateUserrByID(id, u);
+        }
+        else{
+            //ToDo: should return 401
+                return null;
+        }
     }
-
 }
