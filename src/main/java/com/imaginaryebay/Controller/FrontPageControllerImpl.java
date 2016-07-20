@@ -11,7 +11,7 @@ public class FrontPageControllerImpl implements FrontPageController {
 
     @Override
     public ModelAndView getFirstPage(){
-        ModelAndView model= new ModelAndView("index");
+        ModelAndView model= new ModelAndView("/WEB-INF/index.jsp");
         return model;
     }
 
