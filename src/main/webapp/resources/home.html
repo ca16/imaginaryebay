@@ -1,0 +1,65 @@
+<div ng-include src=" './resources/Navigation.html' "></div>
+
+<!-- Page Content -->
+<div class="container" ng-controller="homeController">
+
+    <!-- Custom CSS -->
+    <link href="./resources/css/heroic-features.css" rel="stylesheet">
+
+
+
+
+    <!-- Jumbotron Header -->
+    <header class="jumbotron hero-spacer">
+        <h1>Welcome to Imaginary Ebay!</h1>
+        <p>We are the largest customer-to-customer shopping platform for imagination land.
+            We provide a platform for fairy-tale businesses and creatures to open online stores that mainly cater to consumers in fictional regions.
+        </p>
+
+        </p>
+    </header>
+
+    <hr>
+
+    <!-- Title -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h3>Latest Features</h3>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- Page Features -->
+    <div  class="row text-center">
+
+        <div ng-repeat="merchandise in goods" class="col-md-3 col-sm-6 hero-feature">
+            <div class="thumbnail">
+                <img src="http://placehold.it/800x500" alt="">
+                <div class="caption">
+                    <h3>{{merchandise.name}}</h3>
+                    <p>{{merchandise.description}}</p>
+                    <p>
+                        <a href="#/app/product?productID={{merchandise.id}}" class="btn btn-primary">Learn more!</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <!-- /.row -->
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Copyright &copy; Your Website 2014</p>
+            </div>
+        </div>
+    </footer>
+
+</div>
+<!-- /.container -->

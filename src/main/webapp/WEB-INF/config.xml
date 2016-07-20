@@ -15,10 +15,10 @@
     <bean
             class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">
-            <value>/WEB-INF/Pages/</value>
+            <value>/</value>
         </property>
         <property name="suffix">
-            <value>.jsp</value>
+            <value></value>
         </property>
     </bean>
 
