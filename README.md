@@ -4,8 +4,13 @@ Imaginary Ebay
 
 To login:
 ----------
-1. curl -X POST -d username=butters@gmail.com -d password=Stotch http://localhost:8080/login 
+1. not store the cookies:
 
+	curl -X POST -d username=butters@gmail.com -d password=Stotch http://localhost:8080/login 
+	
+2. store the cookies:
+	
+	curl -X POST -d username=butters@gmail.com -d password=Stotch -c ./cookies.txt http://localhost:8080/login 
 
 
 
