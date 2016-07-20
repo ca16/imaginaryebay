@@ -2,6 +2,8 @@ package com.imaginaryebay.Configuration;
 
 import com.imaginaryebay.SendEmail;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Properties;
 
 import org.springframework.context.annotation.Bean;
