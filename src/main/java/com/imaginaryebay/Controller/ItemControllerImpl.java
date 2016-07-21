@@ -70,7 +70,7 @@ public class ItemControllerImpl implements ItemController {
     }
 
     @Override
-    public ResponseEntity<List<Item>> getAllItems(Category cat){
+    public ResponseEntity<List<Item>> getAllItems(String cat){
         if (null != cat){
             return new ResponseEntity<List<Item>>(this.itemRepository.findAllItemsByCategory(cat), HttpStatus.OK);
         }

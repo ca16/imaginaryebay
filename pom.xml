@@ -19,6 +19,7 @@
         <jackson-version>2.7.5</jackson-version>
         <postgresql-version>9.4.1207</postgresql-version>
         <javax-mail-version>1.4.3</javax-mail-version>
+        <powermock.version>1.5.1</powermock.version>
         <org.springframework.security.version>4.1.1.RELEASE</org.springframework.security.version>
     </properties>
 
@@ -36,7 +37,6 @@
             <artifactId>spring-security-config</artifactId>
             <version>${org.springframework.security.version}</version>
         </dependency>
-
 
         <!--Spring-->
         <dependency>
@@ -176,7 +176,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.11</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -191,6 +191,19 @@
             <version>2.2.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>

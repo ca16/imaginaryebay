@@ -78,7 +78,7 @@ public interface ItemController {
      * @return the list of items that fits the input
      */
     @RequestMapping(method= RequestMethod.GET)
-    public ResponseEntity<List<Item>> getAllItems(@RequestParam(value = "cat", required = false) Category cat);
+    public ResponseEntity<List<Item>> getAllItems(@RequestParam(value = "cat", required = false) String cat);
 
     /**
      *

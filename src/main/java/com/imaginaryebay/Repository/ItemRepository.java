@@ -31,7 +31,7 @@ public interface ItemRepository {
 
     public Item updateItemByID(Long id, Item item);
 
-    public List<Item> findAllItemsByCategory(Category category);
+    public List<Item> findAllItemsByCategory(String category);
 
     public List<Item> findAllItems();
 
