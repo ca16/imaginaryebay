@@ -32,6 +32,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     private static final String NO_ENTRIES          = "There are no entries for the requested resource.";
     private static final String INVALID_PARAMETER   = "Invalid request parameter.";
 
+
     private ItemDAO itemDAO;
 
     public void setItemDAO(ItemDAO itemDAO) {
@@ -39,6 +40,24 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     public void save(Item item) {
+        // do items have to have a price?
+        if ((null != item.getPrice()) && !(item.getPrice() > 0)){
+            throw new RestException("Invalid price", "Price must be greater than 0.", HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            Category.valueOf(item.getCategory().toString());
+        } catch (NullPointerException exc){
+            // do items have to have a category
+        } catch (IllegalArgumentException exc){
+            throw new RestException("Invalid category", item.getCategory() + " is not a valid category name", HttpStatus.BAD_REQUEST);
+        }
+
+        // do items have to have an endtime?
+        if ((null != item.getEndtime()) && ((item.getEndtime().before(new Timestamp(System.currentTimeMillis()))))){
+            throw new RestException("Invalid endtime", "Auction must end in the future", HttpStatus.BAD_REQUEST);
+        }
+
         this.itemDAO.persist(item);
     }
 
@@ -46,9 +65,10 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     public void update(Item item) {
         if (this.itemDAO.find(item) == null) {
-            throw new RestException("Item to be updated does not exist.",
-                    "Item with id " + item.getId() + " was not found");
-        } else {
+            throw new RestException(NOT_AVAILABLE,
+                    "Item to be updated does not exist.");
+        }
+        else {
             this.itemDAO.merge(item);
         }
     }
@@ -59,8 +79,8 @@ public class ItemRepositoryImpl implements ItemRepository {
         if (toRet == null) {
             // what should the number be here?
             logger.error("Item not found!", new RestException("Item not found.", "Item with id " + id + " was not found"));
-            throw new RestException("Item not found.",
-                    "Item with id " + id + " was not found");
+            throw new RestException(NOT_AVAILABLE,
+                    detailedMessageConstructor(id));
         } else {
             return toRet;
         }
@@ -75,12 +95,12 @@ public class ItemRepositoryImpl implements ItemRepository {
                 return price;
             }
             //figure out code
-            throw new RestException("Item does not have a price.",
-                    "Item with id " + id + " does not have a price");
+            throw new RestException(NOT_AVAILABLE,
+                    detailedMessageConstructor(id, " does not have a price"));
         }
         //figure out code
-        throw new RestException("Item not found.",
-                "Item with id " + id + " was not found");
+        throw new RestException(NOT_AVAILABLE,
+                detailedMessageConstructor(id));
     }
 
     // Same comment as for price, is category required?
@@ -91,12 +111,12 @@ public class ItemRepositoryImpl implements ItemRepository {
             if (cat != null) {
                 return cat;
             }
-            throw new RestException("Item does not have a category.",
-                    "Item with id " + id + " does not have a category");
+            throw new RestException(NOT_AVAILABLE,
+                    detailedMessageConstructor(id, " does not have a category"));
 
         }
-        throw new RestException("Item not found.",
-                "Item with id " + id + " was not found");
+        throw new RestException(NOT_AVAILABLE,
+                detailedMessageConstructor(id));
     }
 
     public Timestamp findEndtimeByID(Long id) {
@@ -106,12 +126,12 @@ public class ItemRepositoryImpl implements ItemRepository {
             if (time != null) {
                 return time;
             }
-            throw new RestException("Item does not have an endtime.",
-                    "Item with id " + id + " does not have a endtime");
+            throw new RestException(NOT_AVAILABLE,
+                    detailedMessageConstructor(id, " does not have an endtime"));
 
         }
-        throw new RestException("Item not found.",
-                "Item with id " + id + " was not found");
+        throw new RestException(NOT_AVAILABLE,
+                detailedMessageConstructor(id));
     }
 
     public String findDescriptionByID(Long id) {
@@ -121,12 +141,12 @@ public class ItemRepositoryImpl implements ItemRepository {
             if (description != null) {
                 return description;
             }
-            throw new RestException("Item does not have a description.",
-                    "Item with id " + id + " does not have a description");
+            throw new RestException(NOT_AVAILABLE,
+                    detailedMessageConstructor(id, " does not have a description"));
 
         }
-        throw new RestException("Item not found.",
-                "Item with id " + id + " was not found");
+        throw new RestException(NOT_AVAILABLE,
+                detailedMessageConstructor(id));
     }
 
     public Item updateItemByID(Long id, Item item) {
@@ -135,16 +155,23 @@ public class ItemRepositoryImpl implements ItemRepository {
             //See price comment
             return itemDAO.updateItemByID(id, item);
         }
-        throw new RestException("Item not found.",
-                "Item with id " + id + " was not found");
+        throw new RestException(NOT_AVAILABLE,
+                detailedMessageConstructor(id));
     }
 
-    public List<Item> findAllItemsByCategory(Category category) {
-        List<Item> toRet = this.itemDAO.findAllItemsByCategory(category);
+    public List<Item> findAllItemsByCategory(String category) {
+        Category cat;
+        try {
+            cat = Category.valueOf(category);
+        }catch (IllegalArgumentException exc){
+            // Should we also give them a list of options?
+            throw new RestException(INVALID_PARAMETER, category + " is not a valid Category name", HttpStatus.BAD_REQUEST);
+        }
+        List<Item> toRet = this.itemDAO.findAllItemsByCategory(cat);
         if (!toRet.isEmpty()) {
             return toRet;
         }
-        throw new RestException("No items of that category.",
+        throw new RestException(NOT_AVAILABLE,
                 "Items of category " + category + " were not found");
     }
 
@@ -153,8 +180,8 @@ public class ItemRepositoryImpl implements ItemRepository {
         if (!toRet.isEmpty()) {
             return toRet;
         }
-        throw new RestException("No items available.",
-                "There are not items available.");
+        throw new RestException(NOT_AVAILABLE,
+                "There are no items available.");
 
     }
 
@@ -233,5 +260,13 @@ public class ItemRepositoryImpl implements ItemRepository {
         }
 //        return uploadResponse;
         return newPicture;
+    }
+
+    private String detailedMessageConstructor(Long id){
+        return "Item with id " + id + " was not found";
+    }
+
+    private String detailedMessageConstructor(Long id, String extras){
+        return "Item with id " + id + extras;
     }
 }

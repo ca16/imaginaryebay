@@ -170,8 +170,8 @@ public class ItemControllerImplTest {
         when(itemRepo.findEndtimeByID(10L)).thenReturn(valueOf("2016-9-2 11:10:10"));
 
         when(itemRepo.findAllItems()).thenReturn(all);
-        when(itemRepo.findAllItemsByCategory(Category.Clothes)).thenReturn(clothes);
-        when(itemRepo.findAllItemsByCategory(Category.Electronics)).thenReturn(electronics);
+        when(itemRepo.findAllItemsByCategory("Clothes")).thenReturn(clothes);
+        when(itemRepo.findAllItemsByCategory("Electronics")).thenReturn(electronics);
 
         when(itemRepo.findAllItemPicturesForItem(1L,"false")).thenReturn(item1pics);
         when(itemRepo.findAllItemPicturesForItem(1L,"true")).thenReturn(item1picurls);
@@ -274,12 +274,12 @@ public class ItemControllerImplTest {
     @Test
     public void getAllItems() throws Exception {
         assertEquals(impl.getAllItems(null).getBody(), all);
-        assertEquals(impl.getAllItems(Category.Clothes).getBody(), clothes);
-        assertEquals(impl.getAllItems(Category.Electronics).getBody(), electronics);
+        assertEquals(impl.getAllItems("Clothes").getBody(), clothes);
+        assertEquals(impl.getAllItems("Electronics").getBody(), electronics);
 
         assertEquals(impl.getAllItems(null).getStatusCode(), org.springframework.http.HttpStatus.OK);
-        assertEquals(impl.getAllItems(Category.Clothes).getStatusCode(), org.springframework.http.HttpStatus.OK);
-        assertEquals(impl.getAllItems(Category.Electronics).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getAllItems("Clothes").getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getAllItems("Electronics").getStatusCode(), org.springframework.http.HttpStatus.OK);
 
 
     }
