@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Ben_Big on 6/27/16.
@@ -39,6 +41,12 @@ public class Userr implements Serializable{
     @Column(nullable = true)
     private String address;
 
+    @OneToMany
+    @JoinColumn(name="user_id")
+    private Set<Item> items=new HashSet<>();
+
+
+
     protected Userr(){}
 
 
@@ -53,7 +61,7 @@ public class Userr implements Serializable{
         this.email = email;
         this.name = name;
         this.password = password;
-        this.isAdmin=isAdmin;
+        this.isAdmin=false;
     }
 
 
@@ -108,5 +116,11 @@ public class Userr implements Serializable{
     }
 
 
+    public Set<Item> getItems() {
+        return items;
+    }
 
+    public void setItems(Set<Item> items) {
+        this.items = items;
+    }
 }
