@@ -28,7 +28,6 @@ public class ItemPictureTest {
 	        item1.setDescription("Scarf");
 	        item1.setEndtime(valueOf("2016-10-10 00:00:00"));
 	        item1.setUserr(new Userr("t_vivio@yahoo.com","Tina","sfda",true));
-//            item1.setUserr(new Userr("t_vivio@yahoo.com","Tina","sfda","Seattle",true));
 
 
             item2 = new Item();
@@ -37,7 +36,6 @@ public class ItemPictureTest {
 	        item2.setDescription("Expensive Scarf");
 	        item2.setEndtime(valueOf("2016-11-5 06:00:00"));
             item2.setUserr(new Userr("hello@gmail.com","Kyle","agdf", false));
-//	        item2.setUserr(new Userr("hello@gmail.com","Kyle","agdf","New York",false));
 
 	        item3 = new Item();
 	        item3.setCategory(Category.Electronics);
@@ -45,7 +43,6 @@ public class ItemPictureTest {
 	        item3.setDescription("Watch");
 	        item3.setEndtime(valueOf("2016-9-2 11:10:10"));
             item3.setUserr(new Userr("potato@gmail.com","Sam","rtdu", false));
-//	        item3.setUserr(new Userr("potato@gmail.com","Sam","rtdu","Boston",false));
 
 	        itempic1=new ItemPicture("scarf.html");
 	        itempic1.setAuction_item(item1);
@@ -53,9 +50,6 @@ public class ItemPictureTest {
 	        itempic2.setAuction_item(item2);
 	        itempic3=new ItemPicture("watch.html");
 	        itempic3.setAuction_item(item3);
-
-
-
 	    }
 
 	    //Test getID()?
