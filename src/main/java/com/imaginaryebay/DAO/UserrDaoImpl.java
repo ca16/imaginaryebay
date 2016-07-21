@@ -126,7 +126,7 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
         if (itr.hasNext()){
             Userr toChange= itr.next();
             toChange.setPassword(u.getPassword());
-            toChange.setAdmin(u.isAdmin());
+            toChange.setIsAdmin(u.isAdmin());
             toChange.setEmail(u.getEmail());
             toChange.setName(u.getName());
             toChange.setAddress(u.getAddress());

@@ -1,5 +1,7 @@
 package com.imaginaryebay.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 import java.sql.Timestamp;
@@ -30,7 +32,7 @@ public class Item {
     private List<ItemPicture> itemPictures = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "userr_id")
+    @JoinColumn(name = "user_id")
     private Userr userr;
 
     public Long getId() {
@@ -88,7 +90,7 @@ public class Item {
     public void setUserr(Userr userr) {
         this.userr = userr;
     }
-    
+
 	@Override
     public String toString() {
         return "Item{" +
