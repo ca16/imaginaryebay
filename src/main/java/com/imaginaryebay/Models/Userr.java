@@ -1,6 +1,7 @@
 package com.imaginaryebay.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,14 +23,39 @@ public class Userr implements Serializable{
         return id;
     }
 
-    @Column(unique=true)
+    @Column(nullable = false, unique=true)
     private String email;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    @JsonIgnore
     private String password;
+
+    @Column(nullable = false)
     private boolean isAdmin;
 
+    @Column(nullable = true)
+    private String address;
+
     protected Userr(){}
+
+
+    public Userr(String email, String name, String password) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.isAdmin=false;
+    }
+
+    public Userr(String email, String name, String password, boolean isAdmin) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.isAdmin=isAdmin;
+    }
+
 
 
     public String getEmail() {
@@ -57,6 +83,7 @@ public class Userr implements Serializable{
         return password;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }
@@ -71,11 +98,15 @@ public class Userr implements Serializable{
     }
 
 
+    public String getAddress() {
+        return address;
+    }
 
 
-    public Userr(String email, String name, String password) {
-		this.email = email;
-		this.name = name;
-		this.password = password;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+
+
 }
