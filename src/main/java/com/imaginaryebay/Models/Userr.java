@@ -41,13 +41,6 @@ public class Userr implements Serializable{
     @Column(nullable = true)
     private String address;
 
-    @OneToMany
-    @JoinColumn(name="user_id")
-    //@JsonIgnore
-    private Set<Item> items=new HashSet<>();
-
-
-
     protected Userr(){}
 
 
@@ -114,15 +107,6 @@ public class Userr implements Serializable{
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-
-    public Set<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(Set<Item> items) {
-        this.items = items;
     }
 
 }

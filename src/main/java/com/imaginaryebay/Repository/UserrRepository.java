@@ -1,4 +1,5 @@
 package com.imaginaryebay.Repository;
+import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.Userr;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public interface UserrRepository {
 
     public List<Userr> getUserrByName(String name);
 
-    public Userr updateUserrByID(long id, Userr u);
+    public Userr updateUserrByID(Long id, Userr u);
 
+    public List<Item> getItemsSoldByThisUser(Long id);
 }
