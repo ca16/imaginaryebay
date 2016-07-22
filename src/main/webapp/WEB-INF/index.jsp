@@ -39,6 +39,7 @@
     <script src="<c:url value="/resources/js/Login/Login.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Register/Registration.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Navigation/Navigation.controller.js"/>"></script>
+    <script src="<c:url value="/resources/js/ItemChanges/ItemChanges.controller.js"/>"></script>
 
 
 

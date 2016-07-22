@@ -15,6 +15,9 @@
             .when('/app/registration',{
                 templateUrl:'./resources/registration.html'
             })
+            .when('/app/itemchanges',{
+                templateUrl:'./resources/itemchanges.html'
+            })
             .otherwise({
                 redirectTo:'/'
             });
