@@ -66,11 +66,26 @@ public class ItemRepositoryImpl implements ItemRepository {
     public void update(Item item) {
         if (this.itemDAO.find(item) == null) {
             throw new RestException(NOT_AVAILABLE,
-                    "Item to be updated does not exist.");
+                    "Item to be updated does not exist.", HttpStatus.BAD_REQUEST);
         }
-        else {
-            this.itemDAO.merge(item);
+        if ((null != item.getPrice()) && !(item.getPrice() > 0)){
+            throw new RestException("Invalid price", "Price must be greater than 0.", HttpStatus.BAD_REQUEST);
         }
+
+        try {
+            Category.valueOf(item.getCategory().toString());
+        } catch (NullPointerException exc){
+            // do items have to have a category
+        } catch (IllegalArgumentException exc){
+            throw new RestException("Invalid category", item.getCategory() + " is not a valid category name", HttpStatus.BAD_REQUEST);
+        }
+
+        // do items have to have an endtime?
+        if ((null != item.getEndtime()) && ((item.getEndtime().before(new Timestamp(System.currentTimeMillis()))))){
+            throw new RestException("Invalid endtime", "Auction must end in the future", HttpStatus.BAD_REQUEST);
+        }
+
+        this.itemDAO.merge(item);
     }
 
 
@@ -80,7 +95,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             // what should the number be here?
             logger.error("Item not found!", new RestException("Item not found.", "Item with id " + id + " was not found"));
             throw new RestException(NOT_AVAILABLE,
-                    detailedMessageConstructor(id));
+                    detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
         } else {
             return toRet;
         }
@@ -96,11 +111,11 @@ public class ItemRepositoryImpl implements ItemRepository {
             }
             //figure out code
             throw new RestException(NOT_AVAILABLE,
-                    detailedMessageConstructor(id, " does not have a price"));
+                    detailedMessageConstructor(id, " does not have a price"), HttpStatus.BAD_REQUEST);
         }
         //figure out code
         throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id));
+                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
     }
 
     // Same comment as for price, is category required?
@@ -112,11 +127,11 @@ public class ItemRepositoryImpl implements ItemRepository {
                 return cat;
             }
             throw new RestException(NOT_AVAILABLE,
-                    detailedMessageConstructor(id, " does not have a category"));
+                    detailedMessageConstructor(id, " does not have a category"), HttpStatus.BAD_REQUEST);
 
         }
         throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id));
+                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
     }
 
     public Timestamp findEndtimeByID(Long id) {
@@ -127,11 +142,11 @@ public class ItemRepositoryImpl implements ItemRepository {
                 return time;
             }
             throw new RestException(NOT_AVAILABLE,
-                    detailedMessageConstructor(id, " does not have an endtime"));
+                    detailedMessageConstructor(id, " does not have an endtime"), HttpStatus.BAD_REQUEST);
 
         }
         throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id));
+                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
     }
 
     public String findDescriptionByID(Long id) {
@@ -142,21 +157,36 @@ public class ItemRepositoryImpl implements ItemRepository {
                 return description;
             }
             throw new RestException(NOT_AVAILABLE,
-                    detailedMessageConstructor(id, " does not have a description"));
+                    detailedMessageConstructor(id, " does not have a description"), HttpStatus.BAD_REQUEST);
 
         }
         throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id));
+                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
     }
 
     public Item updateItemByID(Long id, Item item) {
-        Item current = this.itemDAO.findByID(id);
-        if (current != null) {
-            //See price comment
-            return itemDAO.updateItemByID(id, item);
+        if (id == null || this.itemDAO.findByID(id) == null) {
+            throw new RestException(NOT_AVAILABLE,
+                "Item to be updated does not exist.", HttpStatus.BAD_REQUEST);
         }
-        throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id));
+        if ((null != item.getPrice()) && !(item.getPrice() > 0)){
+            throw new RestException("Invalid price", "Price must be greater than 0.", HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            Category.valueOf(item.getCategory().toString());
+        } catch (NullPointerException exc){
+            // do items have to have a category
+        } catch (IllegalArgumentException exc){
+            throw new RestException("Invalid category", item.getCategory() + " is not a valid category name", HttpStatus.BAD_REQUEST);
+        }
+
+        // do items have to have an endtime?
+        if ((null != item.getEndtime()) && ((item.getEndtime().before(new Timestamp(System.currentTimeMillis()))))){
+            throw new RestException("Invalid endtime", "Auction must end in the future", HttpStatus.BAD_REQUEST);
+        }
+
+        return itemDAO.updateItemByID(id, item);
     }
 
     public List<Item> findAllItemsByCategory(String category) {
@@ -172,7 +202,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             return toRet;
         }
         throw new RestException(NOT_AVAILABLE,
-                "Items of category " + category + " were not found");
+                "Items of category " + category + " were not found", HttpStatus.BAD_REQUEST);
     }
 
     public List<Item> findAllItems() {
@@ -181,7 +211,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             return toRet;
         }
         throw new RestException(NOT_AVAILABLE,
-                "There are no items available.");
+                "There are no items available.", HttpStatus.BAD_REQUEST);
 
     }
 

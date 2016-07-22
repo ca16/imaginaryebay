@@ -232,6 +232,8 @@ public class ItemRepositoryImplTest {
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+
         }
     }
 
@@ -255,6 +257,8 @@ public class ItemRepositoryImplTest {
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 24 does not have a price", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+
         }
 
         try {
@@ -262,6 +266,8 @@ public class ItemRepositoryImplTest {
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+
         }
     }
 
@@ -286,6 +292,8 @@ public class ItemRepositoryImplTest {
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 24 does not have a category", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+
         }
 
         try {
@@ -293,6 +301,8 @@ public class ItemRepositoryImplTest {
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+
         }
     }
 
@@ -318,6 +328,8 @@ public class ItemRepositoryImplTest {
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 24 does not have an endtime", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+
         }
 
         try {
@@ -325,6 +337,8 @@ public class ItemRepositoryImplTest {
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+
         }
     }
 
@@ -349,6 +363,8 @@ public class ItemRepositoryImplTest {
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 24 does not have a description", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+
         }
 
         try {
@@ -356,6 +372,8 @@ public class ItemRepositoryImplTest {
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+
         }
 
     }
@@ -373,30 +391,33 @@ public class ItemRepositoryImplTest {
 
     @Test
     public void update() throws Exception {
-        impl.update(toUpdate);
+       /* impl.update(toUpdate);
         verify(itemDao).find(toUpdate);
         verify(itemDao).merge(toUpdate);
-
+*/
         try {
             impl.update(notInDB);
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item to be updated does not exist.", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+
         }
 
     }
 
     @Test
     public void updateItemByID() throws Exception {
-        impl.updateItemByID(2L, toUpdate);
+/*        impl.updateItemByID(2L, toUpdate);
         verify(itemDao).findByID(2L);
-        verify(itemDao).updateItemByID(2L, toUpdate);
-
+        verify(itemDao).updateItemByID(2L, toUpdate);*/
         try {
             impl.updateItemByID(25L, toUpdate);
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
-            Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
+            Assert.assertEquals("Item to be updated does not exist.", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+
         }
     }
 
@@ -410,12 +431,16 @@ public class ItemRepositoryImplTest {
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Items of category Clothes were not found", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+
         }
         try {
             implEmpties.findAllItemsByCategory("Electronics");
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Items of category Electronics were not found", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+
         }
         try {
             impl.findAllItemsByCategory("Books");
@@ -450,6 +475,8 @@ public class ItemRepositoryImplTest {
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("There are no items available.", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+
         }
     }
 

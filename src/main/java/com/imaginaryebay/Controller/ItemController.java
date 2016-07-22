@@ -22,7 +22,7 @@ public interface ItemController {
      * @param item the item to be saved
      */
     @RequestMapping(method= RequestMethod.POST)
-    public void save(@RequestBody Item item);
+    public ResponseEntity<Void> save(@RequestBody Item item);
 
     /**
      * @param id the item's ID

@@ -142,6 +142,14 @@ public class ItemEndpointsTest {
         item.setPrice(40.0);
         item.setCategory(Category.Clothes);
         item.setDescription("Scarf");
-        template.put("http://localhost:8080/item/1", item);
+        try {
+            template.put("http://localhost:8080/item/1", item);
+        } catch (Exception exc) {
+            if (exc.getClass() == HttpClientErrorException.class) {
+                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
+                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
+            }
+        }
+
     }
 }

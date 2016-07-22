@@ -21,7 +21,7 @@ function itemchangesController($scope,$http){
                 function(res){
                     window.alert("Item created successfully!");
                 }, function(res){
-                    window.alert("Item creation failed: " + res.statusText);
+                    window.alert("Item creation failed: " + res.data.detailedMessage);
                 });
     }
 
@@ -39,7 +39,12 @@ function itemchangesController($scope,$http){
                 function(res){
                     window.alert("Item updated successfully!");
                 }, function(res){
-                    window.alert("Item update failed: " + res.statusText);
+                    if (id == null){
+                        window.alert("Please provide an item ID.");
+                    }
+                    else {
+                        window.alert("Item update failed: " + res.data.detailedMessage);
+                    }
                 });
     }
 }
