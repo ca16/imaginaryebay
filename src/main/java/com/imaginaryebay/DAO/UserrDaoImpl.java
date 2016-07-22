@@ -1,5 +1,6 @@
 package com.imaginaryebay.DAO;
 
+import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.Userr;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -136,5 +137,14 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
             throw new UsernameNotFoundException("No user with this id");
         }
 
+    }
+
+
+    @Override
+    public List<Item> getItemsSoldByThisUser (long id){
+        String queryString="select i from Item i join i.userr u where u.id= :I";
+        Query query=entityManager.createQuery(queryString);
+        query.setParameter("I",id);
+        return query.getResultList();
     }
 }
