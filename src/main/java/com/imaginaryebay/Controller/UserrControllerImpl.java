@@ -27,6 +27,10 @@ public class UserrControllerImpl implements UserrController {
     @Autowired
     private UserrRepository userrRepository;
 
+    public void setUserrRepository(UserrRepository userrRepository){
+        this.userrRepository = userrRepository;
+    }
+
     @Override
     public ResponseEntity<Void> createNewUserr(Userr userr){
         //ToDo: should have a mechanism here to check if the user exists or not
