@@ -14,7 +14,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
@@ -28,11 +36,15 @@ public class UserrRepositoryTest {
     @Mock
     private UserrDao userrDao;
 
+
     private UserrRepositoryImpl impl;
 
     private Userr userr1;
     private Userr userr2;
     private Userr newUser;
+
+    private UserDetails user1;
+    private List<GrantedAuthority> authListAce;
 
     @Before
     public void setUp() throws Exception {
@@ -42,6 +54,12 @@ public class UserrRepositoryTest {
         userr1 = new Userr("a@amail.com", "Ace Aceson", "aaaa");
         userr2 = new Userr("b@bmail.com", "Bb Beeson", "bbbb");
         newUser = new Userr("new@email.com", "New User", "newnew");
+
+        authListAce = new ArrayList<>();
+        authListAce.add(new SimpleGrantedAuthority("USER"));
+        authListAce.add(new SimpleGrantedAuthority("ADMIN"));
+
+        UserDetails user1 = new User("a@amail.com", "aaaa", true, true, true, true, authListAce);
 
         when(userrDao.getUserrByID(1L)).thenReturn(userr1);
         when(userrDao.getUserrByID(2L)).thenReturn(userr2);
@@ -84,6 +102,11 @@ public class UserrRepositoryTest {
         Assert.assertEquals(userr1, impl.getUserrByID(1L));
         Assert.assertEquals(userr2, impl.getUserrByID(2L));
         */
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(user1, "aaaa", authListAce);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        Assert.assertEquals(userr1, impl.getUserrByID(1L));
+
 
     }
 
