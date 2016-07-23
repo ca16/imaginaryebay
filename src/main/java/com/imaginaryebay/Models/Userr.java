@@ -48,14 +48,14 @@ public class Userr implements Serializable{
         this.email = email;
         this.name = name;
         this.password = password;
-        this.isAdmin=false;
+        this.isAdmin = false;
     }
 
     public Userr(String email, String name, String password, Boolean isAdmin) {
         this.email = email;
         this.name = name;
         this.password = password;
-        this.isAdmin=isAdmin;
+        this.isAdmin = isAdmin;
     }
 
 

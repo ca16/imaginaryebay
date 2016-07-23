@@ -45,4 +45,7 @@ public interface UserrController {
     @RequestMapping (value="/item/{id}",method=RequestMethod.GET)
     public ResponseEntity<List<Item>> getItemsSoldByThisUser(@PathVariable("id")Long id);
 
+    @RequestMapping (value="/delete/{id}",method = RequestMethod.PUT)
+    public ResponseEntity<Void> deleteUserrByID(@PathVariable("id")Long id);
+
 }

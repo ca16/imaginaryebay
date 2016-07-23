@@ -22,4 +22,7 @@ public interface UserrRepository {
     public Userr updateUserrByID(Long id, Userr u);
 
     public List<Item> getItemsSoldByThisUser(Long id);
+
+    public void deleteUserrByID(Long id);
+
 }

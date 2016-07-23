@@ -27,9 +27,12 @@ import java.util.List;
 @Transactional
 public class UserrRepositoryImpl implements UserrRepository {
 
+	// forbidden or anotherized?
+	// at the moment forbidden gets returned for users that authenticated but do not have
+	// the authority to access a specific resource, and unauthorized gets returned for
+	// unathenticated users I think..
+
 	private static final String NOT_AVAILABLE       = "Not available.";
-	private static final String NO_ENTRIES          = "There are no entries for the requested resource.";
-	private static final String INVALID_PARAMETER   = "Invalid request parameter.";
 	private static final String NO_AUTHORITY        = "You do not have the authority to ";
 
 	@Autowired
@@ -129,5 +132,23 @@ public class UserrRepositoryImpl implements UserrRepository {
 		return userrDao.getItemsSoldByThisUser(id);
 	}
 
+	public void deleteUserrByID (Long id){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		Boolean isAdmin = auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"));
+		Userr temp = this.getUserrByID(id);
+		if(temp == null){
+			throw new RestException(NOT_AVAILABLE, "User with id " + id + " does not exist.", HttpStatus.BAD_REQUEST);
+		}
+		else if (isAdmin) {
+			userrDao.deleteUserrByID(id);
+		}
+		else if (temp.getEmail().equals(email)){
+			userrDao.deleteUserrByID(id);
+		}
+		else{
+			throw new RestException(NOT_AVAILABLE, NO_AUTHORITY + "delete this user.", HttpStatus.FORBIDDEN);
+		}
+	}
 
 }

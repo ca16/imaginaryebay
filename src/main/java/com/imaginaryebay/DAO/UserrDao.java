@@ -27,4 +27,6 @@ public interface UserrDao {
 
     public List<Item> getItemsSoldByThisUser(Long id);
 
+    public void deleteUserrByID(Long id);
+
 }
