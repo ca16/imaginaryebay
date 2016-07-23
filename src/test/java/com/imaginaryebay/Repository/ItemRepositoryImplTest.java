@@ -110,6 +110,7 @@ public class ItemRepositoryImplTest {
 
         noFields = new Item();
         notInDB = new Item();
+        toUpdate = new Item();
 
         all = new ArrayList<>();
         clothes = new ArrayList<>();
@@ -341,10 +342,10 @@ public class ItemRepositoryImplTest {
 
     @Test
     public void update() throws Exception {
-       /* impl.update(toUpdate);
+        impl.update(toUpdate);
         verify(itemDao).find(toUpdate);
         verify(itemDao).merge(toUpdate);
-*/
+
         try {
             impl.update(notInDB);
             fail();
@@ -359,9 +360,10 @@ public class ItemRepositoryImplTest {
 
     @Test
     public void updateItemByID() throws Exception {
-/*        impl.updateItemByID(2L, toUpdate);
+        impl.updateItemByID(2L, toUpdate);
         verify(itemDao).findByID(2L);
-        verify(itemDao).updateItemByID(2L, toUpdate);*/
+        verify(itemDao).updateItemByID(2L, toUpdate);
+
         try {
             impl.updateItemByID(25L, toUpdate);
             fail();
