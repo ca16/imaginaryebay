@@ -48,6 +48,12 @@ public class UserrControllerTest {
     @Test
     public void createNewUserr() throws Exception {
 
+
+    }
+
+    @Test
+    public void getUserrByID() throws Exception {
+
         Assert.assertEquals(userr1, impl.getUserrByID(1L).getBody());
         Assert.assertEquals(userr2, impl.getUserrByID(2L).getBody());
         Assert.assertEquals(userr3, impl.getUserrByID(3L).getBody());
@@ -55,12 +61,6 @@ public class UserrControllerTest {
         Assert.assertEquals(HttpStatus.OK, impl.getUserrByID(1L).getStatusCode());
         Assert.assertEquals(HttpStatus.OK, impl.getUserrByID(2L).getStatusCode());
         Assert.assertEquals(HttpStatus.OK, impl.getUserrByID(3L).getStatusCode());
-
-
-    }
-
-    @Test
-    public void getUserrByID() throws Exception {
 
     }
 
