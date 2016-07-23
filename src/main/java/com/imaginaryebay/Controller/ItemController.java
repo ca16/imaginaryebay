@@ -20,6 +20,10 @@ public interface ItemController {
     /**
      * Saves the given Item
      * @param item the item to be saved
+     *
+     * Example:
+     * curl -X POST -H "Content-Type: application/json" -d '{ "description" : "watch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item"
+     *
      */
     @RequestMapping(method= RequestMethod.POST)
     public ResponseEntity<Void> save(@RequestBody Item item);
@@ -27,6 +31,9 @@ public interface ItemController {
     /**
      * @param id the item's ID
      * @return the Item with the given ID
+     *
+     * Example:
+     * curl -X GET localhost:8080/item/1
      */
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
     public ResponseEntity<Item> getItemByID(@PathVariable("id") Long id);
@@ -38,6 +45,9 @@ public interface ItemController {
     /**
      * @param id the item's ID
      * @return the price of the item with the given ID
+     *
+     * Example:
+     * curl -X GET localhost:8080/item/price/1
      */
     @RequestMapping(value="/price/{id}", method= RequestMethod.GET)
     public ResponseEntity<Double> getPriceByID(@PathVariable("id") Long id);
@@ -45,6 +55,9 @@ public interface ItemController {
     /**
      * @param id the item's ID
      * @return category of the item with the given ID
+     *
+     * Example:
+     * curl -X GET localhost:8080/item/category/1
      */
     @RequestMapping(value="/category/{id}", method= RequestMethod.GET)
     public ResponseEntity<Category> getCategoryByID(@PathVariable("id") Long id);
@@ -52,6 +65,9 @@ public interface ItemController {
     /**
      * @param id the item's ID
      * @return the description of the item with the given ID
+     *
+     * Example:
+     * curl -X GET localhost:8080/item/description/1
      */
     @RequestMapping(value="/description/{id}", method= RequestMethod.GET)
     public ResponseEntity<String> getDescriptionByID(@PathVariable("id") Long id);
@@ -59,6 +75,9 @@ public interface ItemController {
     /**
      * @param id the item's ID
      * @return the endtime of the auction for the item with the given ID
+     *
+     * Example:
+     * curl -X GET localhost:8080/item/endtime/1
      */
     @RequestMapping(value="/endtime/{id}", method= RequestMethod.GET)
     public ResponseEntity<Timestamp> getEndtimeByID(@PathVariable("id") Long id);
@@ -67,6 +86,9 @@ public interface ItemController {
      * @param id the ID of the Item to be updated
      * @param item the Item it is being updated to
      * @return the updated item
+     *
+     * Example:
+     * curl -X PUT -H "Content-Type: application/json" -d '{ "description" : "notwatch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item/1"
      */
     @RequestMapping(value="/{id}", method= RequestMethod.PUT)
     public ResponseEntity<Item> updateItemByID(@PathVariable("id") Long id, @RequestBody Item item);
@@ -76,6 +98,10 @@ public interface ItemController {
      * returns a list of all items of that category.
      * @param cat the category of items we want a list for
      * @return the list of items that fits the input
+     *
+     * Example:
+     * curl -X GET localhost:8080/item
+     * curl -X GET localhost:8080/item?cat=Clothes
      */
     @RequestMapping(method= RequestMethod.GET)
     public ResponseEntity<List<Item>> getAllItems(@RequestParam(value = "cat", required = false) String cat);
@@ -86,7 +112,7 @@ public interface ItemController {
      * @param urlOnly - [True|true] | [False|false] Controls whether the associated Item is sent with the response
      * @return - Returns an HTTP response with the ItemPicture id, URL, and optionally the associated Item
      *
-     * EXAMPLE - curl -X GET localhose:8080/item/1/picture
+     * EXAMPLE - curl -X GET localhost:8080/item/1/picture
      */
     @RequestMapping(value = "/{id}/picture", method = RequestMethod.GET)
     public ResponseEntity<List<ItemPicture>>

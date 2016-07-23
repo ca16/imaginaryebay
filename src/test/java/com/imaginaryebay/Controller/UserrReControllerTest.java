@@ -13,7 +13,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by Chloe on 7/5/16.
  */
-public class UserrRestControllerTest {
+public class UserrReControllerTest {
     @Mock
     private UserrRepository userrRepo;
 

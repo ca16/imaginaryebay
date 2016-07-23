@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -26,7 +27,14 @@ public class UserrEndpointsTest {
     public void getsWorkOK() {
 
         RestTemplate template = new RestTemplate();
-        template.getForEntity("http://localhost:8080/user/1", List.class);
+        try {
+            template.getForEntity("http://localhost:8080/user/1", List.class);
+        } catch (Exception exc) {
+            if (exc.getClass() == HttpClientErrorException.class) {
+                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
+                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
+            }
+        }
     }
 
 }
