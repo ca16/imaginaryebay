@@ -38,6 +38,10 @@ public class UserrRepositoryImpl implements UserrRepository {
 	@Autowired
 	private UserrDao userrDao;
 
+	public void setUserrDao(UserrDao userrDao){
+		this.userrDao = userrDao;
+	}
+
 	public void createNewUserr(Userr newUserr) {
 		Userr u = userrDao.getUserrByEmail(newUserr.getEmail());
 		if (u == null) {

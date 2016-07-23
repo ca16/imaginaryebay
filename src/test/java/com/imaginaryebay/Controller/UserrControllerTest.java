@@ -40,6 +40,10 @@ public class UserrControllerTest {
         when(userrRepo.getUserrByID(2L)).thenReturn(userr2);
         when(userrRepo.getUserrByID(3L)).thenReturn(userr3);
 
+        when(userrRepo.getUserrByEmail("a@amail.com")).thenReturn(userr1);
+        when(userrRepo.getUserrByEmail("b@bmail.com")).thenReturn(userr2);
+        when(userrRepo.getUserrByEmail("a2@amail.com")).thenReturn(userr3);
+
         impl = new UserrControllerImpl();
         impl.setUserrRepository(userrRepo);
 
@@ -66,6 +70,14 @@ public class UserrControllerTest {
 
     @Test
     public void getUserrByEmail() throws Exception {
+
+        Assert.assertEquals(userr1, impl.getUserrByEmail("a@amail.com").getBody());
+        Assert.assertEquals(userr2, impl.getUserrByEmail("b@bmail.com").getBody());
+        Assert.assertEquals(userr3, impl.getUserrByEmail("a2@amail.com").getBody());
+
+        Assert.assertEquals(HttpStatus.OK, impl.getUserrByEmail("a@amail.com").getStatusCode());
+        Assert.assertEquals(HttpStatus.OK, impl.getUserrByEmail("b@bmail.com").getStatusCode());
+        Assert.assertEquals(HttpStatus.OK, impl.getUserrByEmail("a2@amail.com").getStatusCode());
 
     }
 
