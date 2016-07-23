@@ -95,7 +95,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             // what should the number be here?
             logger.error("Item not found!", new RestException("Item not found.", "Item with id " + id + " was not found"));
             throw new RestException(NOT_AVAILABLE,
-                    detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
+                    detailedMessageConstructor(id), HttpStatus.OK);
         } else {
             return toRet;
         }
@@ -111,7 +111,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             }
             //figure out code
             throw new RestException(NOT_AVAILABLE,
-                    detailedMessageConstructor(id, " does not have a price"), HttpStatus.BAD_REQUEST);
+                    detailedMessageConstructor(id, " does not have a price"), HttpStatus.OK);
         }
         //figure out code
         throw new RestException(NOT_AVAILABLE,
@@ -127,7 +127,7 @@ public class ItemRepositoryImpl implements ItemRepository {
                 return cat;
             }
             throw new RestException(NOT_AVAILABLE,
-                    detailedMessageConstructor(id, " does not have a category"), HttpStatus.BAD_REQUEST);
+                    detailedMessageConstructor(id, " does not have a category"), HttpStatus.OK);
 
         }
         throw new RestException(NOT_AVAILABLE,
@@ -142,7 +142,7 @@ public class ItemRepositoryImpl implements ItemRepository {
                 return time;
             }
             throw new RestException(NOT_AVAILABLE,
-                    detailedMessageConstructor(id, " does not have an endtime"), HttpStatus.BAD_REQUEST);
+                    detailedMessageConstructor(id, " does not have an endtime"), HttpStatus.OK);
 
         }
         throw new RestException(NOT_AVAILABLE,
@@ -157,7 +157,7 @@ public class ItemRepositoryImpl implements ItemRepository {
                 return description;
             }
             throw new RestException(NOT_AVAILABLE,
-                    detailedMessageConstructor(id, " does not have a description"), HttpStatus.BAD_REQUEST);
+                    detailedMessageConstructor(id, " does not have a description"), HttpStatus.OK);
 
         }
         throw new RestException(NOT_AVAILABLE,
@@ -202,7 +202,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             return toRet;
         }
         throw new RestException(NOT_AVAILABLE,
-                "Items of category " + category + " were not found", HttpStatus.BAD_REQUEST);
+                "Items of category " + category + " were not found", HttpStatus.OK);
     }
 
     public List<Item> findAllItems() {
@@ -211,7 +211,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             return toRet;
         }
         throw new RestException(NOT_AVAILABLE,
-                "There are no items available.", HttpStatus.BAD_REQUEST);
+                "There are no items available.", HttpStatus.OK);
 
     }
 

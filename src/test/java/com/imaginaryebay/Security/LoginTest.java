@@ -1,4 +1,4 @@
-package com.imaginaryebay;
+package com.imaginaryebay.Security;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;

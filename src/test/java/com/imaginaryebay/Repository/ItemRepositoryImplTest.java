@@ -22,6 +22,7 @@ import java.util.List;
 
 import static java.sql.Timestamp.valueOf;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -178,6 +179,7 @@ public class ItemRepositoryImplTest {
 
         try {
             impl.save(itemInvalidPrice);
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals("Invalid price", exc.getMessage());
             Assert.assertEquals("Price must be greater than 0.", exc.getDetailedMessage());
@@ -186,6 +188,7 @@ public class ItemRepositoryImplTest {
 /*
         try {
             impl.save(itemInvalidCategory);
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals("Invalid category", exc.getMessage());
             Assert.assertEquals("Books is not a valid category name", exc.getDetailedMessage());
@@ -194,6 +197,7 @@ public class ItemRepositoryImplTest {
 */
         try {
             impl.save(itemInvalidEndtime);
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals("Invalid endtime", exc.getMessage());
             Assert.assertEquals("Auction must end in the future", exc.getDetailedMessage());
@@ -201,22 +205,6 @@ public class ItemRepositoryImplTest {
         }
 
     }
-
-    @Test(expected = RestException.class)
-    public void invalidPrice() throws Exception{
-        impl.save(itemInvalidPrice);
-    }
-/*
-    @Test(expected = RestException.class)
-    public void invalidCategory() throws Exception{
-        impl.save(itemInvalidCategory);
-    }*/
-
-    @Test(expected = RestException.class)
-    public void invalidEndtime() throws Exception{
-        impl.save(itemInvalidEndtime);
-    }
-
 
     @Test
     public void findByID() throws Exception {
@@ -229,17 +217,13 @@ public class ItemRepositoryImplTest {
         //2. It has the expected message
         try {
             impl.findByID(25L);
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.OK);
 
         }
-    }
-
-    @Test(expected = RestException.class)
-    public void noItemWithGivenID() throws Exception{
-        impl.findByID(25L);
     }
 
 
@@ -254,31 +238,23 @@ public class ItemRepositoryImplTest {
         // there are two tests for findItemByID(25L)
         try {
             impl.findPriceByID(24L);
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 24 does not have a price", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.OK);
 
         }
 
         try {
             impl.findPriceByID(25L);
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
             Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
 
         }
-    }
-
-    @Test(expected = RestException.class)
-    public void findingPriceForItemWithNoPrice() throws Exception{
-        impl.findPriceByID(24L);
-    }
-
-    @Test(expected = RestException.class)
-    public void findingPriceForNonExistentItem() throws Exception{
-        impl.findPriceByID(25L);
     }
 
     @Test
@@ -289,15 +265,17 @@ public class ItemRepositoryImplTest {
 
         try {
             impl.findCategoryByID(24L);
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 24 does not have a category", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.OK);
 
         }
 
         try {
             impl.findCategoryByID(25L);
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
@@ -305,17 +283,6 @@ public class ItemRepositoryImplTest {
 
         }
     }
-
-    @Test(expected = RestException.class)
-    public void findingCategoryForItemWithNoCategory() throws Exception{
-        impl.findCategoryByID(24L);
-    }
-
-    @Test(expected = RestException.class)
-    public void findingCategoryForNonExistentItem() throws Exception{
-        impl.findCategoryByID(25L);
-    }
-
 
     @Test
     public void findEndtimeByID() throws Exception {
@@ -325,31 +292,23 @@ public class ItemRepositoryImplTest {
 
         try {
             impl.findEndtimeByID(24L);
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 24 does not have an endtime", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.OK);
 
         }
 
         try {
             impl.findEndtimeByID(25L);
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
             Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
 
         }
-    }
-
-    @Test(expected = RestException.class)
-    public void findingEndtimeForItemWithNoEndtime() throws Exception{
-        impl.findEndtimeByID(24L);
-    }
-
-    @Test(expected = RestException.class)
-    public void findingEndtimeForNonExistentItem() throws Exception{
-        impl.findEndtimeByID(25L);
     }
 
     @Test
@@ -360,15 +319,17 @@ public class ItemRepositoryImplTest {
 
         try {
             impl.findDescriptionByID(24L);
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 24 does not have a description", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.OK);
 
         }
 
         try {
             impl.findDescriptionByID(25L);
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
@@ -378,17 +339,6 @@ public class ItemRepositoryImplTest {
 
     }
 
-    @Test(expected = RestException.class)
-    public void findingDescriptionForItemWithNoDescription() throws Exception{
-        impl.findDescriptionByID(24L);
-    }
-
-    @Test(expected = RestException.class)
-    public void findingDescriptionForNonExistentItem() throws Exception{
-        impl.findDescriptionByID(25L);
-    }
-
-
     @Test
     public void update() throws Exception {
        /* impl.update(toUpdate);
@@ -397,6 +347,7 @@ public class ItemRepositoryImplTest {
 */
         try {
             impl.update(notInDB);
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item to be updated does not exist.", exc.getDetailedMessage());
@@ -413,6 +364,7 @@ public class ItemRepositoryImplTest {
         verify(itemDao).updateItemByID(2L, toUpdate);*/
         try {
             impl.updateItemByID(25L, toUpdate);
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Item to be updated does not exist.", exc.getDetailedMessage());
@@ -428,42 +380,30 @@ public class ItemRepositoryImplTest {
 
         try {
             implEmpties.findAllItemsByCategory("Clothes");
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Items of category Clothes were not found", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.OK);
 
         }
         try {
             implEmpties.findAllItemsByCategory("Electronics");
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("Items of category Electronics were not found", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.OK);
 
         }
         try {
             impl.findAllItemsByCategory("Books");
+            fail();
         } catch(RestException exc){
             Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
             Assert.assertEquals("Invalid request parameter.", exc.getMessage());
             Assert.assertEquals("Books is not a valid Category name", exc.getDetailedMessage());
         }
-    }
-
-    @Test(expected = RestException.class)
-    public void findingAllItemsByClothesWhenClothesIsEmpty() throws Exception{
-        implEmpties.findAllItemsByCategory("Clothes");
-    }
-
-    @Test(expected = RestException.class)
-    public void findingAllItemsByElectronicsWhenElectronicsIsEmpty() throws Exception{
-        implEmpties.findAllItemsByCategory("Electronics");
-    }
-
-    @Test(expected = RestException.class)
-    public void findingAllItemsInvalidCategoryName() throws Exception{
-        impl.findAllItemsByCategory("Books");
     }
 
     @Test
@@ -472,18 +412,15 @@ public class ItemRepositoryImplTest {
 
         try {
             implEmpties.findAllItems();
+            fail();
         } catch (RestException exc) {
             Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
             Assert.assertEquals("There are no items available.", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.OK);
 
         }
     }
 
-    @Test(expected = RestException.class)
-    public void findingAllItemsItemsIsEmpty() throws Exception{
-        implEmpties.findAllItems();
-    }
 }
 /*
     @Test
