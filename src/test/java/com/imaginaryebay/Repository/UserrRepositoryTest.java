@@ -133,9 +133,6 @@ public class UserrRepositoryTest {
         when(userrDao.getUserrByName("Butters Stotch")).thenReturn(justNonAdmin1);
         when(userrDao.getUserrByName("Other Person")).thenReturn(null);
 
-        impl = new UserrRepositoryImpl();
-        impl.setUserrDao(userrDao);
-
         item1 = new Item();
         item2 = new Item();
         item3 = new Item();
@@ -164,6 +161,10 @@ public class UserrRepositoryTest {
         when(userrDao.getItemsSoldByThisUser(1L)).thenReturn(itemList1);
         when(userrDao.getItemsSoldByThisUser(2L)).thenReturn(itemList2);
         when(userrDao.getItemsSoldByThisUser(3L)).thenReturn(itemList3);
+
+        impl = new UserrRepositoryImpl();
+        impl.setUserrDao(userrDao);
+
     }
 
     @Test
