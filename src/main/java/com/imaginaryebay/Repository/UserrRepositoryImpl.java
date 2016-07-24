@@ -157,23 +157,4 @@ public class UserrRepositoryImpl implements UserrRepository {
 		return userrDao.getItemsSoldByThisUser(id);
 	}
 
-	public void deleteUserrByID (Long id){
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String email = auth.getName();
-		Boolean isAdmin = auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"));
-		Userr temp = userrDao.getUserrByID(id);
-		if(temp == null){
-			throw new RestException(NOT_AVAILABLE, "User with ID " + id + " does not exist.", HttpStatus.BAD_REQUEST);
-		}
-		else if (isAdmin) {
-			userrDao.deleteUserrByID(id);
-		}
-		else if (temp.getEmail().equals(email)){
-			userrDao.deleteUserrByID(id);
-		}
-		else{
-			throw new RestException(NOT_AVAILABLE, NO_AUTHORITY + "delete this user.", HttpStatus.FORBIDDEN);
-		}
-	}
-
 }

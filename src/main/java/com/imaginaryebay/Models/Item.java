@@ -1,6 +1,11 @@
 package com.imaginaryebay.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.imaginaryebay.Controller.ItemController;
+import com.imaginaryebay.Controller.RestException;
+import com.imaginaryebay.Repository.ItemRepository;
+
+import org.springframework.http.HttpStatus;
 
 import javax.persistence.*;
 
@@ -73,7 +78,25 @@ public class Item {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
+        System.out.println("yo");
+        //System.out.println(Category.Clothes.toString());
+        //System.out.println(Category.valueOf("Clothes"));
+        for (Category cat : Category.values()){
+            if (cat.toString().equals(category)){
+                this.category = Category.valueOf(category);
+                return;
+            }
+        }
+        System.out.println("here");
+        //throw new RestException("Invalid category name.", "Category " + category + " is not a valid category name", HttpStatus.BAD_REQUEST);
+        ItemController.printing(category);
+        //ItemRepository.excHelper(category);
+        throw new RuntimeException("Category " + category + " is not a valid category name");
+
+    }
+
+    public void setCategory(Category category){
         this.category = category;
     }
 

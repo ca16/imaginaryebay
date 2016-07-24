@@ -224,13 +224,4 @@ public class UserrControllerTest {
 
     }
 
-    @Test
-    public void deleteUserrByID() throws Exception {
-
-        ResponseEntity<Void> response = impl.deleteUserrByID(2L);
-        verify(userrRepo).deleteUserrByID(2L);
-        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
-
-    }
-
 }

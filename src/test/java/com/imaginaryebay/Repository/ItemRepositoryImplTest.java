@@ -73,37 +73,43 @@ public class ItemRepositoryImplTest {
         //invalidCategory = PowerMockito.mock(Category.class);
 
         item1 = new Item();
-        item1.setCategory(Category.Clothes);
+        //item1.setCategory(Category.Clothes);
+        item1.setCategory("Clothes");
         item1.setPrice(20.0);
         item1.setDescription("Scarf");
         item1.setEndtime(valueOf("2016-10-10 00:00:00"));
 
         item2 = new Item();
-        item2.setCategory(Category.Clothes);
+        //item2.setCategory(Category.Clothes);
+        item2.setCategory("Clothes");
         item2.setPrice(200.0);
         item2.setDescription("Expensive Scarf");
         item2.setEndtime(valueOf("2016-11-5 06:00:00"));
 
         item3 = new Item();
-        item3.setCategory(Category.Electronics);
+        //item3.setCategory(Category.Electronics);
+        item3.setCategory("Electronics");
         item3.setPrice(30.0);
         item3.setDescription("Watch");
         item3.setEndtime(valueOf("2016-9-2 11:10:10"));
 
         itemInvalidPrice = new Item();
-        itemInvalidPrice.setCategory(Category.Clothes);
+        //itemInvalidPrice.setCategory(Category.Clothes);
+        itemInvalidPrice.setCategory("Clothes");
         itemInvalidPrice.setPrice(-20.0);
         itemInvalidPrice.setDescription("Scarf");
         itemInvalidPrice.setEndtime(valueOf("2016-10-10 00:00:00"));
 
         itemInvalidCategory = new Item();
-        itemInvalidCategory.setCategory(invalidCategory);
+        //itemInvalidCategory.setCategory(invalidCategory);
+        //itemInvalidCategory.setCategory("Books");
         itemInvalidCategory.setPrice(20.0);
         itemInvalidCategory.setDescription("Scarf");
         itemInvalidCategory.setEndtime(valueOf("2016-10-10 00:00:00"));
 
         itemInvalidEndtime = new Item();
-        itemInvalidEndtime.setCategory(Category.Clothes);
+        //itemInvalidEndtime.setCategory(Category.Clothes);
+        itemInvalidEndtime.setCategory("Clothes");
         itemInvalidEndtime.setPrice(20.0);
         itemInvalidEndtime.setDescription("Scarf");
         itemInvalidEndtime.setEndtime(valueOf("2015-10-10 00:00:00"));
@@ -420,6 +426,24 @@ public class ItemRepositoryImplTest {
             Assert.assertEquals("There are no items available.", exc.getDetailedMessage());
             Assert.assertEquals(exc.getStatusCode(), HttpStatus.OK);
 
+        }
+    }
+
+    @Test
+    public void settingInvalidCategory() throws Exception{
+
+        try {
+            itemInvalidCategory = new Item();
+            //itemInvalidCategory.setCategory(invalidCategory);
+            itemInvalidCategory.setCategory("Books");
+            itemInvalidCategory.setPrice(20.0);
+            itemInvalidCategory.setDescription("Scarf");
+            itemInvalidCategory.setEndtime(valueOf("2016-10-10 00:00:00"));
+            fail();
+        }catch (RestException exc){
+            Assert.assertEquals("Invalid category", exc.getMessage());
+            Assert.assertEquals("Category Books is not a valid category name", exc.getDetailedMessage());
+            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
         }
     }
 

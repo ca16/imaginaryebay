@@ -368,44 +368,4 @@ public class UserrRepositoryTest {
 
     }
 
-    @Test
-    public void deleteUserrByID() throws Exception {
-
-        // Admin deletes another user
-        SecurityContextHolder.getContext().setAuthentication(authAdmin1);
-        impl.deleteUserrByID(2L);
-        verify(userrDao).deleteUserrByID(2L);
-
-        // Admin deletes self
-        impl.deleteUserrByID(1L);
-        verify(userrDao).deleteUserrByID(1L);
-
-        // Non-admin delete self
-        SecurityContextHolder.getContext().setAuthentication(authNonAdmin1);
-        impl.deleteUserrByID(3L);
-        verify(userrDao).deleteUserrByID(3L);
-
-        try {
-            impl.deleteUserrByID(1L);
-            fail();
-        }catch (RestException exc){
-            Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
-            Assert.assertEquals("You do not have the authority to delete this user.", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.FORBIDDEN);
-        }
-
-        // Attempting to delete an non-existent user
-        SecurityContextHolder.getContext().setAuthentication(authAdmin2);
-        try {
-            impl.deleteUserrByID(4L);
-            fail();
-        }catch (RestException exc){
-            Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
-            Assert.assertEquals("User with ID 4 does not exist.", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
-        }
-
-
-    }
-
 }

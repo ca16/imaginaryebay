@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Chloe on 6/28/16.
@@ -32,7 +33,6 @@ public class ItemRepositoryImpl implements ItemRepository {
     private static final String NO_ENTRIES          = "There are no entries for the requested resource.";
     private static final String INVALID_PARAMETER   = "Invalid request parameter.";
 
-
     private ItemDAO itemDAO;
 
     public void setItemDAO(ItemDAO itemDAO) {
@@ -44,14 +44,20 @@ public class ItemRepositoryImpl implements ItemRepository {
         if ((null != item.getPrice()) && !(item.getPrice() > 0)){
             throw new RestException("Invalid price", "Price must be greater than 0.", HttpStatus.BAD_REQUEST);
         }
-
+/*
+        System.out.println(item.getCategory().toString());
+        System.out.println(item.getPrice().toString());
+        System.out.println(item.toString());*/
+        //if ((null != item.getCategory()) && !(validCategory(item.getCategory().toString()))){
+        //    throw new RestException("Invalid category", item.getCategory() + " is not a valid category name", HttpStatus.BAD_REQUEST);
+        //}
+        /*
         try {
             Category.valueOf(item.getCategory().toString());
+        } catch (IllegalArgumentException exc){
         } catch (NullPointerException exc){
             // do items have to have a category
-        } catch (IllegalArgumentException exc){
-            throw new RestException("Invalid category", item.getCategory() + " is not a valid category name", HttpStatus.BAD_REQUEST);
-        }
+        }*/
 
         // do items have to have an endtime?
         if ((null != item.getEndtime()) && ((item.getEndtime().before(new Timestamp(System.currentTimeMillis()))))){
@@ -298,5 +304,14 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     private String detailedMessageConstructor(Long id, String extras){
         return "Item with id " + id + extras;
+    }
+
+    private Boolean validCategory(String cat){
+        for (Category c : Category.values()){
+            if(c.toString().equals(cat)){
+                return true;
+            }
+        }
+        return false;
     }
 }

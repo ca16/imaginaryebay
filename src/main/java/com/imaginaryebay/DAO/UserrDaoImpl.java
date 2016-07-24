@@ -147,9 +147,4 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
         return query.getResultList();
     }
 
-    @Override
-    public void deleteUserrByID(Long id) {
-        Userr userr = entityManager.find(Userr.class, id);
-        entityManager.remove(userr);
-    }
 }

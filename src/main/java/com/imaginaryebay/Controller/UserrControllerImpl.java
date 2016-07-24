@@ -72,10 +72,4 @@ public class UserrControllerImpl implements UserrController {
         return new ResponseEntity<>(userrRepository.getItemsSoldByThisUser(id), HttpStatus.OK);
     }
 
-    @Override
-    public ResponseEntity<Void> deleteUserrByID(Long id){
-        userrRepository.deleteUserrByID(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-
-    }
 }

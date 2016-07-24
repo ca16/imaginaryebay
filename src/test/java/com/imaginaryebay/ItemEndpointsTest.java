@@ -1,3 +1,4 @@
+
 package com.imaginaryebay;
 
 import com.imaginaryebay.Models.Category;
@@ -13,9 +14,11 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+
 /**
  * Created by Chloe on 6/30/16.
  */
+
 
 //Just tests if endpoints are accessible, doesn't really check what they do
 public class ItemEndpointsTest {

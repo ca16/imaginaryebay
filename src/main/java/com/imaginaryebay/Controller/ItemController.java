@@ -3,6 +3,9 @@ package com.imaginaryebay.Controller;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
+import com.imaginaryebay.Repository.ItemRepository;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -122,6 +125,7 @@ public interface ItemController {
                                       String urlOnly
     );
 
+
     /**
      *
      * @param id - The ItemID representing the auction this picture is uploaded for.
@@ -134,6 +138,14 @@ public interface ItemController {
     @RequestMapping(value = "/{id}/picture", method = RequestMethod.POST)
     public ResponseEntity<ItemPicture> createItemPictureForItem(@PathVariable("id") Long id,
                                                            @RequestParam("file") MultipartFile file);
+
+
+    public static ResponseEntity<Void> printing(String category){
+        System.out.println("printed from interface");
+        ItemRepository.excHelper(category);
+        return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
+    }
+
 }
 
 

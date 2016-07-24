@@ -1,8 +1,12 @@
 package com.imaginaryebay.Repository;
 
+import com.imaginaryebay.Controller.RestException;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
@@ -40,4 +44,9 @@ public interface ItemRepository {
     public ItemPicture createItemPictureForItem(Long id, MultipartFile file);
 
     public String createItemPicturesForItem(Long id, MultipartFile[] files);
+
+    public static void excHelper(String category){
+        System.out.println("in repo interface");
+        throw new RestException("Invalid category", "Category " + category + " is not a valid category name", HttpStatus.BAD_REQUEST);
+    }
 }
