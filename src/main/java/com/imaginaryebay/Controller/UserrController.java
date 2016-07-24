@@ -1,8 +1,6 @@
 package com.imaginaryebay.Controller;
 
 import com.imaginaryebay.Models.Userr;
-import com.imaginaryebay.Repository.UserrRepository;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

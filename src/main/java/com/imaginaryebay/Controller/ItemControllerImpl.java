@@ -4,7 +4,6 @@ import com.imaginaryebay.DAO.ItemPictureDAO;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
-import com.imaginaryebay.Models.S3FileUploader;
 import com.imaginaryebay.Repository.ItemRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,24 +29,19 @@ public class ItemControllerImpl implements ItemController {
         this.itemPictureDAO=itemPictureDAO;
     }
 
-    private static final String FAIL_STEM           = "Unable to upload.";
-    private static final String FAIL_EMPTY_FILES    = "Unable to upload. File is empty.";
-    private static final String COLON_SEP           = ": ";
-    private static final String HTML_BREAK          = "</br>";
-
     @Override
     public void save(Item item) {
         this.itemRepository.save(item);
     }
 
     @Override
-    public Item getItemByID(Long id){
-        return this.itemRepository.findByID(id);
+    public ResponseEntity<Item> getItemByID(Long id){
+        return new ResponseEntity<Item>(this.itemRepository.findByID(id), HttpStatus.OK);
     }
 
     @Override
-    public Double getPriceByID(Long id){
-        return this.itemRepository.findPriceByID(id);
+    public ResponseEntity<Double> getPriceByID(Long id){
+        return new ResponseEntity<Double>(this.itemRepository.findPriceByID(id), HttpStatus.OK);
     }
 /*
     @Override
@@ -56,69 +50,44 @@ public class ItemControllerImpl implements ItemController {
     }
 */
     @Override
-    public Category getCategoryByID(Long id){
-        return this.itemRepository.findCategoryByID(id);
+    public ResponseEntity<Category> getCategoryByID(Long id){
+        return new ResponseEntity<Category>(this.itemRepository.findCategoryByID(id), HttpStatus.OK);
     }
 
     @Override
-    public String getDescriptionByID(Long id){
-        return this.itemRepository.findDescriptionByID(id);
+    public ResponseEntity<String> getDescriptionByID(Long id){
+        return new ResponseEntity<String>(this.itemRepository.findDescriptionByID(id), HttpStatus.OK);
     }
 
     @Override
-    public Timestamp getEndtimeByID(Long id){
-        return this.itemRepository.findEndtimeByID(id);
+    public ResponseEntity<Timestamp> getEndtimeByID(Long id){
+        return new ResponseEntity<Timestamp>(this.itemRepository.findEndtimeByID(id), HttpStatus.OK);
     }
 
     @Override
-    public Item updateItemByID(Long id, Item item){
-        return this.itemRepository.updateItemByID(id, item);
+    public ResponseEntity<Item> updateItemByID(Long id, Item item){
+        return new ResponseEntity<Item>(this.itemRepository.updateItemByID(id, item), HttpStatus.OK);
     }
 
     @Override
-    public List<Item> getAllItems(Category cat){
+    public ResponseEntity<List<Item>> getAllItems(String cat){
         if (null != cat){
-            return this.itemRepository.findAllItemsByCategory(cat);
+            return new ResponseEntity<List<Item>>(this.itemRepository.findAllItemsByCategory(cat), HttpStatus.OK);
         }
-        return this.itemRepository.findAllItems();
+        return new ResponseEntity<List<Item>>(this.itemRepository.findAllItems(), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<ItemPicture>> returnItemPicturesForItem(Long id, String urlOnly) {
-        return itemRepository.returnItemPicturesForItem(id, urlOnly);
+    public ResponseEntity<List<ItemPicture>> getAllItemPicturesForItem(Long id, String urlOnly) {
+        return new ResponseEntity<>(itemRepository.findAllItemPicturesForItem(id, urlOnly),
+                                    HttpStatus.OK);
     }
 
-    // TODO: Doesn't really qualify as a DAO. Should we place this in a class or leave here?
-    public ResponseEntity<String> createItemPicturesForItem(Long id, MultipartFile[] files){
+//    public ResponseEntity<String> createItemPicturesForItem(Long id, MultipartFile[] files){
+//        return new ResponseEntity<>(itemRepository.createItemPicturesForItem(id, files),
+//                                    HttpStatus.OK);
+//    }
 
-        String fileName = null;
-        String imageURL = "";
-        Item item = itemRepository.findByID(id);
-
-        if (files != null && files.length > 0) {
-            for (MultipartFile mpFile : files) {
-                if (!mpFile.isEmpty()) {
-                    try {
-                        fileName = mpFile.getOriginalFilename();
-
-                        S3FileUploader s3FileUploader = new S3FileUploader();
-                        imageURL = s3FileUploader.fileUploader(mpFile);
-
-                        if (imageURL == null) {
-                            return new ResponseEntity<>(FAIL_STEM, HttpStatus.INTERNAL_SERVER_ERROR);
-                        } else {
-                            item.addItemPicture(new ItemPicture(imageURL));
-                            itemRepository.updateItemByID(id, item);
-                        }
-
-                    } catch (Exception e) {
-                        String message = FAIL_STEM + fileName + COLON_SEP + e.getMessage() + HTML_BREAK;
-                        return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
-                    }
-                }
-            }
-            return new ResponseEntity<>(imageURL, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(FAIL_EMPTY_FILES, HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<ItemPicture> createItemPictureForItem(Long id, MultipartFile file){
+        return new ResponseEntity<ItemPicture>(itemRepository.createItemPictureForItem(id, file), HttpStatus.OK);
     }
 }

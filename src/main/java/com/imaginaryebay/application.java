@@ -24,7 +24,7 @@ public class application {
     public static void main(String[] args) {
 
         ApplicationContext applicationContext =
-                new AnnotationConfigApplicationContext(DatabaseConfiguration.class, MailConfiguration.class, ModelConfiguration.class);
+                new AnnotationConfigApplicationContext(DatabaseConfiguration.class, MailConfiguration.class, ModelConfiguration.class,SwaggerConfig.class);
 
         //SendEmail sm = (SendEmail) applicationContext.getBean(SendEmail.class);
         //sm.sendEmailAccountCreation(new Userr("t_vivio@yahoo.com","Rahul","raughOZ:SRHGia;ro"));

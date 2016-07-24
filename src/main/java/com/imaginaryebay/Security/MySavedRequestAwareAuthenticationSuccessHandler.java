@@ -10,7 +10,6 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletException;
@@ -28,7 +27,7 @@ public class MySavedRequestAwareAuthenticationSuccessHandler extends SimpleUrlAu
             throws ServletException, IOException{
         final SavedRequest savedRequest= requestCache.getRequest(request,response);
         if (savedRequest==null){
-            clearAuthenticationAttributes( request);
+            clearAuthenticationAttributes(request);
             return;
         }
         final String targetUrlParameter=getTargetUrlParameter();

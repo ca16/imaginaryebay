@@ -20,45 +20,45 @@ import java.util.List;
 @Transactional
 public class UserrRepositoryImpl implements UserrRepository {
 
-    @Autowired
-    private UserrDao userrDao;
+	@Autowired
+	private UserrDao userrDao;
 
 
 
-    public void createNewUserr(Userr newUserr) {
-        Userr u=userrDao.getUserrByEmail(newUserr.getEmail());
-        if (u==null) {
-            userrDao.persist(newUserr);
-        }
-        else{
-            System.out.println("The user has existed");
-        }
-    }
+	public void createNewUserr(Userr newUserr) {
+		Userr u=userrDao.getUserrByEmail(newUserr.getEmail());
+		if (u==null) {
+			userrDao.persist(newUserr);
+		}
+		else{
+			System.out.println("The user has existed");
+		}
+	}
 
 
-    public Userr getUserrByID (Long id) {
-        return userrDao.getUserrByID(id);
-    }
+	public Userr getUserrByID (Long id) {
+		return userrDao.getUserrByID(id);
+	}
 
 
-    public Userr getUserrByEmail(String email){
-        return userrDao.getUserrByEmail(email);
-    }
+	public Userr getUserrByEmail(String email){
+		return userrDao.getUserrByEmail(email);
+	}
 
 
-    public List<Userr> getAllUserrs(){ return userrDao.getAllUserrs();}
+	public List<Userr> getAllUserrs(){ return userrDao.getAllUserrs();}
 
-    public List<Userr> getUserrByName(String name){ return userrDao.getUserrByName(name);}
+	public List<Userr> getUserrByName(String name){ return userrDao.getUserrByName(name);}
 
-    public Userr updateUserrByID (long id, Userr u){
-        try{
-            userrDao.updateUserrByID(id, u);
-            return getUserrByID(id);
-        }catch (UsernameNotFoundException unfe ){
-            System.out.println("The user does not exist");
-            return null;
-        }
+	public Userr updateUserrByID (long id, Userr u){
+		try{
+			userrDao.updateUserrByID(id, u);
+			return getUserrByID(id);
+		}catch (UsernameNotFoundException unfe ){
+			System.out.println("The user does not exist");
+			return null;
+		}
 
-    }
+	}
 
 }

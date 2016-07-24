@@ -23,6 +23,4 @@ public interface UserrDao {
     public List<Userr> getUserrByName(String name);
 
     public void updateUserrByID(long id,Userr u);
-
-
 }

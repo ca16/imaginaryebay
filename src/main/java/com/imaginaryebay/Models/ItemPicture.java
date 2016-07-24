@@ -16,6 +16,7 @@ import javax.persistence.*;
 public class ItemPicture {
 
     @Id
+    @JsonIgnore
     @GeneratedValue
     private Long id;
 
@@ -72,4 +73,5 @@ public class ItemPicture {
                 ", id=" + id +
                 '}';
     }
+    
 }

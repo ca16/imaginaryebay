@@ -1,14 +1,19 @@
 package com.imaginaryebay.Repository;
 
+import com.imaginaryebay.Controller.ItemControllerImpl;
+import com.imaginaryebay.Controller.RestException;
 import com.imaginaryebay.DAO.ItemDAO;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
+import com.imaginaryebay.Models.S3FileUploader;
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -16,163 +21,252 @@ import java.util.List;
  * Created by Chloe on 6/28/16.
  */
 @Transactional
-public class ItemRepositoryImpl implements ItemRepository{
+public class ItemRepositoryImpl implements ItemRepository {
+
+    private static final Logger logger              = Logger.getLogger(ItemControllerImpl.class);
+    private static final String FAIL_STEM           = "Unable to upload.";
+    private static final String FAIL_EMPTY_FILES    = "Unable to upload. File is empty.";
+    private static final String COLON_SEP           = ": ";
+    private static final String UNCAUGHT_EXCEPTION  = "An uncaught exception was raised during upload.";
+    private static final String NOT_AVAILABLE       = "Not available.";
+    private static final String NO_ENTRIES          = "There are no entries for the requested resource.";
+    private static final String INVALID_PARAMETER   = "Invalid request parameter.";
+
 
     private ItemDAO itemDAO;
 
-    public void setItemDAO(ItemDAO itemDAO){
-        this.itemDAO=itemDAO;
+    public void setItemDAO(ItemDAO itemDAO) {
+        this.itemDAO = itemDAO;
     }
 
     public void save(Item item) {
+        // do items have to have a price?
+        if ((null != item.getPrice()) && !(item.getPrice() > 0)){
+            throw new RestException("Invalid price", "Price must be greater than 0.", HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            Category.valueOf(item.getCategory().toString());
+        } catch (NullPointerException exc){
+            // do items have to have a category
+        } catch (IllegalArgumentException exc){
+            throw new RestException("Invalid category", item.getCategory() + " is not a valid category name", HttpStatus.BAD_REQUEST);
+        }
+
+        // do items have to have an endtime?
+        if ((null != item.getEndtime()) && ((item.getEndtime().before(new Timestamp(System.currentTimeMillis()))))){
+            throw new RestException("Invalid endtime", "Auction must end in the future", HttpStatus.BAD_REQUEST);
+        }
+
         this.itemDAO.persist(item);
     }
 
+    /** TODO: RestExceptions should also provide HttpStatus Codes as arguments to the constructor. */
+
     public void update(Item item) {
-        if (this.itemDAO.find(item) == null){
-            System.out.println("Attempted to update Item, but Item does not exist!");
-        }else {
+        if (this.itemDAO.find(item) == null) {
+            throw new RestException(NOT_AVAILABLE,
+                    "Item to be updated does not exist.");
+        }
+        else {
             this.itemDAO.merge(item);
         }
     }
 
-    public Item findByID(Long id){
+
+    public Item findByID(Long id) {
         Item toRet = this.itemDAO.findByID(id);
-        if (toRet != null){
+        if (toRet == null) {
+            // what should the number be here?
+            logger.error("Item not found!", new RestException("Item not found.", "Item with id " + id + " was not found"));
+            throw new RestException(NOT_AVAILABLE,
+                    detailedMessageConstructor(id));
+        } else {
             return toRet;
         }
-        System.out.println("Item with that ID does not exist");
-        return null;
     }
 
     // What if item doesn't have a price? Is price required?
-    public Double findPriceByID(Long id){
+    public Double findPriceByID(Long id) {
         Item item = this.itemDAO.findByID(id);
-        if (item != null){
+        if (item != null) {
             Double price = itemDAO.findPriceByID(id);
             if (price != null) {
                 return price;
             }
-            System.out.println("Item does not have a price.");
-            return null;
+            //figure out code
+            throw new RestException(NOT_AVAILABLE,
+                    detailedMessageConstructor(id, " does not have a price"));
         }
-        System.out.println("Item with that ID does not exist.");
-        return null;
+        //figure out code
+        throw new RestException(NOT_AVAILABLE,
+                detailedMessageConstructor(id));
     }
 
     // Same comment as for price, is category required?
-    public Category findCategoryByID(Long id){
+    public Category findCategoryByID(Long id) {
         Item item = this.itemDAO.findByID(id);
-        if (item != null){
+        if (item != null) {
             Category cat = itemDAO.findCategoryByID(id);
             if (cat != null) {
                 return cat;
             }
-            System.out.println("Item does not have a category.");
-            return null;
+            throw new RestException(NOT_AVAILABLE,
+                    detailedMessageConstructor(id, " does not have a category"));
 
         }
-        System.out.println("Item with that ID does not exist.");
-        return null;
+        throw new RestException(NOT_AVAILABLE,
+                detailedMessageConstructor(id));
     }
 
-    public Timestamp findEndtimeByID(Long id){
+    public Timestamp findEndtimeByID(Long id) {
         Item item = this.itemDAO.findByID(id);
-        if (item != null){
+        if (item != null) {
             Timestamp time = itemDAO.findEndtimeByID(id);
             if (time != null) {
                 return time;
             }
-            System.out.println("Item does not have a time.");
-            return null;
+            throw new RestException(NOT_AVAILABLE,
+                    detailedMessageConstructor(id, " does not have an endtime"));
 
         }
-        System.out.println("Item with that ID does not exist.");
-        return null;
+        throw new RestException(NOT_AVAILABLE,
+                detailedMessageConstructor(id));
     }
 
-    public String findDescriptionByID(Long id){
+    public String findDescriptionByID(Long id) {
         Item item = this.itemDAO.findByID(id);
-        if (item != null){
+        if (item != null) {
             String description = itemDAO.findDescriptionByID(id);
             if (description != null) {
                 return description;
             }
-            System.out.println("Item does not have a description.");
-            return null;
+            throw new RestException(NOT_AVAILABLE,
+                    detailedMessageConstructor(id, " does not have a description"));
 
         }
-        System.out.println("Item with that ID does not exist.");
-        return null;
+        throw new RestException(NOT_AVAILABLE,
+                detailedMessageConstructor(id));
     }
 
-    public Item updateItemByID(Long id, Item item){
+    public Item updateItemByID(Long id, Item item) {
         Item current = this.itemDAO.findByID(id);
-        if (current != null){
+        if (current != null) {
             //See price comment
             return itemDAO.updateItemByID(id, item);
         }
-        System.out.println("Item with that ID does not exist");
-        return null;
+        throw new RestException(NOT_AVAILABLE,
+                detailedMessageConstructor(id));
     }
 
-    public List<Item> findAllItemsByCategory(Category category){
-        List<Item> toRet = this.itemDAO.findAllItemsByCategory(category);
-        if (!toRet.isEmpty()){
+    public List<Item> findAllItemsByCategory(String category) {
+        Category cat;
+        try {
+            cat = Category.valueOf(category);
+        }catch (IllegalArgumentException exc){
+            // Should we also give them a list of options?
+            throw new RestException(INVALID_PARAMETER, category + " is not a valid Category name", HttpStatus.BAD_REQUEST);
+        }
+        List<Item> toRet = this.itemDAO.findAllItemsByCategory(cat);
+        if (!toRet.isEmpty()) {
             return toRet;
         }
-        System.out.println("No items of that category.");
-        return null;
+        throw new RestException(NOT_AVAILABLE,
+                "Items of category " + category + " were not found");
     }
 
-    public List<Item> findAllItems(){
+    public List<Item> findAllItems() {
         List<Item> toRet = this.itemDAO.findAllItems();
-        if (!toRet.isEmpty()){
+        if (!toRet.isEmpty()) {
             return toRet;
         }
-        System.out.println("No items available.");
-        return null;
+        throw new RestException(NOT_AVAILABLE,
+                "There are no items available.");
 
     }
 
-    /** TODO: @Brian: I'm returning the ResponseEntities through the repository interface.
-     *  TODO:         Do we want to manage this here or move to Controller?
-     **/
-    public ResponseEntity<List<ItemPicture>> returnItemPicturesForItem(Long id, String urlOnly){
+    public List<ItemPicture> findAllItemPicturesForItem(Long id, String urlOnly){
 
         List<ItemPicture> itemPictures;
 
-        if (urlOnly.equalsIgnoreCase("true")){
-            itemPictures = itemDAO.returnAllItemPictureURLsForItemID(id);
-        }else if(urlOnly.equalsIgnoreCase("false")){
-            itemPictures = itemDAO.returnAllItemPicturesForItemID(id);
-        }else{
-            return new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST);
+        if (urlOnly.equalsIgnoreCase("true")) {
+            itemPictures = itemDAO.findAllItemPictureURLsForItemID(id);
+        } else if (urlOnly.equalsIgnoreCase("false")) {
+            itemPictures = itemDAO.findAllItemPicturesForItemID(id);
+        } else {
+            throw new RestException(INVALID_PARAMETER,
+                    "The supplied request parameter \"" + urlOnly +  "\" is invalid for this URL.",
+                    HttpStatus.BAD_REQUEST);
         }
-
-        if (itemPictures.isEmpty()){
-            return new ResponseEntity<List<ItemPicture>>(HttpStatus.BAD_REQUEST);
+        if (itemPictures.isEmpty()) {
+            throw new RestException(NOT_AVAILABLE, NO_ENTRIES, HttpStatus.OK);
         }
-
-        return new ResponseEntity<List<ItemPicture>>(itemPictures, HttpStatus.OK);
+        return itemPictures;
     }
 
+    public ItemPicture createItemPictureForItem(Long id, MultipartFile file) {
 
-/*
-    public Userr findOwnerByID(Long id){
-        Item item = this.itemDAO.findByID(id);
-        if (item != null){
-            Userr owner = itemDAO.findOwnerByID(id);
-            if (owner != null) {
-                return owner;
-            }
-            System.out.println("Item does not have an owner.");
-            return null;
+        Item item = this.findByID(id);
 
+        if (file != null && !file.isEmpty()) {
+            return uploadAndReturnItemPictureForItem(item, file);
         }
-        System.out.println("Item with that ID does not exist.");
-        return null;
-    }*/
+        else {
+            throw new RestException(FAIL_STEM, FAIL_EMPTY_FILES, HttpStatus.BAD_REQUEST);
+        }
+    }
 
+    public String createItemPicturesForItem(Long id, MultipartFile[] files){
 
+        String uploadResponse = "";
+        Item item = this.findByID(id);
+
+        if (files != null && files.length > 0) {
+            for (MultipartFile mpFile : files) {
+                if (!mpFile.isEmpty()) {
+                    uploadResponse += uploadAndReturnItemPictureForItem(item, mpFile) + " ";
+                }
+            }
+            return uploadResponse;
+        } else {
+            throw new RestException(FAIL_STEM, FAIL_EMPTY_FILES, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    private ItemPicture uploadAndReturnItemPictureForItem(Item item, MultipartFile file){
+        String uploadResponse;
+        ItemPicture newPicture;
+        try {
+            S3FileUploader s3FileUploader = new S3FileUploader();
+            uploadResponse = s3FileUploader.fileUploader(file);
+
+            if (uploadResponse == null) {
+                throw new RestException(FAIL_STEM, "", HttpStatus.INTERNAL_SERVER_ERROR);
+            } else {
+                newPicture = new ItemPicture(uploadResponse);
+                item.addItemPicture(newPicture);
+                this.update(item);
+            }
+        } catch (IOException ioex) {
+            ioex.printStackTrace();
+            throw new RestException("Error with file upload to S3!",
+                    ioex.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RestException("An unexpected error occurred during file upload to S3!",
+                    ex.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+//        return uploadResponse;
+        return newPicture;
+    }
+
+    private String detailedMessageConstructor(Long id){
+        return "Item with id " + id + " was not found";
+    }
+
+    private String detailedMessageConstructor(Long id, String extras){
+        return "Item with id " + id + extras;
+    }
 }

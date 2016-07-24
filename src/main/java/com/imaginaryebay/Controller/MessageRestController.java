@@ -1,7 +1,13 @@
 package com.imaginaryebay.Controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,15 +25,21 @@ public class MessageRestController implements MessageController{
     public void setMessageRepository(MessageRepository messageRepository){
         this.messageRepository=messageRepository;
     }
+    
+    @Override
     //@RequestMapping(method= RequestMethod.POST)
     //public void createNewMessage(@RequestBody Message message){
-    public void createNewMessage(Message message){
+    //@ApiOperation(value="add new email message to the database")
+    public ResponseEntity<Void> createNewMessage(Message message){
         this.messageRepository.createNewMessage(message);
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
-
-    //@RequestMapping(value="/{ID}", method=RequestMethod.GET)
+    
+    @Override
+    //@RequestMapping(value="/{id}", method=RequestMethod.GET)
     //public List<Message> returnMessagesByReceiverID(@PathVariable("ID") Long id){
-    public List<Message> returnMessagesByReceiverID(Long id){
-        return this.messageRepository.returnAllMessagesByReceiverID(id);
+    //@ApiOperation(value="get email messages for a specific user")
+    public ResponseEntity<List<Message>> returnMessagesByReceiverID(Long id){
+        return new ResponseEntity<List<Message>>(this.messageRepository.returnAllMessagesByReceiverID(id),HttpStatus.OK);
     }
 }

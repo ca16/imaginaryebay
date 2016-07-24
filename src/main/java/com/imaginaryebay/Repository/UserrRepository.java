@@ -1,6 +1,5 @@
 package com.imaginaryebay.Repository;
 import com.imaginaryebay.Models.Userr;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
