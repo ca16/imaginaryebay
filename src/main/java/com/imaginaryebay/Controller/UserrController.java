@@ -1,5 +1,6 @@
 package com.imaginaryebay.Controller;
 
+import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.Userr;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,10 @@ public interface UserrController {
     @RequestMapping (value="/{id}",method = RequestMethod.PUT)
     public Userr updateUserrByID(@PathVariable("id")Long id, @RequestBody  Userr u);
 
+
+
+    @RequestMapping (value="/item/{id}",method=RequestMethod.GET)
+    public List<Item> getItemsSoldByThisUser(@PathVariable("id")Long id);
 
 
 

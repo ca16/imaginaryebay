@@ -1,5 +1,6 @@
 package com.imaginaryebay.Controller;
 
+import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.Userr;
 import com.imaginaryebay.Repository.UserrRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,4 +124,10 @@ public class UserrControllerImpl implements UserrController {
                 return null;
         }
     }
+
+    @Override
+    public List<Item> getItemsSoldByThisUser(Long id){
+        return  userrRepository.getItemsSoldByThisUser(id);
+    }
+
 }

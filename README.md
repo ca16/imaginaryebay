@@ -42,6 +42,10 @@ User:
 	curl -X GET -b cookies.txt http://localhost:8080/user/email/eric@gmail.com/
 	
 	**The last / cannot be omitted
+
+6. return all the items by a user with a specified ID
+
+	curl -X GET http://localhost:8080/user/item/3
 	
 
 	

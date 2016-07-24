@@ -1,6 +1,7 @@
 package com.imaginaryebay.DAO;
 
 
+import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.Userr;
 
 import java.util.List;
@@ -23,4 +24,7 @@ public interface UserrDao {
     public List<Userr> getUserrByName(String name);
 
     public void updateUserrByID(long id,Userr u);
+
+    public List<Item> getItemsSoldByThisUser(long id);
+
 }

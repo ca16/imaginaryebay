@@ -8,15 +8,47 @@
 }());
 
 
-function loginController($scope,$http,$route,UserService,$location){
+function loginController($scope,$http,$route,UserService,$location,$q){
 
     $scope.onClick=function(){
-        var credential={
-            name:$scope.name,
-            password:$scope.password
-        }
 
 
+        $http({
+            method:'POST',
+            url:"/login",
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            data:{username:$scope.email,password:$scope.password}
+        }).then(
+           function(res) {
+               console.log(res);
+               return $http.get("/user/email/"+$scope.email+"/");
+           },
+            function (res) {
+                console.log(res);
+                window.alert("user name or password is incorrect");
+                return $q.reject();
+            }
+        ).then(
+           function(res){
+                console.log(res);
+                var user=res.data;
+                UserService.setUser(user);
+                console.log(UserService.returnUser());
+                $location.path("#/app/home");
+           },
+            function(){
+                console.log("Turd");
+            }
+        );
+
+
+        /*
         $http.post("/login",credential)
             .then(
                 function(res){
@@ -29,6 +61,6 @@ function loginController($scope,$http,$route,UserService,$location){
                         console.log(UserService.returnUser());
                         $location.path("#/app/home");
                     }
-                })
+                }) */
     }
 }

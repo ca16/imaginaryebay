@@ -58,7 +58,11 @@ public class UserrRepositoryImpl implements UserrRepository {
 			System.out.println("The user does not exist");
 			return null;
 		}
+	}
 
+
+	public List<Item> getItemsSoldByThisUser(long id){
+		return userrDao.getItemsSoldByThisUser(id);
 	}
 
 }
