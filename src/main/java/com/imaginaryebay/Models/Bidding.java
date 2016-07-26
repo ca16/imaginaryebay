@@ -7,7 +7,7 @@ import java.sql.Timestamp;
  * Created by Ben_Big on 7/24/16.
  */
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"item","price"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"item_id","price"}))
 public class Bidding {
 
     @Id

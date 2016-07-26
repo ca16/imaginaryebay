@@ -2,11 +2,11 @@ package com.imaginaryebay.DAO;
 
 import com.imaginaryebay.Models.Bidding;
 import com.imaginaryebay.Models.Item;
-import com.imaginaryebay.Models.Userr;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -53,8 +53,18 @@ public class BiddingDAOImpl implements  BiddingDAO{
     @Override
     public Bidding getHighestBiddingForItem (Long id){
         //
+        String queryString=
+                "SELECT b from Bidding b join b.item it where it.id= :IT and b.price=(SELECT Max(b2.price) from Bidding b2 join b2.item it2 where it2.id= :IT2)";
+        Query query=entityManager.createQuery(queryString);
+        query.setParameter("IT",id);
+        query.setParameter("IT2",id);
+        List<Bidding> itemList= query.getResultList();
+
+        Iterator<Bidding> itr=itemList.iterator();
+        while(itr.hasNext()){
+            return itr.next();
+        }
+        return null;
     }
-
-
 
 }
