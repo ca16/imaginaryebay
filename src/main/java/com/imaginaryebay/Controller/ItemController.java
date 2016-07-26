@@ -139,13 +139,6 @@ public interface ItemController {
     public ResponseEntity<ItemPicture> createItemPictureForItem(@PathVariable("id") Long id,
                                                            @RequestParam("file") MultipartFile file);
 
-
-    public static ResponseEntity<Void> printing(String category){
-        System.out.println("printed from interface");
-        ItemRepository.excHelper(category);
-        return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
-    }
-
 }
 
 

@@ -22,9 +22,16 @@ public class Item {
     @Id
     @GeneratedValue
     private Long id;
-    
+
+    @Column(nullable = false)
+    private String name;
+
+    private Double highestBid;
+
+    @Column(nullable = false)
     private Double price;
-    
+
+    @Column(nullable = false)
     private Timestamp endtime;
 
     private String description;
@@ -79,7 +86,9 @@ public class Item {
     }
 
     public void setCategory(String category) {
-        System.out.println("yo");
+        if (null == category){
+            return;
+        }
         //System.out.println(Category.Clothes.toString());
         //System.out.println(Category.valueOf("Clothes"));
         for (Category cat : Category.values()){
@@ -88,11 +97,13 @@ public class Item {
                 return;
             }
         }
-        System.out.println("here");
+        this.category = Category.Invalid;
+
+        //System.out.println("here");
         //throw new RestException("Invalid category name.", "Category " + category + " is not a valid category name", HttpStatus.BAD_REQUEST);
-        ItemController.printing(category);
+        //ItemController.printing(category);
         //ItemRepository.excHelper(category);
-        throw new RuntimeException("Category " + category + " is not a valid category name");
+        //throw new RuntimeException("Category " + category + " is not a valid category name");
 
     }
 
@@ -114,7 +125,23 @@ public class Item {
         this.userr = userr;
     }
 
-	@Override
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getHighestBid() {
+        return highestBid;
+    }
+
+    public void setHighestBid(Double highestBid) {
+        this.highestBid = highestBid;
+    }
+
+        @Override
     public String toString() {
         return "Item{" +
                 "id=" + id +

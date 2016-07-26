@@ -45,8 +45,4 @@ public interface ItemRepository {
 
     public String createItemPicturesForItem(Long id, MultipartFile[] files);
 
-    public static void excHelper(String category){
-        System.out.println("in repo interface");
-        throw new RestException("Invalid category", "Category " + category + " is not a valid category name", HttpStatus.BAD_REQUEST);
-    }
 }

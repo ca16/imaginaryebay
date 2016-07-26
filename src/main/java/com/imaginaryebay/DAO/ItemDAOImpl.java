@@ -74,11 +74,12 @@ public class ItemDAOImpl implements ItemDAO{
     @Override
     public Item updateItemByID(Long id, Item item){
         Item toChange = entityManager.find(Item.class, id);
+        toChange.setHighestBid(item.getHighestBid());
+        toChange.setName(item.getName());
         toChange.setPrice(item.getPrice());
         toChange.setCategory(item.getCategory());
         toChange.setEndtime(item.getEndtime());
         toChange.setDescription(item.getDescription());
-        //toChange.setUserr(item.getUserr());
         return entityManager.find(Item.class, id);
     }
 

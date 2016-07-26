@@ -2,8 +2,10 @@ package com.imaginaryebay.Repository;
 
 import com.imaginaryebay.Controller.RestException;
 import com.imaginaryebay.DAO.ItemDAO;
+import com.imaginaryebay.DAO.UserrDao;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
+import com.imaginaryebay.Models.Userr;
 
 import org.apache.http.protocol.HTTP;
 import org.junit.Assert;
@@ -16,6 +18,13 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +52,9 @@ public class ItemRepositoryImplTest {
     private ItemDAO itemDao;
 
     @Mock
+    private UserrDao userrDao;
+
+    @Mock
     private ItemDAO itemDaoEmpties;
 
     private Category invalidCategory;
@@ -66,6 +78,15 @@ public class ItemRepositoryImplTest {
     private List<Item> electronics;
     private List<Item> empties;
 
+    private Authentication auth1;
+
+    private Userr userr1;
+    private UserDetails ud1;
+
+    private List<GrantedAuthority> authListAdmin;
+    private List<GrantedAuthority> authListNonAdmin;
+
+
 
     @Before
     public void setUp() throws Exception {
@@ -73,46 +94,63 @@ public class ItemRepositoryImplTest {
         //invalidCategory = PowerMockito.mock(Category.class);
 
         item1 = new Item();
-        //item1.setCategory(Category.Clothes);
         item1.setCategory("Clothes");
         item1.setPrice(20.0);
+        item1.setName("Scarf");
         item1.setDescription("Scarf");
         item1.setEndtime(valueOf("2016-10-10 00:00:00"));
 
         item2 = new Item();
-        //item2.setCategory(Category.Clothes);
         item2.setCategory("Clothes");
         item2.setPrice(200.0);
+        item2.setName("Expensive Scarf");
         item2.setDescription("Expensive Scarf");
         item2.setEndtime(valueOf("2016-11-5 06:00:00"));
 
         item3 = new Item();
-        //item3.setCategory(Category.Electronics);
         item3.setCategory("Electronics");
         item3.setPrice(30.0);
+        item3.setName("Watch");
         item3.setDescription("Watch");
         item3.setEndtime(valueOf("2016-9-2 11:10:10"));
 
         itemInvalidPrice = new Item();
-        //itemInvalidPrice.setCategory(Category.Clothes);
         itemInvalidPrice.setCategory("Clothes");
         itemInvalidPrice.setPrice(-20.0);
+        itemInvalidPrice.setName("Scarf");
         itemInvalidPrice.setDescription("Scarf");
         itemInvalidPrice.setEndtime(valueOf("2016-10-10 00:00:00"));
 
         itemInvalidCategory = new Item();
-        //itemInvalidCategory.setCategory(invalidCategory);
-        //itemInvalidCategory.setCategory("Books");
+        itemInvalidCategory.setCategory("Books");
         itemInvalidCategory.setPrice(20.0);
+        itemInvalidCategory.setName("Scarf");
         itemInvalidCategory.setDescription("Scarf");
         itemInvalidCategory.setEndtime(valueOf("2016-10-10 00:00:00"));
 
         itemInvalidEndtime = new Item();
-        //itemInvalidEndtime.setCategory(Category.Clothes);
         itemInvalidEndtime.setCategory("Clothes");
         itemInvalidEndtime.setPrice(20.0);
+        itemInvalidEndtime.setName("Scarf");
         itemInvalidEndtime.setDescription("Scarf");
         itemInvalidEndtime.setEndtime(valueOf("2015-10-10 00:00:00"));
+
+        authListAdmin = new ArrayList<>();
+        authListAdmin.add(new SimpleGrantedAuthority("USER"));
+        authListAdmin.add(new SimpleGrantedAuthority("ADMIN"));
+
+        authListNonAdmin = new ArrayList<>();
+        authListNonAdmin.add(new SimpleGrantedAuthority("USER"));
+
+        userr1 = new Userr("jackie@gmail.com", "Jackie Fire", "dragon", true);
+        ud1 = new User("jackie@gmail.com", "dragon", authListAdmin);
+
+        item2.setUserr(userr1);
+
+
+        auth1 = new UsernamePasswordAuthenticationToken(ud1, "dragon", authListAdmin);
+
+        when(userrDao.getUserrByEmail("jackie@gmail.com")).thenReturn(userr1);
 
         noFields = new Item();
         notInDB = new Item();
@@ -167,6 +205,7 @@ public class ItemRepositoryImplTest {
 
         impl = new ItemRepositoryImpl();
         impl.setItemDAO(itemDao);
+        impl.setUserrDAO(userrDao);
 
         when(itemDaoEmpties.findAllItems()).thenReturn(empties);
         when(itemDaoEmpties.findAllItemsByCategory(Category.Clothes)).thenReturn(empties);
@@ -176,11 +215,18 @@ public class ItemRepositoryImplTest {
         implEmpties.setItemDAO(itemDaoEmpties);
 
 
+
+
     }
 
     @Test
     public void save() throws Exception {
         Item toSave = new Item();
+        toSave.setPrice(25.0);
+        toSave.setName("This Perfect Day.");
+        toSave.setEndtime(valueOf("2016-11-5 06:00:00"));
+        SecurityContextHolder.getContext().setAuthentication(auth1);
+
         impl.save(toSave);
         verify(itemDao).persist(toSave);
 
@@ -348,6 +394,7 @@ public class ItemRepositoryImplTest {
 
     @Test
     public void update() throws Exception {
+        SecurityContextHolder.getContext().setAuthentication(auth1);
         impl.update(toUpdate);
         verify(itemDao).find(toUpdate);
         verify(itemDao).merge(toUpdate);
@@ -366,6 +413,7 @@ public class ItemRepositoryImplTest {
 
     @Test
     public void updateItemByID() throws Exception {
+        SecurityContextHolder.getContext().setAuthentication(auth1);
         impl.updateItemByID(2L, toUpdate);
         verify(itemDao).findByID(2L);
         verify(itemDao).updateItemByID(2L, toUpdate);
@@ -426,24 +474,6 @@ public class ItemRepositoryImplTest {
             Assert.assertEquals("There are no items available.", exc.getDetailedMessage());
             Assert.assertEquals(exc.getStatusCode(), HttpStatus.OK);
 
-        }
-    }
-
-    @Test
-    public void settingInvalidCategory() throws Exception{
-
-        try {
-            itemInvalidCategory = new Item();
-            //itemInvalidCategory.setCategory(invalidCategory);
-            itemInvalidCategory.setCategory("Books");
-            itemInvalidCategory.setPrice(20.0);
-            itemInvalidCategory.setDescription("Scarf");
-            itemInvalidCategory.setEndtime(valueOf("2016-10-10 00:00:00"));
-            fail();
-        }catch (RestException exc){
-            Assert.assertEquals("Invalid category", exc.getMessage());
-            Assert.assertEquals("Category Books is not a valid category name", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
         }
     }
 
