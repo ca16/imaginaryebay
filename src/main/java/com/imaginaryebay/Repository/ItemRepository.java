@@ -4,6 +4,7 @@ import com.imaginaryebay.Controller.RestException;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
+import com.imaginaryebay.Models.Userr;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,11 @@ public interface ItemRepository {
 
     public Timestamp findEndtimeByID(Long id);
 
-    //public Userr findOwnerByID(Long id);
+    public Userr findOwnerByID(Long id);
+
+    public String findNameByID(Long id);
+
+    public Double findHighestBidByID(Long id);
 
     public String findDescriptionByID(Long id);
 

@@ -286,19 +286,6 @@ public class ItemRepositoryImplTest {
         assertEquals(impl.findPriceByID(2L), new Double(200.0));
         assertEquals(impl.findPriceByID(10L), new Double(30.0));
 
-
-        //Testing findPriceByID() for 24L and 25L twice for the same reason
-        // there are two tests for findItemByID(25L)
-        try {
-            impl.findPriceByID(24L);
-            fail();
-        } catch (RestException exc) {
-            Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
-            Assert.assertEquals("Item with id 24 does not have a price", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.OK);
-
-        }
-
         try {
             impl.findPriceByID(25L);
             fail();
@@ -342,16 +329,6 @@ public class ItemRepositoryImplTest {
         assertEquals(impl.findEndtimeByID(1L), valueOf("2016-10-10 00:00:00"));
         assertEquals(impl.findEndtimeByID(2L), valueOf("2016-11-5 06:00:00"));
         assertEquals(impl.findEndtimeByID(10L), valueOf("2016-9-2 11:10:10"));
-
-        try {
-            impl.findEndtimeByID(24L);
-            fail();
-        } catch (RestException exc) {
-            Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
-            Assert.assertEquals("Item with id 24 does not have an endtime", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.OK);
-
-        }
 
         try {
             impl.findEndtimeByID(25L);

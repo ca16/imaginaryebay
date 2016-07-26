@@ -89,8 +89,6 @@ public class Item {
         if (null == category){
             return;
         }
-        //System.out.println(Category.Clothes.toString());
-        //System.out.println(Category.valueOf("Clothes"));
         for (Category cat : Category.values()){
             if (cat.toString().equals(category)){
                 this.category = Category.valueOf(category);
@@ -98,13 +96,6 @@ public class Item {
             }
         }
         this.category = Category.Invalid;
-
-        //System.out.println("here");
-        //throw new RestException("Invalid category name.", "Category " + category + " is not a valid category name", HttpStatus.BAD_REQUEST);
-        //ItemController.printing(category);
-        //ItemRepository.excHelper(category);
-        //throw new RuntimeException("Category " + category + " is not a valid category name");
-
     }
 
     public void setCategory(Category category){

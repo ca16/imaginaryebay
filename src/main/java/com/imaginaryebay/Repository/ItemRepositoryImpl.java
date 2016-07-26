@@ -121,19 +121,42 @@ public class ItemRepositoryImpl implements ItemRepository {
         }
     }
 
-    // What if item doesn't have a price? Is price required?
+    public Userr findOwnerByID(Long id){
+        Item item = this.itemDAO.findByID(id);
+        if (item != null){
+            // No check for whether owner is null. All items should have an owner.
+            return itemDAO.findOwnerByID(id);
+        }
+        throw new RestException(NOT_AVAILABLE,
+                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
+    }
+
+    public String findNameByID(Long id){
+        Item item = this.itemDAO.findByID(id);
+        if (item != null){
+            // No check for whether name is null. All items should have an name.
+            return itemDAO.findNameByID(id);
+        }
+        throw new RestException(NOT_AVAILABLE,
+                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
+    }
+
     public Double findPriceByID(Long id) {
         Item item = this.itemDAO.findByID(id);
         if (item != null) {
-            Double price = itemDAO.findPriceByID(id);
-            if (price != null) {
-                return price;
-            }
-            //figure out code
-            throw new RestException(NOT_AVAILABLE,
-                    detailedMessageConstructor(id, " does not have a price"), HttpStatus.OK);
+            // No check for whether name is null. All items should have an name.
+            return itemDAO.findPriceByID(id);
         }
-        //figure out code
+        throw new RestException(NOT_AVAILABLE,
+                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
+    }
+
+    public Timestamp findEndtimeByID(Long id) {
+        Item item = this.itemDAO.findByID(id);
+        if (item != null) {
+            // No check for whether name is null. All items should have an name.
+            return itemDAO.findEndtimeByID(id);
+        }
         throw new RestException(NOT_AVAILABLE,
                 detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
     }
@@ -154,16 +177,15 @@ public class ItemRepositoryImpl implements ItemRepository {
                 detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
     }
 
-    public Timestamp findEndtimeByID(Long id) {
+    public Double findHighestBidByID(Long id){
         Item item = this.itemDAO.findByID(id);
-        if (item != null) {
-            Timestamp time = itemDAO.findEndtimeByID(id);
-            if (time != null) {
-                return time;
+        if (item != null){
+            Double highestBid = itemDAO.findHighestBidByID(id);
+            if (highestBid != null){
+                return highestBid;
             }
             throw new RestException(NOT_AVAILABLE,
-                    detailedMessageConstructor(id, " does not have an endtime"), HttpStatus.OK);
-
+                    detailedMessageConstructor(id, " does not have a highest bid."), HttpStatus.OK);
         }
         throw new RestException(NOT_AVAILABLE,
                 detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
@@ -323,14 +345,5 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     private String detailedMessageConstructor(Long id, String extras){
         return "Item with id " + id + extras;
-    }
-
-    private Boolean validCategory(String cat){
-        for (Category c : Category.values()){
-            if(c.toString().equals(cat)){
-                return true;
-            }
-        }
-        return false;
     }
 }

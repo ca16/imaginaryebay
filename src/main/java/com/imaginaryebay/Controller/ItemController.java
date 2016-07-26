@@ -3,6 +3,7 @@ package com.imaginaryebay.Controller;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
+import com.imaginaryebay.Models.Userr;
 import com.imaginaryebay.Repository.ItemRepository;
 
 import org.springframework.http.HttpStatus;
@@ -40,10 +41,32 @@ public interface ItemController {
      */
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
     public ResponseEntity<Item> getItemByID(@PathVariable("id") Long id);
-/*
-    @RequestMapping(value="/Owner/{ID}", method= RequestMethod.GET)
-    public Userr getOwnerByID(@PathVariable("ID") Long id);
-*/
+
+
+    /**
+     *
+     * @param id the item's ID
+     * @return the owner of the item with the given ID
+     */
+    @RequestMapping(value="/owner/{id}", method= RequestMethod.GET)
+    public ResponseEntity<Userr> getOwnerByID(@PathVariable("id") Long id);
+
+    /**
+     *
+     * @param id the item's ID
+     * @return the name of the item with the given ID
+     */
+    @RequestMapping(value="/name/{id}", method= RequestMethod.GET)
+    public ResponseEntity<String> getNameByID(@PathVariable("id") Long id);
+
+    /**
+     *
+     * @param id the item's ID
+     * @return the highest bid for the item with the given ID
+     */
+    @RequestMapping(value="/highestbid/{id}", method= RequestMethod.GET)
+    public ResponseEntity<Double> getHighestBidByID(@PathVariable("id") Long id);
+
 
     /**
      * @param id the item's ID
