@@ -2,6 +2,7 @@ package com.imaginaryebay.DAO;
 
 import com.imaginaryebay.Models.Bidding;
 import com.imaginaryebay.Models.Item;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,6 +14,7 @@ import java.util.List;
  * Created by Ben_Big on 7/24/16.
  */
 
+@Component
 public class BiddingDAOImpl implements  BiddingDAO{
 
     @PersistenceContext

@@ -5,6 +5,9 @@ import com.imaginaryebay.Models.Bidding;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.Userr;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -12,6 +15,10 @@ import java.util.List;
 /**
  * Created by ben on 7/25/16.
  */
+
+@Component
+@ComponentScan("com.imaginaryebay.DAO")
+@Transactional
 public class BiddingRepositoryImpl implements BiddingRepository {
 
     @Autowired
@@ -21,6 +28,7 @@ public class BiddingRepositoryImpl implements BiddingRepository {
 
     @Override
     public void createNewBidding(Userr userr, Item item, double price){
+        //ToDo: Can I person bid on his own item?
         java.util.Date date= new java.util.Date();
         Timestamp biddingTime=new Timestamp(date.getTime());
         Timestamp deadline=item.getEndtime();
