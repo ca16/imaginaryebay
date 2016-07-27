@@ -11,11 +11,11 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
     ItemService.getItem(itemId).success(function (data) {
         item = data;
         $scope.item = data;
-        var date = item.endtime;
-        date = new Date(date);
-        date = date.toISOString().substring(0,10);
-        $scope.auctet = date;
-        document.getElementById("itemcategory").value = item.category;
+        // var date = item.endtime;
+        // date = new Date(date);
+        // date = date.toISOString().substring(0,10);
+        // $scope.auctet = date;
+        //document.getElementById("itemcategory").value = item.category;
 
     });
 
@@ -66,6 +66,19 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
             
         }
 
+    }
+
+    $scope.uploadFile = function(){
+        var file = $scope.myFile;
+        var fd = new FormData();
+        fd.append('file', file);
+        $http.post("/item/" + itemId + "/picture", fd)
+            .success(function(){
+                console.log("success")
+            })
+            .error(function(){
+                console.log("fail")
+            });
     }
 
 }
