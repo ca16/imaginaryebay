@@ -11,7 +11,7 @@
 
         var service = {
             returnUser: returnUser,
-            setUser: setUser
+            setUser: setUser,
 
         };
         return service;
@@ -23,6 +23,7 @@
         function setUser(newUser) {
             currentUser=newUser;
         }
+        
     }
 
 

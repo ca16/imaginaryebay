@@ -18,6 +18,12 @@
             .when('/app/itemcreate',{
                 templateUrl:'./resources/itemcreate.html'
             })
+            .when('/app/item/:itemId',{
+                templateUrl:'./resources/item.html'
+            })
+            .when('/app/item/:itemId/update',{
+                templateUrl:'./resources/itemupdate.html'
+            })
             .otherwise({
                 redirectTo:'/'
             });

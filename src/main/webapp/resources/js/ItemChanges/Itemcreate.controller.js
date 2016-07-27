@@ -6,6 +6,10 @@
 
 
 function itemcreateController($scope,$http, UserService, $location){
+
+    var date = new Date();
+    date = date.toISOString().substring(0,10);
+    $scope.auctet = date;
     
     $scope.create=function(){
 
@@ -17,10 +21,14 @@ function itemcreateController($scope,$http, UserService, $location){
         }
             
         else{
+            var cat=$scope.category;
+            if(cat == ""){
+                cat=null;
+            }
             var newitem ={
                 name:$scope.name,
                 description:$scope.description,
-                category:$scope.category,
+                category:cat,
                 endtime:$scope.endtime,
                 price:$scope.price,
                 // backend handles assigning the right user to it
@@ -34,33 +42,8 @@ function itemcreateController($scope,$http, UserService, $location){
                         window.alert("Item creation failed: " + res.data.detailedMessage);
                     });
 
-            console.log(newitem.getId());
         }
 
-
-
     }
-
-    // $scope.update=function(){
-    //     var improveditem ={
-    //         description:$scope.description,
-    //         category:$scope.category,
-    //         endtime:$scope.endtime,
-    //         price:$scope.price        }
-    //     var id = $scope.id;
-    //
-    //
-    //     $http.put("/item/" + id, improveditem)
-    //         .then(
-    //             function(res){
-    //                 window.alert("Item updated successfully!");
-    //             }, function(res){
-    //                 if (id == null){
-    //                     window.alert("Please provide an item ID.");
-    //                 }
-    //                 else {
-    //                     window.alert("Item update failed: " + res.data.detailedMessage);
-    //                 }
-    //             });
-    // }
+    
 }
