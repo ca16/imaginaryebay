@@ -54,18 +54,8 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
                         window.alert("Item updated successfully!");
                         $location.path("app/item/" + itemId);
                     }, function (res) {
-                        window.alert("Item update failed: " + res.data.detailedMessage);
+                        //window.alert("Item update failed: " + res.data.detailedMessage);
                     });
-
-            // if (picture1 != null) {
-            //     $http.post("/item/" + itemId + "/picture", $scope.picture1)
-            //         .then(
-            //             function (res) {
-            //                 window.alert("Picture1 added successfully!");
-            //             }, function (res) {
-            //                 window.alert("Item update failed: " + res.data.detailedMessage);
-            //             });
-            // }
             
             uploadAll();
 
@@ -81,16 +71,6 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
         fd.append("file", files[0]);
         pictures.push(fd);
         console.log("added pic");
-        // $http.post("/item/" + itemId + "/picture", fd, {
-        //     headers: {'Content-Type': undefined},
-        //     transformRequest: angular.identity
-        // }).success(function () {
-        //     console.log("success");
-        // })
-        //     .error(function (res) {
-        //         console.log("fail");
-        //         console.log(res.data.detailedMessage);
-        //     });
     }
     
     uploadAll = function (){
@@ -112,24 +92,6 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
                 console.log(res.data.detailedMessage);
             });
     }
-
-    // $scope.uploadFile = function () {
-    //     console.log("here")
-    //     var file = $scope.myFile;
-    //     console.log($scope.myFile);
-    //     var fd = new FormData();
-    //     fd.append("file", file);
-    //     console.log("here2")
-    //     $http.post("/item/" + itemId + "/picture", fd, {
-    //         headers: {'Content-Type': undefined},
-    //         transformRequest: angular.identity
-    //     }).success(function () {
-    //         console.log("success");
-    //     })
-    //         .error(function (res) {
-    //             console.log("fail");
-    //             console.log(res.data.detailedMessage);
-    //         });
-    // }
+    
 
 }

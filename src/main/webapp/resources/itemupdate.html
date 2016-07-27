@@ -20,7 +20,7 @@
         <form role="form">
             <div class="form-group">
                 <label for="itemname">Name</label>
-                <input type="text" class="form-control" id="itemname" placeholder="{{item.name}}" ng-model="name">
+                <input type="text" class="form-control" id="itemname" required placeholder="{{item.name}}" ng-model="name">
             </div>
             <div class="form-group">
                 <label for="itemcategory">Category</label>
@@ -32,13 +32,13 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="itemprice">Price (USD)</label>
-                <input type="number" class="form-control" id="itemprice" placeholder="${{item.price}}" ng-model="price">
+                <label for="itemprice">Starting Price (USD)</label>
+                <input type="number" class="form-control" id="itemprice" required placeholder="${{item.price}}" ng-model="price">
             </div>
             <div class="form-group">
                 <label for="auctionendtime">Auction Endtime </label>
                 <br>
-                <input type="date" id="auctionendtime" style="color:black;" min="{{auctet}}" ng-model="endtime"/>
+                <input type="date" id="auctionendtime" style="color:black;" required min="{{auctet}}" ng-model="endtime"/>
             </div>
             <div class="form-group">
                 <label for="itemdescription">Description</label>
@@ -47,9 +47,6 @@
             <div class="form-group">
                 <label>Pictures - Add as many as you wish!</label>
                 <br>
-                <!--<input type = "file" name = "myFile"/>-->
-                <!--<button ng-click = "uploadFile()">upload me</button>-->
-                <!--<input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>-->
                 <input type="file" name="file"/>
                 <br>
                 <button style="color:black;" class="btn btn-default btn-sm" onclick="angular.element(file).scope().uploadFile(file.files)">Add Picture</button>

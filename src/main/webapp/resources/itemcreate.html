@@ -32,7 +32,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="itemprice">Price (USD)</label>
+                <label for="itemprice">Starting Price (USD)</label>
                 <input type="number" class="form-control" id="itemprice" ng-model="price">
             </div>
             <div class="form-group">
@@ -45,11 +45,12 @@
                 <textarea class="form-control" rows="5" id="itemdescription" ng-model="description"></textarea>
             </div>
             <!--<div class="form-group">-->
-                <!--<label>Pictures</label>-->
-                <!--<input type="file" ng-model="picture1">-->
-                <!--<input type="file" ng-model="picture2">-->
-                <!--<input type="file" ng-model="picture3">-->
-
+                <!--<label>Pictures - Add as many as you wish!</label>-->
+                <!--<br>-->
+                <!--<input type="file" name="file"/>-->
+                <!--<br>-->
+                <!--<button style="color:black;" class="btn btn-default btn-sm" onclick="angular.element(file).scope().uploadFile(file.files)">Add Picture</button>-->
+                <!--<br>-->
             <!--</div>-->
             <hr>
             <button type="submit" class="btn btn-default" ng-click="create()"> Create </button>
