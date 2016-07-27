@@ -8,7 +8,7 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
     var itemId = $routeParams.itemId;
     var item;
     var date = new Date();
-    date = date.toISOString().substring(0,10);
+    date = date.toISOString().substring(0, 10);
     $scope.auctet = date;
 
     ItemService.getItem(itemId).success(function (data) {
@@ -67,21 +67,69 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
             //             });
             // }
             
+            uploadAll();
+
         }
 
     }
+    
+    var pictures = [];
 
-    $scope.uploadFile = function(){
+    $scope.uploadFile = function (files) {
         var file = $scope.myFile;
         var fd = new FormData();
-        fd.append('file', file);
-        $http.post("/item/" + itemId + "/picture", fd)
-            .success(function(){
-                console.log("success")
-            })
-            .error(function(){
-                console.log("fail")
+        fd.append("file", files[0]);
+        pictures.push(fd);
+        console.log("added pic");
+        // $http.post("/item/" + itemId + "/picture", fd, {
+        //     headers: {'Content-Type': undefined},
+        //     transformRequest: angular.identity
+        // }).success(function () {
+        //     console.log("success");
+        // })
+        //     .error(function (res) {
+        //         console.log("fail");
+        //         console.log(res.data.detailedMessage);
+        //     });
+    }
+    
+    uploadAll = function (){
+        for (i = 0; i < pictures.length; i++) {
+            console.log(pictures[i]);
+            helper(pictures[i]);
+        }
+    }
+
+    helper = function(pic){
+        $http.post("/item/" + itemId + "/picture", pic, {
+            headers: {'Content-Type': undefined},
+            transformRequest: angular.identity
+        }).success(function () {
+            console.log("success");
+        })
+            .error(function (res) {
+                console.log("fail");
+                console.log(res.data.detailedMessage);
             });
     }
+
+    // $scope.uploadFile = function () {
+    //     console.log("here")
+    //     var file = $scope.myFile;
+    //     console.log($scope.myFile);
+    //     var fd = new FormData();
+    //     fd.append("file", file);
+    //     console.log("here2")
+    //     $http.post("/item/" + itemId + "/picture", fd, {
+    //         headers: {'Content-Type': undefined},
+    //         transformRequest: angular.identity
+    //     }).success(function () {
+    //         console.log("success");
+    //     })
+    //         .error(function (res) {
+    //             console.log("fail");
+    //             console.log(res.data.detailedMessage);
+    //         });
+    // }
 
 }

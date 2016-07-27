@@ -45,16 +45,17 @@
                 <textarea class="form-control" rows="5" id="itemdescription" placeholder="{{item.description}}" ng-model="description"></textarea>
             </div>
             <div class="form-group">
-                <label>Pictures</label>
-                <input type="file" ng-model="picture1">
-                <input type="file" ng-model="picture2">
-                <input type="file" ng-model="picture3">
+                <label>Pictures - Add as many as you wish!</label>
+                <br>
+                <!--<input type = "file" name = "myFile"/>-->
+                <!--<button ng-click = "uploadFile()">upload me</button>-->
+                <!--<input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>-->
+                <input type="file" name="file"/>
+                <br>
+                <button style="color:black;" class="btn btn-default btn-sm" onclick="angular.element(file).scope().uploadFile(file.files)">Add Picture</button>
+                <br>
             </div>
-            <div class="form-group">
-                <input type = "file" file-model = "myFile"/>
-                <button ng-click = "uploadFile()">upload me</button>
-            </div>
-
+            <hr>
             <button type="submit" class="btn btn-default" ng-click="update()"> Update </button>
         </form>
         <hr>
