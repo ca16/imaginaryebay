@@ -15,7 +15,7 @@
             .when('/app/registration',{
                 templateUrl:'./resources/registration.html'
             })
-            .when('/app/itemcreate',{
+            .when('/app/item/create',{
                 templateUrl:'./resources/itemcreate.html'
             })
             .when('/app/item/:itemId',{
@@ -23,6 +23,9 @@
             })
             .when('/app/item/:itemId/update',{
                 templateUrl:'./resources/itemupdate.html'
+            })
+            .when('/app/admin',{
+                templateUrl:'./resources/admin.html'
             })
             .otherwise({
                 redirectTo:'/'
