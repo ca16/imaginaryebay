@@ -7,6 +7,9 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
 
     var itemId = $routeParams.itemId;
     var item;
+    var date = new Date();
+    date = date.toISOString().substring(0,10);
+    $scope.auctet = date;
 
     ItemService.getItem(itemId).success(function (data) {
         item = data;
