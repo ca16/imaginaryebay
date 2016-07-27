@@ -1,15 +1,15 @@
 (function(){
-    angular.module("ShopApp").controller("homeController",homeController)
-        .controller("paginationController",paginationController);
+    angular.module("ShopApp").controller("homeController",homeController);
 }());
 
 
 function homeController($scope,$http,UserService){
 
 
+    var numOfItemsOnEachPage=8;
 
     (function(){
-        $http.get("/item")
+        $http.get("/item/page/1/size/"+numOfItemsOnEachPage)
             .then(function(res){
                 $scope.goods=res.data;
                 //$scope.goods[1].itemPictures=[{"url": "http://placehold.it/800x500"}]
@@ -26,10 +26,10 @@ function homeController($scope,$http,UserService){
 
 
 
-}
 
+    ///////////////////////////////////////////
+    //pagination stuff
 
-function paginationController($scope){
 
     //number of elements to show on each page,
     //ToDo: this should come as a parameter
@@ -67,7 +67,7 @@ function paginationController($scope){
 
     function totalNumber(){
         //Get the total number of Items
-        return 30;
+        return 11;
     }
 
     $scope.numbersToShow=function(){
@@ -79,6 +79,16 @@ function paginationController($scope){
 
     $scope.goToPage=function(numOfPage){
         //Make a http request to get all the items
+        $http.get("/item/page/"+numOfPage+"/size/"+numOfItemsOnEachPage)
+            .then(function(res) {
+                $scope.goods = res.data;
+                //$scope.goods[1].itemPictures=[{"url": "http://placehold.it/800x500"}]
+                for (var i = 0; i < $scope.goods.length; i++) {
+                    if ($scope.goods[i].itemPictures === null) {
+                        $scope.goods[i].itemPictures = [{"url": "http://placehold.it/800x500"}];
+                    }
+                }
+            })
 
         //Update the currentPage
         $scope.currentPage=numOfPage;
