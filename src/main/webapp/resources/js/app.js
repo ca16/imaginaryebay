@@ -1,6 +1,6 @@
 
 (function(){
-    var ShopApp=angular.module("ShopApp",["ngRoute"]);
+    var ShopApp=angular.module("ShopApp",["ngRoute", "ui.bootstrap"]);
 
     /*
      ShopApp.run(['$rootScope',function($rootScope){

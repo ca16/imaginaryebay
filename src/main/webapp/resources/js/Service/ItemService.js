@@ -1,6 +1,6 @@
-/**
- * Created by Brian on 7/26/2016.
- */
+'use strict';
+
+
 (function (){
     angular.module("ShopApp").factory("ItemService", ItemService);
 
@@ -10,11 +10,16 @@
 
         var service = {
             getItem: getItem,
+            getAllItems: getAllItems
         };
         return service;
 
         function getItem(itemId){
             return $http.get(itemCollectionUrl + itemId);
+        }
+        
+        function getAllItems(){
+            return $http.get(itemCollectionUrl)
         }
     }
 }());

@@ -26,6 +26,8 @@
     <!-- ng Route-->
     <script src="<c:url value="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.js" />"> </script>
 
+    <%--ui-bootstrap for Angular--%>
+    <script src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.0.0/ui-bootstrap-tpls.min.js"/>"></script>
 
     <!-- Angular app-->
     <script src="<c:url value="/resources/js/app.js"/>"></script>

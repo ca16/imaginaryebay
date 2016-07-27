@@ -4,13 +4,18 @@
 }());
 
 
-function homeController($scope,$http,UserService){
+function homeController($scope,$http,UserService, ItemService){
+    
 
-    $scope.goods=[{name:"Goodie 0",shortDescription:"Description 1"},
-                    {name:"Goodie 2",shortDescription:"Description 2"},
-                    {name:"Goodie 3",shortDescription:"Description 3"},
-                    {name:"Goodie 4",shortDescription:"Description 4"},
-                    {name:"Goodie 5",shortDescription:"Description 5"}];
+    ItemService.getAllItems().success(function(data){
+        $scope.goods = data;
+    });
+    
+    // $scope.goods=[{name:"Goodie 0",shortDescription:"Description 1"},
+    //                 {name:"Goodie 2",shortDescription:"Description 2"},
+    //                 {name:"Goodie 3",shortDescription:"Description 3"},
+    //                 {name:"Goodie 4",shortDescription:"Description 4"},
+    //                 {name:"Goodie 5",shortDescription:"Description 5"}];
 
 
 
