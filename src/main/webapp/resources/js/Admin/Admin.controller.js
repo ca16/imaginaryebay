@@ -5,15 +5,28 @@
 }());
 
 
-function adminController($scope,$http, UserService, $location){
+function adminController($scope,$http, UserService, $location) {
 
-    UserService.returnAllUsers().success(function (data) {
-        $scope.users = data;
-    });
-    console.log($scope.users);
-    for (var usr in $scope.users){
-        console.log(usr);
-        console.log(usr.name);
+    var userr = UserService.returnUser();
+
+    if (userr == null) {
+        window.alert("You must be logged in to view this page.");
+        $location.path("app/login");
+    }
+    else if (!userr.admin) {
+        window.alert("You are not authorized to view this page.");
+        $location.path("#/app/home");
+    }
+
+    else {
+        UserService.returnAllUsers().success(function (data) {
+            $scope.users = data;
+        });
+        console.log($scope.users);
+        for (var usr in $scope.users) {
+            console.log(usr);
+            console.log(usr.name);
+        }
     }
     
     $scope.profile = function (id) {
