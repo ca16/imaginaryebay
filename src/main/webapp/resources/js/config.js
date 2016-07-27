@@ -15,7 +15,7 @@
             .when('/app/registration',{
                 templateUrl:'./resources/registration.html'
             })
-            .when('/app/contact'),{
+            .when('/app/contact',{
         		templateUrl:'./resources/contact.html'
         	})
             .otherwise({

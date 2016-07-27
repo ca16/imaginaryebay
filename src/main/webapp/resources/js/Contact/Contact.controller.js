@@ -6,19 +6,24 @@
 
 
 function contactController($scope,$http){
-
+	
     $scope.sendEmail=function(){
-        var message ={
-            name:$scope.name,
-            email:$scope.email,
-            message:$scope.message,
+    	if ($scope.name=="Tina"){
+            window.alert("You are our favorite user!");
         }
+    	else{
+    		var newMessage ={
+    				name:$scope.name,
+    				email:$scope.email,
+    				message:$scope.message
+    		}
 
 
-        $http.post("/contact", message)
-            .then(
-                function(res){
-                    window.alert("Message sent! Thanks for contacting us!");
-                });
+    		$http.post("/contact", newMessage)
+            	.then(
+            			function(res){
+            				window.alert("Message sent! Thanks for contacting us!");
+            			});
+    	}
     }
 }

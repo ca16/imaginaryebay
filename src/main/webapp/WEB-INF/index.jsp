@@ -24,7 +24,7 @@
     <script src="<c:url value="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"/>"></script>
 
     <!-- ng Route-->
-    <script src="<c:url value="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.js" />"> </script>
+    <script src="<c:url value="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.js" />"> </script>
 
 
     <!-- Angular app-->
