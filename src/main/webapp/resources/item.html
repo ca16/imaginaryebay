@@ -1,10 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div ng-include src=" './resources/Navigation.html' "></div>
 
-</body>
-</html>
+<div class="container" ng-controller="itemController">
+    <link href="./resources/css/shop-item.css" rel="stylesheet">
+
+    <div class="row">
+        <div class="col-md-9">
+            <div class="thumbnail">
+                <img class="img-responsive" src="{{item.itemPictures[0].url}}" alt="">
+                <div class="caption-full">
+                    <h3 class="pull-right">{{item.price | currency}}</h3>
+                    <h3>{{item.description}}</h3>
+                    <p>Look! It's a lil pup!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <!-- Footer -->
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Copyright &copy; Your Website 2014</p>
+            </div>
+        </div>
+    </footer>
+</div>
