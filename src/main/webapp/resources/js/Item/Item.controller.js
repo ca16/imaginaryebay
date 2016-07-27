@@ -2,9 +2,13 @@
         angular.module("ShopApp").controller("itemController", itemController);
 }());
 
+function itemController($scope, $routeParams, ItemService){
 
-function itemController($scope, $http, ItemService){
-        ItemService.getItem(1).success(function(data) {
+        // Grab Item ID from URL
+        var itemId = $routeParams.itemId;
+
+        // Get Item data for itemId
+        ItemService.getItem(itemId).success(function(data) {
                 $scope.item = data;
         });
 }

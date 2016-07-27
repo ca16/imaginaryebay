@@ -15,7 +15,7 @@
             .when('/app/registration',{
                 templateUrl:'./resources/registration.html'
             })
-            .when('/app/item',{
+            .when('/app/item/:itemId',{
                 templateUrl:'./resources/item.html'
             })
             .otherwise({

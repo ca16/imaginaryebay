@@ -6,14 +6,15 @@
 
     function ItemService($http) {
 
+        var itemCollectionUrl = "/item/";
+
         var service = {
-            getItem: getItem
+            getItem: getItem,
         };
         return service;
 
         function getItem(itemId){
-            var itemCollectionUrl = "/item/";
             return $http.get(itemCollectionUrl + itemId);
-        }        
+        }
     }
 }());

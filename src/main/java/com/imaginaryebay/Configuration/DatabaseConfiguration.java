@@ -59,7 +59,7 @@ public class DatabaseConfiguration {
         Map<String,String> jpaPropertiesMap = new HashMap<String,String>();
         jpaPropertiesMap.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
         jpaPropertiesMap.put("hibernate.show_sql", "true");
-        jpaPropertiesMap.put("hibernate.hbm2ddl.auto", "create");
+        jpaPropertiesMap.put("hibernate.hbm2ddl.auto", "update");
         return jpaPropertiesMap;
     }
 
