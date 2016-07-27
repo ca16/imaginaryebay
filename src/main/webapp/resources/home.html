@@ -33,11 +33,12 @@
     <div  class="row text-center">
 
         <div ng-repeat="merchandise in goods" class="col-md-3 col-sm-6 hero-feature">
-            <div class="thumbnail">
-                <img src="http://placehold.it/800x500" alt="">
+            <div  class="thumbnail" >
+               <!-- <img src="http://placehold.it/800x500" alt="" height="500" width="800">-->
+               <!-- <img style='height: 100%; width: 100%; object-fit:contain' src={{merchandise.itemPictures[0].url}} alt="" height="500" width="800">-->
+                 <img class="img-responsive" style="min-height: 100%" src={{merchandise.itemPictures[0].url}} >
                 <div class="caption">
-                    <h3>{{merchandise.name}}</h3>
-                    <p>{{merchandise.description}}</p>
+                    <h3>{{merchandise.description}}</h3>
                     <p>
                         <a href="#/app/product?productID={{merchandise.id}}" class="btn btn-primary">Learn more!</a>
                     </p>
@@ -61,7 +62,7 @@
                 </li>
 
                 <li ng-repeat="num in numberForPagination" ng-class="{'active': num == currentPage}" >
-                    <a href="#">{{num}}</a>
+                    <a ng-click="goToPage(num)" target="_self">{{num}}</a>
                 </li>
 
                 <li>

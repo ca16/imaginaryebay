@@ -30,7 +30,6 @@ public class S3FileUploader {
      */
     private static final String         FILENAME_HEADER = "filename";
     private static final String         BUCKET          = "odbneu";
-    private static final String         keyName         = "Object-" + UUID.randomUUID();
     private static final AWSCredentials AWS_CREDENTIALS = new BasicAWSCredentials("AKIAJSNMBTJ6HVQZ3CKQ",
                                                                    "HM8jw0ZSIZekX/b1Rcohu39Mfq1mlNWQ+o2Qk54N");
 
@@ -41,6 +40,7 @@ public class S3FileUploader {
      * @throws Exception
      */
     public String fileUploader(MultipartFile multipartFile) throws Exception {
+        String keyName = "Object-" + UUID.randomUUID();
         AmazonS3 s3 = new AmazonS3Client(AWS_CREDENTIALS);
         S3Object s3Object = new S3Object();
         String result = null;
