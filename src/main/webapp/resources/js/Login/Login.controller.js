@@ -15,7 +15,7 @@ function loginController($scope,$http,$route,UserService,$location,$q){
 
         $http({
             method:'POST',
-            url:"/login",
+            url:"/ImaginaryEbay/login",
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             transformRequest: function(obj) {
                 var str = [];
@@ -27,7 +27,7 @@ function loginController($scope,$http,$route,UserService,$location,$q){
         }).then(
            function(res) {
                console.log(res);
-               return $http.get("/user/email/"+$scope.email+"/");
+               return $http.get("/ImaginaryEbay/user/email/"+$scope.email+"/");
            },
             function (res) {
                 console.log(res);

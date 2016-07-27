@@ -26,7 +26,7 @@ public class ContactControllerImpl implements ContactController {
 		SimpleMailMessage msg = new SimpleMailMessage();
         msg.setTo("tinavivio@gmail.com");
         msg.setSubject("Contact Form Submission from " + contactEmail.getName());
-        msg.setText(contactEmail.getMessage());
+        msg.setText(contactEmail.getEmailContent());
         try {
             javaMailSender.send(msg);
             System.out.println("Message sent successfully");
@@ -34,7 +34,7 @@ public class ContactControllerImpl implements ContactController {
             System.err.println(ex.getMessage());
         }
         SimpleMailMessage msgToUser = new SimpleMailMessage();
-        msgToUser.setTo(contactEmail.getEmail());
+        msgToUser.setTo(contactEmail.getEmailAddress());
         msgToUser.setSubject("Contact Form Submission Received");
         msgToUser.setText("Thank you for contacting us. We will respond within 24-48 hours.");
         try {

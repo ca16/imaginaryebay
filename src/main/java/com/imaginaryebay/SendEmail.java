@@ -10,11 +10,13 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-
+import com.imaginaryebay.DAO.MessageDao;
+import com.imaginaryebay.Models.Message;
 import com.imaginaryebay.Models.Userr;
 
 public class SendEmail extends TimerTask{
-
+	@Autowired
+	private MessageDao messageDao;
 	private Userr to;
 	private String subject;
 	private String text;
@@ -72,5 +74,6 @@ public class SendEmail extends TimerTask{
         } catch (MailException ex) {
             System.err.println(ex.getMessage());
         }
+        this.messageDao.persist(new Message(this.to,new Timestamp(msg.getSentDate().getTime())));
 	}
 }

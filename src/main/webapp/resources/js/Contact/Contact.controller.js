@@ -14,12 +14,14 @@ function contactController($scope,$http){
     	else{
     		var newMessage ={
     				name:$scope.name,
-    				email:$scope.email,
-    				message:$scope.message
+    				emailAddress:$scope.emailAddress,
+    				emailContent:$scope.emailContent
     		}
 
-
-    		$http.post("/contact", newMessage)
+    		console.log(name);
+    		console.log(emailAddress);
+    		console.log(emailContent);
+    		$http.post("/ImaginaryEbay/contact", newMessage)
             	.then(
             			function(res){
             				window.alert("Message sent! Thanks for contacting us!");

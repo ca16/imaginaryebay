@@ -2,34 +2,34 @@ package com.imaginaryebay.Models;
 
 public class ContactFormEmail {
 	private String name;
-	private String email;
-	private String message;
+	private String emailAddress;
+	private String emailContent;
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getEmail() {
-		return email;
+	public String getEmailAddress() {
+		return emailAddress;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
-	public String getMessage() {
-		return message;
+	public String getEmailContent() {
+		return emailContent;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+	public void setEmailContent(String emailContent) {
+		this.emailContent = emailContent;
 	}
 	
 	public ContactFormEmail(){
 		
 	}
-	public ContactFormEmail(String name, String email, String message) {
+	public ContactFormEmail(String name, String emailAddress, String emailContent) {
 		this.name = name;
-		this.email = email;
-		this.message = message;
+		this.emailAddress = emailAddress;
+		this.emailContent = emailContent;
 	}
 	
 	
