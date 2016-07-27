@@ -3,6 +3,7 @@ package com.imaginaryebay.DAO;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
+import com.imaginaryebay.Models.Userr;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -65,20 +66,31 @@ public class ItemDAOImpl implements ItemDAO{
     public String findDescriptionByID(Long id){
         return entityManager.find(Item.class, id).getDescription();
     }
-/*
+
     @Override
     public Userr findOwnerByID(Long id){
         return entityManager.find(Item.class, id).getUserr();
     }
-*/
+
+    @Override
+    public String findNameByID(Long id){
+        return entityManager.find(Item.class, id).getName();
+    }
+
+    @Override
+    public Double findHighestBidByID(Long id){
+        return entityManager.find(Item.class, id).getHighestBid();
+    }
+
     @Override
     public Item updateItemByID(Long id, Item item){
         Item toChange = entityManager.find(Item.class, id);
+        toChange.setHighestBid(item.getHighestBid());
+        toChange.setName(item.getName());
         toChange.setPrice(item.getPrice());
         toChange.setCategory(item.getCategory());
         toChange.setEndtime(item.getEndtime());
         toChange.setDescription(item.getDescription());
-        //toChange.setUserr(item.getUserr());
         return entityManager.find(Item.class, id);
     }
 

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.sql.Timestamp.valueOf;
-
 public class ItemTest {
 
     private Item item1;
