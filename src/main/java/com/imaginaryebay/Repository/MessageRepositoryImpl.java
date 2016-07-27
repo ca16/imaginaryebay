@@ -2,6 +2,8 @@ package com.imaginaryebay.Repository;
 import java.util.List;
 
 import com.imaginaryebay.Controller.RestException;
+import com.imaginaryebay.Controller.UserrController;
+import com.imaginaryebay.Controller.UserrControllerImpl;
 import com.imaginaryebay.DAO.MessageDao;
 import com.imaginaryebay.DAO.UserrDao;
 import com.imaginaryebay.DAO.UserrDaoImpl;

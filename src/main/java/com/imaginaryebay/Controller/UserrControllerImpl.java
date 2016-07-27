@@ -1,15 +1,22 @@
 package com.imaginaryebay.Controller;
 
 import com.imaginaryebay.Models.Item;
+import com.imaginaryebay.Models.Message;
 import com.imaginaryebay.Models.Userr;
 import com.imaginaryebay.Repository.UserrRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -24,11 +31,31 @@ public class UserrControllerImpl implements UserrController {
 
     @Autowired
     private UserrRepository userrRepository;
+    @Autowired
+    private MailSender mailSender;
+    @Autowired
+    private SimpleMailMessage templateMessage;
+    @Autowired
+    private MessageController messageController;
 
     @Override
     public void createNewUserr(Userr userr){
         //ToDo: should have a mechanism here to check if the user exists or not
         userrRepository.createNewUserr(userr);
+        SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
+        msg.setTo(userr.getEmail());
+        msg.setSentDate(new Date());
+        msg.setText(
+                "Dear " + userr.getName()
+                        + ", thank you for creating an account. Your account username is "
+                        + userr.getEmail() + " and your password is " + userr.getPassword() + ".");
+        try {
+            this.mailSender.send(msg);
+            System.out.println("Message sent successfully");
+        } catch (MailException ex) {
+            System.err.println(ex.getMessage());
+        }
+        messageController.createNewMessage(new Message(userr,new Timestamp(msg.getSentDate().getTime())));
     }
 
     @Override

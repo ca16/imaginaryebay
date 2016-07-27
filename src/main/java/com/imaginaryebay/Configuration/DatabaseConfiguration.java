@@ -36,7 +36,7 @@ import java.util.Map;
 @EnableWebMvc
 public class DatabaseConfiguration {
 
-    @Bean
+    /*@Bean
     public DataSource dataSource() throws PropertyVetoException, URISyntaxException{
 
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
@@ -53,6 +53,16 @@ public class DatabaseConfiguration {
         comboPooledDataSource.setPassword(password);
 
         return comboPooledDataSource;
+    }*/
+	
+	@Bean
+    public DataSource dataSource() throws PropertyVetoException{
+        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+        dataSource.setDriverClass("org.postgresql.Driver");
+        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb3");
+        dataSource.setUser("postgres");
+        dataSource.setPassword("jingo123");
+        return dataSource;
     }
 
     private Map<String,?> jpaProperties() {

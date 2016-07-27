@@ -38,12 +38,4 @@ public class MailConfiguration {
         return message;
     }
 
-    @Bean
-    public SendEmail sendEmail(){
-        SendEmail email = new SendEmail();
-        email.setMailSender(mailSender());
-        email.setTemplateMessage(templateMessage());
-        return email;
-    }
-
 }

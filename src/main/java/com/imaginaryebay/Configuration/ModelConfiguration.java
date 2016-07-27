@@ -77,4 +77,11 @@ public class ModelConfiguration {
         FrontPageController bean=new FrontPageControllerImpl();
         return bean;
     }
+    
+    @Bean
+    public ContactController contactController(){
+    	ContactController bean=new ContactControllerImpl();
+    	return bean;
+    }
+    
 }

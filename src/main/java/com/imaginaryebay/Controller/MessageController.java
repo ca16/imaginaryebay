@@ -26,7 +26,7 @@ public interface MessageController {
     * @return an HTTP response containing the status
     *
     * EXAMPLE: curl -X POST -H "Content-Type: application/json" -d '{"receiver_id": {"id": 1, "address": "Seattle", "adminFlag": true, "email": "hello@gmail.com", "name": "Bobby", "password": "sdfhsfdh"},
-    *  																 "date_sent": {"day": 15, "hours": 18, "minutes": 30, "month": 4, "seconds": 20, "year": 2016}}' http://localhost:8080/message
+    *  																 "date_sent": "2016-07-25T04:30:00"}' http://localhost:8080/message
     */
     @RequestMapping(method= RequestMethod.POST)
     public ResponseEntity<Void> createNewMessage(@RequestBody Message message);

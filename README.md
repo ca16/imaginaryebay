@@ -20,12 +20,12 @@ User:
 #####REST Api:
 1. create a new user: (no login is needed)
 
-	curl -X POST -H "Content-Type:application/json" -d '{"password":"Testaburger", "name":"Wendy", "email":"wendy@gmail.com"}' -i  http://localhost:8080/user/new
+	curl -X POST -H "Content-Type: application/json" -d "{\"password\":\"Testaburger\", \"name\":\"Wendy\", \"email\":\"wendy@gmail.com\",\"address\":\"Boston\"}" -i  http://localhost:8080/ImaginaryEbay/user/new
 
 
 2. update user with ID: (need to login first, and must be the user himself or an admin)
 
-	curl -X PUT -H "Content-Type:application/json" -d '{"password":"Tucker", "name":"Craig", "email":"craig@gmail.com","address":"Bush"}' -i -b cookies.txt http://localhost:8080/user/2
+	curl -X PUT -H "Content-Type: application/json" -d "{\"password\":\"Tucker\", \"name\":\"Craig\", \"email\":\"craig@gmail.com\",\"address\":\"Bush\"}" -i -b cookies.txt http://localhost:8080/ImaginaryEbay/user/2
 	
 	
 3. return all user: (login is needed, and must be admin)
