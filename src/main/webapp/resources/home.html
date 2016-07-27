@@ -50,6 +50,28 @@
     </div>
     <!-- /.row -->
 
+
+
+    <!-- Pagination -->
+    <div class="row text-center" ng-controller="paginationController">
+        <div class="col-lg-12">
+            <ul  class="pagination">
+                <li>
+                    <a href="#">&laquo;</a>
+                </li>
+
+                <li ng-repeat="num in numberForPagination" ng-class="{'active': num == currentPage}" >
+                    <a href="#">{{num}}</a>
+                </li>
+
+                <li>
+                    <a href="#">&raquo;</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /.row -->
+
     <hr>
 
     <!-- Footer -->
