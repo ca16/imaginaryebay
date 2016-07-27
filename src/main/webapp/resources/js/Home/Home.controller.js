@@ -12,10 +12,11 @@ function homeController($scope,$http,UserService){
         $http.get("/item/page/1/size/"+numOfItemsOnEachPage)
             .then(function(res){
                 $scope.goods=res.data;
+
                 //$scope.goods[1].itemPictures=[{"url": "http://placehold.it/800x500"}]
                 for (var i=0; i< $scope.goods.length; i++){
-                    if ($scope.goods[i].itemPictures===null){
-                        $scope.goods[i].itemPictures=[{"url": "http://placehold.it/800x500"}];
+                    if ($scope.goods[i].itemPictures.length==0){
+                        $scope.goods[i].itemPictures.push({"url": "http://placehold.it/800x500"});
                     }
                 }
 
@@ -84,8 +85,8 @@ function homeController($scope,$http,UserService){
                 $scope.goods = res.data;
                 //$scope.goods[1].itemPictures=[{"url": "http://placehold.it/800x500"}]
                 for (var i = 0; i < $scope.goods.length; i++) {
-                    if ($scope.goods[i].itemPictures === null) {
-                        $scope.goods[i].itemPictures = [{"url": "http://placehold.it/800x500"}];
+                    if ($scope.goods[i].itemPictures.length==0) {
+                        $scope.goods[i].itemPictures.push({"url": "http://placehold.it/800x500"});
                     }
                 }
             })
