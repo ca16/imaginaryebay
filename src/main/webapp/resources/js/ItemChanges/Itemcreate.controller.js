@@ -38,12 +38,46 @@ function itemcreateController($scope,$http, UserService, $location){
                 .then(
                     function(res){
                         window.alert("Item created successfully!");
+                        var id = res.data.id;
+                        $location.path("app/item/" + id);
+                        uploadAll(id);
+
                     }, function(res){
                         window.alert("Item creation failed: " + res.data.detailedMessage);
                     });
-
+            
         }
 
+    }
+
+    var pictures = [];
+
+    $scope.uploadFile = function (files) {
+        var file = $scope.myFile;
+        var fd = new FormData();
+        fd.append("file", files[0]);
+        pictures.push(fd);
+        console.log("added pic");
+    }
+
+    uploadAll = function (id){
+        for (i = 0; i < pictures.length; i++) {
+            console.log(pictures[i]);
+            helper(pictures[i], id);
+        }
+    }
+
+    helper = function(pic, id){
+        $http.post("/item/" + id + "/picture", pic, {
+            headers: {'Content-Type': undefined},
+            transformRequest: angular.identity
+        }).success(function () {
+            console.log("success");
+        })
+            .error(function (res) {
+                console.log("fail");
+                console.log(res.data.detailedMessage);
+            });
     }
     
 }

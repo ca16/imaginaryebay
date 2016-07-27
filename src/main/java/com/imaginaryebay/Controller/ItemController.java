@@ -30,7 +30,7 @@ public interface ItemController {
      *
      */
     @RequestMapping(method= RequestMethod.POST)
-    public ResponseEntity<Void> save(@RequestBody Item item);
+    public ResponseEntity<Item> save(@RequestBody Item item);
 
     /**
      * @param id the item's ID

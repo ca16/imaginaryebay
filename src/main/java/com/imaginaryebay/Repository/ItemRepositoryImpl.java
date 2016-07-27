@@ -52,7 +52,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     public void setUserrDAO(UserrDao userr) {this.userrDao = userr;}
 
-    public void save(Item item) {
+    public Item save(Item item) {
 
         if (null == item.getPrice()){
             throw new RestException("No price.", "Price " + REQUIRED, HttpStatus.BAD_REQUEST);
@@ -84,6 +84,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         item.setUserr(owner);
 
         this.itemDAO.persist(item);
+        return item;
     }
 
     /** TODO: RestExceptions should also provide HttpStatus Codes as arguments to the constructor. */

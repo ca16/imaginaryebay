@@ -52,13 +52,11 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
                 .then(
                     function (res) {
                         window.alert("Item updated successfully!");
+                        uploadAll();
                         $location.path("app/item/" + itemId);
                     }, function (res) {
                         //window.alert("Item update failed: " + res.data.detailedMessage);
                     });
-            
-            uploadAll();
-
         }
 
     }
