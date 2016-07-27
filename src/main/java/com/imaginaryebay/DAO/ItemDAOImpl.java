@@ -124,4 +124,15 @@ public class ItemDAOImpl implements ItemDAO{
                 .collect( Collectors.toList() );
         return itemPictures;
     }
+
+
+    @Override
+    public List<Item> findItemsBasedOnPage(int pageNum, int pageSize){
+        String queryString="From Item";
+        Query query=entityManager.createQuery(queryString);
+        query.setFirstResult((pageNum-1)*pageSize);
+        query.setMaxResults(pageSize);
+        List<Item> itemList=query.getResultList();
+        return itemList;
+    }
 }

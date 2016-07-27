@@ -13,6 +13,12 @@ function homeController($scope,$http,UserService){
             .then(function(res){
                 $scope.goods=res.data;
                 //$scope.goods[1].itemPictures=[{"url": "http://placehold.it/800x500"}]
+                for (var i=0; i< $scope.goods.length; i++){
+                    if ($scope.goods[i].itemPictures===null){
+                        $scope.goods[i].itemPictures=[{"url": "http://placehold.it/800x500"}];
+                    }
+                }
+
             })
 
     })()

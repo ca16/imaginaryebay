@@ -108,6 +108,11 @@ public interface ItemController {
     @RequestMapping(value = "/{id}/picture", method = RequestMethod.POST)
     public ResponseEntity<ItemPicture> createItemPictureForItem(@PathVariable("id") Long id,
                                                            @RequestParam("file") MultipartFile file);
+
+
+    @RequestMapping(value="/page/{page}/size/{size}",method= RequestMethod.GET)
+    public ResponseEntity<List<Item>> findItemsBasedOnPage(@PathVariable("page") int pageNum, @PathVariable("size") int pageSize);
+
 }
 
 

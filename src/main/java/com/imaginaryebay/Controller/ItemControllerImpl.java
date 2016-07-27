@@ -8,6 +8,7 @@ import com.imaginaryebay.Repository.ItemRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
@@ -90,4 +91,10 @@ public class ItemControllerImpl implements ItemController {
     public ResponseEntity<ItemPicture> createItemPictureForItem(Long id, MultipartFile file){
         return new ResponseEntity<ItemPicture>(itemRepository.createItemPictureForItem(id, file), HttpStatus.OK);
     }
+
+    public ResponseEntity<List<Item>> findItemsBasedOnPage(int pageNum,  int pageSize){
+        return new ResponseEntity<List<Item>>(this.itemRepository.findItemsBasedOnPage(pageNum,pageSize),HttpStatus.OK);
+    }
+
+
 }
