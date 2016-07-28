@@ -36,8 +36,7 @@
             <div class="thumbnail">
                 <a ng-href="#/app/item/{{merchandise.id}}"><img ng-src="{{merchandise.itemPictures[0].url}}" alt=""></a>
                 <div class="caption">
-                    <h3>{{merchandise.name}}</h3>
-                    <p>{{merchandise.description}}</p>
+                    <h3>{{merchandise.description}}</h3>
                     <p>
                         <a ng-href="#/app/item/{{merchandise.id}}" class="btn btn-primary">Learn more!</a>
                     </p>
@@ -55,7 +54,7 @@
                 </li>
 
                 <li ng-repeat="num in numberForPagination" ng-class="{'active': num == currentPage}" >
-                    <a href="#">{{num}}</a>
+                    <a ng-click="goToPage(num)" target="_self">{{num}}</a>
                 </li>
 
                 <li>

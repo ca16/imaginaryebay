@@ -31,9 +31,9 @@ public class ItemControllerImpl implements ItemController {
     }
 
     @Override
-    public ResponseEntity<Void> save(Item item) {
-        this.itemRepository.save(item);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+    public ResponseEntity<Item> save(Item item) {
+        //this.itemRepository.save(item);
+        return new ResponseEntity<>(this.itemRepository.save(item), HttpStatus.OK);
     }
 
     @Override

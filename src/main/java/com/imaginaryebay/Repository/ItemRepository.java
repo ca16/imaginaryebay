@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface ItemRepository {
 
-    public void save(Item item);
+    public Item save(Item item);
 
     public void update(Item item);
 

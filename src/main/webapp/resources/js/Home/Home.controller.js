@@ -4,6 +4,7 @@
 }());
 
 
+<<<<<<< HEAD
 function homeController($scope,$http,UserService, ItemService){
 
     var itemCollectionUrl = "/item/";
@@ -17,24 +18,22 @@ function homeController($scope,$http,UserService, ItemService){
     //                 {name:"Goodie 3",shortDescription:"Description 3"},
     //                 {name:"Goodie 4",shortDescription:"Description 4"},
     //                 {name:"Goodie 5",shortDescription:"Description 5"}];
+=======
+function homeController($scope,$http,UserService){
 
+>>>>>>> origin/master
 
-
-    //console.log(UserService.returnUser());
-
-
-    /*
 
     (function(){
-        $http.get("/home")
+        $http.get("/item")
             .then(function(res){
-                //UserService.setUser("Alice");
                 $scope.goods=res.data;
-                //console.log(res.data);
-                console.log(UserService.returnUser());
-            });
+                //$scope.goods[1].itemPictures=[{"url": "http://placehold.it/800x500"}]
+            })
 
-    }());*/
+    })()
+
+
 
 
 }
@@ -88,5 +87,10 @@ function paginationController($scope){
 
     }
 
+    $scope.goToPage=function(numOfPage){
+        //Make a http request to get all the items
 
+        //Update the currentPage
+        $scope.currentPage=numOfPage;
+    }
 }

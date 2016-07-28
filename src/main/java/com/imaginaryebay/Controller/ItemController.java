@@ -30,7 +30,7 @@ public interface ItemController {
      *
      */
     @RequestMapping(method= RequestMethod.POST)
-    public ResponseEntity<Void> save(@RequestBody Item item);
+    public ResponseEntity<Item> save(@RequestBody Item item);
 
     /**
      * @param id the item's ID
@@ -47,6 +47,10 @@ public interface ItemController {
      *
      * @param id the item's ID
      * @return the owner of the item with the given ID
+     *
+     * Example:
+     * curl -X GET localhost:8080/item/owner/1
+     *
      */
     @RequestMapping(value="/owner/{id}", method= RequestMethod.GET)
     public ResponseEntity<Userr> getOwnerByID(@PathVariable("id") Long id);
@@ -55,6 +59,9 @@ public interface ItemController {
      *
      * @param id the item's ID
      * @return the name of the item with the given ID
+     *
+     * Example:
+     * curl -X GET localhost:8080/item/name/1
      */
     @RequestMapping(value="/name/{id}", method= RequestMethod.GET)
     public ResponseEntity<String> getNameByID(@PathVariable("id") Long id);
@@ -63,6 +70,9 @@ public interface ItemController {
      *
      * @param id the item's ID
      * @return the highest bid for the item with the given ID
+     *
+     * Example:
+     * curl -X GET localhost:8080/item/highestbid/1
      */
     @RequestMapping(value="/highestbid/{id}", method= RequestMethod.GET)
     public ResponseEntity<Double> getHighestBidByID(@PathVariable("id") Long id);
