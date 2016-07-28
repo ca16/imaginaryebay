@@ -15,10 +15,6 @@
             .when('/app/registration',{
                 templateUrl:'./resources/registration.html'
             })
-<<<<<<< HEAD
-            .when('/app/item/:itemId',{
-                templateUrl:'./resources/item.html'
-=======
             .when('/app/item/create',{
                 templateUrl:'./resources/itemcreate.html'
             })
@@ -30,11 +26,9 @@
             })
             .when('/app/admin',{
                 templateUrl:'./resources/admin.html'
->>>>>>> origin/master
             })
             .otherwise({
                 redirectTo:'/'
             });
-
     }
 }());

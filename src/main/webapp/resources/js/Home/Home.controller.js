@@ -2,35 +2,15 @@
     angular.module("ShopApp").controller("homeController",homeController)
         .controller("paginationController",paginationController);
 }());
-
-
-<<<<<<< HEAD
-function homeController($scope,$http,UserService, ItemService){
-
-    var itemCollectionUrl = "/item/";
-    
-    $http.get(itemCollectionUrl).success(function(data){
-        $scope.goods = data
-    });
-    
-    // $scope.goods=[{name:"Goodie 0",shortDescription:"Description 1"},
-    //                 {name:"Goodie 2",shortDescription:"Description 2"},
-    //                 {name:"Goodie 3",shortDescription:"Description 3"},
-    //                 {name:"Goodie 4",shortDescription:"Description 4"},
-    //                 {name:"Goodie 5",shortDescription:"Description 5"}];
-=======
 function homeController($scope,$http,UserService){
 
->>>>>>> origin/master
-
+    var itemCollectionUrl = "/item/";
 
     (function(){
         $http.get("/item")
             .then(function(res){
                 $scope.goods=res.data;
-                //$scope.goods[1].itemPictures=[{"url": "http://placehold.it/800x500"}]
             })
-
     })()
 
 
