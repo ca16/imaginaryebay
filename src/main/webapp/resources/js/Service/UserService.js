@@ -5,7 +5,7 @@
     angular.module("ShopApp")
         .factory("UserService",UserService);
 
-    function UserService() {
+    function UserService($http) {
 
         var currentUser;
 
@@ -23,6 +23,7 @@
         function setUser(newUser) {
             currentUser=newUser;
         }
+        
     }
 
 

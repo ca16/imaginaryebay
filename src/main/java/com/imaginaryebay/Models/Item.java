@@ -1,5 +1,12 @@
 package com.imaginaryebay.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.imaginaryebay.Controller.ItemController;
+import com.imaginaryebay.Controller.RestException;
+import com.imaginaryebay.Repository.ItemRepository;
+
+import org.springframework.http.HttpStatus;
+
 import javax.persistence.*;
 
 import java.sql.Timestamp;
@@ -15,9 +22,16 @@ public class Item {
     @Id
     @GeneratedValue
     private Long id;
-    
+
+    @Column(nullable = false)
+    private String name;
+
+    private Double highestBid;
+
+    @Column(nullable = false)
     private Double price;
-    
+
+    @Column(nullable = false)
     private Timestamp endtime;
 
     private String description;
@@ -30,7 +44,7 @@ public class Item {
     private List<ItemPicture> itemPictures = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "userr_id")
+    @JoinColumn(name = "user_id")
     private Userr userr;
 
     public Long getId() {
@@ -71,7 +85,20 @@ public class Item {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
+        if (null == category){
+            return;
+        }
+        for (Category cat : Category.values()){
+            if (cat.toString().equals(category)){
+                this.category = Category.valueOf(category);
+                return;
+            }
+        }
+        this.category = Category.Invalid;
+    }
+
+    public void setCategory(Category category){
         this.category = category;
     }
 
@@ -88,8 +115,24 @@ public class Item {
     public void setUserr(Userr userr) {
         this.userr = userr;
     }
-    
-	@Override
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getHighestBid() {
+        return highestBid;
+    }
+
+    public void setHighestBid(Double highestBid) {
+        this.highestBid = highestBid;
+    }
+
+        @Override
     public String toString() {
         return "Item{" +
                 "id=" + id +

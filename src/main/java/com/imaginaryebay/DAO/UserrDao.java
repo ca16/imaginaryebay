@@ -25,6 +25,6 @@ public interface UserrDao {
 
     public void updateUserrByID(long id,Userr u);
 
-    public List<Item> getItemsSoldByThisUser(long id);
+    public List<Item> getItemsSoldByThisUser(Long id);
 
 }
