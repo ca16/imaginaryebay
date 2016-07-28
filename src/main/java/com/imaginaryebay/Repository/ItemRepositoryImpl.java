@@ -344,4 +344,11 @@ public class ItemRepositoryImpl implements ItemRepository {
     private String detailedMessageConstructor(Long id, String extras){
         return "Item with id " + id + extras;
     }
+
+
+    public List<Item> findItemsBasedOnPage(int pageNum, int pageSize){
+        return itemDAO.findItemsBasedOnPage(pageNum,pageSize);
+    }
+
+
 }
