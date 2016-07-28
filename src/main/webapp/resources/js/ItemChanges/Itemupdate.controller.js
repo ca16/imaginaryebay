@@ -76,7 +76,7 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
     }
     
     uploadAll = function (){
-        for (i = 0; i < pictures.length; i++) {
+        for (var i = 0; i < pictures.length; i++) {
             console.log(pictures[i]);
             helper(pictures[i]);
         }
