@@ -19,7 +19,8 @@ function adminController($scope,$http, UserService, $location) {
     }
 
     else {
-        UserService.returnAllUsers().success(function (data) {
+        $http.get("/user")
+            .then(function (data) {
             $scope.users = data;
         });
         console.log($scope.users);
@@ -36,9 +37,19 @@ function adminController($scope,$http, UserService, $location) {
     }
 
     $scope.lock = function (id) {
-        console.log("Bye");
-        console.log("app/user/" + id);
-        $location.path("app/user/" + id);
+        $http.get("/user/" + id)
+            .then(
+                function(res){
+                    res.setPassword("lockedouthahaha");
+                    console.log(res);
+
+                }, function(res){
+                    window.alert("User lockout failed.");
+                });
+       // UserService.returnSpecificUser(id).setPassword("lockedouthahahaha");
+        //console.log(UserService.returnSpecificUser(id));
+        // console.log("app/user/" + id);
+        // $location.path("app/user/" + id);
     }
 
 }

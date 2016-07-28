@@ -39,10 +39,6 @@ import static org.mockito.Mockito.when;
  * Created by Chloe on 6/30/16.
  */
 
-// Stuff related to invlad category item and power mocking is commented out
-    //because it doesn't work with junit version 4.12, but that's required for
-    // Login test...
-//@RunWith(PowerMockRunner.class)
 @PrepareForTest({Category.class})
 public class ItemRepositoryImplTest {
 
@@ -56,9 +52,6 @@ public class ItemRepositoryImplTest {
 
     @Mock
     private ItemDAO itemDaoEmpties;
-
-    private Category invalidCategory;
-
 
     private ItemRepositoryImpl impl;
     private ItemRepositoryImpl implEmpties;
@@ -91,34 +84,33 @@ public class ItemRepositoryImplTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        //invalidCategory = PowerMockito.mock(Category.class);
 
         item1 = new Item();
         item1.setCategory("Clothes");
         item1.setPrice(20.0);
         item1.setName("Scarf");
-        item1.setDescription("Scarf");
+        item1.setDescription("Wintery");
         item1.setEndtime(valueOf("2016-10-10 00:00:00"));
 
         item2 = new Item();
         item2.setCategory("Clothes");
         item2.setPrice(200.0);
         item2.setName("Expensive Scarf");
-        item2.setDescription("Expensive Scarf");
+        item2.setDescription("Summery");
         item2.setEndtime(valueOf("2016-11-5 06:00:00"));
 
         item3 = new Item();
         item3.setCategory("Electronics");
         item3.setPrice(30.0);
         item3.setName("Watch");
-        item3.setDescription("Watch");
+        item3.setDescription("Real Expensive");
         item3.setEndtime(valueOf("2016-9-2 11:10:10"));
 
         itemInvalidPrice = new Item();
         itemInvalidPrice.setCategory("Clothes");
         itemInvalidPrice.setPrice(-20.0);
         itemInvalidPrice.setName("Scarf");
-        itemInvalidPrice.setDescription("Scarf");
+        itemInvalidPrice.setDescription("Summery");
         itemInvalidPrice.setEndtime(valueOf("2016-10-10 00:00:00"));
 
         itemInvalidCategory = new Item();
@@ -147,7 +139,6 @@ public class ItemRepositoryImplTest {
 
         item2.setUserr(userr1);
 
-
         auth1 = new UsernamePasswordAuthenticationToken(ud1, "dragon", authListAdmin);
 
         when(userrDao.getUserrByEmail("jackie@gmail.com")).thenReturn(userr1);
@@ -171,25 +162,29 @@ public class ItemRepositoryImplTest {
         when(itemDao.findByID(1L)).thenReturn(item1);
         when(itemDao.findPriceByID(1L)).thenReturn(20.0);
         when(itemDao.findCategoryByID(1L)).thenReturn(Category.Clothes);
-        when(itemDao.findDescriptionByID(1L)).thenReturn("Scarf");
+        when(itemDao.findNameByID(1L)).thenReturn("Scarf");
+        when(itemDao.findDescriptionByID(1L)).thenReturn("Wintery");
         when(itemDao.findEndtimeByID(1L)).thenReturn(valueOf("2016-10-10 00:00:00"));
 
         when(itemDao.findByID(2L)).thenReturn(item2);
         when(itemDao.findPriceByID(2L)).thenReturn(200.0);
         when(itemDao.findCategoryByID(2L)).thenReturn(Category.Clothes);
-        when(itemDao.findDescriptionByID(2L)).thenReturn("Expensive Scarf");
+        when(itemDao.findNameByID(2L)).thenReturn("Expensive Scarf");
+        when(itemDao.findDescriptionByID(2L)).thenReturn("Summery");
         when(itemDao.findEndtimeByID(2L)).thenReturn(valueOf("2016-11-5 06:00:00"));
 
         when(itemDao.findByID(10L)).thenReturn(item3);
         when(itemDao.findPriceByID(10L)).thenReturn(30.0);
         when(itemDao.findCategoryByID(10L)).thenReturn(Category.Electronics);
-        when(itemDao.findDescriptionByID(10L)).thenReturn("Watch");
+        when(itemDao.findNameByID(10L)).thenReturn("Watch");
+        when(itemDao.findDescriptionByID(10L)).thenReturn("Real Expensive");
         when(itemDao.findEndtimeByID(10L)).thenReturn(valueOf("2016-9-2 11:10:10"));
 
         when(itemDao.findByID(24L)).thenReturn(noFields);
         when(itemDao.findByID(25L)).thenReturn(null);
         when(itemDao.findPriceByID(24L)).thenReturn(null);
         when(itemDao.findDescriptionByID(24L)).thenReturn(null);
+        when(itemDao.findNameByID(24L)).thenReturn(null);
         when(itemDao.findCategoryByID(24L)).thenReturn(null);
         when(itemDao.findEndtimeByID(24L)).thenReturn(null);
 
@@ -201,8 +196,6 @@ public class ItemRepositoryImplTest {
         when(itemDao.findAllItemsByCategory(Category.Clothes)).thenReturn(clothes);
         when(itemDao.findAllItemsByCategory(Category.Electronics)).thenReturn(electronics);
 
-//        when(invalidCategory.toString()).thenReturn("Books");
-
         impl = new ItemRepositoryImpl();
         impl.setItemDAO(itemDao);
         impl.setUserrDAO(userrDao);
@@ -213,8 +206,6 @@ public class ItemRepositoryImplTest {
 
         implEmpties = new ItemRepositoryImpl();
         implEmpties.setItemDAO(itemDaoEmpties);
-
-
 
 
     }
@@ -238,16 +229,16 @@ public class ItemRepositoryImplTest {
             Assert.assertEquals("Price must be greater than 0.", exc.getDetailedMessage());
             Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
         }
-/*
+
         try {
             impl.save(itemInvalidCategory);
             fail();
         } catch (RestException exc) {
             Assert.assertEquals("Invalid category", exc.getMessage());
-            Assert.assertEquals("Books is not a valid category name", exc.getDetailedMessage());
+            Assert.assertEquals("Valid Categories are: Clothes & Electronics.", exc.getDetailedMessage());
             Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
         }
-*/
+
         try {
             impl.save(itemInvalidEndtime);
             fail();
@@ -265,9 +256,6 @@ public class ItemRepositoryImplTest {
         assertEquals(impl.findByID(2L), item2);
         assertEquals(impl.findByID(10L), item3);
 
-        //Doing two tests for impl.findByID(25L) to make sure that:
-        //1. An exception is thrown
-        //2. It has the expected message
         try {
             impl.findByID(25L);
             fail();
@@ -343,9 +331,9 @@ public class ItemRepositoryImplTest {
 
     @Test
     public void findDescriptionByID() throws Exception {
-        assertEquals(impl.findDescriptionByID(1L), "Scarf");
-        assertEquals(impl.findDescriptionByID(2L), "Expensive Scarf");
-        assertEquals(impl.findDescriptionByID(10L), "Watch");
+        assertEquals(impl.findDescriptionByID(1L), "Wintery");
+        assertEquals(impl.findDescriptionByID(2L), "Summery");
+        assertEquals(impl.findDescriptionByID(10L), "Real Expensive");
 
         try {
             impl.findDescriptionByID(24L);

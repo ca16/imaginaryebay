@@ -11,8 +11,7 @@
 
         var service = {
             returnUser: returnUser,
-            setUser: setUser,
-            returnAllUsers: returnAllUsers
+            setUser: setUser
 
         };
         return service;
@@ -23,10 +22,6 @@
 
         function setUser(newUser) {
             currentUser=newUser;
-        }
-        
-        function returnAllUsers() {
-            return $http.get("/user");
         }
         
     }
