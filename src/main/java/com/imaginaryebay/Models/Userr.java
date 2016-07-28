@@ -112,4 +112,12 @@ public class Userr implements Serializable{
     }
 
 
+	@Override
+	public String toString() {
+		return "Userr [id=" + id + ", email=" + email + ", name=" + name
+				+ ", password=" + password + ", isAdmin=" + isAdmin
+				+ ", address=" + address + "]";
+	}
+    
+
 }

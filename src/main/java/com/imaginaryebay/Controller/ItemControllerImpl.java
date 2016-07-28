@@ -42,7 +42,8 @@ public class ItemControllerImpl implements ItemController {
         Userr to = item.getUserr();
         String subject = item.getDescription() + " has sold!";
         String text = "Dear " + item.getUserr().getName() + ", your auction is now over. Your item has sold for " + item.getPrice() + ". Thank you for using our site.";
-        TimerTask task=new SendEmail(to, subject, text);
+        Timestamp sendDate = item.getEndtime();
+        TimerTask task=new SendEmail(to, subject, text, sendDate);
         Timer timer=new Timer();
         timer.schedule(task,item.getEndtime());
         System.out.println("Timer set!");

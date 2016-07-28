@@ -11,6 +11,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import com.imaginaryebay.DAO.MessageDao;
+import com.imaginaryebay.DAO.MessageDaoImpl;
 import com.imaginaryebay.Models.Message;
 import com.imaginaryebay.Models.Userr;
 
@@ -20,6 +21,15 @@ public class SendEmail extends TimerTask{
 	private Userr to;
 	private String subject;
 	private String text;
+	private Timestamp sendDate;
+
+	public Timestamp getSendDate() {
+		return sendDate;
+	}
+
+	public void setSendDate(Timestamp sendDate) {
+		this.sendDate = sendDate;
+	}
 
 	public Userr getTo() {
 		return to;
@@ -45,11 +55,12 @@ public class SendEmail extends TimerTask{
 		this.text = text;
 	}
 
-	public SendEmail(Userr to, String subject, String text) {
+	public SendEmail(Userr to, String subject, String text, Timestamp sendDate) {
 		super();
 		this.to = to;
 		this.subject = subject;
 		this.text = text;
+		this.sendDate = sendDate;
 	}
 
 	@Override
@@ -74,6 +85,7 @@ public class SendEmail extends TimerTask{
         } catch (MailException ex) {
             System.err.println(ex.getMessage());
         }
-        this.messageDao.persist(new Message(this.to,new Timestamp(msg.getSentDate().getTime())));
+        Message msgToAddToDatabase = new Message(this.to,this.sendDate);
+        this.messageDao.persist(msgToAddToDatabase);
 	}
 }
