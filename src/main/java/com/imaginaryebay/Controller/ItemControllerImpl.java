@@ -33,7 +33,6 @@ public class ItemControllerImpl implements ItemController {
 
     @Override
     public ResponseEntity<Item> save(Item item) {
-        //this.itemRepository.save(item);
         return new ResponseEntity<>(this.itemRepository.save(item), HttpStatus.OK);
     }
 

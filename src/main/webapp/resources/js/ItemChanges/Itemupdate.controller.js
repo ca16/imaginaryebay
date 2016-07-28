@@ -14,6 +14,10 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
     ItemService.getItem(itemId).success(function (data) {
         item = data;
         $scope.item = data;
+        console.log(item.endtime);
+        var currendtime = new Date(item.endtime);
+        $scope.currentendtime = currendtime.toDateString();
+        console.log($scope.currentendtime);
         // var date = item.endtime;
         // date = new Date(date);
         // date = date.toISOString().substring(0,10);

@@ -215,16 +215,35 @@ public class ItemRepositoryImpl implements ItemRepository {
             throw new RestException(NOT_AVAILABLE, "You can only update items you own.", HttpStatus.FORBIDDEN);
         }
 
-        if ((null != item.getPrice()) && !(item.getPrice() > 0)){
+        if (null == item.getName()){
+            item.setName(toUpdate.getName());
+        }
+
+        if (null == item.getPrice()){
+            item.setPrice((toUpdate.getPrice()));
+        }
+
+        else if (!(item.getPrice() > 0)){
             throw new RestException("Invalid price", "Price must be greater than 0.", HttpStatus.BAD_REQUEST);
         }
 
-        if ((null != item.getCategory()) && item.getCategory().equals(Category.Invalid)){
+        if (null == item.getCategory()){
+            item.setCategory(toUpdate.getCategory());
+        }
+
+        else if (item.getCategory().equals(Category.Invalid)){
             throw new RestException("Invalid category", "Valid Categories are: Clothes & Electronics.", HttpStatus.BAD_REQUEST);
         }
 
-        if ((null != item.getEndtime()) && ((item.getEndtime().before(new Timestamp(System.currentTimeMillis()))))){
+        if (null == item.getEndtime()){
+            item.setEndtime(toUpdate.getEndtime());
+        }
+        else if (item.getEndtime().before(new Timestamp(System.currentTimeMillis()))){
             throw new RestException("Invalid endtime", "Auction must end in the future", HttpStatus.BAD_REQUEST);
+        }
+
+        if (null == item.getDescription()){
+            item.setDescription(toUpdate.getDescription());
         }
 
         return itemDAO.updateItemByID(id, item);
