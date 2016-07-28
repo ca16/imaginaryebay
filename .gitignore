@@ -4,6 +4,8 @@
 *.jar
 *.iml
 *.jpg
+*.png
+*.pdf
 .classpath
 .project
 .settings

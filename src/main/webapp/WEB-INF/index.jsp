@@ -35,8 +35,6 @@
 
     <!--Service-->
     <script src="<c:url value="/resources/js/Service/UserService.js"/>"></script>
-    <script src="<c:url value="/resources/js/Service/ItemService.js"/>"></script>
-
 
     <!--page controller-->
     <script src="<c:url value="/resources/js/Home/Home.controller.js"/>"></script>

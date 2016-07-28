@@ -1,20 +1,14 @@
 package com.imaginaryebay.Repository;
 
+import com.amazonaws.services.lambda.model.UnsupportedMediaTypeException;
 import com.imaginaryebay.Controller.ItemControllerImpl;
 import com.imaginaryebay.Controller.RestException;
 import com.imaginaryebay.DAO.ItemDAO;
 import com.imaginaryebay.DAO.UserrDao;
-import com.imaginaryebay.Models.Category;
-import com.imaginaryebay.Models.Item;
-import com.imaginaryebay.Models.ItemPicture;
-import com.imaginaryebay.Models.S3FileUploader;
-import com.imaginaryebay.Models.Userr;
-import com.sun.org.apache.regexp.internal.RE;
-
+import com.imaginaryebay.Models.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Chloe on 6/28/16.
@@ -324,6 +317,11 @@ public class ItemRepositoryImpl implements ItemRepository {
                 item.addItemPicture(newPicture);
                 this.update(item);
             }
+        } catch (UnsupportedMediaTypeException umtex) {
+            umtex.printStackTrace();
+            throw new RestException("Error with file upload to S3!",
+                    umtex.getMessage(),
+                    HttpStatus.BAD_REQUEST);
         } catch (IOException ioex) {
             ioex.printStackTrace();
             throw new RestException("Error with file upload to S3!",
@@ -335,7 +333,6 @@ public class ItemRepositoryImpl implements ItemRepository {
                     ex.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
-//        return uploadResponse;
         return newPicture;
     }
 

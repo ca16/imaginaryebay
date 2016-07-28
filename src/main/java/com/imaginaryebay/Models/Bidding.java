@@ -44,7 +44,6 @@ public class Bidding {
         this.item = item;
     }
 
-
     public Userr getUserr() {
         return userr;
     }

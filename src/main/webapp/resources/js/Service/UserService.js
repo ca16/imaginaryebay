@@ -3,7 +3,7 @@
  */
 (function (){
     angular.module("ShopApp")
-        .factory("UserService",UserService);
+        .factory("UserService", UserService);
 
     function UserService() {
 

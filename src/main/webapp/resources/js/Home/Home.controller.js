@@ -5,10 +5,11 @@
 
 
 function homeController($scope,$http,UserService, ItemService){
-    
 
-    ItemService.getAllItems().success(function(data){
-        $scope.goods = data;
+    var itemCollectionUrl = "/item/";
+    
+    $http.get(itemCollectionUrl).success(function(data){
+        $scope.goods = data
     });
     
     // $scope.goods=[{name:"Goodie 0",shortDescription:"Description 1"},

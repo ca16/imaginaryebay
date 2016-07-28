@@ -34,24 +34,18 @@
 
         <div ng-repeat="merchandise in goods" class="col-md-3 col-sm-6 hero-feature">
             <div class="thumbnail">
-                <img ng-src="{{merchandise.itemPictures[0].url}}" alt="">
+                <a ng-href="#/app/item/{{merchandise.id}}"><img ng-src="{{merchandise.itemPictures[0].url}}" alt=""></a>
                 <div class="caption">
                     <h3>{{merchandise.name}}</h3>
                     <p>{{merchandise.description}}</p>
                     <p>
-                        <a href="#/app/item/{{merchandise.id}}" class="btn btn-primary">Learn more!</a>
+                        <a ng-href="#/app/item/{{merchandise.id}}" class="btn btn-primary">Learn more!</a>
                     </p>
                 </div>
             </div>
         </div>
-
-
-
     </div>
     <!-- /.row -->
-
-
-
     <!-- Pagination -->
     <div class="row text-center" ng-controller="paginationController">
         <div class="col-lg-12">
