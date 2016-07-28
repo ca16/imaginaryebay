@@ -49,11 +49,7 @@ public class S3FileUploader {
         try(S3Object s3Object = new S3Object()) {
 
             String fileType = multipartFile.getContentType();
-//            String filename = multipartFile.getName();
-//            String extension = filename.substring(filename.lastIndexOf(".") + 1, filename.length());
-//            System.out.println(extension);
-            if (!IMAGE_JPEG.equals(fileType) || !IMAGE_PNG.equals(fileType)){
-//                    || extension.equals(".jpg") || extension.equals(".png")){
+            if (!(IMAGE_JPEG.equals(fileType) || IMAGE_PNG.equals(fileType))){
                 throw new UnsupportedMediaTypeException(INVALID_TYPE);
             }
 
@@ -66,6 +62,16 @@ public class S3FileUploader {
             /** Get bytestream from HTTP request */
             ByteArrayInputStream bis = new ByteArrayInputStream(multipartFile.getBytes());
 
+//            BufferedImage image = ImageIO.read(bis);
+//
+//            BufferedImage thumbnail = Scalr.resize(image,
+//                    Scalr.Method.SPEED,
+//                    800,
+//                    500);
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            ImageIO.write(thumbnail, "jpg", baos);
+
+//            ByteArrayInputStream bis2 = new ByteArrayInputStream(baos.toByteArray());
             /** Upload the object to S3, and get back the URL (String) in result */
             s3Object.setObjectContent(bis);
             s3.putObject(new PutObjectRequest(BUCKET, keyName, bis, omd)
@@ -85,6 +91,7 @@ public class S3FileUploader {
             throw new IOException(getErrorInfo(ace));
 
         }  catch (Exception e) {
+            e.printStackTrace();
             System.out.println(e.getMessage());
             throw new Exception(e.getMessage());
         }
