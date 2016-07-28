@@ -1,3 +1,5 @@
+'use strict';
+
 (function(){
     angular.
     module("ShopApp").controller("itemcreateController",itemcreateController);
@@ -32,7 +34,7 @@ function itemcreateController($scope,$http, UserService, $location){
                 endtime:$scope.endtime,
                 price:$scope.price,
                 // backend handles assigning the right user to it
-            }
+            };
 
             $http.post("/item", newitem)
                 .then(
@@ -48,7 +50,7 @@ function itemcreateController($scope,$http, UserService, $location){
             
         }
 
-    }
+    };
 
     var pictures = [];
 
@@ -58,14 +60,14 @@ function itemcreateController($scope,$http, UserService, $location){
         fd.append("file", files[0]);
         pictures.push(fd);
         console.log("added pic");
-    }
+    };
 
     uploadAll = function (id){
-        for (i = 0; i < pictures.length; i++) {
+        for (var i = 0; i < pictures.length; i++) {
             console.log(pictures[i]);
             helper(pictures[i], id);
         }
-    }
+    };
 
     helper = function(pic, id){
         $http.post("/item/" + id + "/picture", pic, {
