@@ -151,9 +151,9 @@ public class ItemDAOImpl implements ItemDAO{
 
     @Override
     public List<Item> findItemsByName(String name){
-        String match = "%" + name + "%";
+        String match = "%" + name.toLowerCase() + "%";
         Query query = entityManager.createQuery(
-                "select i from Item i where i.name like ?1 or i.category like ?1");
+                "select i from Item i where lower(i.name) like ?1 or i.category like ?1");
         Query query2 = query.setParameter(1, match);
         return query2.getResultList();
 
