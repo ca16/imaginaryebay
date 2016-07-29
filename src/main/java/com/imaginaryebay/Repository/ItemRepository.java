@@ -50,8 +50,12 @@ public interface ItemRepository {
 
     public String createItemPicturesForItem(Long id, MultipartFile[] files);
 
-
     public List<Item> findItemsBasedOnPage(int pageNum, int pageSize);
+
+    public List<Item> findItemsByName(String name);
+
+    public List<Item> findItemsByCategoryAndName(String category, String name);
+
 
 
 }

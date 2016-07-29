@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -146,5 +147,27 @@ public class ItemDAOImpl implements ItemDAO{
         query.setMaxResults(pageSize);
         List<Item> itemList=query.getResultList();
         return itemList;
+    }
+
+    @Override
+    public List<Item> findItemsByName(String name){
+        String match = "%" + name + "%";
+        Query query = entityManager.createQuery(
+                "select i from Item i where i.name like ?1 or i.category like ?1");
+        Query query2 = query.setParameter(1, match);
+        return query2.getResultList();
+
+    }
+
+    @Override
+    public List<Item> findItemsByCategoryAndName(Category cat, String name){
+        List<Item> byName = findItemsByName(name);
+        List<Item> toRet = new ArrayList<>();
+        for (Item item : byName){
+            if (item.getCategory().equals(cat)){
+                toRet.add(item);
+            }
+        }
+        return toRet;
     }
 }

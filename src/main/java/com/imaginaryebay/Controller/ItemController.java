@@ -130,17 +130,24 @@ public interface ItemController {
     public ResponseEntity<Item> updateItemByID(@PathVariable("id") Long id, @RequestBody Item item);
 
     /**
-     * Returns a list of all items if no category is specified. If category is specified
-     * returns a list of all items of that category.
+     * Returns a list of all items if no category or name is specified.
+     * If only category is specified returns a list of all items of that category.
+     * If only name is specified returns a list of all items whose name or category matches or partially matches the given name.
+     * If both are specific, returns a list of items whose name or category matches or partially matches the given name, and whose
+     * category is the given category
      * @param cat the category of items we want a list for
+     * @param name the name of the item or its category
      * @return the list of items that fits the input
      *
      * Example:
      * curl -X GET localhost:8080/item
      * curl -X GET localhost:8080/item?cat=Clothes
+     * curl -X GET localhost:8080/item?name=card
+     * curl -X GET "localhost:8080/item?cat=Clothes&name=card"
+     * (with two parameters, make sure the  " " are there if you're using curl)
      */
     @RequestMapping(method= RequestMethod.GET)
-    public ResponseEntity<List<Item>> getAllItems(@RequestParam(value = "cat", required = false) String cat);
+    public ResponseEntity<List<Item>> getAllItems(@RequestParam(value = "cat", required = false) String cat, @RequestParam(value = "name", required = false) String name);
 
     /**
      *

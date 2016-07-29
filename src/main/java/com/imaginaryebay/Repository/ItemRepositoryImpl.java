@@ -24,15 +24,15 @@ import java.util.List;
 @Transactional
 public class ItemRepositoryImpl implements ItemRepository {
 
-    private static final Logger logger              = Logger.getLogger(ItemControllerImpl.class);
-    private static final String FAIL_STEM           = "Unable to upload.";
-    private static final String FAIL_EMPTY_FILES    = "Unable to upload. File is empty.";
-    private static final String COLON_SEP           = ": ";
-    private static final String UNCAUGHT_EXCEPTION  = "An uncaught exception was raised during upload.";
-    private static final String NOT_AVAILABLE       = "Not available.";
-    private static final String NO_ENTRIES          = "There are no entries for the requested resource.";
-    private static final String INVALID_PARAMETER   = "Invalid request parameter.";
-    private static final String REQUIRED            = "is required.";
+    private static final Logger logger = Logger.getLogger(ItemControllerImpl.class);
+    private static final String FAIL_STEM = "Unable to upload.";
+    private static final String FAIL_EMPTY_FILES = "Unable to upload. File is empty.";
+    private static final String COLON_SEP = ": ";
+    private static final String UNCAUGHT_EXCEPTION = "An uncaught exception was raised during upload.";
+    private static final String NOT_AVAILABLE = "Not available.";
+    private static final String NO_ENTRIES = "There are no entries for the requested resource.";
+    private static final String INVALID_PARAMETER = "Invalid request parameter.";
+    private static final String REQUIRED = "is required.";
 
     private ItemDAO itemDAO;
 
@@ -43,31 +43,33 @@ public class ItemRepositoryImpl implements ItemRepository {
         this.itemDAO = itemDAO;
     }
 
-    public void setUserrDAO(UserrDao userr) {this.userrDao = userr;}
+    public void setUserrDAO(UserrDao userr) {
+        this.userrDao = userr;
+    }
 
     public Item save(Item item) {
 
-        if (null == item.getPrice()){
+        if (null == item.getPrice()) {
             throw new RestException("No price.", "Price " + REQUIRED, HttpStatus.BAD_REQUEST);
         }
 
-        if (!(item.getPrice() > 0)){
+        if (!(item.getPrice() > 0)) {
             throw new RestException("Invalid price", "Price must be greater than 0.", HttpStatus.BAD_REQUEST);
         }
 
-        if (null == item.getName()){
+        if (null == item.getName()) {
             throw new RestException("No name.", "Name " + REQUIRED, HttpStatus.BAD_REQUEST);
         }
 
-        if (null == item.getEndtime()){
+        if (null == item.getEndtime()) {
             throw new RestException("No auction end time.", "Auction end time " + REQUIRED, HttpStatus.BAD_REQUEST);
         }
 
-        if (item.getEndtime().before(new Timestamp(System.currentTimeMillis()))){
+        if (item.getEndtime().before(new Timestamp(System.currentTimeMillis()))) {
             throw new RestException("Invalid endtime", "Auction must end in the future", HttpStatus.BAD_REQUEST);
         }
 
-        if ((null != item.getCategory()) && item.getCategory().equals(Category.Invalid)){
+        if ((null != item.getCategory()) && item.getCategory().equals(Category.Invalid)) {
             throw new RestException("Invalid category", "Valid Categories are: Clothes & Electronics.", HttpStatus.BAD_REQUEST);
         }
 
@@ -80,22 +82,24 @@ public class ItemRepositoryImpl implements ItemRepository {
         return item;
     }
 
-    /** TODO: RestExceptions should also provide HttpStatus Codes as arguments to the constructor. */
+    /**
+     * TODO: RestExceptions should also provide HttpStatus Codes as arguments to the constructor.
+     */
 
     public void update(Item item) {
         if (this.itemDAO.find(item) == null) {
             throw new RestException(NOT_AVAILABLE,
                     "Item to be updated does not exist.", HttpStatus.BAD_REQUEST);
         }
-        if ((null != item.getPrice()) && !(item.getPrice() > 0)){
+        if ((null != item.getPrice()) && !(item.getPrice() > 0)) {
             throw new RestException("Invalid price", "Price must be greater than 0.", HttpStatus.BAD_REQUEST);
         }
 
-        if ((null != item.getCategory()) && item.getCategory().equals(Category.Invalid)){
+        if ((null != item.getCategory()) && item.getCategory().equals(Category.Invalid)) {
             throw new RestException("Invalid category", "Valid Categories are: Clothes & Electronics.", HttpStatus.BAD_REQUEST);
         }
 
-        if ((null != item.getEndtime()) && ((item.getEndtime().before(new Timestamp(System.currentTimeMillis()))))){
+        if ((null != item.getEndtime()) && ((item.getEndtime().before(new Timestamp(System.currentTimeMillis()))))) {
             throw new RestException("Invalid endtime", "Auction must end in the future", HttpStatus.BAD_REQUEST);
         }
 
@@ -115,9 +119,9 @@ public class ItemRepositoryImpl implements ItemRepository {
         }
     }
 
-    public Userr findOwnerByID(Long id){
+    public Userr findOwnerByID(Long id) {
         Item item = this.itemDAO.findByID(id);
-        if (item != null){
+        if (item != null) {
             // No check for whether owner is null. All items should have an owner.
             return itemDAO.findOwnerByID(id);
         }
@@ -125,9 +129,9 @@ public class ItemRepositoryImpl implements ItemRepository {
                 detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
     }
 
-    public String findNameByID(Long id){
+    public String findNameByID(Long id) {
         Item item = this.itemDAO.findByID(id);
-        if (item != null){
+        if (item != null) {
             // No check for whether name is null. All items should have an name.
             return itemDAO.findNameByID(id);
         }
@@ -171,11 +175,11 @@ public class ItemRepositoryImpl implements ItemRepository {
                 detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
     }
 
-    public Double findHighestBidByID(Long id){
+    public Double findHighestBidByID(Long id) {
         Item item = this.itemDAO.findByID(id);
-        if (item != null){
+        if (item != null) {
             Double highestBid = itemDAO.findHighestBidByID(id);
-            if (highestBid != null){
+            if (highestBid != null) {
                 return highestBid;
             }
             throw new RestException(NOT_AVAILABLE,
@@ -204,41 +208,36 @@ public class ItemRepositoryImpl implements ItemRepository {
         Item toUpdate = this.itemDAO.findByID(id);
         if (id == null || toUpdate == null) {
             throw new RestException(NOT_AVAILABLE,
-                "Item to be updated does not exist.", HttpStatus.BAD_REQUEST);
+                    "Item to be updated does not exist.", HttpStatus.BAD_REQUEST);
         }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
-        if (!toUpdate.getUserr().getEmail().equals(email)){
+        if (!toUpdate.getUserr().getEmail().equals(email)) {
             System.out.println(toUpdate.getUserr().getEmail());
             System.out.println(email);
             throw new RestException(NOT_AVAILABLE, "You can only update items you own.", HttpStatus.FORBIDDEN);
         }
 
-        if (null == item.getName()){
+        if (null == item.getName()) {
             item.setName(toUpdate.getName());
         }
 
-        if (null == item.getPrice()){
+        if (null == item.getPrice()) {
             item.setPrice((toUpdate.getPrice()));
-        }
-
-        else if (!(item.getPrice() > 0)){
+        } else if (!(item.getPrice() > 0)) {
             throw new RestException("Invalid price", "Price must be greater than 0.", HttpStatus.BAD_REQUEST);
-        }
-
-        else if ((null == item.getCategory()) && (item.getCategory().equals(Category.Invalid))){
+        } else if ((null == item.getCategory()) && (item.getCategory().equals(Category.Invalid))) {
             throw new RestException("Invalid category", "Valid Categories are: Clothes & Electronics.", HttpStatus.BAD_REQUEST);
         }
 
-        if (null == item.getEndtime()){
+        if (null == item.getEndtime()) {
             item.setEndtime(toUpdate.getEndtime());
-        }
-        else if (item.getEndtime().before(new Timestamp(System.currentTimeMillis()))){
+        } else if (item.getEndtime().before(new Timestamp(System.currentTimeMillis()))) {
             throw new RestException("Invalid endtime", "Auction must end in the future", HttpStatus.BAD_REQUEST);
         }
 
-        if (null == item.getDescription()){
+        if (null == item.getDescription()) {
             item.setDescription(toUpdate.getDescription());
         }
 
@@ -249,7 +248,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         Category cat;
         try {
             cat = Category.valueOf(category);
-        }catch (IllegalArgumentException exc){
+        } catch (IllegalArgumentException exc) {
             // Should we also give them a list of options?
             throw new RestException(INVALID_PARAMETER, category + " is not a valid Category name", HttpStatus.BAD_REQUEST);
         }
@@ -271,7 +270,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     }
 
-    public List<ItemPicture> findAllItemPicturesForItem(Long id, String urlOnly){
+    public List<ItemPicture> findAllItemPicturesForItem(Long id, String urlOnly) {
 
         List<ItemPicture> itemPictures;
 
@@ -281,7 +280,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             itemPictures = itemDAO.findAllItemPicturesForItemID(id);
         } else {
             throw new RestException(INVALID_PARAMETER,
-                    "The supplied request parameter \"" + urlOnly +  "\" is invalid for this URL.",
+                    "The supplied request parameter \"" + urlOnly + "\" is invalid for this URL.",
                     HttpStatus.BAD_REQUEST);
         }
         if (itemPictures.isEmpty()) {
@@ -296,13 +295,12 @@ public class ItemRepositoryImpl implements ItemRepository {
 
         if (file != null && !file.isEmpty()) {
             return uploadAndReturnItemPictureForItem(item, file);
-        }
-        else {
+        } else {
             throw new RestException(FAIL_STEM, FAIL_EMPTY_FILES, HttpStatus.BAD_REQUEST);
         }
     }
 
-    public String createItemPicturesForItem(Long id, MultipartFile[] files){
+    public String createItemPicturesForItem(Long id, MultipartFile[] files) {
 
         String uploadResponse = "";
         Item item = this.findByID(id);
@@ -319,7 +317,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         }
     }
 
-    private ItemPicture uploadAndReturnItemPictureForItem(Item item, MultipartFile file){
+    private ItemPicture uploadAndReturnItemPictureForItem(Item item, MultipartFile file) {
         String uploadResponse;
         ItemPicture newPicture;
         try {
@@ -352,17 +350,42 @@ public class ItemRepositoryImpl implements ItemRepository {
         return newPicture;
     }
 
-    private String detailedMessageConstructor(Long id){
+    private String detailedMessageConstructor(Long id) {
         return "Item with id " + id + " was not found";
     }
 
-    private String detailedMessageConstructor(Long id, String extras){
+    private String detailedMessageConstructor(Long id, String extras) {
         return "Item with id " + id + extras;
     }
 
 
-    public List<Item> findItemsBasedOnPage(int pageNum, int pageSize){
-        return itemDAO.findItemsBasedOnPage(pageNum,pageSize);
+    public List<Item> findItemsBasedOnPage(int pageNum, int pageSize) {
+        return itemDAO.findItemsBasedOnPage(pageNum, pageSize);
+    }
+
+    public List<Item> findItemsByName(String name){
+        List<Item> toRet = itemDAO.findItemsByName(name);
+        if (!toRet.isEmpty()){
+            return toRet;
+        }
+        throw new RestException(NOT_AVAILABLE, "Items with name or category similar to " + name + " were not found", HttpStatus.OK);
+    }
+
+    public List<Item> findItemsByCategoryAndName(String category, String name){
+        Category cat;
+        try {
+            cat = Category.valueOf(category);
+        } catch (IllegalArgumentException exc) {
+            // Should we also give them a list of options?
+            throw new RestException(INVALID_PARAMETER, category + " is not a valid Category name", HttpStatus.BAD_REQUEST);
+        }
+        List<Item> toRet = this.itemDAO.findItemsByCategoryAndName(cat, name);
+        if (!toRet.isEmpty()) {
+            return toRet;
+        }
+        throw new RestException(NOT_AVAILABLE,
+                "Items of category " + category + " and name or category similar to " + name + " were not found", HttpStatus.OK);
+
     }
 
 
