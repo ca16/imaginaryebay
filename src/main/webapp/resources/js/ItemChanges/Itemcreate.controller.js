@@ -16,21 +16,37 @@ function itemcreateController($scope,$http, UserService, $location){
 
         var userr=UserService.returnUser();
 
+        // need to be logged in to create an item
         if(userr == null){
             window.alert("You must be logged in to create an item.");
             $location.path("app/login");
         }
-            
         else{
+
+            // empty category
             var cat=$scope.category;
             if(cat == ""){
                 cat=null;
             }
+
+            // handle diff type of auctions
+            var etToPass;
+            var aucttype = $scope.auctiontype;
+            // long auctions
+            if (aucttype == "long") {
+                etToPass = $scope.endtime;
+            } // short auctions
+            else{
+                var currDate = new Date();
+                currDate.setHours((currDate.getHours()*1) + ($scope.shortendtime*1));
+                etToPass = currDate;
+            }
+
             var newitem ={
                 name:$scope.name,
                 description:$scope.description,
                 category:cat,
-                endtime:$scope.endtime,
+                endtime:etToPass,
                 price:$scope.price,
                 // backend handles assigning the right user to it
             };
