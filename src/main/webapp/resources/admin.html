@@ -44,7 +44,7 @@
                 <td><span ng-hide="{{person.admin}}" class="glyphicon glyphicon-remove"></span><span ng-show="{{person.admin}}" class="glyphicon glyphicon-ok"></span></td>
                 <td><button type="submit" class="btn btn-default" ng-click="profile(person.id)"> View Profile </button>
                 </td>
-                <td><button type="submit" class="btn btn-default" ng-click="lock(person)"> Lock Account </button>
+                <td><button type="submit" class="btn btn-default" ng-click="lock(person.id, person)"> Lock Account </button>
                 </td>
 
             </tr>

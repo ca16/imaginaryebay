@@ -146,4 +146,13 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
         query.setParameter("I",id);
         return query.getResultList();
     }
+
+    @Override
+    public Userr lockout(Long id){
+        Userr toChange = entityManager.find(Userr.class, id);
+        toChange.setPassword("lockoutouthahahaha");
+        return entityManager.find(Userr.class, id);
+
+    }
+
 }

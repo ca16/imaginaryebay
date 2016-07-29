@@ -1,5 +1,4 @@
 'use strict';
-
 (function(){
     angular.
     module("ShopApp").controller("itemcreateController",itemcreateController);
@@ -42,7 +41,7 @@ function itemcreateController($scope,$http, UserService, $location){
                         window.alert("Item created successfully!");
                         var id = res.data.id;
                         $location.path("app/item/" + id);
-                        uploadAll(id);
+                        $scope.uploadAll(id);
 
                     }, function(res){
                         window.alert("Item creation failed: " + res.data.detailedMessage);
@@ -62,14 +61,14 @@ function itemcreateController($scope,$http, UserService, $location){
         console.log("added pic");
     };
 
-    uploadAll = function (id){
+    $scope.uploadAll = function (id){
         for (var i = 0; i < pictures.length; i++) {
             console.log(pictures[i]);
-            helper(pictures[i], id);
+            $scope.uploadSinglePic(pictures[i], id);
         }
     };
 
-    helper = function(pic, id){
+    $scope.uploadSinglePic = function(pic, id){
         $http.post("/item/" + id + "/picture", pic, {
             headers: {'Content-Type': undefined},
             transformRequest: angular.identity

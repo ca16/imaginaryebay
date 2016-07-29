@@ -1,28 +1,20 @@
+'use strict';
 (function () {
     angular.module("ShopApp").controller("itemupdateController", itemupdateController);
 
 }());
 
-function itemupdateController($scope, $http, UserService, $location, $routeParams, ItemService) {
+function itemupdateController($scope, $http, UserService, $location, $routeParams) {
 
     var itemId = $routeParams.itemId;
-    var item;
     var date = new Date();
     date = date.toISOString().substring(0, 10);
     $scope.auctet = date;
 
-    ItemService.getItem(itemId).success(function (data) {
-        item = data;
+    $http.get("/item/" + itemId).success(function(data){
         $scope.item = data;
-        console.log(item.endtime);
-        var currendtime = new Date(item.endtime);
+        var currendtime = new Date(data.endtime);
         $scope.currentendtime = currendtime.toDateString();
-        console.log($scope.currentendtime);
-        // var date = item.endtime;
-        // date = new Date(date);
-        // date = date.toISOString().substring(0,10);
-        // $scope.auctet = date;
-        //document.getElementById("itemcategory").value = item.category;
 
     });
 
@@ -34,7 +26,7 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
             window.alert("You must be logged in to edit items.");
             $location.path("app/login");
         }
-        else if (userr.id != item.userr.id) {
+        else if (userr.id != $scope.item.userr.id) {
             window.alert("You are not authorized to edit this item.");
             $location.path("app/item/" + itemId);
         }
@@ -55,16 +47,16 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
             $http.put("/item/" + itemId, improvedItem)
                 .then(
                     function (res) {
+                        $scope.uploadAll();
                         window.alert("Item updated successfully!");
-                        uploadAll();
                         $location.path("app/item/" + itemId);
                     }, function (res) {
-                        //window.alert("Item update failed: " + res.data.detailedMessage);
+                        window.alert("Item update failed: " + res.data.detailedMessage);
                     });
         }
 
     }
-    
+
     var pictures = [];
 
     $scope.uploadFile = function (files) {
@@ -74,26 +66,23 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
         pictures.push(fd);
         console.log("added pic");
     }
-    
-    uploadAll = function (){
+
+    $scope.uploadAll = function () {
         for (var i = 0; i < pictures.length; i++) {
-            console.log(pictures[i]);
-            helper(pictures[i]);
+            $scope.uploadSinglePic(pictures[i]);
         }
     }
 
-    helper = function(pic){
+    $scope.uploadSinglePic = function (pic) {
         $http.post("/item/" + itemId + "/picture", pic, {
             headers: {'Content-Type': undefined},
             transformRequest: angular.identity
         }).success(function () {
             console.log("success");
-        })
-            .error(function (res) {
+        }).error(function (res) {
                 console.log("fail");
                 console.log(res.data.detailedMessage);
             });
     }
-    
 
 }

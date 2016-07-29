@@ -26,4 +26,7 @@ public interface UserrDao {
     public void updateUserrByID(long id,Userr u);
 
     public List<Item> getItemsSoldByThisUser(Long id);
+
+    public Userr lockout(Long id);
+
 }

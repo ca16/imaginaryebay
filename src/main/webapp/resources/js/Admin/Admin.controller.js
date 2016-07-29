@@ -1,3 +1,4 @@
+'use strict';
 (function(){
     angular.
     module("ShopApp").controller("adminController",adminController);
@@ -30,12 +31,16 @@ function adminController($scope,$http, UserService, $location) {
         $location.path("app/user/" + id);
     }
 
-    $scope.lock = function (user) {
-        user.setName("lockedouthahaha");
-       // UserService.returnSpecificUser(id).setPassword("lockedouthahahaha");
-        //console.log(UserService.returnSpecificUser(id));
-        // console.log("app/user/" + id);
-        // $location.path("app/user/" + id);
+    $scope.lock = function (id, user) {
+        $http.put("/user/" + id + "/lockout")
+            .then(
+                function (res) {
+                    window.alert("User locked out successfully!");
+                }, function (res) {
+                    window.alert("User locked out failed.");
+                });
     }
+
+
 
 }

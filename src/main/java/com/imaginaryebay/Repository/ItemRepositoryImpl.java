@@ -227,11 +227,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             throw new RestException("Invalid price", "Price must be greater than 0.", HttpStatus.BAD_REQUEST);
         }
 
-        if (null == item.getCategory()){
-            item.setCategory(toUpdate.getCategory());
-        }
-
-        else if (item.getCategory().equals(Category.Invalid)){
+        else if ((null == item.getCategory()) && (item.getCategory().equals(Category.Invalid))){
             throw new RestException("Invalid category", "Valid Categories are: Clothes & Electronics.", HttpStatus.BAD_REQUEST);
         }
 

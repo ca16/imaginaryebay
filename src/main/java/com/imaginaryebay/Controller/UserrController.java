@@ -45,4 +45,7 @@ public interface UserrController {
     @RequestMapping (value="/item/{id}",method=RequestMethod.GET)
     public ResponseEntity<List<Item>> getItemsSoldByThisUser(@PathVariable("id")Long id);
 
+    @RequestMapping (value="/{id}/lockout",method=RequestMethod.PUT)
+    public ResponseEntity<Userr> lockout(@PathVariable("id")Long id);
+
 }
