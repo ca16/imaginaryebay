@@ -147,4 +147,12 @@ public class ItemDAOImpl implements ItemDAO{
         List<Item> itemList=query.getResultList();
         return itemList;
     }
+
+    @Override
+    public Long findTotalNumOfItems(){
+        String queryString="select count(i) from Item i";
+        Query query=entityManager.createQuery(queryString);
+        List<Long> result=query.getResultList();
+        return result.get(0);
+    }
 }

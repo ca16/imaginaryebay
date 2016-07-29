@@ -53,5 +53,7 @@ public interface ItemRepository {
 
     public List<Item> findItemsBasedOnPage(int pageNum, int pageSize);
 
+    public Long findTotalNumOfItems();
+
 
 }

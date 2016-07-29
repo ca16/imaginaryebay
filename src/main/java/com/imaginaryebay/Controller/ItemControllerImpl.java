@@ -108,5 +108,7 @@ public class ItemControllerImpl implements ItemController {
         return new ResponseEntity<List<Item>>(this.itemRepository.findItemsBasedOnPage(pageNum,pageSize),HttpStatus.OK);
     }
 
-
+    public ResponseEntity<Long> findTotalNumOfItems(){
+        return new ResponseEntity<Long>(this.itemRepository.findTotalNumOfItems(),HttpStatus.OK);
+    }
 }

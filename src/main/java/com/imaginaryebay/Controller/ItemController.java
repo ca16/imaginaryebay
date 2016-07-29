@@ -177,6 +177,11 @@ public interface ItemController {
     @RequestMapping(value="/page/{page}/size/{size}",method= RequestMethod.GET)
     public ResponseEntity<List<Item>> findItemsBasedOnPage(@PathVariable("page") int pageNum, @PathVariable("size") int pageSize);
 
+
+    @RequestMapping(value="/totalCount",method = RequestMethod.GET)
+    public ResponseEntity<Long> findTotalNumOfItems();
+
+
 }
 
 
