@@ -41,7 +41,7 @@ function itemcreateController($scope,$http, UserService, $location){
                         window.alert("Item created successfully!");
                         var id = res.data.id;
                         $location.path("app/item/" + id);
-                        $scope.uploadAll(id);
+                        uploadAll(id);
 
                     }, function(res){
                         window.alert("Item creation failed: " + res.data.detailedMessage);
@@ -53,7 +53,7 @@ function itemcreateController($scope,$http, UserService, $location){
 
     var pictures = [];
 
-    $scope.uploadFile = function (files) {
+    $scope.addPic = function (files) {
         var file = $scope.myFile;
         var fd = new FormData();
         fd.append("file", files[0]);
@@ -61,14 +61,14 @@ function itemcreateController($scope,$http, UserService, $location){
         console.log("added pic");
     };
 
-    $scope.uploadAll = function (id){
+    function uploadAll(id){
         for (var i = 0; i < pictures.length; i++) {
             console.log(pictures[i]);
-            $scope.uploadSinglePic(pictures[i], id);
+            uploadSinglePic(pictures[i], id);
         }
     };
 
-    $scope.uploadSinglePic = function(pic, id){
+    function uploadSinglePic(pic, id){
         $http.post("/item/" + id + "/picture", pic, {
             headers: {'Content-Type': undefined},
             transformRequest: angular.identity

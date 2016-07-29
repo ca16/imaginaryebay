@@ -47,7 +47,7 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
             $http.put("/item/" + itemId, improvedItem)
                 .then(
                     function (res) {
-                        $scope.uploadAll();
+                        uploadAll();
                         window.alert("Item updated successfully!");
                         $location.path("app/item/" + itemId);
                     }, function (res) {
@@ -59,7 +59,7 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
 
     var pictures = [];
 
-    $scope.uploadFile = function (files) {
+    $scope.addPic = function (files) {
         var file = $scope.myFile;
         var fd = new FormData();
         fd.append("file", files[0]);
@@ -67,13 +67,13 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
         console.log("added pic");
     }
 
-    $scope.uploadAll = function () {
+    function uploadAll() {
         for (var i = 0; i < pictures.length; i++) {
-            $scope.uploadSinglePic(pictures[i]);
+            uploadSinglePic(pictures[i]);
         }
     }
 
-    $scope.uploadSinglePic = function (pic) {
+    function uploadSinglePic(pic) {
         $http.post("/item/" + itemId + "/picture", pic, {
             headers: {'Content-Type': undefined},
             transformRequest: angular.identity
