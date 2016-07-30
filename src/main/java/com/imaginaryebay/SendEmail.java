@@ -10,6 +10,7 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import com.imaginaryebay.Controller.MessageController;
 import com.imaginaryebay.DAO.MessageDao;
 import com.imaginaryebay.DAO.MessageDaoImpl;
 import com.imaginaryebay.Models.Message;
@@ -17,7 +18,7 @@ import com.imaginaryebay.Models.Userr;
 
 public class SendEmail extends TimerTask{
 	@Autowired
-	private MessageDao messageDao;
+	private MessageController messageController;
 	private Userr to;
 	private String subject;
 	private String text;
@@ -86,6 +87,6 @@ public class SendEmail extends TimerTask{
             System.err.println(ex.getMessage());
         }
         Message msgToAddToDatabase = new Message(this.to,this.sendDate);
-        this.messageDao.persist(msgToAddToDatabase);
+        this.messageController.createNewMessage(msgToAddToDatabase);
 	}
 }

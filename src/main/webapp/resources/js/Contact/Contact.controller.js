@@ -18,9 +18,6 @@ function contactController($scope,$http){
     				emailContent:$scope.emailContent
     		}
 
-    		console.log(name);
-    		console.log(emailAddress);
-    		console.log(emailContent);
     		$http.post("/ImaginaryEbay/contact", newMessage)
             	.then(
             			function(res){
