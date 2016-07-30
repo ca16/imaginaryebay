@@ -235,7 +235,7 @@ public class ItemRepositoryImplTest {
             fail();
         } catch (RestException exc) {
             Assert.assertEquals("Invalid category", exc.getMessage());
-            Assert.assertEquals("Valid Categories are: Clothes & Electronics.", exc.getDetailedMessage());
+            Assert.assertEquals("Valid category names are: Clothes, Electronics.", exc.getDetailedMessage());
             Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
         }
 
@@ -423,7 +423,7 @@ public class ItemRepositoryImplTest {
         } catch(RestException exc){
             Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
             Assert.assertEquals("Invalid request parameter.", exc.getMessage());
-            Assert.assertEquals("Books is not a valid Category name", exc.getDetailedMessage());
+            Assert.assertEquals("Books is not a valid Category name. Valid category names are: Clothes, Electronics.", exc.getDetailedMessage());
         }
     }
 

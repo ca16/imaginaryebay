@@ -405,41 +405,6 @@ public class ItemRepositoryImpl implements ItemRepository {
         return newPicture;
     }
 
-    /**
-     * returns a message telling the user that the item with the given ID wasn't found
-     * @param id the item's id
-     * @return an informative message
-     */
-    private String detailedMessageConstructor(Long id) {
-        return "Item with id " + id + " was not found";
-    }
-
-    /**
-     * returns a message telling the user what the problem was with finding the information requested
-     * about the item with the given id
-     * @param id the item's id
-     * @param extras the problem with finding the information
-     * @return an informative message
-     */
-    private String detailedMessageConstructor(Long id, String extras) {
-        return "Item with id " + id + extras;
-    }
-
-    /**
-     * tells the user what the valid categories are
-     * @return valid category names
-     */
-    private String validCategories(){
-        String toRet = "Valid category names are: ";
-        for (Category cat: Category.values()){
-            if (cat != Category.Invalid){
-                toRet = toRet + cat.toString() + ", ";
-            }
-        }
-        return toRet.substring(0, toRet.length()-2);
-    }
-
-
     public List<Item> findItemsBasedOnPage(int pageNum, int pageSize) {
         return itemDAO.findItemsBasedOnPage(pageNum, pageSize);
     }
@@ -476,6 +441,41 @@ public class ItemRepositoryImpl implements ItemRepository {
         throw new RestException(NOT_AVAILABLE,
                 "Items of category " + category + " and name or category similar to " + name + " were not found", HttpStatus.OK);
 
+    }
+
+    /**
+     * returns a message telling the user that the item with the given ID wasn't found
+     * @param id the item's id
+     * @return an informative message
+     */
+    private String detailedMessageConstructor(Long id) {
+        return "Item with id " + id + " was not found";
+    }
+
+    /**
+     * returns a message telling the user what the problem was with finding the information requested
+     * about the item with the given id
+     * @param id the item's id
+     * @param extras the problem with finding the information
+     * @return an informative message
+     */
+    private String detailedMessageConstructor(Long id, String extras) {
+        return "Item with id " + id + extras;
+    }
+
+    /**
+     * tells the user what the valid categories are
+     * @return valid category names
+     */
+    private String validCategories(){
+        String toRet = "Valid category names are: ";
+        for (Category cat: Category.values()){
+            if (cat != Category.Invalid){
+                toRet = toRet + cat.toString() + ", ";
+            }
+        }
+        toRet = toRet.substring(0, toRet.length()-2);
+        return toRet + ".";
     }
 
 
