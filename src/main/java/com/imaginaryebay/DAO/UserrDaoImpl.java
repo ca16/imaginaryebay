@@ -78,7 +78,7 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
 
 
     @Override
-    public Userr getUserrByID (long id){
+    public Userr getUserrByID (Long id){
         Userr userr=entityManager.find(Userr.class, id);
         return userr;
     }
@@ -118,7 +118,7 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
     }
 
     @Override
-    public void updateUserrByID(long id, Userr u) {
+    public void updateUserrByID(Long id, Userr u) {
         String queryString="select u from Userr u where u.id= :I";
         Query query = entityManager.createQuery(queryString);
         query.setParameter("I",id);

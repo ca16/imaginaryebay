@@ -14,23 +14,17 @@ public class Bidding {
     @GeneratedValue
     private Long id;
 
-
     @ManyToOne
     @JoinColumn(name="item_id")
     Item item;
-
-
 
     @OneToOne
     @JoinColumn(name="userr_id")
     Userr userr;
 
-
-
-    double price;
+    Double price;
 
     Timestamp biddingTime;
-
 
     public Long getId() {
         return id;
@@ -52,7 +46,7 @@ public class Bidding {
         this.userr = userr;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
@@ -67,4 +61,5 @@ public class Bidding {
     public void setBiddingTime(Timestamp biddingTime) {
         this.biddingTime = biddingTime;
     }
+
 }

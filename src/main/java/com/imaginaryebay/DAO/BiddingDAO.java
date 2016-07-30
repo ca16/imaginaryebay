@@ -12,13 +12,13 @@ public interface BiddingDAO {
 
     public void persist (Bidding bidding);
 
-    public Bidding getBiddingByID(long id);
+    public Bidding getBiddingByID(Long id);
 
-    public List<Bidding> getBiddingByUserrID (long id);
+    public List<Bidding> getBiddingByUserrID (Long id);
 
     public List<Bidding> getBiddingByItem (Item item);
 
+    public List<Bidding> getBiddingByItemID (Long id);
+
     public Bidding getHighestBiddingForItem (Long id);
-
-
 }

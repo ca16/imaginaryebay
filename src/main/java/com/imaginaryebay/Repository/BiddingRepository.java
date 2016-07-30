@@ -11,15 +11,19 @@ import java.util.List;
  */
 public interface BiddingRepository {
 
-    public void createNewBidding(Userr userr, Item item, double price);
+    public void createNewBidding(Long itemId, Double price);
 
-    public Bidding getBiddingByID (long id);
+    public Bidding getBiddingByID (Long id);
 
-    public List<Bidding> getBiddingByUserrID (long id);
+    public List<Bidding> getBiddingByUserrID (Long id);
 
     public List<Bidding> getBiddingByItem (Item item);
 
+    public List<Bidding> getBiddingByItemID (Long id);
+
     public Bidding getHighestBiddingForItem (Long id);
+
+
 
 
 }
