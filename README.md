@@ -54,9 +54,9 @@ Bidding:
 #####REST Api:
 1. create a new bidding:
 
-	 curl -X GET http://localhost:8080/bidding/userID/2/itemID/1/price/900
+	 curl -X GET http://localhost:8080/bidding/itemID/1/price/900
 	 
-	 (user with id=2 bids on item with id=2 with price:900)
+	 (logged in user bids on item with id=2 with price:900)
 
 2. get bidding with bidding's ID:
 	
