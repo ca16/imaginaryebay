@@ -11,6 +11,8 @@ function itemcreateController($scope,$http, UserService, $location){
     var date = new Date();
     date = date.toISOString().substring(0,10);
     $scope.auctet = date;
+    var maxDescLen = 255;
+    $scope.remChar = maxDescLen;
     
     $scope.create=function(){
 
@@ -69,17 +71,16 @@ function itemcreateController($scope,$http, UserService, $location){
 
     var pictures = [];
 
-    $scope.addPic = function (files) {
-        var file = $scope.myFile;
+    $scope.addPic = function () {
+        var file = document.getElementById('file').files[0]
         var fd = new FormData();
-        fd.append("file", files[0]);
+        fd.append("file", file);
         pictures.push(fd);
         console.log("added pic");
     };
 
     function uploadAll(id){
         for (var i = 0; i < pictures.length; i++) {
-            console.log(pictures[i]);
             uploadSinglePic(pictures[i], id);
         }
     };
@@ -95,6 +96,13 @@ function itemcreateController($scope,$http, UserService, $location){
                 console.log("fail");
                 console.log(res.data.detailedMessage);
             });
+    }
+
+    $scope.lenCheck = function(){
+        if ($scope.description.length > maxDescLen){
+            $scope.description = $scope.description.substring(0, maxDescLen);
+        }
+        $scope.remChar = maxDescLen - $scope.description.length;
     }
     
 }
