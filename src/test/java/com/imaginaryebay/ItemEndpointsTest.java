@@ -1,3 +1,4 @@
+
 package com.imaginaryebay;
 
 import com.imaginaryebay.Models.Category;
@@ -11,11 +12,14 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
+import static java.sql.Timestamp.valueOf;
 import static org.junit.Assert.*;
+
 
 /**
  * Created by Chloe on 6/30/16.
  */
+
 
 //Just tests if endpoints are accessible, doesn't really check what they do
 public class ItemEndpointsTest {
@@ -123,11 +127,19 @@ public class ItemEndpointsTest {
         Item item = new Item();
         item.setPrice(20.0);
         item.setCategory(Category.Clothes);
-        item.setDescription("Scarf");
-        ResponseEntity<Void> resultSave = template.postForEntity("http://localhost:8080/item", item, Void.class);
-        assertEquals(resultSave.getStatusCode(), HttpStatus.OK);
+        item.setName("Scarf");
+        item.setEndtime(valueOf("2016-10-10 00:00:00"));
 
-        //If the path was wrong it would be NOT_FOUND so the path works (I think)
+        try {
+            template.put("http://localhost:8080/item", item, Void.class);
+        } catch (Exception exc) {
+            if (exc.getClass() == HttpClientErrorException.class) {
+                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
+                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
+            }
+        }
+
+
         try {
             template.postForEntity("http://localhost:8080/item/1/picture", null, List.class);
         } catch (HttpServerErrorException exc) {
@@ -142,6 +154,14 @@ public class ItemEndpointsTest {
         item.setPrice(40.0);
         item.setCategory(Category.Clothes);
         item.setDescription("Scarf");
-        template.put("http://localhost:8080/item/1", item);
+        try {
+            template.put("http://localhost:8080/item/1", item);
+        } catch (Exception exc) {
+            if (exc.getClass() == HttpClientErrorException.class) {
+                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
+                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
+            }
+        }
+
     }
 }

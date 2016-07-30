@@ -63,6 +63,8 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers(HttpMethod.POST, "/user/new").permitAll()
                 .antMatchers(HttpMethod.GET, "/user/*").authenticated()
                 .antMatchers(HttpMethod.PUT, "/user/*").authenticated()
+//                .antMatchers(HttpMethod.POST, "/item").authenticated()
+//                .antMatchers(HttpMethod.PUT, "/item/*").authenticated()
                 .antMatchers("/user").hasAuthority("ADMIN")
                 .anyRequest().permitAll()
                 .and()

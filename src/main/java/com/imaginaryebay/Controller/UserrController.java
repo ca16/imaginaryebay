@@ -2,6 +2,9 @@ package com.imaginaryebay.Controller;
 
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.Userr;
+import com.sun.mail.iap.Response;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,32 +20,29 @@ public interface UserrController {
 
 
     @RequestMapping (value="/new", method = RequestMethod.POST)
-    public void createNewUserr(@RequestBody  Userr userr);
+    public ResponseEntity<Void> createNewUserr(@RequestBody  Userr userr);
 
 
     @RequestMapping (value="/{id}", method = RequestMethod.GET)
-    public Userr getUserrByID(@PathVariable("id") Long id);
+    public ResponseEntity<Userr> getUserrByID(@PathVariable("id") Long id);
 
     @RequestMapping (value="/email/{email}/", method = RequestMethod.GET)
-    public Userr getUserrByEmail(@PathVariable("email") String email);
+    public ResponseEntity<Userr> getUserrByEmail(@PathVariable("email") String email);
 
 
     @RequestMapping (method = RequestMethod.GET)
-    public List<Userr> getAllUserrs();
+    public ResponseEntity<List<Userr>> getAllUserrs();
 
     @RequestMapping (value="/name/{name}",method = RequestMethod.GET)
-    public List<Userr> getUserrByName(@PathVariable("name") String name);
+    public ResponseEntity<List<Userr>> getUserrByName(@PathVariable("name") String name);
 
 
 
     @RequestMapping (value="/{id}",method = RequestMethod.PUT)
-    public Userr updateUserrByID(@PathVariable("id")Long id, @RequestBody  Userr u);
-
+    public ResponseEntity<Userr> updateUserrByID(@PathVariable("id")Long id, @RequestBody  Userr u);
 
 
     @RequestMapping (value="/item/{id}",method=RequestMethod.GET)
-    public List<Item> getItemsSoldByThisUser(@PathVariable("id")Long id);
-
-
+    public ResponseEntity<List<Item>> getItemsSoldByThisUser(@PathVariable("id")Long id);
 
 }

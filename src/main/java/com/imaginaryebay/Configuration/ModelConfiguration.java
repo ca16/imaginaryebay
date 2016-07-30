@@ -73,6 +73,12 @@ public class ModelConfiguration {
     }
 
     @Bean
+    public BiddingController biddingController(){
+        BiddingController bean =new BiddingControllerImpl();
+        return bean;
+    }
+
+    @Bean
     public FrontPageController frontPageController(){
         FrontPageController bean=new FrontPageControllerImpl();
         return bean;

@@ -19,8 +19,8 @@ public interface UserrRepository {
 
     public List<Userr> getUserrByName(String name);
 
-    public Userr updateUserrByID(long id, Userr u);
+    public Userr updateUserrByID(Long id, Userr u);
 
-    public List<Item> getItemsSoldByThisUser(long id);
+    public List<Item> getItemsSoldByThisUser(Long id);
 
 }

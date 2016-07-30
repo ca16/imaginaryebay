@@ -49,13 +49,34 @@ User:
 	
 
 	
+Bidding:
+-----
+#####REST Api:
+1. create a new bidding:
 
+	 curl -X GET http://localhost:8080/bidding/userID/2/itemID/1/price/900
+	 
+	 (user with id=2 bids on item with id=2 with price:900)
+
+2. get bidding with bidding's ID:
+	
+	curl -X GET http://localhost:8080/3
+
+3. get all the biddings by one user
+	
+	curl -X GET http://localhost:8080/userID/2
+
+4. get all the biddings on one item
+
+	curl -X GET http://localhost:8080/itemID/1
+
+
+5. get the highest bidding on one item
+
+	curl -X GET http://localhost:8080/highest/itemID/1
 	
 
-#####Controller:
-Controller checks if the id in url is the same as the id got from cookies
-	
-#####Repoistory:
+
 
 	
 	
