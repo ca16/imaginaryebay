@@ -254,8 +254,6 @@ public class ItemRepositoryImpl implements ItemRepository {
         // only the owner of an item can update the item
         String email = auth.getName();
         if (!toUpdate.getUserr().getEmail().equals(email)) {
-            System.out.println(toUpdate.getUserr().getEmail());
-            System.out.println(email);
             throw new RestException(NOT_AVAILABLE, "You can only update items you own.", HttpStatus.FORBIDDEN);
         }
 
