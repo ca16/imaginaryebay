@@ -9,6 +9,9 @@
             .when('/',{
                 templateUrl:'./resources/home.html'
             })
+            .when('/app/shop',{
+                templateUrl:'./resources/shop.html'
+            })
             .when('/app/login',{
                 templateUrl:'./resources/login.html'
             })
