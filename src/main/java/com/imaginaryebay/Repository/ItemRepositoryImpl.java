@@ -50,9 +50,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     public Item save(Item item) {
         // user must be logged in to create an item
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        Userr owner = userrDao.getUserrByEmail(email);
-        if (owner == null || !auth.isAuthenticated()) {
+        if (auth == null || !auth.isAuthenticated()) {
             throw new RestException(NOT_AVAILABLE, "You must be logged in to create an item.", HttpStatus.UNAUTHORIZED);
         }
 
@@ -87,6 +85,8 @@ public class ItemRepositoryImpl implements ItemRepository {
         }
 
         // the item belongs to the user who is logged in at the time of creation
+        String email = auth.getName();
+        Userr owner = userrDao.getUserrByEmail(email);
         item.setUserr(owner);
 
         this.itemDAO.persist(item);
@@ -245,8 +245,13 @@ public class ItemRepositoryImpl implements ItemRepository {
                     "Item to be updated does not exist.", HttpStatus.BAD_REQUEST);
         }
 
-        // only the owner of an item can update the item
+        // only a logged in user can edit an item
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated()) {
+            throw new RestException(NOT_AVAILABLE, "You must be logged in to edit an item.", HttpStatus.UNAUTHORIZED);
+        }
+
+        // only the owner of an item can update the item
         String email = auth.getName();
         if (!toUpdate.getUserr().getEmail().equals(email)) {
             System.out.println(toUpdate.getUserr().getEmail());
