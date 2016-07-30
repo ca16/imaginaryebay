@@ -36,11 +36,10 @@ public class Userr implements Serializable{
     private String password;
 
     @Column(nullable = false)
-    private boolean isAdmin;
+    private Boolean isAdmin;
 
     @Column(nullable = true)
     private String address;
-
 
 
     protected Userr(){}
@@ -50,14 +49,14 @@ public class Userr implements Serializable{
         this.email = email;
         this.name = name;
         this.password = password;
-        this.isAdmin=false;
+        this.isAdmin = false;
     }
 
-    public Userr(String email, String name, String password, boolean isAdmin) {
+    public Userr(String email, String name, String password, Boolean isAdmin) {
         this.email = email;
         this.name = name;
         this.password = password;
-        this.isAdmin=false;
+        this.isAdmin = isAdmin;
     }
 
 
@@ -93,11 +92,11 @@ public class Userr implements Serializable{
     }
 
 
-    public boolean isAdmin() {
+    public Boolean isAdmin() {
         return isAdmin;
     }
 
-    public void setAdmin(boolean admin) {
+    public void setIsAdmin(Boolean admin) {
         isAdmin = admin;
     }
 
@@ -112,6 +111,7 @@ public class Userr implements Serializable{
     }
 
 
+
 	@Override
 	public String toString() {
 		return "Userr [id=" + id + ", email=" + email + ", name=" + name
@@ -119,5 +119,4 @@ public class Userr implements Serializable{
 				+ ", address=" + address + "]";
 	}
     
-
 }

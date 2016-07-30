@@ -1,0 +1,54 @@
+<style>
+    body {
+        background-color: darkslategrey;
+        color:white;
+    }
+    table {
+        width: 100%;
+    }
+    th, td {
+        border-bottom: 1px solid #ddd;
+        padding: 15px;
+        text-align: center;
+    }
+</style>
+<div ng-include src=" './resources/Navigation.html' "></div>
+<br>
+<div id="wrapper" ng-controller="adminController">
+    <!-- Page Content -->
+    <div class="container">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Admin Page
+                </h1>
+            </div>
+        </div>
+        <br>
+
+        <table>
+            <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Administrator?</th>
+                <th></th>
+                <th></th>
+
+            </tr>
+            <tr ng-repeat="person in users">
+                <td>{{person.id}}</td>
+                <td>{{person.name}}</td>
+                <td>{{person.email}}</td>
+                <td><span ng-hide="{{person.admin}}" class="glyphicon glyphicon-remove"></span><span ng-show="{{person.admin}}" class="glyphicon glyphicon-ok"></span></td>
+                <td><button type="submit" class="btn btn-default" ng-click="profile(person.id)"> View Profile </button>
+                </td>
+                <td><button type="submit" class="btn btn-default" ng-click="lock(person.id)"> Lock Account </button>
+                </td>
+
+            </tr>
+        </table>
+
+    </div>
+</div>

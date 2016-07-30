@@ -127,7 +127,7 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
         if (itr.hasNext()){
             Userr toChange= itr.next();
             toChange.setPassword(u.getPassword());
-            toChange.setAdmin(u.isAdmin());
+            toChange.setIsAdmin(u.isAdmin());
             toChange.setEmail(u.getEmail());
             toChange.setName(u.getName());
             toChange.setAddress(u.getAddress());
@@ -139,9 +139,8 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
 
     }
 
-
     @Override
-    public List<Item> getItemsSoldByThisUser (long id){
+    public List<Item> getItemsSoldByThisUser (Long id){
         String queryString="select i from Item i join i.userr u where u.id= :I";
         Query query=entityManager.createQuery(queryString);
         query.setParameter("I",id);

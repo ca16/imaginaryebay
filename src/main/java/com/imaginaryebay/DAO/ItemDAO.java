@@ -3,6 +3,7 @@ package com.imaginaryebay.DAO;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
+import com.imaginaryebay.Models.Userr;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -30,7 +31,11 @@ public interface ItemDAO {
 
     public String findDescriptionByID(Long id);
 
-//    public Userr findOwnerByID(Long id);
+    public Userr findOwnerByID(Long id);
+
+    public String findNameByID(Long id);
+
+    public Double findHighestBidByID(Long id);
 
     public Item updateItemByID(Long id, Item item);
 
@@ -41,4 +46,6 @@ public interface ItemDAO {
     List<ItemPicture> findAllItemPicturesForItemID(Long id);
 
     List<ItemPicture> findAllItemPictureURLsForItemID(Long id);
+
+    public List<Item> findItemsBasedOnPage(int pageNum, int pageSize);
 }

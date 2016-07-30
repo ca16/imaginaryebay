@@ -26,6 +26,8 @@
     <!-- ng Route-->
     <script src="<c:url value="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.js" />"> </script>
 
+    <%--ui-bootstrap for Angular--%>
+    <script src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.0.0/ui-bootstrap-tpls.min.js"/>"></script>
 
     <!-- Angular app-->
     <script src="<c:url value="/resources/js/app.js"/>"></script>
@@ -33,6 +35,8 @@
 
     <!--Service-->
     <script src="<c:url value="/resources/js/Service/UserService.js"/>"></script>
+    <script src="<c:url value="/resources/js/Service/ItemService.js"/>"></script>
+
 
     <!--page controller-->
     <script src="<c:url value="/resources/js/Home/Home.controller.js"/>"></script>
@@ -40,11 +44,10 @@
     <script src="<c:url value="/resources/js/Register/Registration.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Navigation/Navigation.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Contact/Contact.controller.js"/>"></script>
-
-
-
-
-
+    <script src="<c:url value="/resources/js/ItemChanges/Itemcreate.controller.js"/>"></script>
+    <script src="<c:url value="/resources/js/Item/Item.controller.js"/>"></script>
+    <script src="<c:url value="/resources/js/ItemChanges/Itemupdate.controller.js"/>"></script>
+    <script src="<c:url value="/resources/js/Admin/Admin.controller.js"/>"></script>
 
 </head>
 <body>

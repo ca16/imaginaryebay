@@ -1,0 +1,47 @@
+<div ng-include src=" './resources/Navigation.html' "></div>
+
+<div class="container" ng-controller="itemController">
+    <link href="./resources/css/shop-item.css" rel="stylesheet">
+
+    <div class="row">
+        <div class="col-md-9">
+            <div class="thumbnail">
+                <div uib-carousel active="active" no-wrap="noWrapSlides">
+                        <div uib-slide ng-repeat="slide in slides track by $index" index="$index">
+                            <img ng-src="{{slide.url}}" style="margin:auto;">
+                        </div>
+                </div><!-- Image carousel-->
+                <div class="caption-full">
+                    <h3 class="pull-right">{{item.price | currency}}</h3>
+                    <h3>{{item.name}}</h3>
+                    <p>{{item.description}}</p>
+                    <a href="#/app/item/{{item.id}}/update" class="btn btn-primary">Update</a>
+                </div>
+            </div>
+            <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                var disqus_shortname = "guarded-journey-11719-herokuapp-com";
+
+                (function() {
+                    var d = document, s = d.createElement('script');
+
+                    s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        </div>
+    </div>
+
+    <hr>
+    <!-- Footer -->
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Copyright &copy; Your Website 2014</p>
+            </div>
+        </div>
+    </footer>
+</div>

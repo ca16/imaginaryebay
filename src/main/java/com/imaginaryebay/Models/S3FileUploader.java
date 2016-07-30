@@ -4,6 +4,7 @@ import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.lambda.model.UnsupportedMediaTypeException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -26,13 +27,14 @@ public class S3FileUploader {
 
     /**
      * Define some constants for setting credentials, and building URLs to store in the DB
-     * TODO: The Credentials need to go somewhere safer. Make a config file. (Could set as context property and request it)
      */
+    private static final String         IMAGE_JPEG      = "image/jpeg";
+    private static final String         IMAGE_PNG       = "image/png";
     private static final String         FILENAME_HEADER = "filename";
     private static final String         BUCKET          = "odbneu";
-    private static final String         keyName         = "Object-" + UUID.randomUUID();
-    private static final AWSCredentials AWS_CREDENTIALS = new BasicAWSCredentials("AKIAJSNMBTJ6HVQZ3CKQ",
-                                                                   "HM8jw0ZSIZekX/b1Rcohu39Mfq1mlNWQ+o2Qk54N");
+    private static final String         INVALID_TYPE    = "Invalid file type. Files must be either .png or .jpg format.";
+    private static final AWSCredentials AWS_CREDENTIALS = new BasicAWSCredentials(System.getenv("AWS_PUBLIC"),
+                                                                                  System.getenv("AWS_SECRET"));
 
     /**
      * fileUploader - Uploads a MultipartFile object to S3.
@@ -40,11 +42,16 @@ public class S3FileUploader {
      * @return String result - The URL to access the uploaded MultiPartFile
      * @throws Exception
      */
-    public String fileUploader(MultipartFile multipartFile) throws Exception {
+    public String fileUploader(MultipartFile multipartFile) throws Exception{
+        String keyName = "image-" + UUID.randomUUID();
         AmazonS3 s3 = new AmazonS3Client(AWS_CREDENTIALS);
-        S3Object s3Object = new S3Object();
         String result = null;
-        try {
+        try(S3Object s3Object = new S3Object()) {
+
+            String fileType = multipartFile.getContentType();
+            if (!(IMAGE_JPEG.equals(fileType) || IMAGE_PNG.equals(fileType))){
+                throw new UnsupportedMediaTypeException(INVALID_TYPE);
+            }
 
             /** Prepare object metadata */
             ObjectMetadata omd = new ObjectMetadata();
@@ -55,17 +62,27 @@ public class S3FileUploader {
             /** Get bytestream from HTTP request */
             ByteArrayInputStream bis = new ByteArrayInputStream(multipartFile.getBytes());
 
-            /** Upload the object to S3, and get back the URL in result */
+//            BufferedImage image = ImageIO.read(bis);
+//
+//            BufferedImage thumbnail = Scalr.resize(image,
+//                    Scalr.Method.SPEED,
+//                    800,
+//                    500);
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            ImageIO.write(thumbnail, "jpg", baos);
+
+//            ByteArrayInputStream bis2 = new ByteArrayInputStream(baos.toByteArray());
+            /** Upload the object to S3, and get back the URL (String) in result */
             s3Object.setObjectContent(bis);
             s3.putObject(new PutObjectRequest(BUCKET, keyName, bis, omd)
-                            .withCannedAcl(CannedAccessControlList.PublicRead));
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
             result = s3.getUrl(BUCKET, keyName).toString();
 
-            s3Object.close();
+        } catch(UnsupportedMediaTypeException umte){
+            this.printErrorInfo(umte);
+            throw new UnsupportedMediaTypeException(getErrorInfo(umte));
 
-            System.out.println("File uploaded to: " + result);
-
-        } catch (AmazonServiceException ase) {
+        }catch (AmazonServiceException ase) {
             this.printErrorInfo(ase);
             throw new IOException(getErrorInfo(ase));
 
@@ -73,7 +90,8 @@ public class S3FileUploader {
             this.printErrorInfo(ace);
             throw new IOException(getErrorInfo(ace));
 
-        } catch (Exception e) {
+        }  catch (Exception e) {
+            e.printStackTrace();
             System.out.println(e.getMessage());
             throw new Exception(e.getMessage());
         }
