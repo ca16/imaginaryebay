@@ -31,11 +31,28 @@ public class MailConfiguration {
         return javaMailSender;
     }
     @Bean
-    public SimpleMailMessage templateMessage() {
+    public SimpleMailMessage accountCreationMessage() {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("tinavivio@gmail.com");
-        message.setSubject("Your account creation");
+        message.setSubject("Your Account Creation");
         return message;
+    }
+    
+    @Bean
+    public SimpleMailMessage contactMessageToUser(){
+    	SimpleMailMessage message = new SimpleMailMessage();
+    	message.setFrom("tinavivio@gmail.com");
+    	message.setSubject("Contact Form Submission Received");
+    	message.setText("Thank you for contacting us. We will respond within 24-48 hours.");
+    	return message;
+    }
+    
+    @Bean
+    public SimpleMailMessage contactMessageToAdmin(){
+    	SimpleMailMessage message = new SimpleMailMessage();
+    	message.setSubject("Contact Form Submission Received");
+    	message.setTo("tinavivio@gmail.com");
+    	return message;
     }
 
 }
