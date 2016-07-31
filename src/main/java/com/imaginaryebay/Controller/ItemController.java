@@ -188,12 +188,12 @@ public interface ItemController {
 
     /*
      * Example:
-     * curl -X GET localhost:8080/item/page/{page}/size/{size}/
-     * curl -X GET localhost:8080/item/page/{page}/size/{size}?cat=Clothes
-     * curl -X GET localhost:8080/item/page/{page}/size/{size}?name=card
-     * curl -X GET "localhost:8080/item/page/{page}/size/{size}?cat=Clothes&name=card"
-     * curl -X GET localhost:8080/item/page/{page}/size/{size}?sellerID=2
-     * curl -X GET "localhost:8080/item/page/{page}/size/{size}?cat=Clothes&sellerID=2"
+     * curl -X GET localhost:8080/item/page/1/size/2
+     * curl -X GET localhost:8080/item/page/1/size/3?cat=Clothes
+     * curl -X GET localhost:8080/item/page/2/size/10?name=card
+     * curl -X GET "localhost:8080/item/page/2/size/2?cat=Clothes&name=card"
+     * curl -X GET localhost:8080/item/page/1/size/4?sellerID=2
+     * curl -X GET "localhost:8080/item/page/2/size/1?cat=Clothes&sellerID=2"
      */
     @RequestMapping(value="/page/{page}/size/{size}",method= RequestMethod.GET)
     public ResponseEntity<List<Item>> findItemsBasedOnPage(@PathVariable("page") int pageNum, @PathVariable("size") int pageSize, @RequestParam(value = "cat", required = false) String cat, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "sellerID", required = false) Long sellerID);
