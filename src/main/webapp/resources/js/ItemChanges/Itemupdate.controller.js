@@ -140,6 +140,12 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
 
     $scope.addPic = function () {
         var file = document.getElementById('file').files[0];
+        var path = document.getElementById('file').value;
+        var ext = path.substring(path.lastIndexOf('.') + 1).toLowerCase();
+        if (!((ext == 'jpg') || (ext == 'png'))){
+            window.alert("Invalid picture type. Please upload a .jpg or .png file.");
+            return;
+        }
         var fd = new FormData();
         fd.append("file", file);
         pictures.push(fd);
