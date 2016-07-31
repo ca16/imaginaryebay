@@ -201,7 +201,7 @@ public class ItemDAOImpl implements ItemDAO{
     public List<Category> findSellerCategories(Long ownerId){
         List<Category> toRet = new ArrayList<>();
         for (Item item : findItemsBySeller(ownerId)){
-            if (!toRet.contains(item.getCategory())){
+            if (!toRet.contains(item.getCategory()) && (null != item.getCategory())){
                 toRet.add(item.getCategory());
             }
         }
