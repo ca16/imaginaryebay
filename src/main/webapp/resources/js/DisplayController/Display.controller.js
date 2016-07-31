@@ -6,13 +6,14 @@ function displayController($scope,$http,$q){
 
 
     //This function describes what happens when the page is first loaded
-    $scope.init=function(num,totalUrl,itemUrl){
+    $scope.init=function(num,totalUrl,itemUrl,picUrl){
         $scope.numOfItemsOnEachPage=num;
         $scope.totalUrl=totalUrl;
         $scope.itemUrl=itemUrl;
         $scope.numberForPagination=null;
         $scope.currentPage=1;
         $scope.total=0;
+        $scope.picUrl=picUrl;
 
 
         //For the thumbnail stuff
@@ -23,7 +24,7 @@ function displayController($scope,$http,$q){
                     //$scope.goods[1].itemPictures=[{"url": "http://placehold.it/800x500"}]
                     for (var i=0; i< $scope.goods.length; i++){
                         if ($scope.goods[i].itemPictures.length==0){
-                            $scope.goods[i].itemPictures.push({"url": "http://placehold.it/800x500"});
+                            $scope.goods[i].itemPictures.push({"url": $scope.picUrl});
                         }
                     }
 
@@ -90,7 +91,7 @@ function displayController($scope,$http,$q){
                     $scope.goods = res.data;
                     for (var i = 0; i < $scope.goods.length; i++) {
                         if ($scope.goods[i].itemPictures.length == 0) {
-                            $scope.goods[i].itemPictures.push({"url": "http://placehold.it/800x500"});
+                            $scope.goods[i].itemPictures.push({"url": $scope.picUrl});
                         }
                     }
                 });

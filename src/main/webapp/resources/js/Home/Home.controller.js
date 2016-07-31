@@ -7,7 +7,9 @@
 })();
 
 function homeController($scope){
-    this.numOfItemsOnEachPage=1;
+    this.numOfItemsOnEachPage=8;
     this.totalUrl="item/totalCount";
     this.itemUrl="/item/page/";
+    this.picUrl="http://placehold.it/800x400";
+
 }

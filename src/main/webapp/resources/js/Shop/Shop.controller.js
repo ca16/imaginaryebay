@@ -7,5 +7,8 @@
 })()
 
 function shopController(){
-
+    this.numOfItemsOnEachPage=6;
+    this.totalUrl="item/totalCount";
+    this.itemUrl="/item/page/";
+    this.picUrl="http://placehold.it/800x400";
 }

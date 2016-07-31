@@ -1,7 +1,7 @@
 <div ng-include src=" './resources/Navigation.html' "></div>
 
 
-<div  ng-controller="shopController">
+<div  ng-controller="shopController as sc">
 
     <!-- Custom CSS -->
     <link href="/resources/css/shop-homepage.css" rel="stylesheet">
@@ -33,13 +33,13 @@
                             </ol>
                             <div class="carousel-inner">
                                 <div class="item active">
-                                    <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                                    <img class="slide-image" src="http://placehold.it/800x400" alt="">
                                 </div>
                                 <div class="item">
-                                    <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                                    <img class="slide-image" src="http://placehold.it/800x400" alt="">
                                 </div>
                                 <div class="item">
-                                    <img class="slide-image" src="http://placehold.it/800x300" alt="">
+                                    <img class="slide-image" src="http://placehold.it/800x400" alt="">
                                 </div>
                             </div>
                             <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
@@ -53,9 +53,9 @@
 
                 </div>
 
-                <div class="row">
+                <div class="row" ng-controller="displayController", ng-init="init(sc.numOfItemsOnEachPage, sc.totalUrl, sc.itemUrl, sc.picUrl)">
 
-                    <div ng-repeat="product in products" class="col-sm-4 col-lg-4 col-md-4">
+                    <!--<div ng-repeat="product in products" class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
                             <img src="http://placehold.it/320x150" alt="">
                             <div class="caption">
@@ -67,7 +67,45 @@
 
 
                         </div>
-                    </div>
+                    </div>-->
+
+                        <!-- Page Features -->
+                        <div  class="row text-center">
+
+                            <div ng-repeat="merchandise in goods" class="col-sm-4 col-lg-4 col-md-4">
+                                <div class="thumbnail">
+                                    <img ng-src="{{merchandise.itemPictures[0].url}}" alt="">
+                                    <div class="caption">
+                                        <h4 class="pull-right">{{merchandise.price | currency}}</h4>
+                                        <h4>{{merchandise.name}}</h4>
+                                        <p>{{merchandise.description}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+
+                        <!-- Pagination -->
+                        <div class="row text-center" >
+                            <div class="col-md-9">
+                                <ul  class="pagination">
+                                    <li>
+                                        <a ng-hide="hide" ng-click="numbersToShowLeft()">&laquo;</a>
+                                    </li>
+
+                                    <li ng-repeat="num in numberForPagination" ng-class="{'active': num == currentPage}" >
+                                        <a ng-click="goToPage(num)" target="_self">{{num}}</a>
+                                    </li>
+
+                                    <li>
+                                        <a ng-hide="hide" ng-click="numbersToShowRight()">&raquo;</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+
+
 
 
 
