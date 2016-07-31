@@ -58,6 +58,4 @@ public interface ItemDAO {
     public List<Item> findItemsByCategoryAndSeller(Category cat, Long ownerId);
 
     public List<Category> findSellerCategories(Long ownerId);
-
-
-    }
+}

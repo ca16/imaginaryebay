@@ -167,7 +167,7 @@ public class ItemDAOImpl implements ItemDAO{
         List<Item> byName = findItemsByName(name);
         List<Item> toRet = new ArrayList<>();
         for (Item item : byName){
-            if (item.getCategory().equals(cat)){
+            if ((item.getCategory() != null) && item.getCategory().equals(cat)){
                 toRet.add(item);
             }
         }

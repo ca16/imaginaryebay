@@ -5,6 +5,7 @@ import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
 import com.imaginaryebay.Models.Userr;
 import com.imaginaryebay.Repository.ItemRepository;
+import com.sun.mail.iap.Response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -147,11 +148,12 @@ public interface ItemController {
      * curl -X GET localhost:8080/item?cat=Clothes
      * curl -X GET localhost:8080/item?name=card
      * curl -X GET "localhost:8080/item?cat=Clothes&name=card"
-     * curl -X GET localhost:8080/item?owner=2
+     * curl -X GET localhost:8080/item?sellerID=2
+     * curl -X GET "localhost:8080/item?cat=Clothes&sellerID=2"
      * (with two parameters, make sure the  " " are there if you're using curl)
      */
     @RequestMapping(method= RequestMethod.GET)
-    public ResponseEntity<List<Item>> getAllItems(@RequestParam(value = "cat", required = false) String cat, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "owner", required = false) Long id);
+    public ResponseEntity<List<Item>> getAllItems(@RequestParam(value = "cat", required = false) String cat, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "sellerID", required = false) Long sellerID);
 
     /**
      *
@@ -184,9 +186,28 @@ public interface ItemController {
                                                            @RequestParam("file") MultipartFile file);
 
 
-
+    /*
+     * Example:
+     * curl -X GET localhost:8080/item/page/{page}/size/{size}/
+     * curl -X GET localhost:8080/item/page/{page}/size/{size}?cat=Clothes
+     * curl -X GET localhost:8080/item/page/{page}/size/{size}?name=card
+     * curl -X GET "localhost:8080/item/page/{page}/size/{size}?cat=Clothes&name=card"
+     * curl -X GET localhost:8080/item/page/{page}/size/{size}?sellerID=2
+     * curl -X GET "localhost:8080/item/page/{page}/size/{size}?cat=Clothes&sellerID=2"
+     */
     @RequestMapping(value="/page/{page}/size/{size}",method= RequestMethod.GET)
-    public ResponseEntity<List<Item>> findItemsBasedOnPage(@PathVariable("page") int pageNum, @PathVariable("size") int pageSize);
+    public ResponseEntity<List<Item>> findItemsBasedOnPage(@PathVariable("page") int pageNum, @PathVariable("size") int pageSize, @RequestParam(value = "cat", required = false) String cat, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "sellerID", required = false) Long sellerID);
+
+    /*
+     * curl -X GET localhost:8080/item/count
+     * curl -X GET localhost:8080/item/count?cat=Clothes
+     * curl -X GET localhost:8080/item/count?name=card
+     * curl -X GET "localhost:8080/item/count?cat=Clothes&name=card"
+     * curl -X GET localhost:8080/item/count?sellerID=2
+     * curl -X GET "localhost:8080/item/count?cat=Clothes&sellerID=2"
+     */
+    @RequestMapping(value="/count",method= RequestMethod.GET)
+    public ResponseEntity<Integer> findItemsWithCount(@RequestParam(value = "cat", required = false) String cat, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "sellerID", required = false) Long sellerID);
 
 }
 

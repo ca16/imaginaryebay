@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -423,6 +424,12 @@ public class ItemRepositoryImpl implements ItemRepository {
         throw new RestException(NOT_AVAILABLE, "Items with name or category similar to " + name + " were not found", HttpStatus.OK);
     }
 
+    public List<Item> findItemsByNameBasedOnPage(String name, int pageNum, int pageSize){
+        List<Item> toRet = findItemsByName(name);
+        return trim(toRet, pageNum, pageSize);
+
+    }
+
     public List<Item> findItemsByCategoryAndName(String category, String name){
         Category cat;
 
@@ -444,6 +451,11 @@ public class ItemRepositoryImpl implements ItemRepository {
         throw new RestException(NOT_AVAILABLE,
                 "Items of category " + category + " and name or category similar to " + name + " were not found", HttpStatus.OK);
 
+    }
+
+    public List<Item> findItemsByNameAndCategoryBasedOnPage(String category, String name, int pageNum, int pageSize){
+        List<Item> toRet = findItemsByCategoryAndName(category, name);
+        return trim(toRet, pageNum, pageSize);
     }
 
     /**
@@ -482,12 +494,21 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     public List<Item> findItemsBySeller(Long id){
+        if (userrDao.getUserrByID(id) == null){
+            throw new RestException(NOT_AVAILABLE,
+                    "User with id " + id + " does not exist.", HttpStatus.BAD_REQUEST);
+        }
         List<Item> toRet = itemDAO.findItemsBySeller(id);
         if (toRet == null){
             throw new RestException(NOT_AVAILABLE,
                     "User with id " + id + " has no items to sell.", HttpStatus.OK);
         }
         return toRet;
+    }
+
+    public List<Item> findItemsBySellerBasedOnPage(Long id, int pageNum, int pageSize){
+        List<Item> toRet = findItemsBySeller(id);
+        return trim(toRet, pageNum, pageSize);
     }
 
     public List<Item> findItemsByCategoryAndSeller(String category, Long ownerId){
@@ -499,6 +520,10 @@ public class ItemRepositoryImpl implements ItemRepository {
         } catch (IllegalArgumentException exc) {
             // Should we also give them a list of options?
             throw new RestException(INVALID_PARAMETER, validCategories(), HttpStatus.BAD_REQUEST);
+        }
+        if (userrDao.getUserrByID(ownerId) == null){
+            throw new RestException(NOT_AVAILABLE,
+                    "User with id " + ownerId + " does not exist.", HttpStatus.BAD_REQUEST);
         }
         List<Item> toRet = this.itemDAO.findItemsByCategoryAndSeller(cat, ownerId);
         if (!toRet.isEmpty()) {
@@ -514,6 +539,31 @@ public class ItemRepositoryImpl implements ItemRepository {
     public List<Category> findSellerCategories(Long ownerId){
         return itemDAO.findSellerCategories(ownerId);
     }
+
+    public List<Item> findItemsByCategoryBasedOnPage(String category, int pageNum, int pageSize){
+        List<Item> toRet = findAllItemsByCategory(category);
+        return trim(toRet, pageNum, pageSize);
+    }
+
+    public List<Item> findItemsByCategoryAndSellerBasedOnPage(String category, Long sellerID, int pageNum, int pageSize){
+        List<Item> toRet = findItemsByCategoryAndSeller(category, sellerID);
+        return trim(toRet, pageNum, pageSize);
+
+    }
+
+    private List<Item> trim(List<Item> toTrim, int pageNum, int pageSize){
+        if (toTrim.size() >= (pageNum * pageSize)){
+            return toTrim.subList((pageNum-1)*pageSize, ((pageNum)*pageSize));
+        }
+        else if ((toTrim.size() < (pageNum * pageSize)) && (toTrim.size() > ((pageNum-1) * pageSize))){
+            return toTrim.subList((pageNum-1)*pageSize, toTrim.size());
+        }
+
+        else {
+            return new ArrayList<>();
+        }
+    }
+
 
 
 
