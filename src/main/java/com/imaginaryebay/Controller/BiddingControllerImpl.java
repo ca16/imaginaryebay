@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
@@ -82,6 +84,22 @@ public class BiddingControllerImpl implements BiddingController {
     @Override
     public ResponseEntity<List<Item>> getSuccessfulAuctionItemsByBidder (Long bidderID){
         return new ResponseEntity<>(biddingRepository.getSuccessfulBidItemsByBidder(bidderID), HttpStatus.OK);
+    }
+
+    public ResponseEntity<Integer> getCountOfActiveItemsByBidder (@PathVariable("bidderID") Long bidderID){
+        return new ResponseEntity<>(getActiveItemsByBidder(bidderID).getBody().size(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<Integer> getCountOfSuccessfulAuctionItemsByBidder (@PathVariable("bidderID") Long bidderID){
+        return new ResponseEntity<>(getSuccessfulAuctionItemsByBidder(bidderID).getBody().size(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<Item>> getActiveItemsByBidderByPage (@PathVariable("bidderID") Long bidderID, @PathVariable("page") int pageNum, @PathVariable("size") int pageSize){
+        return new ResponseEntity<List<Item>>(biddingRepository.getActiveItemsByBidderByPage(bidderID, pageNum, pageSize), HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<Item>> getSuccessfulAuctionItemsByBidderByPage (@PathVariable("bidderID") Long bidderID, @PathVariable("page") int pageNum, @PathVariable("size") int pageSize){
+        return new ResponseEntity<List<Item>>(biddingRepository.getSuccessfulAuctionItemsByBidderByPage(bidderID, pageNum, pageSize), HttpStatus.OK);
     }
 
 }

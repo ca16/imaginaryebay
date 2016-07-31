@@ -27,6 +27,9 @@ public interface BiddingRepository {
 
     public List<Item> getSuccessfulBidItemsByBidder(Long bidderId);
 
+    public List<Item> getActiveItemsByBidderByPage (Long bidderID, int pageNum, int pageSize);
+
+    public List<Item> getSuccessfulAuctionItemsByBidderByPage (Long bidderID, int pageNum, int pageSize);
 
 
 

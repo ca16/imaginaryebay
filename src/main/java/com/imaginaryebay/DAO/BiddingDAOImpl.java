@@ -113,7 +113,7 @@ public class BiddingDAOImpl implements  BiddingDAO{
         List<Bidding> closedAuctionsBids = query2.getResultList();
         List<Item> toRet = new ArrayList<>();
         for (Bidding bid : closedAuctionsBids){
-            if (bid.getPrice() == bid.getItem().getHighestBid()){
+            if (bid.getPrice().equals(bid.getItem().getHighestBid())){
                 toRet.add(bid.getItem());
             }
         }

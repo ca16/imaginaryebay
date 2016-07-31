@@ -10,12 +10,15 @@ import com.imaginaryebay.Models.Userr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -214,5 +217,30 @@ public class BiddingRepositoryImpl implements BiddingRepository {
         return biddingDAO.getSuccessfulBidItemsByBidder(bidderId);
 
     }
+
+    public List<Item> getActiveItemsByBidderByPage (Long bidderID, int pageNum, int pageSize) {
+        List<Item> toRet = getActiveBidItemsByBidder(bidderID);
+        return trim(toRet, pageNum, pageSize);
+    }
+
+    public List<Item> getSuccessfulAuctionItemsByBidderByPage (Long bidderID, int pageNum, int pageSize) {
+        List<Item> toRet = getSuccessfulBidItemsByBidder(bidderID);
+        return trim(toRet, pageNum, pageSize);
+    }
+
+
+        private List<Item> trim(List<Item> toTrim, int pageNum, int pageSize){
+        if (toTrim.size() >= (pageNum * pageSize)){
+            return toTrim.subList((pageNum-1)*pageSize, ((pageNum)*pageSize));
+        }
+        else if ((toTrim.size() < (pageNum * pageSize)) && (toTrim.size() > ((pageNum-1) * pageSize))){
+            return toTrim.subList((pageNum-1)*pageSize, toTrim.size());
+        }
+
+        else {
+            return new ArrayList<>();
+        }
+    }
+
 
 }

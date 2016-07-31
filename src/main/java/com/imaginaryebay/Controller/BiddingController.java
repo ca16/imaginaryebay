@@ -44,4 +44,15 @@ public interface BiddingController {
     @RequestMapping(value="/successful/{bidderID}",method = RequestMethod.GET)
     public ResponseEntity<List<Item>> getSuccessfulAuctionItemsByBidder (@PathVariable("bidderID") Long bidderID);
 
+    @RequestMapping(value="/active/{bidderID}/count",method = RequestMethod.GET)
+    public ResponseEntity<Integer> getCountOfActiveItemsByBidder (@PathVariable("bidderID") Long bidderID);
+
+    @RequestMapping(value="/successful/{bidderID}/count",method = RequestMethod.GET)
+    public ResponseEntity<Integer> getCountOfSuccessfulAuctionItemsByBidder (@PathVariable("bidderID") Long bidderID);
+
+    @RequestMapping(value="/active/{bidderID}/page/{page}/size/{size}",method = RequestMethod.GET)
+    public ResponseEntity<List<Item>> getActiveItemsByBidderByPage (@PathVariable("bidderID") Long bidderID, @PathVariable("page") int pageNum, @PathVariable("size") int pageSize);
+
+    @RequestMapping(value="/successful/{bidderID}/page/{page}/size/{size}",method = RequestMethod.GET)
+    public ResponseEntity<List<Item>> getSuccessfulAuctionItemsByBidderByPage (@PathVariable("bidderID") Long bidderID, @PathVariable("page") int pageNum, @PathVariable("size") int pageSize);
 }
