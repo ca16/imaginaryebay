@@ -481,5 +481,42 @@ public class ItemRepositoryImpl implements ItemRepository {
         return toRet + ".";
     }
 
+    public List<Item> findItemsBySeller(Long id){
+        List<Item> toRet = itemDAO.findItemsBySeller(id);
+        if (toRet == null){
+            throw new RestException(NOT_AVAILABLE,
+                    "User with id " + id + " has no items to sell.", HttpStatus.OK);
+        }
+        return toRet;
+    }
+
+    public List<Item> findItemsByCategoryAndSeller(String category, Long ownerId){
+        Category cat;
+
+        // the user may have supplied an invalid category name
+        try {
+            cat = Category.valueOf(category);
+        } catch (IllegalArgumentException exc) {
+            // Should we also give them a list of options?
+            throw new RestException(INVALID_PARAMETER, validCategories(), HttpStatus.BAD_REQUEST);
+        }
+        List<Item> toRet = this.itemDAO.findItemsByCategoryAndSeller(cat, ownerId);
+        if (!toRet.isEmpty()) {
+            return toRet;
+        }
+
+        // if the list is empty, no items that meet the criteria exist
+        throw new RestException(NOT_AVAILABLE,
+                "Items of category " + category + " and sold by user with id " + ownerId + " were not found", HttpStatus.OK);
+
+    }
+
+    public List<Category> findSellerCategories(Long ownerId){
+        return itemDAO.findSellerCategories(ownerId);
+    }
+
+
+
+
 
 }

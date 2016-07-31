@@ -23,6 +23,10 @@ public interface BiddingRepository {
 
     public Bidding getHighestBiddingForItem (Long id);
 
+    public List<Item> getActiveBidItemsByBidder(Long bidderId);
+
+    public List<Item> getSuccessfulBidItemsByBidder(Long bidderId);
+
 
 
 

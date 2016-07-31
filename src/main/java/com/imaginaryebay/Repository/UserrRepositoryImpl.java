@@ -156,7 +156,7 @@ public class UserrRepositoryImpl implements UserrRepository {
 		return userrDao.getItemsSoldByThisUser(id);
 	}
 
-	public Userr lockout(Long id){
+	public Userr lockout(Long id, Boolean state){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Boolean isAdmin = auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"));
 		Userr temp = userrDao.getUserrByID(id);
@@ -166,7 +166,7 @@ public class UserrRepositoryImpl implements UserrRepository {
 		if(temp == null){
 			throw new RestException(NOT_AVAILABLE, "User with ID " + id + " does not exist.", HttpStatus.BAD_REQUEST);
 		}
-		return userrDao.lockout(id);
+		return userrDao.lockout(id, state);
 	}
 
 

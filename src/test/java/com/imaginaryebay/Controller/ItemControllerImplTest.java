@@ -273,13 +273,13 @@ public class ItemControllerImplTest {
 
     @Test
     public void getAllItems() throws Exception {
-        assertEquals(impl.getAllItems(null, null).getBody(), all);
-        assertEquals(impl.getAllItems("Clothes", null).getBody(), clothes);
-        assertEquals(impl.getAllItems("Electronics", null).getBody(), electronics);
+        assertEquals(impl.getAllItems(null, null, null).getBody(), all);
+        assertEquals(impl.getAllItems("Clothes", null, null).getBody(), clothes);
+        assertEquals(impl.getAllItems("Electronics", null, null).getBody(), electronics);
 
-        assertEquals(impl.getAllItems(null, null).getStatusCode(), org.springframework.http.HttpStatus.OK);
-        assertEquals(impl.getAllItems("Clothes", null).getStatusCode(), org.springframework.http.HttpStatus.OK);
-        assertEquals(impl.getAllItems("Electronics", null).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getAllItems(null, null, null).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getAllItems("Clothes", null, null).getStatusCode(), org.springframework.http.HttpStatus.OK);
+        assertEquals(impl.getAllItems("Electronics", null, null).getStatusCode(), org.springframework.http.HttpStatus.OK);
 
 
     }

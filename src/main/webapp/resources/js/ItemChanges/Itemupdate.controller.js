@@ -156,11 +156,10 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
         $http.post("/item/" + itemId + "/picture", pic, {
             headers: {'Content-Type': undefined},
             transformRequest: angular.identity
-        }).success(function () {
+        }).then( function () {
             console.log("success");
-        }).error(function (res) {
-            console.log("fail");
-            console.log(res.data.detailedMessage);
+        }, function (res) {
+            window.alert("Picture upload failed." + res.data.detailedMessage);
         });
     }
 

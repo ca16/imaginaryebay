@@ -85,7 +85,7 @@ public class BiddingRepositoryImpl implements BiddingRepository {
 
         // can't make a bid lower than the current highest bid
         // (if there's a current highest bid)
-        if ((toBidOn.getHighestBid() != null) && (price < toBidOn.getHighestBid())){
+        if ((toBidOn.getHighestBid() != null) && (price <= toBidOn.getHighestBid())){
             throw new RestException("Invalid bid amount.",
                     "Your bid amount must be greater than the item's current highest bid, which is " + toBidOn.getHighestBid() + ".", HttpStatus.BAD_REQUEST);
         }
@@ -191,6 +191,28 @@ public class BiddingRepositoryImpl implements BiddingRepository {
             throw new RestException(NOT_AVAILABLE, "There is no highest bid for this item.", HttpStatus.OK);
         }
         else return toRet;
+    }
+
+    @Override
+    public List<Item> getActiveBidItemsByBidder(Long bidderId){
+        Userr user = userrDAO.getUserrByID(bidderId);
+        if (null == user){
+            throw new RestException(NOT_AVAILABLE, "User with id " + bidderId + " does not exist.", HttpStatus.OK);
+        }
+
+        return biddingDAO.getActiveBidItemsByBidder(bidderId);
+
+
+    }
+
+    @Override
+    public List<Item> getSuccessfulBidItemsByBidder(Long bidderId){
+        Userr user = userrDAO.getUserrByID(bidderId);
+        if (null == user){
+            throw new RestException(NOT_AVAILABLE, "User with id " + bidderId + " does not exist.", HttpStatus.OK);
+        }
+        return biddingDAO.getSuccessfulBidItemsByBidder(bidderId);
+
     }
 
 }

@@ -82,9 +82,15 @@ public class ItemControllerImpl implements ItemController {
     }
 
     @Override
-    public ResponseEntity<List<Item>> getAllItems(String cat, String name){
+    public ResponseEntity<List<Item>> getAllItems(String cat, String name, Long ownerID){
+        if ((null != cat) && (null != ownerID)){
+            return new ResponseEntity<>(this.itemRepository.findItemsByCategoryAndSeller(cat, ownerID), HttpStatus.OK);
+        }
         if ((null != cat) && (null != name)){
             return new ResponseEntity(this.itemRepository.findItemsByCategoryAndName(cat, name), HttpStatus.OK);
+        }
+        if (null != ownerID){
+            return new ResponseEntity(this.itemRepository.findItemsBySeller(ownerID), HttpStatus.OK);
         }
         if (null != cat){
             return new ResponseEntity(this.itemRepository.findAllItemsByCategory(cat), HttpStatus.OK);
@@ -112,6 +118,11 @@ public class ItemControllerImpl implements ItemController {
     public ResponseEntity<List<Item>> findItemsBasedOnPage(int pageNum,  int pageSize){
         return new ResponseEntity<List<Item>>(this.itemRepository.findItemsBasedOnPage(pageNum,pageSize),HttpStatus.OK);
     }
+
+    public ResponseEntity<List<Category>> getSellerCategoriesByID(@PathVariable("id") Long id){
+        return new ResponseEntity<List<Category>>(this.itemRepository.findSellerCategories(id), HttpStatus.OK);
+    }
+
 
 
 }

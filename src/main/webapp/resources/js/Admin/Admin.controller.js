@@ -32,7 +32,7 @@ function adminController($scope,$http, UserService, $location) {
     }
 
     $scope.lock = function (id, user) {
-        $http.put("/user/" + id + "/lockout")
+        $http.put("/user/" + id + "/lockout?state=" + !user.nonLocked)
             .then(
                 function (res) {
                     window.alert("User locked out successfully!");

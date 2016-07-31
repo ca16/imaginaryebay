@@ -21,4 +21,8 @@ public interface BiddingDAO {
     public List<Bidding> getBiddingByItemID (Long id);
 
     public Bidding getHighestBiddingForItem (Long id);
+
+    public List<Item> getActiveBidItemsByBidder(Long bidderId);
+
+    public List<Item> getSuccessfulBidItemsByBidder(Long bidderId);
 }

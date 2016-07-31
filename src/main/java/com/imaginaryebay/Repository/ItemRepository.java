@@ -56,6 +56,11 @@ public interface ItemRepository {
 
     public List<Item> findItemsByCategoryAndName(String category, String name);
 
+    public List<Item> findItemsBySeller(Long ownerId);
+
+    public List<Item> findItemsByCategoryAndSeller(String cat, Long ownerId);
+
+    public List<Category> findSellerCategories(Long ownerId);
 
 
 }

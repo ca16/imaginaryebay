@@ -53,4 +53,11 @@ public interface ItemDAO {
 
     public List<Item> findItemsByCategoryAndName(Category cat, String name);
 
-}
+    public List<Item> findItemsBySeller(Long id);
+
+    public List<Item> findItemsByCategoryAndSeller(Category cat, Long ownerId);
+
+    public List<Category> findSellerCategories(Long ownerId);
+
+
+    }

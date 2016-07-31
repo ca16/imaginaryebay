@@ -38,4 +38,10 @@ public interface BiddingController {
     @RequestMapping(value="/highest/itemID/{itemID}",method = RequestMethod.GET)
     public ResponseEntity<Bidding> getHighestBiddingForItem (@PathVariable("itemID") Long id);
 
+    @RequestMapping(value="/active/{bidderID}",method = RequestMethod.GET)
+    public ResponseEntity<List<Item>> getActiveItemsByBidder (@PathVariable("bidderID") Long bidderID);
+
+    @RequestMapping(value="/successful/{bidderID}",method = RequestMethod.GET)
+    public ResponseEntity<List<Item>> getSuccessfulAuctionItemsByBidder (@PathVariable("bidderID") Long bidderID);
+
 }

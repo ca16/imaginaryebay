@@ -62,4 +62,6 @@ public class Bidding {
         this.biddingTime = biddingTime;
     }
 
+
+
 }

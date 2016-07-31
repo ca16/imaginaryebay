@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -85,7 +88,38 @@ public class BiddingDAOImpl implements  BiddingDAO{
 //        return null;
     }
 
+    @Override
+    public List<Item> getActiveBidItemsByBidder(Long bidderId) {
+        Query query = entityManager.createQuery("select b from Bidding b where b.item.endtime > ?1 and b.userr.id = ?2 order by b.item.endtime desc");
+        Timestamp currentTime = new Timestamp((new java.util.Date()).getTime());
+        Query query2 = query.setParameter(1, currentTime);
+        query2.setParameter(2, bidderId);
+        List<Bidding> biddingList = query2.getResultList();
+        List<Item> toRet = new ArrayList<>();
+        for (Bidding bid: biddingList){
+            toRet.add(bid.getItem());
+        }
 
+        return toRet;
 
+    }
+
+    @Override
+    public List<Item> getSuccessfulBidItemsByBidder(Long bidderId) {
+        Query query = entityManager.createQuery("select b from Bidding b where b.item.endtime < ?1 and b.userr.id = ?2 order by b.item.endtime desc");
+        Timestamp currentTime = new Timestamp((new java.util.Date()).getTime());
+        Query query2 = query.setParameter(1, currentTime);
+        query2.setParameter(2, bidderId);
+        List<Bidding> closedAuctionsBids = query2.getResultList();
+        List<Item> toRet = new ArrayList<>();
+        for (Bidding bid : closedAuctionsBids){
+            if (bid.getPrice() == bid.getItem().getHighestBid()){
+                toRet.add(bid.getItem());
+            }
+        }
+
+        return toRet;
+
+    }
 
 }

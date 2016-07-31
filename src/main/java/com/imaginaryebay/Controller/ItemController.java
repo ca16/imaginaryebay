@@ -98,6 +98,9 @@ public interface ItemController {
     @RequestMapping(value="/category/{id}", method= RequestMethod.GET)
     public ResponseEntity<Category> getCategoryByID(@PathVariable("id") Long id);
 
+    @RequestMapping(value="/sellercategories/{id}", method= RequestMethod.GET)
+    public ResponseEntity<List<Category>> getSellerCategoriesByID(@PathVariable("id") Long id);
+
     /**
      * @param id the item's ID
      * @return the description of the item with the given ID
@@ -144,10 +147,11 @@ public interface ItemController {
      * curl -X GET localhost:8080/item?cat=Clothes
      * curl -X GET localhost:8080/item?name=card
      * curl -X GET "localhost:8080/item?cat=Clothes&name=card"
+     * curl -X GET localhost:8080/item?owner=2
      * (with two parameters, make sure the  " " are there if you're using curl)
      */
     @RequestMapping(method= RequestMethod.GET)
-    public ResponseEntity<List<Item>> getAllItems(@RequestParam(value = "cat", required = false) String cat, @RequestParam(value = "name", required = false) String name);
+    public ResponseEntity<List<Item>> getAllItems(@RequestParam(value = "cat", required = false) String cat, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "owner", required = false) Long id);
 
     /**
      *

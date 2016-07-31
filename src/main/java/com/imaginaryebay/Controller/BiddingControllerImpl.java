@@ -11,6 +11,7 @@ import com.sun.mail.iap.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -72,4 +73,15 @@ public class BiddingControllerImpl implements BiddingController {
     public ResponseEntity<Bidding> getHighestBiddingForItem (Long id){
         return new ResponseEntity<>(biddingRepository.getHighestBiddingForItem(id), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<List<Item>> getActiveItemsByBidder (Long bidderID){
+        return new ResponseEntity<>(biddingRepository.getActiveBidItemsByBidder(bidderID), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Item>> getSuccessfulAuctionItemsByBidder (Long bidderID){
+        return new ResponseEntity<>(biddingRepository.getSuccessfulBidItemsByBidder(bidderID), HttpStatus.OK);
+    }
+
 }

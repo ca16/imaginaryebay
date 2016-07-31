@@ -74,8 +74,8 @@ public class UserrControllerImpl implements UserrController {
     }
 
     @Override
-    public ResponseEntity<Userr> lockout(Long id){
-        return new ResponseEntity<>(userrRepository.lockout(id), HttpStatus.OK);
+    public ResponseEntity<Userr> lockout(Long id, Boolean state){
+        return new ResponseEntity<>(userrRepository.lockout(id, state), HttpStatus.OK);
     }
 
 }

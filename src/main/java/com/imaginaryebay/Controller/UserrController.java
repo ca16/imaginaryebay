@@ -29,14 +29,11 @@ public interface UserrController {
     @RequestMapping (value="/email/{email}/", method = RequestMethod.GET)
     public ResponseEntity<Userr> getUserrByEmail(@PathVariable("email") String email);
 
-
     @RequestMapping (method = RequestMethod.GET)
     public ResponseEntity<List<Userr>> getAllUserrs();
 
     @RequestMapping (value="/name/{name}",method = RequestMethod.GET)
     public ResponseEntity<List<Userr>> getUserrByName(@PathVariable("name") String name);
-
-
 
     @RequestMapping (value="/{id}",method = RequestMethod.PUT)
     public ResponseEntity<Userr> updateUserrByID(@PathVariable("id")Long id, @RequestBody  Userr u);
@@ -46,6 +43,6 @@ public interface UserrController {
     public ResponseEntity<List<Item>> getItemsSoldByThisUser(@PathVariable("id")Long id);
 
     @RequestMapping (value="/{id}/lockout",method=RequestMethod.PUT)
-    public ResponseEntity<Userr> lockout(@PathVariable("id")Long id);
+    public ResponseEntity<Userr> lockout(@PathVariable("id")Long id, @RequestParam(value = "state") Boolean state);
 
 }
