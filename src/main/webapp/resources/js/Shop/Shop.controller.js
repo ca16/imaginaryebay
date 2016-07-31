@@ -3,13 +3,12 @@
  */
 
 (function(){
-    angular.module("ShopApp").controller("homeController",homeController);
-})();
+    angular.module("ShopApp").controller("shopController",shopController);
+})()
 
-function homeController($scope){
-    this.numOfItemsOnEachPage=8;
+function shopController(){
+    this.numOfItemsOnEachPage=6;
     this.totalUrl="item/totalCount";
     this.itemUrl="/item/page/";
     this.picUrl="http://placehold.it/800x400";
-
 }

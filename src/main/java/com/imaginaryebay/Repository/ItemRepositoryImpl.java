@@ -350,5 +350,8 @@ public class ItemRepositoryImpl implements ItemRepository {
         return itemDAO.findItemsBasedOnPage(pageNum,pageSize);
     }
 
+    public Long findTotalNumOfItems(){
+        return itemDAO.findTotalNumOfItems();
+    }
 
 }

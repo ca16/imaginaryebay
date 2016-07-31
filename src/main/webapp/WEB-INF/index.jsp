@@ -40,6 +40,7 @@
 
     <!--page controller-->
     <script src="<c:url value="/resources/js/Home/Home.controller.js"/>"></script>
+    <script src="<c:url value="/resources/js/DisplayController/Display.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Login/Login.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Register/Registration.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Navigation/Navigation.controller.js"/>"></script>
@@ -47,6 +48,7 @@
     <script src="<c:url value="/resources/js/Item/Item.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/ItemChanges/Itemupdate.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Admin/Admin.controller.js"/>"></script>
+    <script src="<c:url value="/resources/js/Shop/Shop.controller.js"/>"></script>
 
 </head>
 <body>
