@@ -104,6 +104,13 @@
 
 <
 <script>
+
+    $(function(){
+        if($(window).width()<800){
+            $('.search-panel').hide();
+        }
+    })
+
     $(window).resize(function() {
 
         if ($(this).width() < 800) {
@@ -122,7 +129,7 @@
 
 
 <!--<script>
-    $(window).resize()(function() {
+    $(function() {
         if ($('.navbar-collapse').attr("aria-expanded")) {
             $('.search-panel').hide();
         }
