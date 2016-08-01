@@ -6,19 +6,23 @@ function displayController($scope,$http,$q){
 
 
     //This function describes what happens when the page is first loaded
-    $scope.init=function(num,totalUrl,itemUrl,picUrl){
+    $scope.init=function(num,totalUrl,itemUrl,picUrl,idParameter){
         $scope.numOfItemsOnEachPage=num;
         $scope.totalUrl=totalUrl;
         $scope.itemUrl=itemUrl;
+        $scope.idParameter=idParameter;
         $scope.numberForPagination=null;
         $scope.currentPage=1;
         $scope.total=0;
         $scope.picUrl=picUrl;
 
 
+
+
+
         //For the thumbnail stuff
         (function(){
-            $http.get($scope.itemUrl+1+"/size/"+$scope.numOfItemsOnEachPage)
+            $http.get($scope.itemUrl+1+"/size/"+$scope.numOfItemsOnEachPage+"?"+$scope.idParameter)
                 .then(function(res){
                     $scope.goods=res.data;
                     //$scope.goods[1].itemPictures=[{"url": "http://placehold.it/800x500"}]
@@ -86,7 +90,7 @@ function displayController($scope,$http,$q){
     $scope.goToPage=function(numOfPage){
 
             //Make a http request to get all the items
-            $http.get($scope.itemUrl + numOfPage + "/size/" + $scope.numOfItemsOnEachPage)
+            $http.get($scope.itemUrl + numOfPage + "/size/" + $scope.numOfItemsOnEachPage+"?"+$scope.idParameter)
                 .then(function (res) {
                     $scope.goods = res.data;
                     for (var i = 0; i < $scope.goods.length; i++) {
@@ -112,7 +116,7 @@ function displayController($scope,$http,$q){
     //Get the total number of Items
     function totalNumber(){
         var deferred= $q.defer();
-        return $http.get($scope.totalUrl).then(
+        return $http.get($scope.totalUrl+"?"+$scope.idParameter).then(
             function(res){
                 $scope.total= res.data;
                 deferred.resolve();

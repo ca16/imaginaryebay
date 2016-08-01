@@ -9,7 +9,7 @@
             .when('/',{
                 templateUrl:'./resources/home.html'
             })
-            .when('/app/shop',{
+            .when('/app/shop/:sellerID',{
                 templateUrl:'./resources/shop.html'
             })
             .when('/app/login',{

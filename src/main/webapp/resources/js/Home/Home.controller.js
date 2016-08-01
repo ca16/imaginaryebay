@@ -11,8 +11,8 @@
 
 function homeController($scope){
     this.numOfItemsOnEachPage=8;
-    this.totalUrl="item/totalCount";
+    this.totalUrl="item/count";
     this.itemUrl="/item/page/";
     this.picUrl="http://placehold.it/800x400";
-
+    this.dumbParameter="";
 }

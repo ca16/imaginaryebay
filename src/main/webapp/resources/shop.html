@@ -15,8 +15,8 @@
             <div class="col-md-3">
                 <p class="lead">{{info.ShopName}}</p>
                 <div class="list-group">
-                    <a ng-repeat="category in categories" href="#/app/shop?category={{category.CategoryName}}&shopOwner={{shopOwner}}"
-                       class="list-group-item" ng-class={'active':category.CategoryName==currentCategory}>{{category.CategoryName}}</a>
+                    <a ng-repeat="category in categories" href="#/app/shop?category={{category}}&shopOwner={{shopOwner}}"
+                       class="list-group-item" ng-class={'active':category==currentCategory}>{{category}}</a>
                 </div>
             </div>
 
@@ -53,7 +53,7 @@
 
                 </div>
 
-                <div class="row" ng-controller="displayController", ng-init="init(sc.numOfItemsOnEachPage, sc.totalUrl, sc.itemUrl, sc.picUrl)">
+                <div class="row" ng-controller="displayController", ng-init="init(sc.numOfItemsOnEachPage, sc.totalUrl, sc.itemUrl, sc.picUrl, sc.sellerID)">
 
                     <!--<div ng-repeat="product in products" class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
