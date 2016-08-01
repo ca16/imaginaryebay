@@ -1,6 +1,7 @@
 /**
  * Created by Ben_Big on 3/27/16.
  */
+'use strict';
 (function(){
     angular.
     module("ShopApp").controller("loginController",loginController);

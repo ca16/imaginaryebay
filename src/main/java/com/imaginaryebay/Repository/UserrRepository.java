@@ -23,4 +23,6 @@ public interface UserrRepository {
 
     public List<Item> getItemsSoldByThisUser(Long id);
 
+    public Userr lockout(Long id, Boolean state);
+
 }

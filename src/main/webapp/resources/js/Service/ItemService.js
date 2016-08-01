@@ -1,6 +1,7 @@
 /**
  * Created by Brian on 7/26/2016.
  */
+'use strict';
 (function (){
     angular.module("ShopApp").factory("ItemService", ItemService);
 

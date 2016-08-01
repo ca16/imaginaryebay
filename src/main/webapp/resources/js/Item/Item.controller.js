@@ -1,5 +1,4 @@
 'use strict';
-
 (function(){
         angular.module("ShopApp").controller("itemController", itemController);
 }());

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -71,4 +72,10 @@ public class UserrControllerImpl implements UserrController {
     public ResponseEntity<List<Item>> getItemsSoldByThisUser(Long id){
         return new ResponseEntity<>(userrRepository.getItemsSoldByThisUser(id), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<Userr> lockout(Long id, Boolean state){
+        return new ResponseEntity<>(userrRepository.lockout(id, state), HttpStatus.OK);
+    }
+
 }

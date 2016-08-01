@@ -1,6 +1,9 @@
+
 /**
  * Created by ben on 7/29/16.
  */
+
+'use strict';
 
 (function(){
     angular.module("ShopApp").controller("homeController",homeController);

@@ -1,6 +1,7 @@
 /**
  * Created by Ben_Big on 3/24/16.
  */
+'use strict';
 (function (){
     angular.module("ShopApp")
         .factory("UserService", UserService);
