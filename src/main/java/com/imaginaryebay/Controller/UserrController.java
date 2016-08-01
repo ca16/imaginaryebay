@@ -22,8 +22,8 @@ public interface UserrController {
     @RequestMapping (value="/new", method = RequestMethod.POST)
     public ResponseEntity<Void> createNewUserr(@RequestBody  Userr userr);
 
-    @RequestMapping (value="/getName/{id}", method = RequestMethod.GET)
-    public ResponseEntity<String> getUserNameByID(@PathVariable("id") Long id);
+    @RequestMapping (value="/getName/{id}", method = RequestMethod.GET, produces="application/json")
+    public ResponseEntity<List<String>> getUserNameByID(@PathVariable("id") Long id);
 
 
     @RequestMapping (value="/{id}", method = RequestMethod.GET)

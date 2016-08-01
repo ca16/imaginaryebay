@@ -40,8 +40,8 @@ public class UserrControllerImpl implements UserrController {
 
 
     @Override
-    public ResponseEntity<String> getUserNameByID(Long id){
-        return new ResponseEntity<String>(userrRepository.getUserNameByID(id),HttpStatus.OK);
+    public ResponseEntity<List<String>> getUserNameByID(Long id){
+        return new ResponseEntity<List<String>>(userrRepository.getUserNameByID(id),HttpStatus.OK);
     }
 
     @Override

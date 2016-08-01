@@ -15,7 +15,7 @@ public interface UserrDao {
 
     public void persist (Userr userr);
 
-    public String getUserNameByID(Long id);
+    public List<String> getUserNameByID(Long id);
 
     public Userr getUserrByID (Long id);
 
