@@ -54,6 +54,18 @@ public class UserrRepositoryImpl implements UserrRepository {
 	}
 
 
+	public String getUserNameByID(Long id){
+		String name=userrDao.getUserNameByID(id);
+		if (name!=null){
+			return name;
+		}
+		else{
+			throw new RestException(NOT_AVAILABLE, "User with ID "+ id + " does not exist.", HttpStatus.OK);
+		}
+	}
+
+
+
 	public Userr getUserrByID (Long id) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();

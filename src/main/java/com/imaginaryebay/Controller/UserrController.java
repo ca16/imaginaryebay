@@ -22,6 +22,9 @@ public interface UserrController {
     @RequestMapping (value="/new", method = RequestMethod.POST)
     public ResponseEntity<Void> createNewUserr(@RequestBody  Userr userr);
 
+    @RequestMapping (value="/getName/{id}", method = RequestMethod.GET)
+    public ResponseEntity<String> getUserNameByID(@PathVariable("id") Long id);
+
 
     @RequestMapping (value="/{id}", method = RequestMethod.GET)
     public ResponseEntity<Userr> getUserrByID(@PathVariable("id") Long id);
