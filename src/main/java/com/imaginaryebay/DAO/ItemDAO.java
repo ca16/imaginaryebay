@@ -23,6 +23,20 @@ public interface ItemDAO {
 
     public Item findByID(Long id);
 
+    public Item updateItemByID(Long id, Item item);
+
+    public List<Category> findSellerCategories(Long ownerId);
+
+    List<ItemPicture> findAllItemPicturesForItemID(Long id);
+
+    List<ItemPicture> findAllItemPictureURLsForItemID(Long id);
+
+
+    //////////////////////////////////////
+    // Item Properties ///////////////////
+    //////////////////////////////////////
+    // do we need all these?
+
     public Double findPriceByID(Long id);
 
     public Category findCategoryByID(Long id);
@@ -36,14 +50,6 @@ public interface ItemDAO {
     public String findNameByID(Long id);
 
     public Double findHighestBidByID(Long id);
-
-    public Item updateItemByID(Long id, Item item);
-
-    public List<Category> findSellerCategories(Long ownerId);
-
-    List<ItemPicture> findAllItemPicturesForItemID(Long id);
-
-    List<ItemPicture> findAllItemPictureURLsForItemID(Long id);
 
     //////////////////////////////////////
     // Item Searches /////////////////////

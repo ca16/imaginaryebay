@@ -150,7 +150,6 @@ public class ItemDAOImpl implements ItemDAO{
 
     }
 
-
     @Override
     public List<Item> findAllItemsByCategory(Category category){
         return byCategory(category).getResultList();

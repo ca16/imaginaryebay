@@ -24,6 +24,21 @@ public interface ItemRepository {
 
     public Item findByID(Long id);
 
+    public Item updateItemByID(Long id, Item item);
+
+    public List<Category> findSellerCategories(Long ownerId);
+
+    public List<ItemPicture> findAllItemPicturesForItem(Long id, String urlOnly);
+
+    public ItemPicture createItemPictureForItem(Long id, MultipartFile file);
+
+    public String createItemPicturesForItem(Long id, MultipartFile[] files);
+
+    //////////////////////////////////////
+    // Item Properties ///////////////////
+    //////////////////////////////////////
+    // do we need all these?
+
     public Double findPriceByID(Long id);
 
     public Category findCategoryByID(Long id);
@@ -37,16 +52,6 @@ public interface ItemRepository {
     public Double findHighestBidByID(Long id);
 
     public String findDescriptionByID(Long id);
-
-    public Item updateItemByID(Long id, Item item);
-
-    public List<Category> findSellerCategories(Long ownerId);
-
-    public List<ItemPicture> findAllItemPicturesForItem(Long id, String urlOnly);
-
-    public ItemPicture createItemPictureForItem(Long id, MultipartFile file);
-
-    public String createItemPicturesForItem(Long id, MultipartFile[] files);
 
     //////////////////////////////////////
     // Item Searches /////////////////////
