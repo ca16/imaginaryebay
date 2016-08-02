@@ -16,4 +16,13 @@ public interface FrontPageController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getFirstPage();
+
+
+    @RequestMapping(value="/app/login" , method=RequestMethod.GET)
+    public ModelAndView getLoginPage();
+
+    @RequestMapping(value="/app/shop/{id}", method=RequestMethod.GET)
+    public ModelAndView getShopPage();
+
+
 }

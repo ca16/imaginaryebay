@@ -15,4 +15,17 @@ public class FrontPageControllerImpl implements FrontPageController {
         return model;
     }
 
+
+    @Override
+    public ModelAndView getLoginPage(){
+        ModelAndView model= new ModelAndView("/WEB-INF/index.jsp");
+        return model;
+    }
+
+    @Override
+    public ModelAndView getShopPage(){
+        ModelAndView model= new ModelAndView("/WEB-INF/index.jsp");
+        return model;
+    }
+
 }
