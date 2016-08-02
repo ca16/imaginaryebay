@@ -83,4 +83,10 @@ public class ModelConfiguration {
         FrontPageController bean=new FrontPageControllerImpl();
         return bean;
     }
+
+    @Bean
+    public FeedbackController feedbackController(){
+        FeedbackController bean = new FeedbackControllerImpl();
+        return bean;
+    }
 }
