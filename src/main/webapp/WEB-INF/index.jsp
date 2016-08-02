@@ -19,12 +19,14 @@
     <!-- Bootstrap Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-
     <!-- Angular JS-->
     <script src="<c:url value="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"/>"></script>
 
     <!-- ng Route-->
     <script src="<c:url value="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.js" />"> </script>
+
+    <%--Disqus directive--%>
+    <script src="<c:url value="/resources/js/dirDisqus.js"/>"></script>
 
     <%--ui-bootstrap for Angular--%>
     <script src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.0.0/ui-bootstrap-tpls.min.js"/>"></script>
