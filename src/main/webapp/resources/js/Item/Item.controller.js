@@ -10,6 +10,12 @@ function itemController($scope, $routeParams, $http){
     var itemId = $routeParams.itemId;
     var itemCollectionUrl = "/item/";
 
+    $scope.disqusConfig = {
+        disqus_shortname: 'guarded-journey-11719-herokuapp-com',
+        disqus_identifier: 'auction-item' + itemId,
+        disqus_url: 'localhost:8080/app/item/' + itemId
+    };
+
     $scope.noWrapSlides = false;
     $scope.active = 0;
 

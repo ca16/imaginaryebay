@@ -50,6 +50,8 @@
     <script src="<c:url value="/resources/js/ItemChanges/Itemupdate.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Admin/Admin.controller.js"/>"></script>
 
+    <base href="/">
+
 </head>
 <body>
 

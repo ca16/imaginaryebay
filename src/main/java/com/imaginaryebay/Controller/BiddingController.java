@@ -1,8 +1,6 @@
 package com.imaginaryebay.Controller;
 
 import com.imaginaryebay.Models.Bidding;
-import com.imaginaryebay.Models.Item;
-import com.imaginaryebay.Models.Userr;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/bidding")
-
 public interface BiddingController {
 
     @RequestMapping (value="/userID/{userID}/itemID/{itemID}/price/{price}", method = RequestMethod.POST)

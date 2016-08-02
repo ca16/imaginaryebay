@@ -2,7 +2,10 @@ package com.imaginaryebay.Configuration;
 
 import com.imaginaryebay.Controller.*;
 import com.imaginaryebay.DAO.*;
-import com.imaginaryebay.Repository.*;
+import com.imaginaryebay.Repository.ItemRepository;
+import com.imaginaryebay.Repository.ItemRepositoryImpl;
+import com.imaginaryebay.Repository.MessageRepository;
+import com.imaginaryebay.Repository.MessageRepositoryImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -81,6 +84,18 @@ public class ModelConfiguration {
     @Bean
     public FrontPageController frontPageController(){
         FrontPageController bean=new FrontPageControllerImpl();
+        return bean;
+    }
+
+//    @Bean FeedbackRepository feedbackRepository(){
+//        FeedbackRepository bean = new FeedbackRepositoryImpl();
+//        return bean;
+//    }
+//
+//TODO: Keeps saying that setFeedbackRepository is not found? Why?
+    @Bean
+    public FeedbackController feedbackController(){
+        FeedbackController bean = new FeedbackControllerImpl();
         return bean;
     }
 }
