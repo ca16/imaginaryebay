@@ -549,7 +549,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         try {
             cat = Category.valueOf(category);
         } catch (IllegalArgumentException exc) {
-            throw new RestException(INVALID_PARAMETER, validCategories(), HttpStatus.BAD_REQUEST);
+            throw new RestException(INVALID_PARAMETER, category + " is not a valid Category name. " + validCategories(), HttpStatus.BAD_REQUEST);
         }
         return cat;
     }
