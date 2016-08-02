@@ -6,7 +6,7 @@
     angular.module("ShopApp").controller("shopController",shopController);
 })()
 
-function shopController($scope, $http,$routeParams,$location){
+function shopController($scope, $http,$routeParams,$location, UserService){
     this.numOfItemsOnEachPage=6;
     this.sellerID="sellerID="+$routeParams.sellerID;
     $scope.sellerID=$routeParams.sellerID;
@@ -38,5 +38,7 @@ function shopController($scope, $http,$routeParams,$location){
             $scope.categories = res.data;
         }
     )
+
+
 
 }
