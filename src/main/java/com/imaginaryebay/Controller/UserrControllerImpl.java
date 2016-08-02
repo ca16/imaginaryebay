@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,10 +34,14 @@ public class UserrControllerImpl implements UserrController {
 
     @Override
     public ResponseEntity<Void> createNewUserr(Userr userr){
-        //ToDo: should have a mechanism here to check if the user exists or not
-        // Done in repository part
         userrRepository.createNewUserr(userr);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @Override
+    public ResponseEntity<List<String>> getUserNameByID(Long id){
+        return new ResponseEntity<List<String>>(userrRepository.getUserNameByID(id),HttpStatus.OK);
     }
 
     @Override
@@ -71,4 +76,10 @@ public class UserrControllerImpl implements UserrController {
     public ResponseEntity<List<Item>> getItemsSoldByThisUser(Long id){
         return new ResponseEntity<>(userrRepository.getItemsSoldByThisUser(id), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<Userr> lockout(Long id, Boolean state){
+        return new ResponseEntity<>(userrRepository.lockout(id, state), HttpStatus.OK);
+    }
+
 }

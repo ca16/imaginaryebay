@@ -5,6 +5,7 @@ import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
 import com.imaginaryebay.Models.Userr;
 import com.imaginaryebay.Repository.ItemRepository;
+import com.sun.mail.iap.Response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -98,6 +99,9 @@ public interface ItemController {
     @RequestMapping(value="/category/{id}", method= RequestMethod.GET)
     public ResponseEntity<Category> getCategoryByID(@PathVariable("id") Long id);
 
+    @RequestMapping(value="/sellercategories/{id}", method= RequestMethod.GET)
+    public ResponseEntity<List<Category>> getSellerCategoriesByID(@PathVariable("id") Long id);
+
     /**
      * @param id the item's ID
      * @return the description of the item with the given ID
@@ -130,17 +134,26 @@ public interface ItemController {
     public ResponseEntity<Item> updateItemByID(@PathVariable("id") Long id, @RequestBody Item item);
 
     /**
-     * Returns a list of all items if no category is specified. If category is specified
-     * returns a list of all items of that category.
+     * Returns a list of all items if no category or name is specified.
+     * If only category is specified returns a list of all items of that category.
+     * If only name is specified returns a list of all items whose name or category matches or partially matches the given name.
+     * If both are specific, returns a list of items whose name or category matches or partially matches the given name, and whose
+     * category is the given category
      * @param cat the category of items we want a list for
+     * @param name the name of the item or its category
      * @return the list of items that fits the input
      *
      * Example:
      * curl -X GET localhost:8080/item
      * curl -X GET localhost:8080/item?cat=Clothes
+     * curl -X GET localhost:8080/item?name=card
+     * curl -X GET "localhost:8080/item?cat=Clothes&name=card"
+     * curl -X GET localhost:8080/item?sellerID=2
+     * curl -X GET "localhost:8080/item?cat=Clothes&sellerID=2"
+     * (with two parameters, make sure the  " " are there if you're using curl)
      */
     @RequestMapping(method= RequestMethod.GET)
-    public ResponseEntity<List<Item>> getAllItems(@RequestParam(value = "cat", required = false) String cat);
+    public ResponseEntity<List<Item>> getAllItems(@RequestParam(value = "cat", required = false) String cat, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "sellerID", required = false) Long sellerID);
 
     /**
      *
@@ -173,9 +186,33 @@ public interface ItemController {
                                                            @RequestParam("file") MultipartFile file);
 
 
-
+    /*
+     * Example:
+     * curl -X GET localhost:8080/item/page/1/size/2
+     * curl -X GET localhost:8080/item/page/1/size/3?cat=Clothes
+     * curl -X GET localhost:8080/item/page/2/size/10?name=card
+     * curl -X GET "localhost:8080/item/page/2/size/2?cat=Clothes&name=card"
+     * curl -X GET localhost:8080/item/page/1/size/4?sellerID=2
+     * curl -X GET "localhost:8080/item/page/2/size/1?cat=Clothes&sellerID=2"
+     */
     @RequestMapping(value="/page/{page}/size/{size}",method= RequestMethod.GET)
-    public ResponseEntity<List<Item>> findItemsBasedOnPage(@PathVariable("page") int pageNum, @PathVariable("size") int pageSize);
+    public ResponseEntity<List<Item>> findItemsBasedOnPage(@PathVariable("page") int pageNum, @PathVariable("size") int pageSize, @RequestParam(value = "cat", required = false) String cat, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "sellerID", required = false) Long sellerID);
+
+    /*
+     * curl -X GET localhost:8080/item/count
+     * curl -X GET localhost:8080/item/count?cat=Clothes
+     * curl -X GET localhost:8080/item/count?name=card
+     * curl -X GET "localhost:8080/item/count?cat=Clothes&name=card"
+     * curl -X GET localhost:8080/item/count?sellerID=2
+     * curl -X GET "localhost:8080/item/count?cat=Clothes&sellerID=2"
+     */
+    @RequestMapping(value="/count",method= RequestMethod.GET)
+    public ResponseEntity<Integer> findItemsWithCount(@RequestParam(value = "cat", required = false) String cat, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "sellerID", required = false) Long sellerID);
+
+
+    @RequestMapping(value="/totalCount",method = RequestMethod.GET)
+    public ResponseEntity<Long> findTotalNumOfItems();
+
 
 }
 

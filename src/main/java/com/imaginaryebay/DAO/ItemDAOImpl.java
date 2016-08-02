@@ -9,6 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -147,4 +149,72 @@ public class ItemDAOImpl implements ItemDAO{
         List<Item> itemList=query.getResultList();
         return itemList;
     }
+
+    @Override
+    public Long findTotalNumOfItems(){
+        String queryString="select count(i) from Item i";
+        Query query=entityManager.createQuery(queryString);
+        List<Long> result=query.getResultList();
+        return result.get(0);
+    }
+
+    public List<Item> findItemsByName(String name){
+        String match = "%" + name.toLowerCase() + "%";
+        Query query = entityManager.createQuery(
+                "select i from Item i where lower(i.name) like ?1 or i.category like ?1 and i.endtime > ?2 order by i.endtime desc");
+        Query query2 = query.setParameter(1, match);
+        Timestamp currentTime = new Timestamp((new java.util.Date()).getTime());
+        query2.setParameter(2, currentTime);
+        return query2.getResultList();
+
+    }
+
+
+    public List<Item> findItemsByCategoryAndName(Category cat, String name){
+        List<Item> byName = findItemsByName(name);
+        List<Item> toRet = new ArrayList<>();
+        for (Item item : byName){
+            if ((item.getCategory() != null) && item.getCategory().equals(cat)){
+                toRet.add(item);
+            }
+        }
+        return toRet;
+    }
+
+    @Override
+    public List<Item> findItemsBySeller(Long id){
+        Query query = entityManager.createQuery(
+                "select i from Item i where i.userr.id = ?1 and i.endtime > ?2 order by i.endtime desc");
+        Query query2 = query.setParameter(1, id);
+        Timestamp currentTime = new Timestamp((new java.util.Date()).getTime());
+        query2.setParameter(2, currentTime);
+        return query2.getResultList();
+    }
+
+    @Override
+    public List<Item> findItemsByCategoryAndSeller(Category cat, Long ownerId){
+        List<Item> byName = findItemsBySeller(ownerId);
+        List<Item> toRet = new ArrayList<>();
+        for (Item item : byName){
+            if ((item.getCategory() != null) && item.getCategory().equals(cat)){
+                toRet.add(item);
+            }
+        }
+        return toRet;
+
+    }
+
+    @Override
+    public List<Category> findSellerCategories(Long ownerId){
+        List<Category> toRet = new ArrayList<>();
+        for (Item item : findItemsBySeller(ownerId)){
+            if (!toRet.contains(item.getCategory()) && (null != item.getCategory())){
+                toRet.add(item.getCategory());
+            }
+        }
+        return toRet;
+    }
+
+
+
 }

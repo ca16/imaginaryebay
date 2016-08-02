@@ -48,4 +48,17 @@ public interface ItemDAO {
     List<ItemPicture> findAllItemPictureURLsForItemID(Long id);
 
     public List<Item> findItemsBasedOnPage(int pageNum, int pageSize);
+
+    public Long findTotalNumOfItems();
+
+    public List<Item> findItemsByName(String name);
+
+    public List<Item> findItemsByCategoryAndName(Category cat, String name);
+
+    public List<Item> findItemsBySeller(Long id);
+
+    public List<Item> findItemsByCategoryAndSeller(Category cat, Long ownerId);
+
+    public List<Category> findSellerCategories(Long ownerId);
+
 }

@@ -25,4 +25,5 @@ public interface FrontPageController {
 
     @RequestMapping(value="/app/item/{id}", method=RequestMethod.GET)
     public ModelAndView getItemPage();
+
 }

@@ -11,6 +11,8 @@ public interface UserrRepository {
 
     public void createNewUserr(Userr userr);
 
+    public List<String> getUserNameByID(Long id);
+
     public Userr getUserrByID(Long id);
 
     public Userr getUserrByEmail(String email);
@@ -22,5 +24,7 @@ public interface UserrRepository {
     public Userr updateUserrByID(Long id, Userr u);
 
     public List<Item> getItemsSoldByThisUser(Long id);
+
+    public Userr lockout(Long id, Boolean state);
 
 }

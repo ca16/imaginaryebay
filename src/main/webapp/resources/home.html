@@ -1,7 +1,7 @@
 <div ng-include src=" './resources/Navigation.html' "></div>
 
 <!-- Page Content -->
-<div class="container" ng-controller="homeController">
+<div class="container" ng-controller="homeController as hc">
 
     <!-- Custom CSS -->
     <link href="./resources/css/heroic-features.css" rel="stylesheet">
@@ -29,8 +29,10 @@
     </div>
     <!-- /.row -->
 
-    <!-- Page Features -->
-    <div  class="row text-center">
+
+    <div class="container" ng-controller="displayController", ng-init="init(hc.numOfItemsOnEachPage, hc.totalUrl, hc.itemUrl, hc.picUrl, hc.dumbParameter)">
+        <!-- Page Features -->
+        <div  class="row text-center">
 
         <div ng-repeat="merchandise in goods" class="col-md-3 col-sm-6 hero-feature">
             <div class="thumbnail">
@@ -45,9 +47,9 @@
             </div>
         </div>
     </div>
-    <!-- /.row -->
-    <!-- Pagination -->
-    <div class="row text-center" >
+        <!-- /.row -->
+        <!-- Pagination -->
+        <div class="row text-center" >
         <div class="col-lg-12">
             <ul  class="pagination">
                 <li>
@@ -64,7 +66,8 @@
             </ul>
         </div>
     </div>
-    <!-- /.row -->
+        <!-- /.row -->
+    </div>
 
     <hr>
 
@@ -73,7 +76,7 @@
     <footer>
         <div class="row">
             <div class="col-lg-12">
-                <p>Copyright &copy; Your Website 2014</p>
+                <p>Copyright &copy; Imaginary Ebay 2016</p>
             </div>
         </div>
     </footer>

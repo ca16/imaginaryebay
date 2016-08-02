@@ -142,8 +142,11 @@ public class ItemEndpointsTest {
 
         try {
             template.postForEntity("http://localhost:8080/item/1/picture", null, List.class);
-        } catch (HttpServerErrorException exc) {
-            assertEquals(exc.getStatusCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception exc) {
+            if (exc.getClass() == HttpClientErrorException.class) {
+                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
+                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
+            }
         }
     }
 

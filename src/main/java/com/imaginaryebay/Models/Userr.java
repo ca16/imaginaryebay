@@ -41,6 +41,8 @@ public class Userr implements Serializable{
     @Column(nullable = true)
     private String address;
 
+    private Boolean nonLocked;
+
 
     protected Userr(){}
 
@@ -50,6 +52,7 @@ public class Userr implements Serializable{
         this.name = name;
         this.password = password;
         this.isAdmin = false;
+        this.nonLocked = true;
     }
 
     public Userr(String email, String name, String password, Boolean isAdmin) {
@@ -57,6 +60,7 @@ public class Userr implements Serializable{
         this.name = name;
         this.password = password;
         this.isAdmin = isAdmin;
+        this.nonLocked = true;
     }
 
 
@@ -109,4 +113,9 @@ public class Userr implements Serializable{
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public Boolean getNonLocked(){ return nonLocked; }
+
+    public void setNonLocked(Boolean lock){ nonLocked = lock; }
+
 }

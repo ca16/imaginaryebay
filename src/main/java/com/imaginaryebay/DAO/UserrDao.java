@@ -15,7 +15,9 @@ public interface UserrDao {
 
     public void persist (Userr userr);
 
-    public Userr getUserrByID (long id);
+    public List<String> getUserNameByID(Long id);
+
+    public Userr getUserrByID (Long id);
 
     public Userr getUserrByEmail(String email);
 
@@ -23,7 +25,10 @@ public interface UserrDao {
 
     public List<Userr> getUserrByName(String name);
 
-    public void updateUserrByID(long id,Userr u);
+    public void updateUserrByID(Long id,Userr u);
 
     public List<Item> getItemsSoldByThisUser(Long id);
+
+    public Userr lockout(Long id, Boolean state);
+
 }

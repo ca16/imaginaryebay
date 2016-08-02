@@ -6,10 +6,12 @@ import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
 import com.imaginaryebay.Models.Userr;
 import com.imaginaryebay.Repository.ItemRepository;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
@@ -22,77 +24,96 @@ import java.util.List;
 public class ItemControllerImpl implements ItemController {
 
     private ItemRepository itemRepository;
-    public void setItemRepository(ItemRepository itemRepository){
-        this.itemRepository=itemRepository;
+
+    public void setItemRepository(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
     }
 
     private ItemPictureDAO itemPictureDAO;
-    public void setItemPictureDAO(ItemPictureDAO itemPictureDAO){
-        this.itemPictureDAO=itemPictureDAO;
+
+    public void setItemPictureDAO(ItemPictureDAO itemPictureDAO) {
+        this.itemPictureDAO = itemPictureDAO;
     }
 
     @Override
     public ResponseEntity<Item> save(Item item) {
-        //this.itemRepository.save(item);
         return new ResponseEntity<>(this.itemRepository.save(item), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Item> getItemByID(Long id){
+    public ResponseEntity<Item> getItemByID(Long id) {
         return new ResponseEntity(this.itemRepository.findByID(id), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Double> getPriceByID(Long id){
+    public ResponseEntity<Double> getPriceByID(Long id) {
         return new ResponseEntity(this.itemRepository.findPriceByID(id), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Userr> getOwnerByID(Long id){
+    public ResponseEntity<Userr> getOwnerByID(Long id) {
         return new ResponseEntity(this.itemRepository.findOwnerByID(id), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<String> getNameByID(Long id){
+    public ResponseEntity<String> getNameByID(Long id) {
         return new ResponseEntity(this.itemRepository.findNameByID(id), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Double> getHighestBidByID(Long id){
+    public ResponseEntity<Double> getHighestBidByID(Long id) {
         return new ResponseEntity(this.itemRepository.findHighestBidByID(id), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Category> getCategoryByID(Long id){
+    public ResponseEntity<Category> getCategoryByID(Long id) {
         return new ResponseEntity(this.itemRepository.findCategoryByID(id), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<String> getDescriptionByID(Long id){
+    public ResponseEntity<String> getDescriptionByID(Long id) {
         return new ResponseEntity(this.itemRepository.findDescriptionByID(id), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Timestamp> getEndtimeByID(Long id){
+    public ResponseEntity<Timestamp> getEndtimeByID(Long id) {
         return new ResponseEntity(this.itemRepository.findEndtimeByID(id), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Item> updateItemByID(Long id, Item item){
+    public ResponseEntity<Item> updateItemByID(Long id, Item item) {
         return new ResponseEntity(this.itemRepository.updateItemByID(id, item), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<Item>> getAllItems(String cat){
-        if (null != cat){
+    public ResponseEntity<List<Item>> getAllItems(String cat, String name, Long sellerID) {
+        if ((null != cat) && (null != sellerID)) {
+            return new ResponseEntity<>(this.itemRepository.findItemsByCategoryAndSeller(cat, sellerID), HttpStatus.OK);
+        }
+        if ((null != cat) && (null != name)) {
+            return new ResponseEntity(this.itemRepository.findItemsByCategoryAndName(cat, name), HttpStatus.OK);
+        }
+        if (null != sellerID) {
+            return new ResponseEntity(this.itemRepository.findItemsBySeller(sellerID), HttpStatus.OK);
+        }
+        if (null != cat) {
             return new ResponseEntity(this.itemRepository.findAllItemsByCategory(cat), HttpStatus.OK);
         }
-        return new ResponseEntity(this.itemRepository.findAllItems(), HttpStatus.OK);
+        if (null != name) {
+            return new ResponseEntity(this.itemRepository.findItemsByName(name), HttpStatus.OK);
+        }
+
+        if ((null == cat) && (null == name) && (null == sellerID)){
+            return new ResponseEntity(this.itemRepository.findAllItems(), HttpStatus.OK);
+        }
+        else {
+            throw new RestException("Argument combination unavailable.", "Invalid argument combinations include: cat, sellerID and name,and sellerID and name.", HttpStatus.OK);
+        }
     }
 
     public ResponseEntity<List<ItemPicture>> getAllItemPicturesForItem(Long id, String urlOnly) {
         return new ResponseEntity<>(itemRepository.findAllItemPicturesForItem(id, urlOnly),
-                                    HttpStatus.OK);
+                HttpStatus.OK);
     }
 
 //    public ResponseEntity<String> createItemPicturesForItem(Long id, MultipartFile[] files){
@@ -100,13 +121,74 @@ public class ItemControllerImpl implements ItemController {
 //                                    HttpStatus.OK);
 //    }
 
-    public ResponseEntity<ItemPicture> createItemPictureForItem(Long id, MultipartFile file){
+    public ResponseEntity<ItemPicture> createItemPictureForItem(Long id, MultipartFile file) {
         return new ResponseEntity<ItemPicture>(itemRepository.createItemPictureForItem(id, file), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Item>> findItemsBasedOnPage(int pageNum,  int pageSize){
-        return new ResponseEntity<List<Item>>(this.itemRepository.findItemsBasedOnPage(pageNum,pageSize),HttpStatus.OK);
+    public ResponseEntity<List<Item>> findItemsBasedOnPage(int pageNum, int pageSize, String cat, String name, Long sellerID) {
+        if ((null != cat) && (null != sellerID)) {
+            return new ResponseEntity<>(this.itemRepository.findItemsByCategoryAndSellerBasedOnPage(cat, sellerID, pageNum, pageSize), HttpStatus.OK);
+        }
+        if ((null != cat) && (null != name)) {
+            return new ResponseEntity(this.itemRepository.findItemsByNameAndCategoryBasedOnPage(cat, name, pageNum, pageSize), HttpStatus.OK);
+        }
+        if (null != sellerID) {
+            return new ResponseEntity(this.itemRepository.findItemsBySellerBasedOnPage(sellerID, pageNum, pageSize), HttpStatus.OK);
+        }
+        if (null != cat) {
+            return new ResponseEntity(this.itemRepository.findItemsByCategoryBasedOnPage(cat, pageNum, pageSize), HttpStatus.OK);
+        }
+        if (null != name) {
+            return new ResponseEntity(this.itemRepository.findItemsByNameBasedOnPage(name, pageNum, pageSize), HttpStatus.OK);
+        }
+        if ((null == cat) && (null == name) && (null == sellerID)){
+            return new ResponseEntity<List<Item>>(this.itemRepository.findItemsBasedOnPage(pageNum, pageSize), HttpStatus.OK);
+        }
+        else {
+            throw new RestException("Argument combination unavailable.", "Invalid argument combinations include: cat, sellerID and name,and sellerID and name.", HttpStatus.OK);
+        }
+
     }
 
+    public ResponseEntity<List<Category>> getSellerCategoriesByID(@PathVariable("id") Long id) {
+        return new ResponseEntity<List<Category>>(this.itemRepository.findSellerCategories(id), HttpStatus.OK);
+    }
 
+//    public ResponseEntity<List<Item>> findItemsByCategoryBasedOnPage(String cat, int pageNum, int pageSize) {
+//        return new ResponseEntity<>(this.itemRepository.findItemsByCategoryBasedOnPage(cat, pageNum, pageSize), HttpStatus.OK);
+//    }
+//
+//    public ResponseEntity<List<Item>> findItemsByCategoryAndSellerBasedOnPage(String cat, Long sellerID, int pageNum, int pageSize){
+//        return new ResponseEntity<>(this.itemRepository.findItemsByCategoryAndSellerBasedOnPage(cat, sellerID, pageNum, pageSize), HttpStatus.OK);
+//    }
+
+
+    public ResponseEntity<Integer> findItemsWithCount(String cat, String name, Long sellerID) {
+        if ((null != cat) && (null != sellerID)) {
+            return new ResponseEntity<>(this.getAllItems(cat, null, sellerID).getBody().size(), HttpStatus.OK);
+        }
+        if ((null != cat) && (null != name)) {
+            return new ResponseEntity<>(this.getAllItems(cat, name, null).getBody().size(), HttpStatus.OK);
+        }
+        if (null != sellerID) {
+            return new ResponseEntity<>(this.getAllItems(null, null, sellerID).getBody().size(), HttpStatus.OK);
+        }
+        if (null != cat) {
+            return new ResponseEntity<>(this.getAllItems(cat, null, null).getBody().size(), HttpStatus.OK);
+        }
+        if (null != name) {
+            return new ResponseEntity<>(this.getAllItems(null, name, null).getBody().size(), HttpStatus.OK);
+        }
+
+        if ((null == cat) && (null == name) && (null == sellerID)){
+            return new ResponseEntity(getAllItems(null, null, null).getBody().size(), HttpStatus.OK);
+        }
+        else {
+            throw new RestException("Argument combination unavailable.", "Invalid argument combinations include: cat, sellerID and name,and sellerID and name.", HttpStatus.OK);
+        }
+    }
+
+    public ResponseEntity<Long> findTotalNumOfItems(){
+        return new ResponseEntity<Long>(this.itemRepository.findTotalNumOfItems(),HttpStatus.OK);
+    }
 }
