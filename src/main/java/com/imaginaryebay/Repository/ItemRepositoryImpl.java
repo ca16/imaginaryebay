@@ -538,6 +538,12 @@ public class ItemRepositoryImpl implements ItemRepository {
         return toRet + ".";
     }
 
+    /**
+     * given a category name as a string, returns the Category it refers to
+     * throws an exception when given an invalid category name
+     * @param category a category name
+     * @return the corresponding Category
+     */
     private Category categoryValidation(String category){
         Category cat;
         try {
@@ -548,6 +554,10 @@ public class ItemRepositoryImpl implements ItemRepository {
         return cat;
     }
 
+    /**
+     * throws an exception if the given ID does not correspond to a user
+     * @param sellerID a user's ID
+     */
     private void sellerValidation(Long sellerID){
         if (userrDao.getUserrByID(sellerID) == null){
             throw new RestException(NOT_AVAILABLE,
