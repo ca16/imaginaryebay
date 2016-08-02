@@ -10,19 +10,24 @@ import java.util.List;
  */
 public interface BiddingDAO {
 
-    public void persist (Bidding bidding);
+    public void persist(Bidding bidding);
 
     public Bidding getBiddingByID(Long id);
 
-    public List<Bidding> getBiddingByUserrID (Long id);
+    public List<Bidding> getBiddingByUserrID(Long id);
 
-    public List<Bidding> getBiddingByItem (Item item);
+    public List<Bidding> getBiddingByItem(Item item);
 
-    public List<Bidding> getBiddingByItemID (Long id);
+    public List<Bidding> getBiddingByItemID(Long id);
 
-    public Bidding getHighestBiddingForItem (Long id);
+    public Bidding getHighestBiddingForItem(Long id);
 
     public List<Item> getActiveBidItemsByBidder(Long bidderId);
 
     public List<Item> getSuccessfulBidItemsByBidder(Long bidderId);
+
+    public List<Item> getActiveBidItemsByBidderByPage(Long bidderId, int pageNum, int pageSize);
+
+    public List<Item> getSuccessfulBidItemsByBidderByPage(Long bidderId, int pageNum, int pageSize);
+
 }

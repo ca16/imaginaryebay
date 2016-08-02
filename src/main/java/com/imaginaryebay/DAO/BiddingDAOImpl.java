@@ -90,36 +90,51 @@ public class BiddingDAOImpl implements  BiddingDAO{
 
     @Override
     public List<Item> getActiveBidItemsByBidder(Long bidderId) {
-        Query query = entityManager.createQuery("select b from Bidding b where b.item.endtime > ?1 and b.userr.id = ?2 order by b.item.endtime desc");
-        Timestamp currentTime = new Timestamp((new java.util.Date()).getTime());
-        Query query2 = query.setParameter(1, currentTime);
-        query2.setParameter(2, bidderId);
-        List<Bidding> biddingList = query2.getResultList();
-        List<Item> toRet = new ArrayList<>();
-        for (Bidding bid: biddingList){
-            toRet.add(bid.getItem());
-        }
-
-        return toRet;
+        return byActiveness(bidderId).getResultList();
 
     }
 
     @Override
     public List<Item> getSuccessfulBidItemsByBidder(Long bidderId) {
-        Query query = entityManager.createQuery("select b from Bidding b where b.item.endtime < ?1 and b.userr.id = ?2 order by b.item.endtime desc");
+        return bySuccess(bidderId).getResultList();
+
+    }
+
+    @Override
+    public List<Item> getActiveBidItemsByBidderByPage(Long bidderId, int pageNum, int pageSize) {
+        return paginationHelper(byActiveness(bidderId), pageNum, pageSize);
+
+    }
+
+    @Override
+    public List<Item> getSuccessfulBidItemsByBidderByPage(Long bidderId, int pageNum, int pageSize) {
+        return paginationHelper(bySuccess(bidderId), pageNum, pageSize);
+
+    }
+
+    private Query bySuccess(Long bidderId){
+        Query query = entityManager.createQuery("select b.item from Bidding b where b.item.endtime < ?1 and b.userr.id = ?2 and b.item.highestBid = b.price order by b.item.endtime desc");
         Timestamp currentTime = new Timestamp((new java.util.Date()).getTime());
         Query query2 = query.setParameter(1, currentTime);
         query2.setParameter(2, bidderId);
-        List<Bidding> closedAuctionsBids = query2.getResultList();
-        List<Item> toRet = new ArrayList<>();
-        for (Bidding bid : closedAuctionsBids){
-            if (bid.getPrice().equals(bid.getItem().getHighestBid())){
-                toRet.add(bid.getItem());
-            }
-        }
-
-        return toRet;
-
+        return query2;
     }
+
+    private Query byActiveness(Long bidderId){
+        Query query = entityManager.createQuery("select b.item from Bidding b where b.item.endtime > ?1 and b.userr.id = ?2 order by b.item.endtime desc");
+        Timestamp currentTime = new Timestamp((new java.util.Date()).getTime());
+        Query query2 = query.setParameter(1, currentTime);
+        query2.setParameter(2, bidderId);
+        return query2;
+    }
+
+    private List<Item> paginationHelper(Query query, int pageNum, int pageSize){
+        query.setFirstResult((pageNum-1)*pageSize);
+        query.setMaxResults(pageSize);
+        List<Item> itemList=query.getResultList();
+        return itemList;
+    }
+
+
 
 }

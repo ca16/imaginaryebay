@@ -218,29 +218,23 @@ public class BiddingRepositoryImpl implements BiddingRepository {
 
     }
 
+    @Override
     public List<Item> getActiveItemsByBidderByPage (Long bidderID, int pageNum, int pageSize) {
-        List<Item> toRet = getActiveBidItemsByBidder(bidderID);
-        return trim(toRet, pageNum, pageSize);
+        Userr user = userrDAO.getUserrByID(bidderID);
+        if (null == user){
+            throw new RestException(NOT_AVAILABLE, "User with id " + bidderID + " does not exist.", HttpStatus.OK);
+        }
+
+        return biddingDAO.getActiveBidItemsByBidderByPage(bidderID, pageNum, pageSize);
     }
 
+    @Override
     public List<Item> getSuccessfulAuctionItemsByBidderByPage (Long bidderID, int pageNum, int pageSize) {
-        List<Item> toRet = getSuccessfulBidItemsByBidder(bidderID);
-        return trim(toRet, pageNum, pageSize);
+        Userr user = userrDAO.getUserrByID(bidderID);
+        if (null == user){
+            throw new RestException(NOT_AVAILABLE, "User with id " + bidderID + " does not exist.", HttpStatus.OK);
+        }
+        return biddingDAO.getSuccessfulBidItemsByBidderByPage(bidderID, pageNum, pageSize);
     }
-
-
-        private List<Item> trim(List<Item> toTrim, int pageNum, int pageSize){
-        if (toTrim.size() >= (pageNum * pageSize)){
-            return toTrim.subList((pageNum-1)*pageSize, ((pageNum)*pageSize));
-        }
-        else if ((toTrim.size() < (pageNum * pageSize)) && (toTrim.size() > ((pageNum-1) * pageSize))){
-            return toTrim.subList((pageNum-1)*pageSize, toTrim.size());
-        }
-
-        else {
-            return new ArrayList<>();
-        }
-    }
-
 
 }
