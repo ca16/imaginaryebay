@@ -39,23 +39,42 @@ public interface ItemDAO {
 
     public Item updateItemByID(Long id, Item item);
 
-    public List<Item> findAllItemsByCategory(Category category);
-
-    public List<Item> findAllItems();
+    public List<Category> findSellerCategories(Long ownerId);
 
     List<ItemPicture> findAllItemPicturesForItemID(Long id);
 
     List<ItemPicture> findAllItemPictureURLsForItemID(Long id);
 
-    public List<Item> findItemsBasedOnPage(int pageNum, int pageSize);
+    //////////////////////////////////////
+    // Item Searches /////////////////////
+    //////////////////////////////////////
 
-    public List<Item> findItemsByName(String name);
+    public List<Item> findAllItems();
 
-    public List<Item> findItemsByCategoryAndName(Category cat, String name);
+    public List<Item> findItemsByKeyword(String keyword);
+
+    public List<Item> findAllItemsByCategory(Category category);
 
     public List<Item> findItemsBySeller(Long id);
 
+    public List<Item> findItemsByCategoryAndKeyword(Category cat, String keyword);
+
     public List<Item> findItemsByCategoryAndSeller(Category cat, Long ownerId);
 
-    public List<Category> findSellerCategories(Long ownerId);
+    //////////////////////////////////////
+    // Searches w Pagination /////////////
+    //////////////////////////////////////
+
+    public List<Item> findItemsBasedOnPage(int pageNum, int pageSize);
+
+    public List<Item> findItemsByKeywordBasedOnPage(String keyword, int pageNum, int pageSize);
+
+    public List<Item> findItemsByCategoryBasedOnPage(Category category, int pageNum, int pageSize);
+
+    public List<Item> findItemsBySellerBasedOnPage(Long id, int pageNum, int pageSize);
+
+    public List<Item> findItemsByCategoryAndSellerBasedOnPage(Category cateogry, Long sellerID, int pageNum, int pageSize);
+
+    public List<Item> findItemsByCategoryAndKeywordBasedOnPage(Category category, String keyword, int pageNum, int pageSize);
+
 }

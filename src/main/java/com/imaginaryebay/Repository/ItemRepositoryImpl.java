@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,9 +64,9 @@ public class ItemRepositoryImpl implements ItemRepository {
             throw new RestException("Invalid price", "Price must be greater than 0.", HttpStatus.BAD_REQUEST);
         }
 
-        // name is required
+        // keyword is required
         if (null == item.getName()) {
-            throw new RestException("No name.", "Name " + REQUIRED, HttpStatus.BAD_REQUEST);
+            throw new RestException("No keyword.", "Name " + REQUIRED, HttpStatus.BAD_REQUEST);
         }
 
         // auction end time is required
@@ -153,7 +152,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     public String findNameByID(Long id) {
         Item item = this.itemDAO.findByID(id);
         if (item != null) {
-            // No check for whether name is null. All items should have an name.
+            // No check for whether keyword is null. All items should have an keyword.
             return itemDAO.findNameByID(id);
         }
 
@@ -258,7 +257,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             throw new RestException(NOT_AVAILABLE, "You can only update items you own.", HttpStatus.FORBIDDEN);
         }
 
-        // name isn't updated if no new name is given
+        // keyword isn't updated if no new keyword is given
         if (null == item.getName()) {
             item.setName(toUpdate.getName());
         }
@@ -296,37 +295,8 @@ public class ItemRepositoryImpl implements ItemRepository {
         return itemDAO.updateItemByID(id, item);
     }
 
-    public List<Item> findAllItemsByCategory(String category) {
-        Category cat;
-
-        // user might enter an invalid category name
-        try {
-            cat = Category.valueOf(category);
-        } catch (IllegalArgumentException exc) {
-            // Should we also give them a list of options?
-            throw new RestException(INVALID_PARAMETER, category + " is not a valid Category name. " + validCategories(), HttpStatus.BAD_REQUEST);
-        }
-
-        List<Item> toRet = this.itemDAO.findAllItemsByCategory(cat);
-        if (!toRet.isEmpty()) {
-            return toRet;
-        }
-
-        // if list is empty, there are no items of the category
-        throw new RestException(NOT_AVAILABLE,
-                "Items of category " + category + " were not found", HttpStatus.OK);
-    }
-
-    public List<Item> findAllItems() {
-        List<Item> toRet = this.itemDAO.findAllItems();
-        if (!toRet.isEmpty()) {
-            return toRet;
-        }
-
-        // if list is empty, there are no items
-        throw new RestException(NOT_AVAILABLE,
-                "There are no items available.", HttpStatus.OK);
-
+    public List<Category> findSellerCategories(Long ownerId){
+        return itemDAO.findSellerCategories(ownerId);
     }
 
     public List<ItemPicture> findAllItemPicturesForItem(Long id, String urlOnly) {
@@ -409,54 +379,129 @@ public class ItemRepositoryImpl implements ItemRepository {
         return newPicture;
     }
 
-    public List<Item> findItemsBasedOnPage(int pageNum, int pageSize) {
-        return itemDAO.findItemsBasedOnPage(pageNum, pageSize);
+    //////////////////////////////////////
+    // Item Searches /////////////////////
+    //////////////////////////////////////
+
+    public List<Item> findAllItems() {
+        List<Item> toRet = this.itemDAO.findAllItems();
+        if (!toRet.isEmpty()) {
+            return toRet;
+        }
+
+        // if list is empty, there are no items
+        throw new RestException(NOT_AVAILABLE,
+                "There are no items available.", HttpStatus.OK);
+
     }
 
-    public List<Item> findItemsByName(String name){
-        List<Item> toRet = itemDAO.findItemsByName(name);
+    public List<Item> findItemsByKeyword(String keyword){
+        List<Item> toRet = itemDAO.findItemsByKeyword(keyword);
         if (!toRet.isEmpty()){
             return toRet;
         }
 
         // if the list is empty, no items that meet the criteria exist
-        // criteria: item name or category name must match or partially match the given name
-        throw new RestException(NOT_AVAILABLE, "Items with name or category similar to " + name + " were not found", HttpStatus.OK);
+        // criteria: item keyword or category keyword must match or partially match the given keyword
+        throw new RestException(NOT_AVAILABLE, "Items with keyword or category similar to " + keyword + " were not found", HttpStatus.OK);
     }
 
-    public List<Item> findItemsByNameBasedOnPage(String name, int pageNum, int pageSize){
-        List<Item> toRet = findItemsByName(name);
-        return trim(toRet, pageNum, pageSize);
 
-    }
+    public List<Item> findAllItemsByCategory(String category) {
+        Category cat = categoryValidation(category);
 
-    public List<Item> findItemsByCategoryAndName(String category, String name){
-        Category cat;
-
-        // the user may have supplied an invalid category name
-        try {
-            cat = Category.valueOf(category);
-        } catch (IllegalArgumentException exc) {
-            // Should we also give them a list of options?
-            throw new RestException(INVALID_PARAMETER, validCategories(), HttpStatus.BAD_REQUEST);
+        List<Item> toRet = this.itemDAO.findAllItemsByCategory(cat);
+        if (!toRet.isEmpty()) {
+            return toRet;
         }
-        List<Item> toRet = this.itemDAO.findItemsByCategoryAndName(cat, name);
+
+        // if list is empty, there are no items of the category
+        throw new RestException(NOT_AVAILABLE,
+                "Items of category " + category + " were not found", HttpStatus.OK);
+    }
+
+    public List<Item> findItemsBySeller(Long id){
+        sellerValidation(id);
+        List<Item> toRet = itemDAO.findItemsBySeller(id);
+        if (toRet == null){
+            throw new RestException(NOT_AVAILABLE,
+                    "User with id " + id + " has no items to sell.", HttpStatus.OK);
+        }
+        return toRet;
+    }
+
+
+    public List<Item> findItemsByCategoryAndKeyword(String category, String keyword){
+        Category cat = categoryValidation(category);
+        List<Item> toRet = this.itemDAO.findItemsByCategoryAndKeyword(cat, keyword);
         if (!toRet.isEmpty()) {
             return toRet;
         }
 
         // if the list is empty, no items that meet the criteria exist
-        // criteria: item name or category name must match or partially match the given name
+        // criteria: item keyword or category keyword must match or partially match the given keyword
         // and the item must be of the given category
         throw new RestException(NOT_AVAILABLE,
-                "Items of category " + category + " and name or category similar to " + name + " were not found", HttpStatus.OK);
+                "Items of category " + category + " and keyword or category similar to " + keyword + " were not found", HttpStatus.OK);
 
     }
 
-    public List<Item> findItemsByNameAndCategoryBasedOnPage(String category, String name, int pageNum, int pageSize){
-        List<Item> toRet = findItemsByCategoryAndName(category, name);
-        return trim(toRet, pageNum, pageSize);
+    public List<Item> findItemsByCategoryAndSeller(String category, Long sellerID){
+        Category cat = categoryValidation(category);
+        sellerValidation(sellerID);
+        List<Item> toRet = this.itemDAO.findItemsByCategoryAndSeller(cat, sellerID);
+        if (!toRet.isEmpty()) {
+            return toRet;
+        }
+
+        // if the list is empty, no items that meet the criteria exist
+        throw new RestException(NOT_AVAILABLE,
+                "Items of category " + category + " and sold by user with id " + sellerID + " were not found", HttpStatus.OK);
+
     }
+
+    //////////////////////////////////////
+    // Searches w Pagination /////////////
+    //////////////////////////////////////
+
+    public List<Item> findItemsBasedOnPage(int pageNum, int pageSize) {
+        return itemDAO.findItemsBasedOnPage(pageNum, pageSize);
+    }
+
+    public List<Item> findItemsByKeywordBasedOnPage(String keyword, int pageNum, int pageSize){
+        List<Item> toRet = itemDAO.findItemsByKeywordBasedOnPage(keyword, pageNum, pageSize);
+        return toRet;
+
+    }
+
+    public List<Item> findItemsByCategoryBasedOnPage(String category, int pageNum, int pageSize){
+        Category cat = categoryValidation(category);
+        List<Item> toRet = this.itemDAO.findItemsByCategoryBasedOnPage(cat, pageNum, pageSize);
+        return toRet;
+    }
+
+    public List<Item> findItemsBySellerBasedOnPage(Long sellerID, int pageNum, int pageSize){
+        sellerValidation(sellerID);
+        List<Item> toRet = this.itemDAO.findItemsBySellerBasedOnPage(sellerID, pageNum, pageSize);
+        return toRet;
+    }
+
+    public List<Item> findItemsByKeywordAndCategoryBasedOnPage(String category, String keyword, int pageNum, int pageSize){
+        Category cat = categoryValidation(category);
+        List<Item> toRet = itemDAO.findItemsByCategoryAndKeywordBasedOnPage(cat, keyword, pageNum, pageSize);
+        return toRet;
+    }
+
+    public List<Item> findItemsByCategoryAndSellerBasedOnPage(String category, Long sellerID, int pageNum, int pageSize){
+        Category cat = categoryValidation(category);
+        sellerValidation(sellerID);
+        List<Item> toRet = this.itemDAO.findItemsByCategoryAndSellerBasedOnPage(cat, sellerID, pageNum, pageSize);
+        return toRet;
+    }
+
+    //////////////////////////////////////
+    // Helpers ///////////////////////////
+    //////////////////////////////////////
 
     /**
      * returns a message telling the user that the item with the given ID wasn't found
@@ -493,76 +538,36 @@ public class ItemRepositoryImpl implements ItemRepository {
         return toRet + ".";
     }
 
-    public List<Item> findItemsBySeller(Long id){
-        if (userrDao.getUserrByID(id) == null){
-            throw new RestException(NOT_AVAILABLE,
-                    "User with id " + id + " does not exist.", HttpStatus.BAD_REQUEST);
-        }
-        List<Item> toRet = itemDAO.findItemsBySeller(id);
-        if (toRet == null){
-            throw new RestException(NOT_AVAILABLE,
-                    "User with id " + id + " has no items to sell.", HttpStatus.OK);
-        }
-        return toRet;
-    }
-
-    public List<Item> findItemsBySellerBasedOnPage(Long id, int pageNum, int pageSize){
-        List<Item> toRet = findItemsBySeller(id);
-        return trim(toRet, pageNum, pageSize);
-    }
-
-    public List<Item> findItemsByCategoryAndSeller(String category, Long ownerId){
+    private Category categoryValidation(String category){
         Category cat;
-
-        // the user may have supplied an invalid category name
         try {
             cat = Category.valueOf(category);
         } catch (IllegalArgumentException exc) {
             // Should we also give them a list of options?
             throw new RestException(INVALID_PARAMETER, validCategories(), HttpStatus.BAD_REQUEST);
         }
-        if (userrDao.getUserrByID(ownerId) == null){
+        return cat;
+    }
+
+    private void sellerValidation(Long sellerID){
+        if (userrDao.getUserrByID(sellerID) == null){
             throw new RestException(NOT_AVAILABLE,
-                    "User with id " + ownerId + " does not exist.", HttpStatus.BAD_REQUEST);
-        }
-        List<Item> toRet = this.itemDAO.findItemsByCategoryAndSeller(cat, ownerId);
-        if (!toRet.isEmpty()) {
-            return toRet;
-        }
-
-        // if the list is empty, no items that meet the criteria exist
-        throw new RestException(NOT_AVAILABLE,
-                "Items of category " + category + " and sold by user with id " + ownerId + " were not found", HttpStatus.OK);
-
-    }
-
-    public List<Category> findSellerCategories(Long ownerId){
-        return itemDAO.findSellerCategories(ownerId);
-    }
-
-    public List<Item> findItemsByCategoryBasedOnPage(String category, int pageNum, int pageSize){
-        List<Item> toRet = findAllItemsByCategory(category);
-        return trim(toRet, pageNum, pageSize);
-    }
-
-    public List<Item> findItemsByCategoryAndSellerBasedOnPage(String category, Long sellerID, int pageNum, int pageSize){
-        List<Item> toRet = findItemsByCategoryAndSeller(category, sellerID);
-        return trim(toRet, pageNum, pageSize);
-
-    }
-
-    private List<Item> trim(List<Item> toTrim, int pageNum, int pageSize){
-        if (toTrim.size() >= (pageNum * pageSize)){
-            return toTrim.subList((pageNum-1)*pageSize, ((pageNum)*pageSize));
-        }
-        else if ((toTrim.size() < (pageNum * pageSize)) && (toTrim.size() > ((pageNum-1) * pageSize))){
-            return toTrim.subList((pageNum-1)*pageSize, toTrim.size());
-        }
-
-        else {
-            return new ArrayList<>();
+                    "User with id " + sellerID + " does not exist.", HttpStatus.BAD_REQUEST);
         }
     }
+
+//    private List<Item> trim(List<Item> toTrim, int pageNum, int pageSize){
+//        if (toTrim.size() >= (pageNum * pageSize)){
+//            return toTrim.subList((pageNum-1)*pageSize, ((pageNum)*pageSize));
+//        }
+//        else if ((toTrim.size() < (pageNum * pageSize)) && (toTrim.size() > ((pageNum-1) * pageSize))){
+//            return toTrim.subList((pageNum-1)*pageSize, toTrim.size());
+//        }
+//
+//        else {
+//            return new ArrayList<>();
+//        }
+//    }
 
 
 }

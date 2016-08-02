@@ -40,9 +40,7 @@ public interface ItemRepository {
 
     public Item updateItemByID(Long id, Item item);
 
-    public List<Item> findAllItemsByCategory(String category);
-
-    public List<Item> findAllItems();
+    public List<Category> findSellerCategories(Long ownerId);
 
     public List<ItemPicture> findAllItemPicturesForItem(Long id, String urlOnly);
 
@@ -50,15 +48,25 @@ public interface ItemRepository {
 
     public String createItemPicturesForItem(Long id, MultipartFile[] files);
 
-    public List<Item> findItemsByName(String name);
+    //////////////////////////////////////
+    // Item Searches /////////////////////
+    //////////////////////////////////////
 
-    public List<Item> findItemsByCategoryAndName(String category, String name);
+    public List<Item> findAllItems();
+
+    public List<Item> findItemsByKeyword(String keyword);
+
+    public List<Item> findAllItemsByCategory(String category);
 
     public List<Item> findItemsBySeller(Long ownerId);
 
+    public List<Item> findItemsByCategoryAndKeyword(String category, String keyword);
+
     public List<Item> findItemsByCategoryAndSeller(String cat, Long ownerId);
 
-    public List<Category> findSellerCategories(Long ownerId);
+    ////////////////////////////////////
+    // Include Pagination //////////////
+    ////////////////////////////////////
 
     public List<Item> findItemsBasedOnPage(int pageNum, int pageSize);
 
@@ -66,9 +74,9 @@ public interface ItemRepository {
 
     public List<Item> findItemsByCategoryAndSellerBasedOnPage(String cateogry, Long sellerID, int pageNum, int pageSize);
 
-    public List<Item> findItemsByNameAndCategoryBasedOnPage(String category, String name, int pageNum, int pageSize);
+    public List<Item> findItemsByKeywordAndCategoryBasedOnPage(String category, String keyword, int pageNum, int pageSize);
 
-    public List<Item> findItemsByNameBasedOnPage(String name, int pageNum, int pageSize);
+    public List<Item> findItemsByKeywordBasedOnPage(String keyword, int pageNum, int pageSize);
 
     public List<Item> findItemsBySellerBasedOnPage(Long id, int pageNum, int pageSize);
 

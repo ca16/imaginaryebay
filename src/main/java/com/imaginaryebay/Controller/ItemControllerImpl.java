@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
@@ -86,12 +85,12 @@ public class ItemControllerImpl implements ItemController {
     }
 
     @Override
-    public ResponseEntity<List<Item>> getAllItems(String cat, String name, Long sellerID) {
+    public ResponseEntity<List<Item>> getAllItems(String cat, String keyword, Long sellerID) {
         if ((null != cat) && (null != sellerID)) {
             return new ResponseEntity<>(this.itemRepository.findItemsByCategoryAndSeller(cat, sellerID), HttpStatus.OK);
         }
-        if ((null != cat) && (null != name)) {
-            return new ResponseEntity(this.itemRepository.findItemsByCategoryAndName(cat, name), HttpStatus.OK);
+        if ((null != cat) && (null != keyword)) {
+            return new ResponseEntity(this.itemRepository.findItemsByCategoryAndKeyword(cat, keyword), HttpStatus.OK);
         }
         if (null != sellerID) {
             return new ResponseEntity(this.itemRepository.findItemsBySeller(sellerID), HttpStatus.OK);
@@ -99,15 +98,15 @@ public class ItemControllerImpl implements ItemController {
         if (null != cat) {
             return new ResponseEntity(this.itemRepository.findAllItemsByCategory(cat), HttpStatus.OK);
         }
-        if (null != name) {
-            return new ResponseEntity(this.itemRepository.findItemsByName(name), HttpStatus.OK);
+        if (null != keyword) {
+            return new ResponseEntity(this.itemRepository.findItemsByKeyword(keyword), HttpStatus.OK);
         }
 
-        if ((null == cat) && (null == name) && (null == sellerID)){
+        if ((null == cat) && (null == keyword) && (null == sellerID)){
             return new ResponseEntity(this.itemRepository.findAllItems(), HttpStatus.OK);
         }
         else {
-            throw new RestException("Argument combination unavailable.", "Invalid argument combinations include: cat, sellerID and name,and sellerID and name.", HttpStatus.OK);
+            throw new RestException("Argument combination unavailable.", "Invalid argument combinations include: cat, sellerID and keyword, and sellerID and keyword.", HttpStatus.OK);
         }
     }
 
@@ -125,12 +124,12 @@ public class ItemControllerImpl implements ItemController {
         return new ResponseEntity<ItemPicture>(itemRepository.createItemPictureForItem(id, file), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Item>> findItemsBasedOnPage(int pageNum, int pageSize, String cat, String name, Long sellerID) {
+    public ResponseEntity<List<Item>> findItemsBasedOnPage(int pageNum, int pageSize, String cat, String keyword, Long sellerID) {
         if ((null != cat) && (null != sellerID)) {
             return new ResponseEntity<>(this.itemRepository.findItemsByCategoryAndSellerBasedOnPage(cat, sellerID, pageNum, pageSize), HttpStatus.OK);
         }
-        if ((null != cat) && (null != name)) {
-            return new ResponseEntity(this.itemRepository.findItemsByNameAndCategoryBasedOnPage(cat, name, pageNum, pageSize), HttpStatus.OK);
+        if ((null != cat) && (null != keyword)) {
+            return new ResponseEntity(this.itemRepository.findItemsByKeywordAndCategoryBasedOnPage(cat, keyword, pageNum, pageSize), HttpStatus.OK);
         }
         if (null != sellerID) {
             return new ResponseEntity(this.itemRepository.findItemsBySellerBasedOnPage(sellerID, pageNum, pageSize), HttpStatus.OK);
@@ -138,14 +137,14 @@ public class ItemControllerImpl implements ItemController {
         if (null != cat) {
             return new ResponseEntity(this.itemRepository.findItemsByCategoryBasedOnPage(cat, pageNum, pageSize), HttpStatus.OK);
         }
-        if (null != name) {
-            return new ResponseEntity(this.itemRepository.findItemsByNameBasedOnPage(name, pageNum, pageSize), HttpStatus.OK);
+        if (null != keyword) {
+            return new ResponseEntity(this.itemRepository.findItemsByKeywordBasedOnPage(keyword, pageNum, pageSize), HttpStatus.OK);
         }
-        if ((null == cat) && (null == name) && (null == sellerID)){
+        if ((null == cat) && (null == keyword) && (null == sellerID)){
             return new ResponseEntity<List<Item>>(this.itemRepository.findItemsBasedOnPage(pageNum, pageSize), HttpStatus.OK);
         }
         else {
-            throw new RestException("Argument combination unavailable.", "Invalid argument combinations include: cat, sellerID and name,and sellerID and name.", HttpStatus.OK);
+            throw new RestException("Argument combination unavailable.", "Invalid argument combinations include: cat, sellerID and keyword,and sellerID and keyword.", HttpStatus.OK);
         }
 
     }
@@ -163,12 +162,12 @@ public class ItemControllerImpl implements ItemController {
 //    }
 
 
-    public ResponseEntity<Integer> findItemsWithCount(String cat, String name, Long sellerID) {
+    public ResponseEntity<Integer> findItemsWithCount(String cat, String keyword, Long sellerID) {
         if ((null != cat) && (null != sellerID)) {
             return new ResponseEntity<>(this.getAllItems(cat, null, sellerID).getBody().size(), HttpStatus.OK);
         }
-        if ((null != cat) && (null != name)) {
-            return new ResponseEntity<>(this.getAllItems(cat, name, null).getBody().size(), HttpStatus.OK);
+        if ((null != cat) && (null != keyword)) {
+            return new ResponseEntity<>(this.getAllItems(cat, keyword, null).getBody().size(), HttpStatus.OK);
         }
         if (null != sellerID) {
             return new ResponseEntity<>(this.getAllItems(null, null, sellerID).getBody().size(), HttpStatus.OK);
@@ -176,15 +175,15 @@ public class ItemControllerImpl implements ItemController {
         if (null != cat) {
             return new ResponseEntity<>(this.getAllItems(cat, null, null).getBody().size(), HttpStatus.OK);
         }
-        if (null != name) {
-            return new ResponseEntity<>(this.getAllItems(null, name, null).getBody().size(), HttpStatus.OK);
+        if (null != keyword) {
+            return new ResponseEntity<>(this.getAllItems(null, keyword, null).getBody().size(), HttpStatus.OK);
         }
 
-        if ((null == cat) && (null == name) && (null == sellerID)){
+        if ((null == cat) && (null == keyword) && (null == sellerID)){
             return new ResponseEntity(getAllItems(null, null, null).getBody().size(), HttpStatus.OK);
         }
         else {
-            throw new RestException("Argument combination unavailable.", "Invalid argument combinations include: cat, sellerID and name,and sellerID and name.", HttpStatus.OK);
+            throw new RestException("Argument combination unavailable.", "Invalid argument combinations include: cat, sellerID and keyword,and sellerID and keyword.", HttpStatus.OK);
         }
     }
 
