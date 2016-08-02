@@ -543,7 +543,6 @@ public class ItemRepositoryImpl implements ItemRepository {
         try {
             cat = Category.valueOf(category);
         } catch (IllegalArgumentException exc) {
-            // Should we also give them a list of options?
             throw new RestException(INVALID_PARAMETER, validCategories(), HttpStatus.BAD_REQUEST);
         }
         return cat;
@@ -555,19 +554,5 @@ public class ItemRepositoryImpl implements ItemRepository {
                     "User with id " + sellerID + " does not exist.", HttpStatus.BAD_REQUEST);
         }
     }
-
-//    private List<Item> trim(List<Item> toTrim, int pageNum, int pageSize){
-//        if (toTrim.size() >= (pageNum * pageSize)){
-//            return toTrim.subList((pageNum-1)*pageSize, ((pageNum)*pageSize));
-//        }
-//        else if ((toTrim.size() < (pageNum * pageSize)) && (toTrim.size() > ((pageNum-1) * pageSize))){
-//            return toTrim.subList((pageNum-1)*pageSize, toTrim.size());
-//        }
-//
-//        else {
-//            return new ArrayList<>();
-//        }
-//    }
-
 
 }
