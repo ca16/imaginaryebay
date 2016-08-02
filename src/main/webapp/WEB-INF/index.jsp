@@ -8,6 +8,7 @@
 <%@taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <html ng-app="ShopApp">
 <head>
+
     <title>Imaginary Ebay</title>
 
     <!-- Bootstrap Latest compiled and minified CSS -->
@@ -48,6 +49,9 @@
     <script src="<c:url value="/resources/js/ItemChanges/Itemupdate.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Admin/Admin.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Shop/Shop.controller.js"/>"></script>
+
+    <base href="/">
+
 
 </head>
 <body>

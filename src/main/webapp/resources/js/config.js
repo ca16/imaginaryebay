@@ -4,7 +4,7 @@
         .module("ShopApp")
         .config(Configuration)
 
-    function Configuration($routeProvider){
+    function Configuration($routeProvider,$locationProvider){
         $routeProvider
             .when('/',{
                 templateUrl:'./resources/home.html'
@@ -33,5 +33,7 @@
             .otherwise({
                 redirectTo:'/'
             });
+
+            $locationProvider.html5Mode(true);
     }
 }());
