@@ -63,4 +63,5 @@ public class FrontPageControllerImpl implements FrontPageController {
         return model;
     }
 
+
 }
