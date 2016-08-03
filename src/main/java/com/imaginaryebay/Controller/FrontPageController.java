@@ -30,5 +30,17 @@ public interface FrontPageController {
     @RequestMapping(value = "/app/admin", method=RequestMethod.GET)
     public ModelAndView getAdminPage();
 
+    @RequestMapping(value = "/app/item/{id}", method=RequestMethod.GET)
+    public ModelAndView getItemPage();
+
+    @RequestMapping(value = "/app/item/create", method=RequestMethod.GET)
+    public ModelAndView getItemCreationPage();
+
+    @RequestMapping(value = "/app/item/{id}/update", method=RequestMethod.GET)
+    public ModelAndView getItemUpdatePage();
+
+    @RequestMapping(value = "/app/user/{id}/update", method=RequestMethod.GET)
+    public ModelAndView getUserUpdatePage();
+
 
 }

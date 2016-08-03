@@ -33,6 +33,9 @@
             .when('/app/search',{
                 templateUrl:'./resources/searchResult.html'
             })
+            .when('/app/user/:userId/update',{
+                templateUrl:'./resources/userupdate.html'
+            })
             .otherwise({
                 redirectTo:'/'
             });

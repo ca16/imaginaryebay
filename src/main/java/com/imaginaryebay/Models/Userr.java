@@ -64,7 +64,6 @@ public class Userr implements Serializable{
     }
 
 
-
     public String getEmail() {
         return email;
     }

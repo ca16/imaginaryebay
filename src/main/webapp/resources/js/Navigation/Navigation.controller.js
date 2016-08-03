@@ -11,6 +11,7 @@ function navigationController($scope,$http,UserService){
     $scope.currentUser=UserService.returnUser();
     if ($scope.currentUser!=null){
         $scope.loggedInFlag=true;
+        $scope.id = $scope.currentUser.id;
        // $scope.adminFlag=$scope.currentUser.adminFlag;
     }
     $scope.adminFlag=true;
