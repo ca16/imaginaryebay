@@ -61,6 +61,7 @@ public class UserrRepositoryImpl implements UserrRepository {
 		Userr u = userrDao.getUserrByEmail(newUserr.getEmail());
 		if (u == null) {
 			userrDao.persist(newUserr);
+			//Send email to user upon account creation
 			SimpleMailMessage msg = new SimpleMailMessage(this.accountCreationMessage);
 	        msg.setTo(newUserr.getEmail());
 	        msg.setSentDate(new Date());
@@ -70,10 +71,10 @@ public class UserrRepositoryImpl implements UserrRepository {
 	                        + newUserr.getEmail() + " and your password is " + newUserr.getPassword() + ".");
 	        try {
 	            this.mailSender.send(msg);
-	            System.out.println("Message sent successfully");
 	        } catch (MailException ex) {
 	            System.err.println(ex.getMessage());
 	        }
+	        //Add email message to database of records
 	        messageController.createNewMessage(new Message(newUserr,new Timestamp(msg.getSentDate().getTime())));
 		}
 		else{

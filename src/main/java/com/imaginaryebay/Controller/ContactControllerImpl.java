@@ -23,12 +23,11 @@ public class ContactControllerImpl implements ContactController {
     private SimpleMailMessage contactMessageToAdmin;
 
 	@Override
-	public ResponseEntity<Void> sendEmail(ContactFormEmail contactEmail) {
+	public ResponseEntity<ContactFormEmail> sendEmail(ContactFormEmail contactEmail) {
 		SimpleMailMessage msgToUser = new SimpleMailMessage(this.contactMessageToUser);
         msgToUser.setTo(contactEmail.getEmailAddress());
         try {
             this.mailSender.send(msgToUser);
-            System.out.println("Message sent successfully");
         } catch (MailException ex) {
             System.err.println(ex.getMessage());
         }
@@ -36,11 +35,10 @@ public class ContactControllerImpl implements ContactController {
         msgToAdmin.setText(contactEmail.getEmailContent() + " Received by: " + contactEmail.getName() + ", " + contactEmail.getEmailAddress());
         try {
             this.mailSender.send(msgToAdmin);
-            System.out.println("Message sent successfully");
         } catch (MailException ex) {
             System.err.println(ex.getMessage());
         }
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<ContactFormEmail>(contactEmail, HttpStatus.OK);
 	}
 
 }

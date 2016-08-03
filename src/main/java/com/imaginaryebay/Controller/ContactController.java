@@ -12,5 +12,5 @@ import com.imaginaryebay.Models.ContactFormEmail;
 @RequestMapping("/contact")
 public interface ContactController {
 	@RequestMapping(method= RequestMethod.POST)
-	ResponseEntity<Void> sendEmail(@RequestBody ContactFormEmail contactEmail);
+	ResponseEntity<ContactFormEmail> sendEmail(@RequestBody ContactFormEmail contactEmail);
 }

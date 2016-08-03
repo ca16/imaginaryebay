@@ -84,9 +84,12 @@ public class ItemRepositoryImpl implements ItemRepository {
         item.setUserr(owner);
 
         this.itemDAO.persist(item);
+        //Schedule the following tasks to execute at auction endtime
+        // 1. Send email to item owner indicating that the item has sold
+        // 2. Send email to the user who placed the highest bid indicating that he/she has won the item
+        // 3. Send email to all other bidders indicating that the auction is over and they have not won the item
         this.sendEmail.setItemId(item.getId());
         this.timer.schedule(this.sendEmail,item.getEndtime());
-        System.out.println("Timer set!");
         return item;
     }
 
