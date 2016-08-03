@@ -30,5 +30,7 @@ public interface FrontPageController {
     @RequestMapping(value = "/app/admin", method=RequestMethod.GET)
     public ModelAndView getAdminPage();
 
+    @RequestMapping(value = "/app/profile", method=RequestMethod.GET)
+    public ModelAndView getProfilePage();
 
 }
