@@ -17,7 +17,6 @@ public interface FrontPageController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getFirstPage();
 
-
     @RequestMapping(value="/app/login" , method=RequestMethod.GET)
     public ModelAndView getLoginPage();
 
@@ -41,6 +40,5 @@ public interface FrontPageController {
 
     @RequestMapping(value = "/app/user/{id}/update", method=RequestMethod.GET)
     public ModelAndView getUserUpdatePage();
-
 
 }

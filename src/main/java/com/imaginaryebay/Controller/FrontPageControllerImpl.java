@@ -15,7 +15,6 @@ public class FrontPageControllerImpl implements FrontPageController {
         return model;
     }
 
-
     @Override
     public ModelAndView getLoginPage(){
         ModelAndView model= new ModelAndView("/WEB-INF/index.jsp");
@@ -33,8 +32,6 @@ public class FrontPageControllerImpl implements FrontPageController {
         ModelAndView model= new ModelAndView("/WEB-INF/index.jsp");
         return model;
     }
-
-
 
     @Override
     public ModelAndView getAdminPage(){
@@ -60,10 +57,10 @@ public class FrontPageControllerImpl implements FrontPageController {
         return model;
     }
 
-
     @Override
     public ModelAndView getUserUpdatePage(){
         ModelAndView model= new ModelAndView("/WEB-INF/index.jsp");
         return model;
     }
+
 }
