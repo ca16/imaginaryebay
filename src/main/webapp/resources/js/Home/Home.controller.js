@@ -15,4 +15,5 @@ function homeController($scope, UserService){
     this.itemUrl="/item/page/";
     this.picUrl="http://placehold.it/800x400";
     this.dumbParameter="";
+
 }

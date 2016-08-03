@@ -27,5 +27,8 @@ public interface FrontPageController {
     @RequestMapping(value = "/app/search", method=RequestMethod.GET)
     public ModelAndView getSearchResult();
 
+    @RequestMapping(value = "/app/admin", method=RequestMethod.GET)
+    public ModelAndView getAdminPage();
+
 
 }

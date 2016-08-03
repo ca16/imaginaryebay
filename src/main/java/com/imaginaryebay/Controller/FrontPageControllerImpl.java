@@ -33,4 +33,12 @@ public class FrontPageControllerImpl implements FrontPageController {
         ModelAndView model= new ModelAndView("/WEB-INF/index.jsp");
         return model;
     }
+
+
+
+    @Override
+    public ModelAndView getAdminPage(){
+        ModelAndView model= new ModelAndView("/WEB-INF/index.jsp");
+        return model;
+    }
 }
