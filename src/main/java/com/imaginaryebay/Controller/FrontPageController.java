@@ -24,5 +24,8 @@ public interface FrontPageController {
     @RequestMapping(value="/app/shop/{id}", method=RequestMethod.GET)
     public ModelAndView getShopPage();
 
+    @RequestMapping(value = "/app/search", method=RequestMethod.GET)
+    public ModelAndView getSearchResult();
+
 
 }

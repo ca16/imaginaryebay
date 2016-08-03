@@ -30,6 +30,9 @@
             .when('/app/admin',{
                 templateUrl:'./resources/admin.html'
             })
+            .when('/app/search',{
+                templateUrl:'./resources/searchResult.html'
+            })
             .otherwise({
                 redirectTo:'/'
             });

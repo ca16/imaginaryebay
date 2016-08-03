@@ -28,4 +28,9 @@ public class FrontPageControllerImpl implements FrontPageController {
         return model;
     }
 
+    @Override
+    public ModelAndView getSearchResult(){
+        ModelAndView model= new ModelAndView("/WEB-INF/index.jsp");
+        return model;
+    }
 }
