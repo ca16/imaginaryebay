@@ -1,25 +1,70 @@
 package com.imaginaryebay.Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.util.List;
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
- * Created by Brian on 8/1/2016.
- *
- * Represents the total Feedback thread for a given auction item.
- * Includes all FeedbackComments and their authors
+ * Created by Brian on 8/2/2016.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
 public class Feedback {
 
-    private List<FeedbackComment> response;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-    public List<FeedbackComment> getResponse() {
-        return response;
+    @OneToOne
+    @JoinColumn(name="item_id", unique = true)
+    @JsonIgnore
+    private Item item;
+
+    @Column(nullable = false)
+    private Timestamp timestamp;
+
+    @Column(nullable = false)
+    private String content;
+
+    public Item getItem() {
+        return item;
     }
 
-    public void setResponse(List<FeedbackComment> response) {
-        this.response = response;
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        return "Feedback{" +
+                "id=" + id +
+                ", item=" + item +
+                ", timestamp=" + timestamp +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

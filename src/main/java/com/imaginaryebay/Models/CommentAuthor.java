@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  * Created by Brian on 8/1/2016.
  *
- * Represents the author of a FeedbackComment in an item's Feedback thread
+ * Represents the author of a Comment in an item's CommentThread thread
  *
  **/
 @JsonIgnoreProperties(ignoreUnknown = true)

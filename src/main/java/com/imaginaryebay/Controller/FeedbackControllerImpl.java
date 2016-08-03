@@ -1,25 +1,47 @@
 package com.imaginaryebay.Controller;
 
 import com.imaginaryebay.Models.Feedback;
-import com.imaginaryebay.Models.FeedbackComment;
 import com.imaginaryebay.Repository.FeedbackRepository;
+import com.imaginaryebay.Repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 /**
- * Created by Brian on 7/30/2016.
+ * Created by Brian on 8/2/2016.
  */
-public class FeedbackControllerImpl implements FeedbackController{
+public class FeedbackControllerImpl implements FeedbackController {
 
-    @Autowired
     private FeedbackRepository feedbackRepository;
-
-    public ResponseEntity<Feedback> getFeedbackForAuction(Long id){
-        return new ResponseEntity<Feedback>(feedbackRepository.getFeedbackForItem(id), HttpStatus.OK);
+    public void setFeedbackRepository(FeedbackRepository feedbackRepository){
+        this.feedbackRepository = feedbackRepository;
     }
 
-//    public ResponseEntity<FeedbackComment> createFeedbackCommentForItem(Long itemId, FeedbackComment feedbackComment, Long userrId){
-//        return new ResponseEntity<FeedbackComment>(/*feedbackComment.createFeedbackCommentForItemAndUser(itemId, feedbackComment, userrId)*/ feedbackComment, HttpStatus.OK);
-//    }
+    @Autowired
+    private ItemRepository itemRepository;
+
+    @Override
+    public ResponseEntity<List<Feedback>> returnAllFeedback() {
+        return new ResponseEntity<>(feedbackRepository.findAll(), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Feedback>> getFeedbackForUser(@PathVariable(value = "id") Long userId) {
+        return new ResponseEntity<>(feedbackRepository.findAllByUserrId(userId), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Feedback>> getFeedbackForItem(@PathVariable(value = "id") Long itemId){
+        return new ResponseEntity<>(feedbackRepository.findAllByItemId(itemId), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Feedback> createFeedbackForItem(@PathVariable(value = "id") Long itemId, Feedback feedback) {
+        feedback.setItem(itemRepository.findByID(itemId));
+        feedbackRepository.save(feedback);
+        return new ResponseEntity<>(feedback, HttpStatus.OK);
+    }
 }
