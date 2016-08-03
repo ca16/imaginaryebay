@@ -5,7 +5,7 @@
 }());
 
 
-function contactController($scope,$http){
+function contactController($scope,$http,$location){
 	
     $scope.sendEmail=function(){
     		var newMessage ={
@@ -18,6 +18,7 @@ function contactController($scope,$http){
             	.then(
             			function(res){
             				window.alert("Message sent! Thanks for contacting us!");
+            				$location.path("/");
             			});
     	}
     }
