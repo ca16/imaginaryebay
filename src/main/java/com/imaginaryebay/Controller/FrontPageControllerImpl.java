@@ -28,4 +28,28 @@ public class FrontPageControllerImpl implements FrontPageController {
         return model;
     }
 
+    @Override
+    public ModelAndView getAdminPage(){
+        ModelAndView model= new ModelAndView("/WEB-INF/index.jsp");
+        return model;
+    }
+
+    @Override
+    public ModelAndView getItemCreationPage(){
+        ModelAndView model= new ModelAndView("/WEB-INF/index.jsp");
+        return model;
+    }
+
+    @Override
+    public ModelAndView getItemUpdatePage(){
+        ModelAndView model= new ModelAndView("/WEB-INF/index.jsp");
+        return model;
+    }
+
+    @Override
+    public ModelAndView getItemPage(){
+        ModelAndView model= new ModelAndView("/WEB-INF/index.jsp");
+        return model;
+    }
+
 }
