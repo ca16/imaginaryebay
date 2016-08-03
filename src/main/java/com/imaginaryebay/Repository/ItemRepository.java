@@ -75,6 +75,8 @@ public interface ItemRepository {
 
     public List<Item> findItemsBasedOnPage(int pageNum, int pageSize);
 
+    public Long findTotalNumOfItems();
+
     public List<Item> findItemsByCategoryBasedOnPage(String category, int pageNum, int pageSize);
 
     public List<Item> findItemsByCategoryAndSellerBasedOnPage(String cateogry, Long sellerID, int pageNum, int pageSize);

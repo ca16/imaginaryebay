@@ -11,6 +11,8 @@ public interface UserrRepository {
 
     public void createNewUserr(Userr userr);
 
+    public List<String> getUserNameByID(Long id);
+
     public Userr getUserrByID(Long id);
 
     public Userr getUserrByEmail(String email);

@@ -54,6 +54,12 @@ public class UserrRepositoryImpl implements UserrRepository {
 	}
 
 
+	public List<String> getUserNameByID(Long id){
+		return userrDao.getUserNameByID(id);
+	}
+
+
+
 	public Userr getUserrByID (Long id) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();

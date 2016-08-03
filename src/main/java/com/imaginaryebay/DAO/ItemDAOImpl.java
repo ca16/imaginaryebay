@@ -96,6 +96,14 @@ public class ItemDAOImpl implements ItemDAO{
     }
 
     @Override
+    public Long findTotalNumOfItems(){
+        String queryString="select count(i) from Item i";
+        Query query=entityManager.createQuery(queryString);
+        List<Long> result=query.getResultList();
+        return result.get(0);
+    }
+
+    @Override
     public List<Category> findSellerCategories(Long ownerId){
         List<Category> toRet = new ArrayList<>();
         for (Item item : findItemsBySeller(ownerId)){
@@ -185,9 +193,8 @@ public class ItemDAOImpl implements ItemDAO{
         return itemList;
     }
 
-    public List<Item> findItemsByKeywordBasedOnPage(String keyword, int pageNum, int pageSize){
+    public List<Item> findItemsByKeywordBasedOnPage(String keyword, int pageNum, int pageSize) {
         return paginationHelper(byKeyword(keyword), pageNum, pageSize);
-
     }
 
     public List<Item> findItemsByCategoryBasedOnPage(Category category, int pageNum, int pageSize){
@@ -257,7 +264,5 @@ public class ItemDAOImpl implements ItemDAO{
         List<Item> itemList=query.getResultList();
         return itemList;
     }
-
-
 
 }

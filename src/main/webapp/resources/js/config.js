@@ -4,10 +4,13 @@
         .module("ShopApp")
         .config(Configuration)
 
-    function Configuration($routeProvider){
+    function Configuration($routeProvider,$locationProvider){
         $routeProvider
             .when('/',{
                 templateUrl:'./resources/home.html'
+            })
+            .when('/app/shop/:sellerID',{
+                templateUrl:'./resources/shop.html'
             })
             .when('/app/login',{
                 templateUrl:'./resources/login.html'
@@ -30,5 +33,7 @@
             .otherwise({
                 redirectTo:'/'
             });
+
+            $locationProvider.html5Mode(true);
     }
 }());

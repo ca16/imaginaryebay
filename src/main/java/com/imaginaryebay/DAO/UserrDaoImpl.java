@@ -76,6 +76,16 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
         entityManager.persist(userr);
     }
 
+    @Override
+    public List<String> getUserNameByID(Long id){
+        String queryString="select u.name from Userr u where u.id = :ID";
+        Query query=entityManager.createQuery(queryString);
+        query.setParameter("ID",id);
+        List<String> listOfName=query.getResultList();
+        return listOfName;
+    }
+
+
 
     @Override
     public Userr getUserrByID (Long id){

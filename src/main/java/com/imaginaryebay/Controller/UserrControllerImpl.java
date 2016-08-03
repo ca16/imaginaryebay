@@ -34,10 +34,14 @@ public class UserrControllerImpl implements UserrController {
 
     @Override
     public ResponseEntity<Void> createNewUserr(Userr userr){
-        //ToDo: should have a mechanism here to check if the user exists or not
-        // Done in repository part
         userrRepository.createNewUserr(userr);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @Override
+    public ResponseEntity<List<String>> getUserNameByID(Long id){
+        return new ResponseEntity<List<String>>(userrRepository.getUserNameByID(id),HttpStatus.OK);
     }
 
     @Override

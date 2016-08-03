@@ -27,24 +27,18 @@ function loginController($scope,$http,$route,UserService,$location,$q){
                   data:{username:$scope.email,password:$scope.password}
               }).then(
             function(res) {
-                console.log(res);
                 return $http.get("/user/email/"+$scope.email+"/");
             },
             function (res) {
-                console.log(res);
                 window.alert("user name or password is incorrect");
                 return $q.reject();
             }
         ).then(
             function(res){
-                console.log(res);
                 var user=res.data;
                 UserService.setUser(user);
                 console.log(UserService.returnUser());
-                $location.path("#/app/home");
-            },
-            function(){
-                console.log("Turd");
+                $location.path("/app/home");
             }
         );
 

@@ -225,6 +225,11 @@ public interface ItemController {
 
 
 
+
+    @RequestMapping(value="/totalCount",method = RequestMethod.GET)
+    public ResponseEntity<Long> findTotalNumOfItems();
+
+
 }
 
 
