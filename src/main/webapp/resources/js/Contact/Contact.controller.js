@@ -8,10 +8,6 @@
 function contactController($scope,$http){
 	
     $scope.sendEmail=function(){
-    	if ($scope.name=="Tina"){
-            window.alert("You are our favorite user!");
-        }
-    	else{
     		var newMessage ={
     				name:$scope.name,
     				emailAddress:$scope.emailAddress,
@@ -25,4 +21,3 @@ function contactController($scope,$http){
             			});
     	}
     }
-}

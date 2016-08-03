@@ -1,15 +1,24 @@
 package com.imaginaryebay.Controller;
 
 import com.imaginaryebay.SendEmail;
+import com.imaginaryebay.DAO.BiddingDAO;
+import com.imaginaryebay.DAO.ItemDAO;
 import com.imaginaryebay.DAO.ItemPictureDAO;
+import com.imaginaryebay.DAO.MessageDao;
+import com.imaginaryebay.Models.Bidding;
 import com.imaginaryebay.Models.Category;
 import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.ItemPicture;
+import com.imaginaryebay.Models.Message;
 import com.imaginaryebay.Models.Userr;
 import com.imaginaryebay.Repository.ItemRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,14 +48,6 @@ public class ItemControllerImpl implements ItemController {
     
 	@Override
     public ResponseEntity<Item> save(Item item) {
-        Userr to = item.getUserr();
-        String subject = item.getDescription() + " has sold!";
-        String text = "Dear " + item.getUserr().getName() + ", your auction is now over. Your item has sold for " + item.getPrice() + ". Thank you for using our site.";
-        Timestamp sendDate = item.getEndtime();
-        TimerTask task=new SendEmail(to, subject, text, sendDate);
-        Timer timer=new Timer();
-        timer.schedule(task,item.getEndtime());
-        System.out.println("Timer set!");
         return new ResponseEntity<>(this.itemRepository.save(item), HttpStatus.OK);
 	}
 

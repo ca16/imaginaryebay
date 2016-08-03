@@ -1,11 +1,13 @@
 package com.imaginaryebay.Repository;
 
 import com.amazonaws.services.lambda.model.UnsupportedMediaTypeException;
+import com.imaginaryebay.SendEmail;
 import com.imaginaryebay.Controller.ItemControllerImpl;
 import com.imaginaryebay.Controller.RestException;
 import com.imaginaryebay.DAO.ItemDAO;
 import com.imaginaryebay.DAO.UserrDao;
 import com.imaginaryebay.Models.*;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Chloe on 6/28/16.
@@ -35,7 +39,10 @@ public class ItemRepositoryImpl implements ItemRepository {
     private static final String REQUIRED            = "is required.";
 
     private ItemDAO itemDAO;
-
+    @Autowired
+    private SendEmail sendEmail;
+    @Autowired
+    Timer timer;
     @Autowired
     private UserrDao userrDao;
 
@@ -77,6 +84,9 @@ public class ItemRepositoryImpl implements ItemRepository {
         item.setUserr(owner);
 
         this.itemDAO.persist(item);
+        this.sendEmail.setItemId(item.getId());
+        this.timer.schedule(this.sendEmail,item.getEndtime());
+        System.out.println("Timer set!");
         return item;
     }
 

@@ -1,93 +1,94 @@
 package com.imaginaryebay;
 
-import java.sql.Timestamp;
-import java.util.Properties;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.TimerTask;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.stereotype.Component;
 
-import com.imaginaryebay.Controller.MessageController;
+import com.imaginaryebay.DAO.BiddingDAO;
+import com.imaginaryebay.DAO.ItemDAO;
 import com.imaginaryebay.DAO.MessageDao;
-import com.imaginaryebay.DAO.MessageDaoImpl;
+import com.imaginaryebay.Models.Bidding;
 import com.imaginaryebay.Models.Message;
 import com.imaginaryebay.Models.Userr;
 
 public class SendEmail extends TimerTask{
+	
 	@Autowired
-	private MessageController messageController;
-	private Userr to;
-	private String subject;
-	private String text;
-	private Timestamp sendDate;
+	BiddingDAO biddingDAO;
+	@Autowired
+	MessageDao messageDao;
+	@Autowired
+	ItemDAO itemDAO;
+	@Autowired
+    private MailSender mailSender;
+    @Autowired
+    private SimpleMailMessage itemSoldMessage;
+    @Autowired
+    private SimpleMailMessage itemWonMessage;
+    @Autowired 
+    SimpleMailMessage itemLostMessage;
+	
+	private Long itemId;
 
-	public Timestamp getSendDate() {
-		return sendDate;
+	public Long getItemId() {
+		return itemId;
 	}
 
-	public void setSendDate(Timestamp sendDate) {
-		this.sendDate = sendDate;
+	public void setItemId(Long itemId) {
+		this.itemId = itemId;
+	}
+	
+	public SendEmail() {
+	
 	}
 
-	public Userr getTo() {
-		return to;
-	}
-
-	public void setTo(Userr to) {
-		this.to = to;
-	}
-
-	public String getSubject() {
-		return subject;
-	}
-
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public SendEmail(Userr to, String subject, String text, Timestamp sendDate) {
-		super();
-		this.to = to;
-		this.subject = subject;
-		this.text = text;
-		this.sendDate = sendDate;
-	}
-
-	@Override
+	//@Override
 	public void run() {
-		JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        Properties mailProperties = new Properties();
-        mailProperties.put("mail.smtp.auth", true);
-        mailProperties.put("mail.smtp.starttls.enable", true);
-        javaMailSender.setHost("smtp.gmail.com");
-        javaMailSender.setPort(587);
-        javaMailSender.setUsername("tinavivio@gmail.com");
-        javaMailSender.setPassword("jingo123");
-        javaMailSender.setJavaMailProperties(mailProperties);
-		SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo(this.to.getEmail());
-        msg.setFrom("tinavivio@gmail.com");
-        msg.setSubject(this.subject);
-        msg.setText(this.text);
+		SimpleMailMessage msgToItemOwner = new SimpleMailMessage(this.itemSoldMessage);
+        msgToItemOwner.setTo(this.itemDAO.findOwnerByID(this.itemId).getEmail());
+        msgToItemOwner.setText("Dear " + this.itemDAO.findOwnerByID(this.itemId).getName() + ", your auction is now over. " + this.itemDAO.findNameByID(this.itemId) + " has sold for $" + this.itemDAO.findHighestBidByID(this.itemId) + ". Thank you for using our site.");
         try {
-            javaMailSender.send(msg);
+            this.mailSender.send(msgToItemOwner);
             System.out.println("Message sent successfully");
+            this.messageDao.persist(new Message(this.itemDAO.findOwnerByID(this.itemId),this.itemDAO.findEndtimeByID(this.itemId)));
         } catch (MailException ex) {
             System.err.println(ex.getMessage());
         }
-        Message msgToAddToDatabase = new Message(this.to,this.sendDate);
-        this.messageController.createNewMessage(msgToAddToDatabase);
+        List<Bidding> itemBids = this.biddingDAO.getBiddingByItem(this.itemDAO.findByID(this.itemId));
+        List<Userr> bidders = new ArrayList<>();
+        for(Bidding b : itemBids){
+        	if(!bidders.contains(b.getUserr())){
+        		bidders.add(b.getUserr());
+        	if(b.getPrice()==this.itemDAO.findHighestBidByID(this.itemId)){
+        		SimpleMailMessage msgToItemWinner = new SimpleMailMessage(this.itemWonMessage);
+                msgToItemWinner.setTo(b.getUserr().getEmail());
+                msgToItemWinner.setText("Dear " + b.getUserr().getName() + ", you placed the highest bid on " + this.itemDAO.findNameByID(this.itemId) + ". The auction is now over and you will receive the item in 7-10 business days. Congratulations and thank you for using our site.");
+                try {
+                    this.mailSender.send(msgToItemWinner);
+                    System.out.println("Message sent successfully");
+                    this.messageDao.persist(new Message(b.getUserr(),this.itemDAO.findEndtimeByID(this.itemId)));
+                } catch (MailException ex) {
+                    System.err.println(ex.getMessage());
+                }
+        	}else{
+        		SimpleMailMessage msgToItemLoser = new SimpleMailMessage(this.itemLostMessage);
+                msgToItemLoser.setTo(b.getUserr().getEmail());
+                msgToItemLoser.setText("Dear " + b.getUserr().getName() + ", you did not place the highest bid on " + this.itemDAO.findNameByID(this.itemId) + ". The auction is now over. Thank you for using our site. Please come back and try again! New items are added to ImaginaryEbay every day!");
+                try {
+                    this.mailSender.send(msgToItemLoser);
+                    System.out.println("Message sent successfully");
+                    this.messageDao.persist(new Message(b.getUserr(),this.itemDAO.findEndtimeByID(this.itemId)));
+                } catch (MailException ex) {
+                    System.err.println(ex.getMessage());
+                }
+        	}
+        }
+        }
 	}
 }

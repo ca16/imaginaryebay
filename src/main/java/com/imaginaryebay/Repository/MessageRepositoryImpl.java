@@ -28,8 +28,9 @@ public class MessageRepositoryImpl implements MessageRepository {
         this.messageDao=messageDao;
     }
     @Override
-    public void createNewMessage(Message message) {
+    public Message createNewMessage(Message message) {
         this.messageDao.persist(message);
+        return message;
     }
 
     @Override

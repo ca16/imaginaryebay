@@ -30,9 +30,8 @@ public class MessageRestController implements MessageController{
     //@RequestMapping(method= RequestMethod.POST)
     //public void createNewMessage(@RequestBody Message message){
     //@ApiOperation(value="add new email message to the database")
-    public ResponseEntity<Void> createNewMessage(Message message){
-        this.messageRepository.createNewMessage(message);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    public ResponseEntity<Message> createNewMessage(Message message){
+        return new ResponseEntity<Message>(this.messageRepository.createNewMessage(message),HttpStatus.CREATED);
     }
     
     @Override

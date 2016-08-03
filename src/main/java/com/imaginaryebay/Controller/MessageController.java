@@ -29,7 +29,7 @@ public interface MessageController {
     *  																 "date_sent": "2016-07-25T04:30:00"}' http://localhost:8080/message
     */
     @RequestMapping(method= RequestMethod.POST)
-    public ResponseEntity<Void> createNewMessage(@RequestBody Message message);
+    public ResponseEntity<Message> createNewMessage(@RequestBody Message message);
 	/*@ApiOperation(value="get email messages for a specific user")*/
     /**
     * Given the id of a user, responds with a list of the email messages associated with the user.

@@ -33,12 +33,6 @@ public class UserrControllerImpl implements UserrController {
 
     @Autowired
     private UserrRepository userrRepository;
-    @Autowired
-    private MailSender mailSender;
-    @Autowired
-    private SimpleMailMessage accountCreationMessage;
-    @Autowired
-    private MessageController messageController;
 
     public void setUserrRepository(UserrRepository userrRepository){
         this.userrRepository = userrRepository;
@@ -49,20 +43,6 @@ public class UserrControllerImpl implements UserrController {
         //ToDo: should have a mechanism here to check if the user exists or not
         // Done in repository part
         userrRepository.createNewUserr(userr);
-        SimpleMailMessage msg = new SimpleMailMessage(this.accountCreationMessage);
-        msg.setTo(userr.getEmail());
-        msg.setSentDate(new Date());
-        msg.setText(
-                "Dear " + userr.getName()
-                        + ", thank you for creating an account. Your account username is "
-                        + userr.getEmail() + " and your password is " + userr.getPassword() + ".");
-        try {
-            this.mailSender.send(msg);
-            System.out.println("Message sent successfully");
-        } catch (MailException ex) {
-            System.err.println(ex.getMessage());
-        }
-        messageController.createNewMessage(new Message(userr,new Timestamp(msg.getSentDate().getTime())));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
