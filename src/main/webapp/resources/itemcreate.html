@@ -74,7 +74,7 @@
             <div class="form-group">
                 <label for="itemdescription">Description</label>
                 <textarea class="form-control" rows="5" id="itemdescription" ng-change="lenCheck()" ng-model="description"></textarea>
-                <p>characters remaining : {{remChar}}</p>
+                <label ng-style="remnants()">characters remaining : {{remChar}}</label>
             </div>
             <div class="form-group">
                 <label>Pictures - Add as many as you wish!</label>

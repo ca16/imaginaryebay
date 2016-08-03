@@ -82,6 +82,15 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
         $scope.remChar = maxDescLen - $scope.description.length;
     }
 
+    $scope.remnants = function (){
+        var col = ($scope.remChar <= 5) ? "Red" : "White";
+
+        var styleObj = {
+            color : col,
+        }
+        return styleObj;
+    }
+
     function selectCat() {
         var cat = $scope.category;
         if (cat == "") {
