@@ -9,6 +9,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.stereotype.Component;
 
 import com.imaginaryebay.Controller.MessageController;
 import com.imaginaryebay.DAO.MessageDao;

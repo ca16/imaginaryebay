@@ -36,7 +36,7 @@ public class UserrControllerImpl implements UserrController {
     @Autowired
     private MailSender mailSender;
     @Autowired
-    private SimpleMailMessage templateMessage;
+    private SimpleMailMessage accountCreationMessage;
     @Autowired
     private MessageController messageController;
 
@@ -49,7 +49,7 @@ public class UserrControllerImpl implements UserrController {
         //ToDo: should have a mechanism here to check if the user exists or not
         // Done in repository part
         userrRepository.createNewUserr(userr);
-        SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
+        SimpleMailMessage msg = new SimpleMailMessage(this.accountCreationMessage);
         msg.setTo(userr.getEmail());
         msg.setSentDate(new Date());
         msg.setText(
