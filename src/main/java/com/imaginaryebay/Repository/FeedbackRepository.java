@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface FeedbackRepository {
 
-    Feedback createFeedbackForItem(Feedback feedback, Long itemId);
+    Feedback createFeedbackForItem(String feedback, Long itemId);
 
     Feedback findById(Long id);
 

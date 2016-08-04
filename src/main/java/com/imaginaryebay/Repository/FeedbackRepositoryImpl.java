@@ -11,6 +11,8 @@ import com.imaginaryebay.Models.Item;
 import com.imaginaryebay.Models.Userr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
@@ -39,20 +41,23 @@ public class FeedbackRepositoryImpl implements FeedbackRepository{
     private static final String NOT_AVAILABLE = "Not available.";
 
     @Override
-    public Feedback createFeedbackForItem(Feedback feedback, Long itemId) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        if (auth == null || !auth.isAuthenticated()) {
-//            throw new RestException(NOT_AVAILABLE, "You must be logged in to create an item.", HttpStatus.UNAUTHORIZED);
-//        }
+    public Feedback createFeedbackForItem(String feedback, Long itemId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated()) {
+            throw new RestException(NOT_AVAILABLE, "You must be logged in to create an item.", HttpStatus.UNAUTHORIZED);
+        }
 
         // Check for a valid item
         Item feedbackItem = itemDAO.findByID(itemId);
-        if (feedback == null){
+        if (feedbackItem == null){
             throw new RestException(NOT_AVAILABLE, "The requested item does not exist.", HttpStatus.OK);
         }
 
         // Check that content was set
-        if (feedback.getContent() == null){
+//        if (feedback.getContent() == null){
+//            throw new RestException("Malformed request.", "A required request parameter 'content' was missing.", HttpStatus.BAD_REQUEST);
+//        }
+        if (feedback == null){
             throw new RestException("Malformed request.", "A required request parameter 'content' was missing.", HttpStatus.BAD_REQUEST);
         }
 
@@ -67,16 +72,23 @@ public class FeedbackRepositoryImpl implements FeedbackRepository{
         Userr bidWinner = winningBid.getUserr();
 
         // Only the winning bidder is authorized to give feedback
-//        if (!auth.getName().equals(bidWinner.getEmail())){
-//            throw new RestException(NOT_AVAILABLE, "You are not authorized to provide feedback for this item.", HttpStatus.UNAUTHORIZED);
-//        }
+        if (!auth.getName().equals(bidWinner.getEmail())){
+            throw new RestException(NOT_AVAILABLE, "You are not authorized to provide feedback for this item.", HttpStatus.UNAUTHORIZED);
+        }
 
         // Set timestamp to current time
-        feedback.setTimestamp(currentTimestamp);
-        feedback.setItem(feedbackItem);
+        Feedback fb = new Feedback();
+        fb.setContent(feedback);
+        fb.setTimestamp(currentTimestamp);
+        fb.setItem(feedbackItem);
+//        feedback.setTimestamp(currentTimestamp);
+//        feedback.setItem(feedbackItem);
 
-        feedbackDAO.persist(feedback);
-        return feedback;
+//        feedbackDAO.persist(feedback);
+//        return feedback;
+        feedbackDAO.persist(fb);
+        return fb;
+
     }
 
     @Override
