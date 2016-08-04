@@ -36,7 +36,7 @@ import java.util.Map;
 @EnableWebMvc
 public class DatabaseConfiguration {
 
-    /*@Bean
+    @Bean
     public DataSource dataSource() throws PropertyVetoException, URISyntaxException{
 
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
@@ -53,23 +53,23 @@ public class DatabaseConfiguration {
         comboPooledDataSource.setPassword(password);
 
         return comboPooledDataSource;
-    }*/
-	
-	@Bean
-    public DataSource dataSource() throws PropertyVetoException{
-        ComboPooledDataSource dataSource = new ComboPooledDataSource();
-        dataSource.setDriverClass("org.postgresql.Driver");
-        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb3");
-        dataSource.setUser("postgres");
-        dataSource.setPassword("jingo123");
-        return dataSource;
     }
+	
+//	@Bean
+//    public DataSource dataSource() throws PropertyVetoException{
+//        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+//        dataSource.setDriverClass("org.postgresql.Driver");
+//        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb3");
+//        dataSource.setUser("postgres");
+//        dataSource.setPassword("jingo123");
+//        return dataSource;
+//    }
 
     private Map<String,?> jpaProperties() {
         Map<String,String> jpaPropertiesMap = new HashMap<String,String>();
         jpaPropertiesMap.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
         jpaPropertiesMap.put("hibernate.show_sql", "true");
-        jpaPropertiesMap.put("hibernate.hbm2ddl.auto", "update");
+        jpaPropertiesMap.put("hibernate.hbm2ddl.auto", "create");
         return jpaPropertiesMap;
     }
 

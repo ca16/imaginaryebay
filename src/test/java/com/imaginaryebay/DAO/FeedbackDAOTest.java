@@ -99,7 +99,7 @@ public class FeedbackDAOTest {
         when(entityManager.createQuery("SELECT f FROM Feedback f")).thenReturn(query1);
         when(query1.getResultList()).thenReturn(findAllMock);
 
-        when(entityManager.createQuery("SELECT f FROM Feedback f JOIN f.item i WHERE i.user_id = ?1")).thenReturn(query2);
+        when(entityManager.createQuery("SELECT f FROM Feedback f JOIN f.item i WHERE i.userr.id = ?1")).thenReturn(query2);
         when(query2.getResultList()).thenReturn(findAllByUserr1Mock);
 
         impl = new FeedbackDAOImpl();
@@ -113,7 +113,7 @@ public class FeedbackDAOTest {
     }
 
     @Test
-    public void findAllByUserr(){
+    public void findAllByUserrId(){
         assertEquals(impl.findAllByUserrId(userr1.getId()), findAllByUserr1Mock);
     }
 
