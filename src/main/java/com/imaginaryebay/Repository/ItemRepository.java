@@ -34,24 +34,7 @@ public interface ItemRepository {
 
     public String createItemPicturesForItem(Long id, MultipartFile[] files);
 
-    //////////////////////////////////////
-    // Item Properties ///////////////////
-    //////////////////////////////////////
-    // do we need all these?
-
-    public Double findPriceByID(Long id);
-
-    public Category findCategoryByID(Long id);
-
-    public Timestamp findEndtimeByID(Long id);
-
-    public Userr findOwnerByID(Long id);
-
-    public String findNameByID(Long id);
-
     public Double findHighestBidByID(Long id);
-
-    public String findDescriptionByID(Long id);
 
     //////////////////////////////////////
     // Item Searches /////////////////////

@@ -140,35 +140,6 @@ public interface ItemController {
     @RequestMapping(value="/count",method= RequestMethod.GET)
     public ResponseEntity<Integer> findItemsWithCount(@RequestParam(value = "cat", required = false) String cat, @RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "sellerID", required = false) Long sellerID);
 
-
-    //////////////////////////////////////
-    // Item Properties ///////////////////
-    //////////////////////////////////////
-    // do we need all these?
-
-    /**
-     *
-     * @param id the item's ID
-     * @return the owner of the item with the given ID
-     *
-     * Example:
-     * curl -X GET localhost:8080/item/owner/1
-     *
-     */
-    @RequestMapping(value="/owner/{id}", method= RequestMethod.GET)
-    public ResponseEntity<Userr> getOwnerByID(@PathVariable("id") Long id);
-
-    /**
-     *
-     * @param id the item's ID
-     * @return the name of the item with the given ID
-     *
-     * Example:
-     * curl -X GET localhost:8080/item/name/1
-     */
-    @RequestMapping(value="/name/{id}", method= RequestMethod.GET)
-    public ResponseEntity<String> getNameByID(@PathVariable("id") Long id);
-
     /**
      *
      * @param id the item's ID
@@ -180,46 +151,6 @@ public interface ItemController {
     @RequestMapping(value="/highestbid/{id}", method= RequestMethod.GET)
     public ResponseEntity<Double> getHighestBidByID(@PathVariable("id") Long id);
 
-
-    /**
-     * @param id the item's ID
-     * @return the price of the item with the given ID
-     *
-     * Example:
-     * curl -X GET localhost:8080/item/price/1
-     */
-    @RequestMapping(value="/price/{id}", method= RequestMethod.GET)
-    public ResponseEntity<Double> getPriceByID(@PathVariable("id") Long id);
-
-    /**
-     * @param id the item's ID
-     * @return category of the item with the given ID
-     *
-     * Example:
-     * curl -X GET localhost:8080/item/category/1
-     */
-    @RequestMapping(value="/category/{id}", method= RequestMethod.GET)
-    public ResponseEntity<Category> getCategoryByID(@PathVariable("id") Long id);
-
-    /**
-     * @param id the item's ID
-     * @return the description of the item with the given ID
-     *
-     * Example:
-     * curl -X GET localhost:8080/item/description/1
-     */
-    @RequestMapping(value="/description/{id}", method= RequestMethod.GET)
-    public ResponseEntity<String> getDescriptionByID(@PathVariable("id") Long id);
-
-    /**
-     * @param id the item's ID
-     * @return the endtime of the auction for the item with the given ID
-     *
-     * Example:
-     * curl -X GET localhost:8080/item/endtime/1
-     */
-    @RequestMapping(value="/endtime/{id}", method= RequestMethod.GET)
-    public ResponseEntity<Timestamp> getEndtimeByID(@PathVariable("id") Long id);
 
     @RequestMapping(value="/totalCount",method = RequestMethod.GET)
     public ResponseEntity<Long> findTotalNumOfItems();

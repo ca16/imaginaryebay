@@ -54,9 +54,12 @@ Bidding:
 #####REST Api:
 1. create a new bidding:
 
-	 curl -X GET http://localhost:8080/bidding/itemID/1/price/900
+	 curl -X POST http://localhost:8080/bidding/itemID/1/price/900
 	 
 	 (logged in user bids on item with id=2 with price:900)
+	 (bid must be created before item's endtime, and price must be greater than highest bid. If
+	 and item does not have a highest bid, the price must be greater than the item's original price.
+	 User cannot bid on their own item. requires authentication.)
 
 2. get bidding with bidding's ID:
 	
@@ -66,18 +69,45 @@ Bidding:
 	
 	curl -X GET http://localhost:8080/bidding/userID/2
 
+	(needs authentication)
+
 4. get all the biddings on one item
 
 	curl -X GET http://localhost:8080/bidding/itemID/1
 
+	(needs authentication)
 
 5. get the highest bidding on one item
 
 	curl -X GET http://localhost:8080/bidding/highest/itemID/1
-	
+
+6. get active auction items based on bidder
+
+    curl -X GET http://localhost:8080/bidding/active/1
 
 
+    The following require Authentication:
 
-	
-	
+7. get items from successful auctions based on bidder
 
+    curl -X GET http://localhost:8080/bidding/successful/1
+
+8. the number of active auction items based on bidder
+
+    curl -X GET http://localhost:8080/bidding/active/1/count
+
+9. the number of items from successful auctions based on bidder
+
+    curl -X GET http://localhost:8080/bidding/successful/1/count
+
+10. get active auction items based on bidder with pagination (page number and page size)\
+
+    curl -X GET http://localhost:8080/bidding/active/1/page/1/size/10
+
+    (would return the first 10 such items)
+
+11. get items from successful auction based on bidder with pagination
+
+    curl -X GET http://localhost:8080/bidding/successful/1/page/2/size/5
+
+    (would return items 6 to 10)

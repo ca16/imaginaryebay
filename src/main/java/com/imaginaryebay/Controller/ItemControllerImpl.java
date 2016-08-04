@@ -45,38 +45,8 @@ public class ItemControllerImpl implements ItemController {
     }
 
     @Override
-    public ResponseEntity<Double> getPriceByID(Long id) {
-        return new ResponseEntity(this.itemRepository.findPriceByID(id), HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Userr> getOwnerByID(Long id) {
-        return new ResponseEntity(this.itemRepository.findOwnerByID(id), HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<String> getNameByID(Long id) {
-        return new ResponseEntity(this.itemRepository.findNameByID(id), HttpStatus.OK);
-    }
-
-    @Override
     public ResponseEntity<Double> getHighestBidByID(Long id) {
         return new ResponseEntity(this.itemRepository.findHighestBidByID(id), HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Category> getCategoryByID(Long id) {
-        return new ResponseEntity(this.itemRepository.findCategoryByID(id), HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<String> getDescriptionByID(Long id) {
-        return new ResponseEntity(this.itemRepository.findDescriptionByID(id), HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<Timestamp> getEndtimeByID(Long id) {
-        return new ResponseEntity(this.itemRepository.findEndtimeByID(id), HttpStatus.OK);
     }
 
     @Override
@@ -152,15 +122,6 @@ public class ItemControllerImpl implements ItemController {
     public ResponseEntity<List<Category>> getSellerCategoriesByID(@PathVariable("id") Long id) {
         return new ResponseEntity<List<Category>>(this.itemRepository.findSellerCategories(id), HttpStatus.OK);
     }
-
-//    public ResponseEntity<List<Item>> findItemsByCategoryBasedOnPage(String cat, int pageNum, int pageSize) {
-//        return new ResponseEntity<>(this.itemRepository.findItemsByCategoryBasedOnPage(cat, pageNum, pageSize), HttpStatus.OK);
-//    }
-//
-//    public ResponseEntity<List<Item>> findItemsByCategoryAndSellerBasedOnPage(String cat, Long sellerID, int pageNum, int pageSize){
-//        return new ResponseEntity<>(this.itemRepository.findItemsByCategoryAndSellerBasedOnPage(cat, sellerID, pageNum, pageSize), HttpStatus.OK);
-//    }
-
 
     public ResponseEntity<Integer> findItemsWithCount(String cat, String keyword, Long sellerID) {
         if ((null != cat) && (null != sellerID)) {
