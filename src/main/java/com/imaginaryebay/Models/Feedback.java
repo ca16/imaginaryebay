@@ -1,7 +1,5 @@
 package com.imaginaryebay.Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -16,8 +14,7 @@ public class Feedback {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name="item_id", unique = true)
-    @JsonIgnore
+    @JoinColumn(name="item_id", nullable = false)
     private Item item;
 
     @Column(nullable = false)

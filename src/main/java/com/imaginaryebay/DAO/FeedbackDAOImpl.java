@@ -53,7 +53,6 @@ public class FeedbackDAOImpl implements FeedbackDAO {
 
     @Override
     public List<Feedback> findAllByUserrId(Long userId) {
-//        Query query = entityManager.createQuery("SELECT f FROM Feedback f WHERE f.user = ?1");
         Query query = entityManager.createQuery("SELECT f FROM Feedback f JOIN f.item i WHERE i.userr.id = ?1");
         query.setParameter(1, userId);
         return query.getResultList();

@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,31 +39,42 @@ public class FeedbackRepositoryImpl implements FeedbackRepository{
     private static final String NOT_AVAILABLE = "Not available.";
 
     @Override
-    public Feedback save(Feedback feedback) {
+    public Feedback createFeedbackForItem(Feedback feedback, Long itemId) {
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        if (auth == null || !auth.isAuthenticated()) {
 //            throw new RestException(NOT_AVAILABLE, "You must be logged in to create an item.", HttpStatus.UNAUTHORIZED);
 //        }
 
-        Item feedbackItem = feedback.getItem();
-        if (feedbackItem == null || feedback.getContent() == null){
-            throw new RestException("Malformed request.", "A required request parameter was missing.", HttpStatus.BAD_REQUEST);
+        // Check for a valid item
+        Item feedbackItem = itemDAO.findByID(itemId);
+        if (feedback == null){
+            throw new RestException(NOT_AVAILABLE, "The requested item does not exist.", HttpStatus.OK);
         }
-        if (feedback.getTimestamp() == null){
-            Date date= new Date();
-            feedback.setTimestamp(new Timestamp(date.getTime()));
+
+        // Check that content was set
+        if (feedback.getContent() == null){
+            throw new RestException("Malformed request.", "A required request parameter 'content' was missing.", HttpStatus.BAD_REQUEST);
         }
-        // If auction is over
-        if (feedback.getTimestamp().before(feedbackItem.getEndtime())){
+
+        // Auction should be over
+        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+        if (currentTimestamp.before(feedbackItem.getEndtime())){
             throw new RestException(NOT_AVAILABLE, "You are not allowed to provide feedback for this item yet.", HttpStatus.FORBIDDEN);
         }
 
+        // Winning Bidder is the last highest bidder for a closed auction
         Bidding winningBid = biddingDAO.getHighestBiddingForItem(feedbackItem.getId());
         Userr bidWinner = winningBid.getUserr();
-//
+
+        // Only the winning bidder is authorized to give feedback
 //        if (!auth.getName().equals(bidWinner.getEmail())){
 //            throw new RestException(NOT_AVAILABLE, "You are not authorized to provide feedback for this item.", HttpStatus.UNAUTHORIZED);
 //        }
+
+        // Set timestamp to current time
+        feedback.setTimestamp(currentTimestamp);
+        feedback.setItem(feedbackItem);
+
         feedbackDAO.persist(feedback);
         return feedback;
     }
@@ -83,7 +93,7 @@ public class FeedbackRepositoryImpl implements FeedbackRepository{
     public List<Feedback> findAll() {
 
         List<Feedback> feedbacks = feedbackDAO.findAll();
-        if (feedbacks == null || feedbacks.size() == 0){
+        if (feedbacks == null || feedbacks.isEmpty()){
             throw new RestException(NOT_AVAILABLE, "No feedback found.", HttpStatus.OK);
         }
         return feedbacks;
@@ -94,11 +104,11 @@ public class FeedbackRepositoryImpl implements FeedbackRepository{
 
         Userr requestUserr = userrDao.getUserrByID(userrId);
         if (requestUserr == null){
-            throw new RestException(NOT_AVAILABLE, "The requested user does note exist.", HttpStatus.OK);
+            throw new RestException(NOT_AVAILABLE, "The requested user does not exist.", HttpStatus.OK);
         }
 
         List<Feedback> feedbacks = feedbackDAO.findAllByUserrId(userrId);
-        if (feedbacks == null || feedbacks.size() == 0){
+        if (feedbacks == null || feedbacks.isEmpty()){
             throw new RestException(NOT_AVAILABLE, "No feedback found for this user.", HttpStatus.OK);
         }
 
@@ -110,12 +120,12 @@ public class FeedbackRepositoryImpl implements FeedbackRepository{
 
         Item requestItem = itemDAO.findByID(itemId);
         if (requestItem == null) {
-            throw new RestException(NOT_AVAILABLE, "The requested item does note exist.", HttpStatus.OK);
+            throw new RestException(NOT_AVAILABLE, "The requested item does not exist.", HttpStatus.OK);
         }
 
         List<Feedback> feedbacks = feedbackDAO.findAllByItemId(itemId);
-        if (feedbacks == null || feedbacks.size() == 0) {
-            throw new RestException(NOT_AVAILABLE, "There is no feedback for this item", HttpStatus.OK);
+        if (feedbacks == null || feedbacks.isEmpty()) {
+            throw new RestException(NOT_AVAILABLE, "No feedback found for this item", HttpStatus.OK);
         }
         return feedbacks;
     }

@@ -14,7 +14,7 @@ import java.util.List;
 public interface FeedbackController {
 
     @RequestMapping(method = RequestMethod.GET)
-    ResponseEntity<List<Feedback>> returnAllFeedback();
+    ResponseEntity<List<Feedback>> getAllFeedback();
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     ResponseEntity<List<Feedback>> getFeedbackForUser(@PathVariable(value = "id") Long userId);

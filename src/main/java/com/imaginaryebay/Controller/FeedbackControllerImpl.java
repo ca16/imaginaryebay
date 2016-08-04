@@ -2,8 +2,6 @@ package com.imaginaryebay.Controller;
 
 import com.imaginaryebay.Models.Feedback;
 import com.imaginaryebay.Repository.FeedbackRepository;
-import com.imaginaryebay.Repository.ItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,11 +18,8 @@ public class FeedbackControllerImpl implements FeedbackController {
         this.feedbackRepository = feedbackRepository;
     }
 
-    @Autowired
-    private ItemRepository itemRepository;
-
     @Override
-    public ResponseEntity<List<Feedback>> returnAllFeedback() {
+    public ResponseEntity<List<Feedback>> getAllFeedback() {
         return new ResponseEntity<>(feedbackRepository.findAll(), HttpStatus.OK);
     }
 
@@ -40,8 +35,8 @@ public class FeedbackControllerImpl implements FeedbackController {
 
     @Override
     public ResponseEntity<Feedback> createFeedbackForItem(@PathVariable(value = "id") Long itemId, Feedback feedback) {
-        feedback.setItem(itemRepository.findByID(itemId));
-        feedbackRepository.save(feedback);
+        System.out.println("here");
+        feedback = feedbackRepository.createFeedbackForItem(feedback, itemId);
         return new ResponseEntity<>(feedback, HttpStatus.OK);
     }
 }
