@@ -1,24 +1,18 @@
 package com.imaginaryebay.Controller;
 
 import com.imaginaryebay.Models.Item;
-import com.imaginaryebay.Models.Message;
 import com.imaginaryebay.Models.Userr;
 import com.imaginaryebay.Repository.UserrRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.mail.MailException;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -40,10 +34,14 @@ public class UserrControllerImpl implements UserrController {
 
     @Override
     public ResponseEntity<Void> createNewUserr(Userr userr){
-        //ToDo: should have a mechanism here to check if the user exists or not
-        // Done in repository part
         userrRepository.createNewUserr(userr);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @Override
+    public ResponseEntity<List<String>> getUserNameByID(Long id){
+        return new ResponseEntity<List<String>>(userrRepository.getUserNameByID(id),HttpStatus.OK);
     }
 
     @Override
@@ -78,4 +76,11 @@ public class UserrControllerImpl implements UserrController {
     public ResponseEntity<List<Item>> getItemsSoldByThisUser(Long id){
         return new ResponseEntity<>(userrRepository.getItemsSoldByThisUser(id), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<Userr> lockout(Long id, Boolean state){
+        return new ResponseEntity<>(userrRepository.lockout(id, state), HttpStatus.OK);
+    }
+
 }
+

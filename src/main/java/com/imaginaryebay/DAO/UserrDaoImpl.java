@@ -47,7 +47,7 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
         // boolean fields required for User (the one in security.core.userdetails.User)
         boolean accountNonExpired=true;
         boolean credentialNonExpired=true;
-        boolean accountNonLocked=true;
+        boolean accountNonLocked=u.getNonLocked();
         boolean accountIsEnabled=true;
 
 
@@ -76,9 +76,19 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
         entityManager.persist(userr);
     }
 
+    @Override
+    public List<String> getUserNameByID(Long id){
+        String queryString="select u.name from Userr u where u.id = :ID";
+        Query query=entityManager.createQuery(queryString);
+        query.setParameter("ID",id);
+        List<String> listOfName=query.getResultList();
+        return listOfName;
+    }
+
+
 
     @Override
-    public Userr getUserrByID (long id){
+    public Userr getUserrByID (Long id){
         Userr userr=entityManager.find(Userr.class, id);
         return userr;
     }
@@ -118,7 +128,7 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
     }
 
     @Override
-    public void updateUserrByID(long id, Userr u) {
+    public void updateUserrByID(Long id, Userr u) {
         String queryString="select u from Userr u where u.id= :I";
         Query query = entityManager.createQuery(queryString);
         query.setParameter("I",id);
@@ -141,9 +151,18 @@ public class UserrDaoImpl implements UserrDao, UserDetailsService{
 
     @Override
     public List<Item> getItemsSoldByThisUser (Long id){
-        String queryString="select i from Item i join i.userr u where u.id= :I";
+        String queryString = "select i from Item i join i.userr u where u.id= :I";
         Query query=entityManager.createQuery(queryString);
         query.setParameter("I",id);
         return query.getResultList();
     }
+
+    @Override
+    public Userr lockout(Long id, Boolean state){
+        Userr toChange = entityManager.find(Userr.class, id);
+        toChange.setNonLocked(state);
+        return entityManager.find(Userr.class, id);
+
+    }
+
 }

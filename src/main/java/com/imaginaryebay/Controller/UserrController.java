@@ -22,6 +22,9 @@ public interface UserrController {
     @RequestMapping (value="/new", method = RequestMethod.POST)
     public ResponseEntity<Void> createNewUserr(@RequestBody  Userr userr);
 
+    @RequestMapping (value="/getName/{id}", method = RequestMethod.GET, produces="application/json")
+    public ResponseEntity<List<String>> getUserNameByID(@PathVariable("id") Long id);
+
 
     @RequestMapping (value="/{id}", method = RequestMethod.GET)
     public ResponseEntity<Userr> getUserrByID(@PathVariable("id") Long id);
@@ -29,14 +32,11 @@ public interface UserrController {
     @RequestMapping (value="/email/{email}/", method = RequestMethod.GET)
     public ResponseEntity<Userr> getUserrByEmail(@PathVariable("email") String email);
 
-
     @RequestMapping (method = RequestMethod.GET)
     public ResponseEntity<List<Userr>> getAllUserrs();
 
     @RequestMapping (value="/name/{name}",method = RequestMethod.GET)
     public ResponseEntity<List<Userr>> getUserrByName(@PathVariable("name") String name);
-
-
 
     @RequestMapping (value="/{id}",method = RequestMethod.PUT)
     public ResponseEntity<Userr> updateUserrByID(@PathVariable("id")Long id, @RequestBody  Userr u);
@@ -44,5 +44,8 @@ public interface UserrController {
 
     @RequestMapping (value="/item/{id}",method=RequestMethod.GET)
     public ResponseEntity<List<Item>> getItemsSoldByThisUser(@PathVariable("id")Long id);
+
+    @RequestMapping (value="/{id}/lockout",method=RequestMethod.PUT)
+    public ResponseEntity<Userr> lockout(@PathVariable("id")Long id, @RequestParam(value = "state") Boolean state);
 
 }

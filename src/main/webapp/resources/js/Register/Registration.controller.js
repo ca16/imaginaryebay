@@ -1,7 +1,7 @@
 /**
  * Created by Ben_Big on 4/1/16.
  */
-
+'use strict';
 (function(){
     angular.
     module("ShopApp").controller("registrationController",registrationController);

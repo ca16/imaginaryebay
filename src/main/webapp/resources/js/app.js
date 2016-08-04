@@ -1,4 +1,4 @@
-
+'use strict';
 (function(){
     var ShopApp=angular.module("ShopApp",["ngRoute", "ui.bootstrap"]);
 

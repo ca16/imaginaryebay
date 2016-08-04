@@ -24,6 +24,21 @@ public interface ItemRepository {
 
     public Item findByID(Long id);
 
+    public Item updateItemByID(Long id, Item item);
+
+    public List<Category> findSellerCategories(Long ownerId);
+
+    public List<ItemPicture> findAllItemPicturesForItem(Long id, String urlOnly);
+
+    public ItemPicture createItemPictureForItem(Long id, MultipartFile file);
+
+    public String createItemPicturesForItem(Long id, MultipartFile[] files);
+
+    //////////////////////////////////////
+    // Item Properties ///////////////////
+    //////////////////////////////////////
+    // do we need all these?
+
     public Double findPriceByID(Long id);
 
     public Category findCategoryByID(Long id);
@@ -38,20 +53,38 @@ public interface ItemRepository {
 
     public String findDescriptionByID(Long id);
 
-    public Item updateItemByID(Long id, Item item);
-
-    public List<Item> findAllItemsByCategory(String category);
+    //////////////////////////////////////
+    // Item Searches /////////////////////
+    //////////////////////////////////////
 
     public List<Item> findAllItems();
 
-    public List<ItemPicture> findAllItemPicturesForItem(Long id, String urlOnly);
+    public List<Item> findItemsByKeyword(String keyword);
 
-    public ItemPicture createItemPictureForItem(Long id, MultipartFile file);
+    public List<Item> findAllItemsByCategory(String category);
 
-    public String createItemPicturesForItem(Long id, MultipartFile[] files);
+    public List<Item> findItemsBySeller(Long ownerId);
 
+    public List<Item> findItemsByCategoryAndKeyword(String category, String keyword);
+
+    public List<Item> findItemsByCategoryAndSeller(String cat, Long ownerId);
+
+    ////////////////////////////////////
+    // Include Pagination //////////////
+    ////////////////////////////////////
 
     public List<Item> findItemsBasedOnPage(int pageNum, int pageSize);
 
+    public Long findTotalNumOfItems();
 
-}
+    public List<Item> findItemsByCategoryBasedOnPage(String category, int pageNum, int pageSize);
+
+    public List<Item> findItemsByCategoryAndSellerBasedOnPage(String cateogry, Long sellerID, int pageNum, int pageSize);
+
+    public List<Item> findItemsByKeywordAndCategoryBasedOnPage(String category, String keyword, int pageNum, int pageSize);
+
+    public List<Item> findItemsByKeywordBasedOnPage(String keyword, int pageNum, int pageSize);
+
+    public List<Item> findItemsBySellerBasedOnPage(Long id, int pageNum, int pageSize);
+
+    }

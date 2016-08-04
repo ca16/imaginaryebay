@@ -18,6 +18,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.method.P;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -74,6 +75,7 @@ public class ItemRepositoryImplTest {
     private Authentication auth1;
 
     private Userr userr1;
+    private Userr userr2;
     private UserDetails ud1;
 
     private List<GrantedAuthority> authListAdmin;
@@ -135,8 +137,10 @@ public class ItemRepositoryImplTest {
         authListNonAdmin.add(new SimpleGrantedAuthority("USER"));
 
         userr1 = new Userr("jackie@gmail.com", "Jackie Fire", "dragon", true);
+        userr2 = new Userr("tom@hotmail.com", "Tom Doe", "haha", true);
         ud1 = new User("jackie@gmail.com", "dragon", authListAdmin);
 
+        item1.setUserr(userr2);
         item2.setUserr(userr1);
 
         auth1 = new UsernamePasswordAuthenticationToken(ud1, "dragon", authListAdmin);
@@ -216,6 +220,17 @@ public class ItemRepositoryImplTest {
         toSave.setPrice(25.0);
         toSave.setName("This Perfect Day.");
         toSave.setEndtime(valueOf("2016-11-5 06:00:00"));
+
+        SecurityContextHolder.getContext().setAuthentication(null);
+
+        try {
+            impl.save(toSave);
+            fail();
+        } catch (RestException exc){
+            Assert.assertEquals("You must be logged in to create an item.", exc.getDetailedMessage());
+        }
+
+
         SecurityContextHolder.getContext().setAuthentication(auth1);
 
         impl.save(toSave);
@@ -235,7 +250,7 @@ public class ItemRepositoryImplTest {
             fail();
         } catch (RestException exc) {
             Assert.assertEquals("Invalid category", exc.getMessage());
-            Assert.assertEquals("Valid Categories are: Clothes & Electronics.", exc.getDetailedMessage());
+            Assert.assertEquals("Valid category names are: Clothes, Electronics.", exc.getDetailedMessage());
             Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
         }
 
@@ -378,10 +393,25 @@ public class ItemRepositoryImplTest {
 
     @Test
     public void updateItemByID() throws Exception {
+
+        SecurityContextHolder.getContext().setAuthentication(null);
+
+        try {
+            impl.updateItemByID(1L, toUpdate);
+            fail();
+        } catch (RestException exc){
+            Assert.assertEquals("You must be logged in to edit an item.", exc.getDetailedMessage());
+        }
+
         SecurityContextHolder.getContext().setAuthentication(auth1);
-        impl.updateItemByID(2L, toUpdate);
-        verify(itemDao).findByID(2L);
-        verify(itemDao).updateItemByID(2L, toUpdate);
+
+        try {
+            impl.updateItemByID(1L, toUpdate);
+            fail();
+        } catch (RestException exc){
+            Assert.assertEquals("You can only update items you own.", exc.getDetailedMessage());
+        }
+
 
         try {
             impl.updateItemByID(25L, toUpdate);
@@ -392,6 +422,10 @@ public class ItemRepositoryImplTest {
             Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
 
         }
+
+        impl.updateItemByID(2L, toUpdate);
+        verify(itemDao).findByID(2L);
+        verify(itemDao).updateItemByID(2L, toUpdate);
     }
 
     @Test
@@ -423,7 +457,7 @@ public class ItemRepositoryImplTest {
         } catch(RestException exc){
             Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
             Assert.assertEquals("Invalid request parameter.", exc.getMessage());
-            Assert.assertEquals("Books is not a valid Category name", exc.getDetailedMessage());
+            Assert.assertEquals("Books is not a valid Category name. Valid category names are: Clothes, Electronics.", exc.getDetailedMessage());
         }
     }
 

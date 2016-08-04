@@ -1,3 +1,4 @@
+'use strict';
 (function(){
     angular.
     module("ShopApp").controller("adminController",adminController);
@@ -15,19 +16,13 @@ function adminController($scope,$http, UserService, $location) {
     }
     else if (!userr.admin) {
         window.alert("You are not authorized to view this page.");
-        $location.path("#/app/home");
+        $location.path("app/home");
     }
 
     else {
-        $http.get("/user")
-            .then(function (data) {
-            $scope.users = data;
+        $http.get("/user").success(function(res){
+            $scope.users = res;
         });
-        console.log($scope.users);
-        for (var usr in $scope.users) {
-            console.log(usr);
-            console.log(usr.name);
-        }
     }
     
     $scope.profile = function (id) {
@@ -36,20 +31,16 @@ function adminController($scope,$http, UserService, $location) {
         $location.path("app/user/" + id);
     }
 
-    $scope.lock = function (id) {
-        $http.get("/user/" + id)
+    $scope.lock = function (id, user) {
+        $http.put("/user/" + id + "/lockout?state=" + !user.nonLocked)
             .then(
-                function(res){
-                    res.setPassword("lockedouthahaha");
-                    console.log(res);
-
-                }, function(res){
-                    window.alert("User lockout failed.");
+                function (res) {
+                    window.alert("User locked out successfully!");
+                }, function (res) {
+                    window.alert("User locked out failed.");
                 });
-       // UserService.returnSpecificUser(id).setPassword("lockedouthahahaha");
-        //console.log(UserService.returnSpecificUser(id));
-        // console.log("app/user/" + id);
-        // $location.path("app/user/" + id);
     }
+
+
 
 }
