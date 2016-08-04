@@ -34,38 +34,39 @@
         <!-- Page Features -->
         <div  class="row text-center">
 
-        <div ng-repeat="merchandise in goods" class="col-md-3 col-sm-6 hero-feature">
-            <div class="thumbnail">
-                <a ng-href="#/app/item/{{merchandise.id}}"><img ng-src="{{merchandise.itemPictures[0].url}}" alt=""></a>
-                <div class="caption">
-                    <h3>{{merchandise.name}}</h3>
-                    <p>{{merchandise.description}}</p>
-                    <p>
+            <div ng-repeat="merchandise in goods" class="col-md-3 col-sm-6 hero-feature">
+                <div class="thumbnail">
+                <a ng-href="/app/item/{{merchandise.id}}"><img ng-src="{{merchandise.itemPictures[0].url}}" alt=""></a>
+                    <div class="caption">
+                        <h3>{{merchandise.name}}</h3>
+                        <p>{{merchandise.description}}</p>
+                        <p>
                         <a ng-href="/app/shop/{{merchandise.id}}" class="btn btn-primary">Learn more!</a>
-                    </p>
+                        </p>
+                    </div>
                 </div>
-            </div>
+             </div>
+
         </div>
-    </div>
         <!-- /.row -->
         <!-- Pagination -->
         <div class="row text-center" >
-        <div class="col-lg-12">
+            <div class="col-lg-12">
             <ul  class="pagination">
                 <li>
-                    <a ng-hide="hide" ng-click="numbersToShowLeft()">&laquo;</a>
+                    <a ng-hide="hide" ng-click="numbersToShowLeft()" style="cursor:pointer;">&laquo;</a>
                 </li>
 
                 <li ng-repeat="num in numberForPagination" ng-class="{'active': num == currentPage}" >
-                    <a ng-click="goToPage(num)" target="_self">{{num}}</a>
+                    <a ng-click="goToPage(num)" target="_self" style="cursor:pointer;">{{num}}</a>
                 </li>
 
                 <li>
-                    <a ng-hide="hide" ng-click="numbersToShowRight()">&raquo;</a>
+                    <a ng-hide="hide" ng-click="numbersToShowRight()" style="cursor:pointer;">&raquo;</a>
                 </li>
             </ul>
+            </div>
         </div>
-    </div>
         <!-- /.row -->
     </div>
 

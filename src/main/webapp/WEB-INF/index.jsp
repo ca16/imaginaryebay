@@ -50,6 +50,7 @@
     <script src="<c:url value="/resources/js/Admin/Admin.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Shop/Shop.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/User/Userupdate.controller.js"/>"></script>
+    <script src="<c:url value="/resources/js/Search/Search.controller.js"/>"></script>
 
     <base href="/">
 
