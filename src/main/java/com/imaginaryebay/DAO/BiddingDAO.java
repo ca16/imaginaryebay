@@ -30,4 +30,8 @@ public interface BiddingDAO {
 
     public List<Item> getSuccessfulBidItemsByBidderByPage(Long bidderId, int pageNum, int pageSize);
 
+    public Integer getActiveBidItemsByBidderCount(Long bidderId);
+
+    public Integer getSuccessfulBidItemsByBidderCount(Long bidderId);
+
 }

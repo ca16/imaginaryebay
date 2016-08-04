@@ -237,4 +237,12 @@ public class BiddingRepositoryImpl implements BiddingRepository {
         return biddingDAO.getSuccessfulBidItemsByBidderByPage(bidderID, pageNum, pageSize);
     }
 
+    public Integer getActiveBidItemsByBidderCount(Long bidderId){
+        return biddingDAO.getActiveBidItemsByBidderCount(bidderId);
+    }
+
+    public Integer getSuccessfulBidItemsByBidderCount(Long bidderId){
+        return biddingDAO.getSuccessfulBidItemsByBidderCount(bidderId);
+    }
+
 }

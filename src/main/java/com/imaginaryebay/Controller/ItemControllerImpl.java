@@ -164,23 +164,23 @@ public class ItemControllerImpl implements ItemController {
 
     public ResponseEntity<Integer> findItemsWithCount(String cat, String keyword, Long sellerID) {
         if ((null != cat) && (null != sellerID)) {
-            return new ResponseEntity<>(this.getAllItems(cat, null, sellerID).getBody().size(), HttpStatus.OK);
+            return new ResponseEntity<>(itemRepository.findItemsByCategoryAndSellerCount(cat, sellerID), HttpStatus.OK);
         }
         if ((null != cat) && (null != keyword)) {
-            return new ResponseEntity<>(this.getAllItems(cat, keyword, null).getBody().size(), HttpStatus.OK);
+            return new ResponseEntity<>(itemRepository.findItemsByCategoryAndKeywordCount(cat, keyword), HttpStatus.OK);
         }
         if (null != sellerID) {
-            return new ResponseEntity<>(this.getAllItems(null, null, sellerID).getBody().size(), HttpStatus.OK);
+            return new ResponseEntity<>(itemRepository.findItemsBySellerCount(sellerID), HttpStatus.OK);
         }
         if (null != cat) {
-            return new ResponseEntity<>(this.getAllItems(cat, null, null).getBody().size(), HttpStatus.OK);
+            return new ResponseEntity<>(itemRepository.findItemsByCategoryCount(cat), HttpStatus.OK);
         }
         if (null != keyword) {
-            return new ResponseEntity<>(this.getAllItems(null, keyword, null).getBody().size(), HttpStatus.OK);
+            return new ResponseEntity<>(itemRepository.findItemsByKeywordCount(keyword), HttpStatus.OK);
         }
 
         if ((null == cat) && (null == keyword) && (null == sellerID)){
-            return new ResponseEntity(getAllItems(null, null, null).getBody().size(), HttpStatus.OK);
+            return new ResponseEntity(itemRepository.findItemsCount(), HttpStatus.OK);
         }
         else {
             throw new RestException("Argument combination unavailable.", "Invalid argument combinations include: cat, sellerID and keyword,and sellerID and keyword.", HttpStatus.OK);

@@ -85,4 +85,20 @@ public interface ItemDAO {
 
     public List<Item> findItemsByCategoryAndKeywordBasedOnPage(Category category, String keyword, int pageNum, int pageSize);
 
+
+    //////////////////////////////////////
+    // Counts ////////////////////////////
+    //////////////////////////////////////
+
+    public Integer findItemsCount();
+
+    public Integer findItemsByKeywordCount(String keyword);
+
+    public Integer findItemsByCategoryCount(Category category);
+
+    public Integer findItemsBySellerCount(Long id);
+
+    public Integer findItemsByCategoryAndSellerCount(Category category, Long sellerID);
+
+    public Integer findItemsByCategoryAndKeywordCount(Category category, String keyword);
 }

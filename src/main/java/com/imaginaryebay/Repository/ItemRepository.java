@@ -87,4 +87,20 @@ public interface ItemRepository {
 
     public List<Item> findItemsBySellerBasedOnPage(Long id, int pageNum, int pageSize);
 
+    //////////////////////////////////////
+    // Counts ////////////////////////////
+    //////////////////////////////////////
+
+    public Integer findItemsCount();
+
+    public Integer findItemsByKeywordCount(String keyword);
+
+    public Integer findItemsByCategoryCount(String category);
+
+    public Integer findItemsBySellerCount(Long id);
+
+    public Integer findItemsByCategoryAndSellerCount(String category, Long sellerID);
+
+    public Integer findItemsByCategoryAndKeywordCount(String category, String keyword);
+
     }

@@ -516,6 +516,39 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     //////////////////////////////////////
+    // Counts ////////////////////////////
+    //////////////////////////////////////
+
+    public Integer findItemsCount(){
+        return this.itemDAO.findItemsCount();
+    }
+
+    public Integer findItemsByKeywordCount(String keyword){
+        return this.itemDAO.findItemsByKeywordCount(keyword);
+    }
+
+    public Integer findItemsByCategoryCount(String category){
+        Category cat = categoryValidation(category);
+        return this.itemDAO.findItemsByCategoryCount(cat);
+    }
+
+    public Integer findItemsBySellerCount(Long id){
+        sellerValidation(id);
+        return this.itemDAO.findItemsBySellerCount(id);
+    }
+
+    public Integer findItemsByCategoryAndSellerCount(String category, Long sellerID){
+        Category cat = categoryValidation(category);
+        sellerValidation(sellerID);
+        return this.itemDAO.findItemsByCategoryAndSellerCount(cat, sellerID);
+    }
+
+    public Integer findItemsByCategoryAndKeywordCount(String category, String keyword){
+        Category cat = categoryValidation(category);
+        return this.itemDAO.findItemsByCategoryAndKeywordCount(cat, keyword);
+    }
+
+    //////////////////////////////////////
     // Helpers ///////////////////////////
     //////////////////////////////////////
 
