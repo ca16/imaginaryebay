@@ -14,10 +14,10 @@
 
             <div class="col-md-3">
                 <p class="lead">
-                    <a href="#/app/shop/{{sellerID}}" style="text-decoration:none"><b>{{shopName}}</b></a>
+                    <a href="/app/shop/{{sellerID}}" style="text-decoration:none"><b>{{shopName}}</b></a>
                 </p>
                 <div class="list-group">
-                    <a ng-repeat="category in categories" href="#/app/shop/{{sellerID}}?Category={{category}}"
+                    <a ng-repeat="category in categories" href="/app/shop/{{sellerID}}?Category={{category}}"
                        class="list-group-item" ng-class={'active':category==currentCategory}>{{category}}</a>
                 </div>
             </div>

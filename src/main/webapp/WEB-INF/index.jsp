@@ -24,7 +24,7 @@
     <script src="<c:url value="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"/>"></script>
 
     <!-- ng Route-->
-    <script src="<c:url value="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.js" />"> </script>
+    <script src="<c:url value="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.js" />"> </script>
 
     <%--Disqus directive--%>
     <script src="<c:url value="/resources/js/dirDisqus.js"/>"></script>
@@ -47,10 +47,15 @@
     <script src="<c:url value="/resources/js/Login/Login.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Register/Registration.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Navigation/Navigation.controller.js"/>"></script>
+
+    <script src="<c:url value="/resources/js/Contact/Contact.controller.js"/>"></script>
+    <script src="<c:url value="/resources/js/ItemChanges/Itemcreate.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Item/Item.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/ItemChanges/Itemupdate.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Admin/Admin.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Shop/Shop.controller.js"/>"></script>
+    <script src="<c:url value="/resources/js/User/Userupdate.controller.js"/>"></script>
+    <script src="<c:url value="/resources/js/Search/Search.controller.js"/>"></script>
 
     <base href="/">
 

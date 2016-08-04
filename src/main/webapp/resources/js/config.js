@@ -18,6 +18,9 @@
             .when('/app/registration',{
                 templateUrl:'./resources/registration.html'
             })
+            .when('/app/contact',{
+        		templateUrl:'./resources/contact.html'
+        	})
             .when('/app/item/create',{
                 templateUrl:'./resources/itemcreate.html'
             })
@@ -29,6 +32,15 @@
             })
             .when('/app/admin',{
                 templateUrl:'./resources/admin.html'
+            })
+            .when('/app/search',{
+                templateUrl:'./resources/searchResult.html'
+            })
+            .when('/app/user/:userId/update',{
+                templateUrl:'./resources/userupdate.html'
+            })
+            .when('/app/profile',{
+                templateUrl:'./resources/profile.html'
             })
             .otherwise({
                 redirectTo:'/'

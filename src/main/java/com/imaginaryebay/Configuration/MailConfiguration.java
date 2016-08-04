@@ -1,14 +1,16 @@
 package com.imaginaryebay.Configuration;
 
-import com.imaginaryebay.SendEmail;
-
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+
+import com.imaginaryebay.SendEmail;
 
 //import com.imaginaryebay.SendEmail;
 
@@ -29,19 +31,63 @@ public class MailConfiguration {
         return javaMailSender;
     }
     @Bean
-    public SimpleMailMessage templateMessage() {
+    public SimpleMailMessage accountCreationMessage() {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("tinavivio@gmail.com");
-        message.setSubject("Your account creation");
+        message.setSubject("Your ImaginaryEbay Account Creation");
         return message;
     }
-
+    
+    @Bean
+    public SimpleMailMessage contactMessageToUser(){
+    	SimpleMailMessage message = new SimpleMailMessage();
+    	message.setFrom("tinavivio@gmail.com");
+    	message.setSubject("Contact Form Submission Received");
+    	message.setText("Thank you for contacting us. We will respond within 24-48 hours. From the team at ImaginaryEbay.");
+    	return message;
+    }
+    
+    @Bean
+    public SimpleMailMessage contactMessageToAdmin(){
+    	SimpleMailMessage message = new SimpleMailMessage();
+    	message.setSubject("Contact Form Submission Received");
+    	message.setTo("tinavivio@gmail.com");
+    	return message;
+    }
+    
+    @Bean
+    public SimpleMailMessage itemSoldMessage(){
+    	SimpleMailMessage message = new SimpleMailMessage();
+    	message.setFrom("tinavivio@gmail.com");
+        message.setSubject("Your item has sold off ImaginaryEbay!");
+        return message;
+    }
+    
+    @Bean
+    public SimpleMailMessage itemWonMessage(){
+    	SimpleMailMessage message = new SimpleMailMessage();
+    	message.setFrom("tinavivio@gmail.com");
+        message.setSubject("You have won an item off ImaginaryEbay!");
+        return message;
+    }
+    
+    @Bean
+    public SimpleMailMessage itemLostMessage(){
+    	SimpleMailMessage message = new SimpleMailMessage();
+    	message.setFrom("tinavivio@gmail.com");
+        message.setSubject("Better luck next time!");
+        return message;
+    }
+    
     @Bean
     public SendEmail sendEmail(){
-        SendEmail email = new SendEmail();
-        email.setMailSender(mailSender());
-        email.setTemplateMessage(templateMessage());
-        return email;
+    	SendEmail task = new SendEmail();
+    	return task;
     }
-
+    
+    @Bean
+    public Timer timer(){
+    	Timer timer = new Timer();
+    	return timer;
+    }
 }

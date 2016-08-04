@@ -64,7 +64,6 @@ public class Userr implements Serializable{
     }
 
 
-
     public String getEmail() {
         return email;
     }
@@ -114,6 +113,14 @@ public class Userr implements Serializable{
         this.address = address;
     }
 
+
+	@Override
+	public String toString() {
+		return "Userr [id=" + id + ", email=" + email + ", name=" + name
+				+ ", password=" + password + ", isAdmin=" + isAdmin
+				+ ", address=" + address + "]";
+	}
+    
     public Boolean getNonLocked(){ return nonLocked; }
 
     public void setNonLocked(Boolean lock){ nonLocked = lock; }

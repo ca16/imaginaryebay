@@ -1,0 +1,79 @@
+<body>
+
+    <!-- Custom CSS -->
+    <link href="/resources/css/shop-search.css" rel="stylesheet">
+
+
+    <!-- Navigation -->
+    <div ng-include src=" './resources/Navigation.html' "></div>
+
+
+    <!-- Page Content -->
+    <div class="container"  ng-controller="searchController as sc">
+
+        <!-- Page Header -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Page Heading
+                    <small>Secondary Text</small>
+                </h1>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <div class="container" ng-controller="displayController", ng-init="init(sc.numOfItemsOnEachPage, sc.totalUrl, sc.itemUrl, sc.picUrl, sc.dumbParameter)">
+            <!-- Projects Row -->
+            <div class="col-lg-12 col-md-12">
+<!--            <div class="col-md-4 portfolio-item">
+                <a href="#">
+                    <img class="img-responsive" src="http://placehold.it/800x500" alt="">
+                </a>
+                <h3>
+                    <a href="#">Project Name</a>
+                </h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+            </div>-->
+
+            <div ng-repeat="merchandise in goods" class="col-md-4 portfolio-item">
+                <a ng-href="/app/item/{{merchandise.id}}"><img class="img-responsive" ng-src="{{merchandise.itemPictures[0].url}}" alt=""></a>
+                    <h3>
+                        {{merchandise.name}}
+                    </h3>
+                    <p>{{merchandise.description}}</p>
+            </div>
+
+
+        </div>
+
+            <hr>
+
+            <hr>
+
+            <!-- /.row -->
+            <!-- Pagination -->
+            <div class="row text-center" >
+            <div class="col-lg-12">
+                <ul  class="pagination">
+                    <li>
+                        <a ng-hide="hide" ng-click="numbersToShowLeft()" style="cursor:pointer;">&laquo;</a>
+                    </li>
+
+                    <li ng-repeat="num in numberForPagination" ng-class="{'active': num == currentPage}" >
+                        <a ng-click="goToPage(num)" target="_self" style="cursor:pointer;">{{num}}</a>
+                    </li>
+
+                    <li>
+                        <a ng-hide="hide" ng-click="numbersToShowRight()" style="cursor:pointer;">&raquo;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+            <!-- /.row -->
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+
+
+</body>

@@ -9,10 +9,11 @@
     angular.module("ShopApp").controller("homeController",homeController);
 })();
 
-function homeController($scope){
+function homeController($scope, UserService){
     this.numOfItemsOnEachPage=8;
     this.totalUrl="item/count";
     this.itemUrl="/item/page/";
     this.picUrl="http://placehold.it/800x400";
     this.dumbParameter="";
+
 }

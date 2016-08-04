@@ -109,4 +109,10 @@ public class ModelConfiguration {
         bean.setFeedbackRepository(feedbackRepository());
         return bean;
     }
+
+    @Bean
+    public ContactController contactController(){
+    	ContactController bean=new ContactControllerImpl();
+    	return bean;
+    }
 }

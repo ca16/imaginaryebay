@@ -20,12 +20,12 @@ User:
 #####REST Api:
 1. create a new user: (no login is needed)
 
-	curl -X POST -H "Content-Type:application/json" -d '{"password":"Testaburger", "name":"Wendy", "email":"wendy@gmail.com"}' -i  http://localhost:8080/user/new
+	curl -X POST -H "Content-Type: application/json" -d '{"password": "Testaburger", "name": "Wendy", "email": "wendy@gmail.com", "address": "Boston"}' -i  http://localhost:8080/user/new
 
 
 2. update user with ID: (need to login first, and must be the user himself or an admin)
 
-	curl -X PUT -H "Content-Type:application/json" -d '{"password":"Tucker", "name":"Craig", "email":"craig@gmail.com","address":"Bush"}' -i -b cookies.txt http://localhost:8080/user/2
+	curl -X PUT -H "Content-Type: application/json" -d '{"password": "Tucker", "name": "Craig", "email": "craig@gmail.com", "address": "Bush"}' -i -b cookies.txt http://localhost:8080/user/2
 	
 	
 3. return all user: (login is needed, and must be admin)
@@ -75,7 +75,17 @@ Bidding:
 
 	curl -X GET http://localhost:8080/bidding/highest/itemID/1
 	
+Message:
+-----
+#####REST Api:
 
+1. get messages sent to user with user's ID (need to login first, and must be the user himself or an admin)
+	
+	curl -X GET -b cookies.txt http://localhost:8080/message/3
+
+2. send an email to administrative account (do not need to be logged in user)
+	
+	curl -X POST -H "Content-Type: application/json" -d '{"emailAddress": "cooldude@gmail.com", "emailContent": "Yo dawg!", "name": "Peter"}' http://localhost:8080/contact
 
 
 	

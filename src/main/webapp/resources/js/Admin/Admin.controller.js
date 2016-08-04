@@ -16,7 +16,7 @@ function adminController($scope,$http, UserService, $location) {
     }
     else if (!userr.admin) {
         window.alert("You are not authorized to view this page.");
-        $location.path("#/app/home");
+        $location.path("app/home");
     }
 
     else {
