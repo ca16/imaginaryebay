@@ -135,5 +135,4 @@ public class Item {
                 ", itemPictures=" + itemPictures +
                 '}';
     }
-
 }
