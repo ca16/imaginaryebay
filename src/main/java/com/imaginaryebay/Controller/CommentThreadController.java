@@ -25,19 +25,4 @@ public interface CommentThreadController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     ResponseEntity<CommentThread> getFeedbackForAuction(@PathVariable("id") Long itemId);
-
-    /**
-     * Creates a Comment for the given auction item
-     * @param itemId The ID for the item
-     * @return Comment representing the comment added to the item's Disqus thread
-     *
-     * Example:
-     * curl -X POST -H "Content-Type: application/json" -d '{"author": {"name": "Brian Gillespie"},"raw_message": "Comment on item 75"}' "http://localhost:8080/feedback/1
-     *
-     */
-//    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-//    ResponseEntity<Comment> createFeedbackCommentForItem(@PathVariable("id") Long itemId,
-//                                                                 @RequestParam Comment feedbackComment,
-//                                                                 @RequestParam(required = false) Long userrId);
-
 }

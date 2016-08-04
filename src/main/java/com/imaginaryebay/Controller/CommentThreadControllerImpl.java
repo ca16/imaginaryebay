@@ -15,10 +15,6 @@ public class CommentThreadControllerImpl implements CommentThreadController {
     private CommentThreadRepository commentThreadRepository;
 
     public ResponseEntity<CommentThread> getFeedbackForAuction(Long id){
-        return new ResponseEntity<CommentThread>(commentThreadRepository.getFeedbackForItem(id), HttpStatus.OK);
+        return new ResponseEntity<>(commentThreadRepository.getFeedbackForItem(id), HttpStatus.OK);
     }
-
-//    public ResponseEntity<Comment> createFeedbackCommentForItem(Long itemId, Comment feedbackComment, Long userrId){
-//        return new ResponseEntity<Comment>(/*feedbackComment.createFeedbackCommentForItemAndUser(itemId, feedbackComment, userrId)*/ feedbackComment, HttpStatus.OK);
-//    }
 }
