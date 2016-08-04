@@ -49,7 +49,7 @@
     <script src="<c:url value="/resources/js/Navigation/Navigation.controller.js"/>"></script>
 
     <script src="<c:url value="/resources/js/Contact/Contact.controller.js"/>"></script>
-    <script src="<c:url value="/resources/js/ItemChanges/Itemcreate.controller.js"/>"></script>
+    <script src="<c:url value="/resources/js/ItemChanges/Itemupdate.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Item/Item.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/ItemChanges/Itemupdate.controller.js"/>"></script>
     <script src="<c:url value="/resources/js/Admin/Admin.controller.js"/>"></script>

@@ -167,7 +167,7 @@
             <artifactId>imgscalr-lib</artifactId>
             <version>4.2</version>
         </dependency>
-        
+
         <!--Swagger -->
         <dependency>
             <groupId>io.springfox</groupId>
