@@ -19,7 +19,7 @@ public interface FeedbackController {
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     ResponseEntity<List<Feedback>> getFeedbackForUser(@PathVariable(value = "id") Long userId);
 
-    @RequestMapping(value = "item/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/item/{id}", method = RequestMethod.GET)
     ResponseEntity<List<Feedback>> getFeedbackForItem(@PathVariable(value = "id") Long itemId);
 
     @RequestMapping(value = "/item/{id}", method = RequestMethod.POST)
