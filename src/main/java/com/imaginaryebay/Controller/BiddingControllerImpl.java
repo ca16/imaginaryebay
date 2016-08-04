@@ -87,11 +87,11 @@ public class BiddingControllerImpl implements BiddingController {
     }
 
     public ResponseEntity<Integer> getCountOfActiveItemsByBidder (@PathVariable("bidderID") Long bidderID){
-        return new ResponseEntity<>(getActiveItemsByBidder(bidderID).getBody().size(), HttpStatus.OK);
+        return new ResponseEntity<>(biddingRepository.getActiveBidItemsByBidderCount(bidderID), HttpStatus.OK);
     }
 
     public ResponseEntity<Integer> getCountOfSuccessfulAuctionItemsByBidder (@PathVariable("bidderID") Long bidderID){
-        return new ResponseEntity<>(getSuccessfulAuctionItemsByBidder(bidderID).getBody().size(), HttpStatus.OK);
+        return new ResponseEntity<>(biddingRepository.getSuccessfulBidItemsByBidderCount(bidderID), HttpStatus.OK);
     }
 
     public ResponseEntity<List<Item>> getActiveItemsByBidderByPage (@PathVariable("bidderID") Long bidderID, @PathVariable("page") int pageNum, @PathVariable("size") int pageSize){

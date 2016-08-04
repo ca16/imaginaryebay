@@ -112,6 +112,18 @@ public class BiddingDAOImpl implements  BiddingDAO{
 
     }
 
+    @Override
+    public Integer getActiveBidItemsByBidderCount(Long bidderId) {
+        return getActiveBidItemsByBidder(bidderId).size();
+
+    }
+
+    @Override
+    public Integer getSuccessfulBidItemsByBidderCount(Long bidderId) {
+        return getSuccessfulBidItemsByBidder(bidderId).size();
+
+    }
+
     private Query bySuccess(Long bidderId){
         Query query = entityManager.createQuery("select b.item from Bidding b where b.item.endtime < ?1 and b.userr.id = ?2 and b.item.highestBid = b.price order by b.item.endtime desc");
         Timestamp currentTime = new Timestamp((new java.util.Date()).getTime());

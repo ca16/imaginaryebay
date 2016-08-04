@@ -31,6 +31,10 @@ public interface BiddingRepository {
 
     public List<Item> getSuccessfulAuctionItemsByBidderByPage (Long bidderID, int pageNum, int pageSize);
 
+    public Integer getActiveBidItemsByBidderCount(Long bidderId);
+
+    public Integer getSuccessfulBidItemsByBidderCount(Long bidderId);
+
 
 
 }

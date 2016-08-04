@@ -216,6 +216,38 @@ public class ItemDAOImpl implements ItemDAO{
 
 
     //////////////////////////////////////
+    // Counts ////////////////////////////
+    //////////////////////////////////////
+
+    public Integer findItemsCount(){
+        return findAllItems().size();
+    }
+
+    public Integer findItemsByKeywordCount(String keyword) {
+        return findItemsByKeyword(keyword).size();
+    }
+
+    public Integer findItemsByCategoryCount(Category category){
+        return findAllItemsByCategory(category).size();
+
+    }
+
+    public Integer findItemsBySellerCount(Long id){
+        return findItemsBySeller(id).size();
+
+    }
+
+    public Integer findItemsByCategoryAndSellerCount(Category category, Long sellerID){
+        return findItemsByCategoryAndSeller(category, sellerID).size();
+
+    }
+
+    public Integer findItemsByCategoryAndKeywordCount(Category category, String keyword){
+        return findItemsByCategoryAndKeyword(category, keyword).size();
+    }
+
+
+    //////////////////////////////////////
     // Helpers ///////////////////////////
     //////////////////////////////////////
 
