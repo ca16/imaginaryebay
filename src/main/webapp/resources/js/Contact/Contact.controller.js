@@ -14,7 +14,7 @@ function contactController($scope,$http,$location){
     				emailContent:$scope.emailContent
     		}
 
-    		$http.post("/ImaginaryEbay/contact", newMessage)
+    		$http.post("/contact", newMessage)
             	.then(
             			function(res){
             				window.alert("Message sent! Thanks for contacting us!");

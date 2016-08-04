@@ -21,7 +21,7 @@ function registrationController($scope,UserService,$location,$http){
             };
             //console.log(credential);
             
-            $http.post("/ImaginaryEbay/registration",credential)
+            $http.post("/registration",credential)
                 .then(
                     function(res){
                         var user=res.data;
