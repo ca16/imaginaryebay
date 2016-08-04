@@ -1,4 +1,4 @@
-Imaginary Ebay 
+Imaginary Ebay
 ===
 
 
@@ -111,3 +111,18 @@ Bidding:
     curl -X GET http://localhost:8080/bidding/successful/1/page/2/size/5
 
     (would return items 6 to 10)
+
+
+	
+Message:
+-----
+#####REST Api:
+
+1. get messages sent to user with user's ID (need to login first, and must be the user himself or an admin)
+	
+	curl -X GET -b cookies.txt http://localhost:8080/message/3
+
+2. send an email to administrative account (do not need to be logged in user)
+	
+	curl -X POST -H "Content-Type: application/json" -d '{"emailAddress": "cooldude@gmail.com", "emailContent": "Yo dawg!", "name": "Peter"}' http://localhost:8080/contact
+

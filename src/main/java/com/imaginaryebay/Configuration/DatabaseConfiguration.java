@@ -42,7 +42,7 @@ public class DatabaseConfiguration {
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
         String username = dbUri.getUserInfo().split(":")[0];
-        //String password = dbUri.getUserInfo().split(":")[1];
+        String password = dbUri.getUserInfo().split(":")[1];
 
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath();
 
@@ -50,10 +50,20 @@ public class DatabaseConfiguration {
         comboPooledDataSource.setDriverClass("org.postgresql.Driver");
         comboPooledDataSource.setJdbcUrl(dbUrl);
         comboPooledDataSource.setUser(username);
-        comboPooledDataSource.setPassword("");
+        comboPooledDataSource.setPassword(password);
 
         return comboPooledDataSource;
     }
+	
+//	@Bean
+//    public DataSource dataSource() throws PropertyVetoException{
+//        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+//        dataSource.setDriverClass("org.postgresql.Driver");
+//        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/testdb3");
+//        dataSource.setUser("postgres");
+//        dataSource.setPassword("jingo123");
+//        return dataSource;
+//    }
 
     private Map<String,?> jpaProperties() {
         Map<String,String> jpaPropertiesMap = new HashMap<String,String>();

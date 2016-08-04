@@ -151,4 +151,5 @@ public class ItemControllerImpl implements ItemController {
     public ResponseEntity<Long> findTotalNumOfItems(){
         return new ResponseEntity<Long>(this.itemRepository.findTotalNumOfItems(),HttpStatus.OK);
     }
+
 }

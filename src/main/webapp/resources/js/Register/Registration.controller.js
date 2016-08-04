@@ -20,6 +20,7 @@ function registrationController($scope,UserService,$location,$http){
               password:$scope.password
             };
             //console.log(credential);
+            
             $http.post("/registration",credential)
                 .then(
                     function(res){

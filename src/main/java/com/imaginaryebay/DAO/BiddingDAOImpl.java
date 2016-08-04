@@ -63,7 +63,7 @@ public class BiddingDAOImpl implements  BiddingDAO{
 
     @Override
     public Bidding getHighestBiddingForItem (Long id){
-        Item item = entityManager.find(Item.class, id);
+        /*Item item = entityManager.find(Item.class, id);
         Query query = entityManager.createQuery("select b from Bidding b where b.price = ?1");
         Query query2 = query.setParameter(1, item.getPrice());
         List<Bidding> itemList= query2.getResultList();
@@ -72,20 +72,20 @@ public class BiddingDAOImpl implements  BiddingDAO{
         while(itr.hasNext()){
             return itr.next();
         }
-        return null;
+        return null;*/
 
-//        String queryString=
-//                "SELECT b from Bidding b join b.item it where it.id= :IT and b.price=(SELECT Max(b2.price) from Bidding b2 join b2.item it2 where it2.id= :IT2)";
-//        Query query=entityManager.createQuery(queryString);
-//        query.setParameter("IT",id);
-//        query.setParameter("IT2",id);
-//        List<Bidding> itemList= query.getResultList();
-//
-//        Iterator<Bidding> itr=itemList.iterator();
-//        while(itr.hasNext()){
-//            return itr.next();
-//        }
-//        return null;
+        String queryString=
+                "SELECT b from Bidding b join b.item it where it.id= :IT and b.price=(SELECT Max(b2.price) from Bidding b2 join b2.item it2 where it2.id= :IT2)";
+        Query query=entityManager.createQuery(queryString);
+        query.setParameter("IT",id);
+        query.setParameter("IT2",id);
+        List<Bidding> itemList= query.getResultList();
+
+        Iterator<Bidding> itr=itemList.iterator();
+        while(itr.hasNext()){
+            return itr.next();
+        }
+        return null;
     }
 
     @Override

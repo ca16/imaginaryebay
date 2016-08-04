@@ -11,10 +11,15 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
+import org.imgscalr.Scalr;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.UUID;
 
 /**
@@ -32,11 +37,13 @@ public class S3FileUploader {
     private static final String         IMAGE_PNG       = "image/png";
     private static final String         FILENAME_HEADER = "filename";
     private static final String         BUCKET          = "odbneu";
+    private static final String         THUMB_SUFFIX    = "_thumb";
     private static final String         INVALID_TYPE    = "Invalid file type. Files must be either .png or .jpg format.";
     private static final AWSCredentials AWS_CREDENTIALS = new BasicAWSCredentials(System.getenv("AWS_PUBLIC"),
                                                                                   System.getenv("AWS_SECRET"));
 
     /**
+     * // TODO: Could probably make this more space-efficient at least. But for our purposes this should be okay.
      * fileUploader - Uploads a MultipartFile object to S3.
      * @param multipartFile- A MultipartFile to be uploaded to S3. The URL of this file will be stored.
      * @return String result - The URL to access the uploaded MultiPartFile
@@ -46,36 +53,46 @@ public class S3FileUploader {
         String keyName = "image-" + UUID.randomUUID();
         AmazonS3 s3 = new AmazonS3Client(AWS_CREDENTIALS);
         String result = null;
-        try(S3Object s3Object = new S3Object()) {
+        try(S3Object s3FullImageObject = new S3Object();
+            S3Object s3ThumbnailImageObject = new S3Object()) {
 
             String fileType = multipartFile.getContentType();
+            String fileName = multipartFile.getName();
+
+            // Only accept jpeg and png
             if (!(IMAGE_JPEG.equals(fileType) || IMAGE_PNG.equals(fileType))){
                 throw new UnsupportedMediaTypeException(INVALID_TYPE);
             }
 
-            /** Prepare object metadata */
-            ObjectMetadata omd = new ObjectMetadata();
-            omd.setContentType(multipartFile.getContentType());
-            omd.setContentLength(multipartFile.getSize());
-            omd.setHeader(FILENAME_HEADER, multipartFile.getName());
+            // Get Original and thumbnail bytes
+            byte[] originalBytes = multipartFile.getBytes();
+            byte[] thumbnailBytes = getThumbnailBytes(originalBytes);
 
-            /** Get bytestream from HTTP request */
-            ByteArrayInputStream bis = new ByteArrayInputStream(multipartFile.getBytes());
+            // Create Object Metadata for S3
+            ObjectMetadata omdOriginal = getImageObjectMetadata(fileType, fileName, originalBytes.length);
+            ObjectMetadata omdThumbnail = getImageObjectMetadata(fileType, fileName + THUMB_SUFFIX, thumbnailBytes.length);
 
-//            BufferedImage image = ImageIO.read(bis);
-//
-//            BufferedImage thumbnail = Scalr.resize(image,
-//                    Scalr.Method.SPEED,
-//                    800,
-//                    500);
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            ImageIO.write(thumbnail, "jpg", baos);
+            // Create Input Streams
+            InputStream bisOriginal = new ByteArrayInputStream(originalBytes);
+            InputStream bisThumbnail = new ByteArrayInputStream(thumbnailBytes);
 
-//            ByteArrayInputStream bis2 = new ByteArrayInputStream(baos.toByteArray());
-            /** Upload the object to S3, and get back the URL (String) in result */
-            s3Object.setObjectContent(bis);
-            s3.putObject(new PutObjectRequest(BUCKET, keyName, bis, omd)
+            /** Upload the Original image to S3 */
+            s3FullImageObject.setObjectContent(bisOriginal);
+            s3.putObject(new PutObjectRequest(BUCKET,
+                                              keyName,
+                                              bisOriginal,
+                                              omdOriginal)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
+
+            /** Upload the Thumbnail image to S3*/
+            s3ThumbnailImageObject.setObjectContent(bisThumbnail);
+            s3.putObject(new PutObjectRequest(BUCKET,
+                                              keyName + THUMB_SUFFIX,
+                                              bisThumbnail,
+                                              omdThumbnail)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+
+            // Get the URL for the original image as result
             result = s3.getUrl(BUCKET, keyName).toString();
 
         } catch(UnsupportedMediaTypeException umte){
@@ -96,6 +113,36 @@ public class S3FileUploader {
             throw new Exception(e.getMessage());
         }
         return result;
+    }
+
+    private byte[] getThumbnailBytes(byte[] imageBytes) throws IOException{
+        ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+        // Resize and get thumbnail image
+        BufferedImage thumbnail = resizeImageToThumbnail(bis);
+        // Create OutputStream and write BufferedImage to it
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(thumbnail, "jpg", baos);
+        // Return byte array for thumbnail image
+        return baos.toByteArray();
+    }
+
+    private BufferedImage resizeImageToThumbnail(ByteArrayInputStream bais) throws IOException{
+        BufferedImage image = null;
+        try{
+            image = ImageIO.read(bais);
+            image = Scalr.resize(image,Scalr.Method.SPEED,330,200);
+        }catch(IOException ioe){
+            throw new IOException(ioe.getMessage());
+        }
+        return image;
+    }
+
+    private ObjectMetadata getImageObjectMetadata(String contentType, String fileName, Integer contentLength){
+        ObjectMetadata omd = new ObjectMetadata();
+        omd.setContentType(contentType);
+        omd.setHeader(FILENAME_HEADER, fileName);
+        omd.setContentLength(contentLength);
+        return omd;
     }
 
     private void printErrorInfo(AmazonServiceException ase){

@@ -68,6 +68,7 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers(HttpMethod.GET, "/bidding/userID/*").authenticated()
                 .antMatchers(HttpMethod.GET, "/bidding/active/*").authenticated()
                 .antMatchers(HttpMethod.GET, "/bidding/successful/*").authenticated()
+//                .antMatchers(HttpMethod.POST, "/feedback/*").authenticated()
 //                .antMatchers(HttpMethod.POST, "/item").authenticated()
 //                .antMatchers(HttpMethod.PUT, "/item/*").authenticated()
                 .antMatchers("/user").hasAuthority("ADMIN")

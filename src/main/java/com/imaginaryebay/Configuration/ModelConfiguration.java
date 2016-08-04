@@ -83,4 +83,36 @@ public class ModelConfiguration {
         FrontPageController bean=new FrontPageControllerImpl();
         return bean;
     }
+
+    @Bean
+    public CommentThreadController commentThreadController(){
+        CommentThreadController bean = new CommentThreadControllerImpl();
+        return bean;
+    }
+
+    @Bean
+    public FeedbackDAO feedbackDAO(){
+        FeedbackDAO bean = new FeedbackDAOImpl();
+        return bean;
+    }
+
+    @Bean
+    public FeedbackRepository feedbackRepository(){
+        FeedbackRepositoryImpl bean = new FeedbackRepositoryImpl();
+        bean.setFeedbackDAO(feedbackDAO());
+        return bean;
+    }
+
+    @Bean
+    public FeedbackController feedbackController(){
+        FeedbackControllerImpl bean = new FeedbackControllerImpl();
+        bean.setFeedbackRepository(feedbackRepository());
+        return bean;
+    }
+
+    @Bean
+    public ContactController contactController(){
+    	ContactController bean=new ContactControllerImpl();
+    	return bean;
+    }
 }

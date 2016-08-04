@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.imaginaryebay.Models.Userr;
 /**
  * Represents an email message with its receiver and date sent.
@@ -31,6 +32,7 @@ public class Message {
      */
     @ManyToOne
     @JoinColumn(name = "r_id")
+    @JsonIgnore
     private Userr receiver_id;
     /**
      * The time and date the email message was sent.

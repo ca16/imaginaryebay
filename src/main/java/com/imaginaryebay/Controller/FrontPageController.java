@@ -23,14 +23,14 @@ public interface FrontPageController {
     @RequestMapping(value="/app/shop/{id}", method=RequestMethod.GET)
     public ModelAndView getShopPage();
 
+    @RequestMapping(value="/app/item/{id}", method=RequestMethod.GET)
+    public ModelAndView getItemPage();
+
     @RequestMapping(value = "/app/search", method=RequestMethod.GET)
     public ModelAndView getSearchResult();
 
     @RequestMapping(value = "/app/admin", method=RequestMethod.GET)
     public ModelAndView getAdminPage();
-
-    @RequestMapping(value = "/app/item/{id}", method=RequestMethod.GET)
-    public ModelAndView getItemPage();
 
     @RequestMapping(value = "/app/item/create", method=RequestMethod.GET)
     public ModelAndView getItemCreationPage();
@@ -43,5 +43,4 @@ public interface FrontPageController {
 
     @RequestMapping(value = "/app/profile", method=RequestMethod.GET)
     public ModelAndView getProfilePage();
-
 }

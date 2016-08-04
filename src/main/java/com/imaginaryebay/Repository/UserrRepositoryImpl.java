@@ -1,19 +1,27 @@
 package com.imaginaryebay.Repository;
 
+import com.imaginaryebay.Controller.MessageController;
 import com.imaginaryebay.Controller.RestException;
 import com.imaginaryebay.DAO.UserrDao;
 import com.imaginaryebay.Models.Item;
+import com.imaginaryebay.Models.Message;
 import com.imaginaryebay.Models.Userr;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -38,6 +46,12 @@ public class UserrRepositoryImpl implements UserrRepository {
 
 	@Autowired
 	private UserrDao userrDao;
+	@Autowired
+    private MailSender mailSender;
+    @Autowired
+    private SimpleMailMessage accountCreationMessage;
+    @Autowired
+    private MessageController messageController;
 
 	public void setUserrDao(UserrDao userrDao){
 		this.userrDao = userrDao;
@@ -47,6 +61,21 @@ public class UserrRepositoryImpl implements UserrRepository {
 		Userr u = userrDao.getUserrByEmail(newUserr.getEmail());
 		if (u == null) {
 			userrDao.persist(newUserr);
+			//Send email to user upon account creation
+			SimpleMailMessage msg = new SimpleMailMessage(this.accountCreationMessage);
+	        msg.setTo(newUserr.getEmail());
+	        msg.setSentDate(new Date());
+	        msg.setText(
+	                "Dear " + newUserr.getName()
+	                        + ", thank you for creating an account. Your account username is "
+	                        + newUserr.getEmail() + " and your password is " + newUserr.getPassword() + ".");
+	        try {
+	            this.mailSender.send(msg);
+	        } catch (MailException ex) {
+	            System.err.println(ex.getMessage());
+	        }
+	        //Add email message to database of records
+	        messageController.createNewMessage(new Message(newUserr,new Timestamp(msg.getSentDate().getTime())));
 		}
 		else{
 			throw new RestException("User cannot be created.", "User with email " + newUserr.getEmail() + " already exists.", HttpStatus.BAD_REQUEST);
@@ -174,6 +203,4 @@ public class UserrRepositoryImpl implements UserrRepository {
 		}
 		return userrDao.lockout(id, state);
 	}
-
-
 }

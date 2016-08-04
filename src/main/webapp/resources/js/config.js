@@ -2,9 +2,9 @@
 (function(){
     angular
         .module("ShopApp")
-        .config(Configuration)
-
-    function Configuration($routeProvider,$locationProvider){
+        .config(Configuration);
+    
+    function Configuration($routeProvider, $locationProvider){
         $routeProvider
             .when('/',{
                 templateUrl:'./resources/home.html'
@@ -18,6 +18,9 @@
             .when('/app/registration',{
                 templateUrl:'./resources/registration.html'
             })
+            .when('/app/contact',{
+        		templateUrl:'./resources/contact.html'
+        	})
             .when('/app/item/create',{
                 templateUrl:'./resources/itemcreate.html'
             })
@@ -43,6 +46,6 @@
                 redirectTo:'/'
             });
 
-            $locationProvider.html5Mode(true);
+        $locationProvider.html5Mode(true);
     }
 }());
