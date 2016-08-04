@@ -18,5 +18,4 @@ public interface FeedbackRepository {
     List<Feedback> findAllByUserrId(Long id);
 
     List<Feedback> findAllByItemId(Long itemId);
-
 }

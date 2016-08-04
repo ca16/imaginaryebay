@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by Brian on 8/2/2016.
@@ -14,7 +15,8 @@ import java.util.List;
 public class FeedbackControllerImpl implements FeedbackController {
 
     private FeedbackRepository feedbackRepository;
-    public void setFeedbackRepository(FeedbackRepository feedbackRepository){
+
+    public void setFeedbackRepository(FeedbackRepository feedbackRepository) {
         this.feedbackRepository = feedbackRepository;
     }
 
@@ -29,7 +31,7 @@ public class FeedbackControllerImpl implements FeedbackController {
     }
 
     @Override
-    public ResponseEntity<List<Feedback>> getFeedbackForItem(@PathVariable(value = "id") Long itemId){
+    public ResponseEntity<List<Feedback>> getFeedbackForItem(@PathVariable(value = "id") Long itemId) {
         return new ResponseEntity<>(feedbackRepository.findAllByItemId(itemId), HttpStatus.OK);
     }
 

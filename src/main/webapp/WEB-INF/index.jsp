@@ -60,6 +60,8 @@
     <base href="/">
 
 
+    <base href="/">
+
 </head>
 <body>
 

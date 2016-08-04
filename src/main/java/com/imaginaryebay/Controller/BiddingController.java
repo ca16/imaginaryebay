@@ -18,7 +18,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/bidding")
-
 public interface BiddingController {
 
     //@RequestMapping (value="/userID/{userID}/itemID/{itemID}/price/{price}", method = RequestMethod.POST)

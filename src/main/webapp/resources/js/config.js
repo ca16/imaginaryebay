@@ -2,9 +2,13 @@
 (function(){
     angular
         .module("ShopApp")
-        .config(Configuration)
+        .config(Configuration);
 
+<<<<<<< HEAD
     function Configuration($routeProvider,$locationProvider){
+=======
+    function Configuration($routeProvider, $locationProvider){
+>>>>>>> 784fef9043762967ec70f51cdfaa1624efab18ab
         $routeProvider
             .when('/',{
                 templateUrl:'./resources/home.html'
@@ -46,6 +50,10 @@
                 redirectTo:'/'
             });
 
+<<<<<<< HEAD
             $locationProvider.html5Mode(true);
+=======
+        $locationProvider.html5Mode(true);
+>>>>>>> 784fef9043762967ec70f51cdfaa1624efab18ab
     }
 }());
