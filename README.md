@@ -69,13 +69,11 @@ Bidding:
 	
 	curl -X GET http://localhost:8080/bidding/userID/2
 
-	(needs authentication)
+	(needs authentication - admin or bidder themselves)
 
 4. get all the biddings on one item
 
 	curl -X GET http://localhost:8080/bidding/itemID/1
-
-	(needs authentication)
 
 5. get the highest bidding on one item
 
@@ -85,30 +83,39 @@ Bidding:
 
     curl -X GET http://localhost:8080/bidding/active/1
 
-
-    The following require Authentication:
+    (needs authentication - admin or bidder themselves)
 
 7. get items from successful auctions based on bidder
 
     curl -X GET http://localhost:8080/bidding/successful/1
 
+    (needs authentication - admin or bidder themselves)
+
 8. the number of active auction items based on bidder
 
     curl -X GET http://localhost:8080/bidding/active/1/count
+
+    (needs authentication - admin or bidder themselves)
 
 9. the number of items from successful auctions based on bidder
 
     curl -X GET http://localhost:8080/bidding/successful/1/count
 
+    (needs authentication - admin or bidder themselves)
+
 10. get active auction items based on bidder with pagination (page number and page size)\
 
     curl -X GET http://localhost:8080/bidding/active/1/page/1/size/10
+
+    (needs authentication - admin or bidder themselves)
 
     (would return the first 10 such items)
 
 11. get items from successful auction based on bidder with pagination
 
     curl -X GET http://localhost:8080/bidding/successful/1/page/2/size/5
+
+    (needs authentication - admin or bidder themselves)
 
     (would return items 6 to 10)
 
@@ -126,3 +133,91 @@ Message:
 	
 	curl -X POST -H "Content-Type: application/json" -d '{"emailAddress": "cooldude@gmail.com", "emailContent": "Yo dawg!", "name": "Peter"}' http://localhost:8080/contact
 
+
+Item:
+-----
+#####Rest Api:
+
+1. post a new item
+   requires authentication, name, endtime and price are required, the endtime must be in the future and the price must be greater than 0)
+
+    curl -X POST -H "Content-Type: application/json" -d '{ "description" : "watch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item"
+
+2. get an item by its ID
+
+    curl -X GET localhost:8080/item/1
+
+3. get the categories of items the given seller sells
+
+    curl -X GET localhost:8080/item/sellercategories/1
+
+4. update an item by its ID,
+   requires authentication the user must be the same as the item's owner, endtime and price must be valid (see requirements in posting an item)
+
+    curl -X PUT -H "Content-Type: application/json" -d '{ "description" : "notwatch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item/1"
+
+5. returns an HTTP response with the ItemPicture id, URL, and optionally the associated Item
+
+    curl -X GET localhost:8080/item/1/picture
+
+6. Returns an HTTP Response containing the status and string representing the uploaded image's URL.
+
+    curl -X POST -F "file=@/path/to/image.jpg" localhost:8080/item/1/picture
+
+7. returns the list of items that fits the input
+    no parameters: returns all items
+    cat parameter: returns all items of the given category (category must be a valid category name)
+    keyword parameter: returns all items whose name matches or partially matches the given name
+    sellerID parameter: returns all items sold by the user with the given id
+    cat and keyword parameters: returns items that match both the cat and keyword parameters
+    cat and sellerID parameters: returns items that match both the cat and sellerID parameters
+
+      curl -X GET localhost:8080/item
+      curl -X GET localhost:8080/item?cat=Clothes
+      curl -X GET localhost:8080/item?keyword=card
+      curl -X GET "localhost:8080/item?cat=Clothes&keyword=card"
+      curl -X GET localhost:8080/item?sellerID=2
+      curl -X GET "localhost:8080/item?cat=Clothes&sellerID=2"
+      (with two parameters, make sure the  " " are there if you're using curl)
+
+8. returns a list of items that fits the input using pagination
+    (see description in 7. for parameter descriptions)
+
+     curl -X GET localhost:8080/item/page/1/size/2
+
+     (first 2 items that fit the input)
+
+     curl -X GET localhost:8080/item/page/1/size/3?cat=Clothes
+
+     (first 3 items that fit the input)
+
+     curl -X GET localhost:8080/item/page/2/size/10?keyword=card
+
+     (second page of size 10 that fit the input, so items 11 to 20)
+
+     curl -X GET "localhost:8080/item/page/2/size/2?cat=Clothes&keyword=card"
+
+     (second page of size 2 that fit the input, so items 3 to 4)
+
+     curl -X GET localhost:8080/item/page/1/size/4?sellerID=2
+
+     (first 4 items that fit the input)
+
+     curl -X GET "localhost:8080/item/page/2/size/1?cat=Clothes&sellerID=2"
+
+     (second item that fits the input)
+
+
+9. returns the number of items that fits the input
+    (see description in 7. for parameter descriptions)
+
+     curl -X GET localhost:8080/item/count
+     curl -X GET localhost:8080/item/count?cat=Clothes
+     curl -X GET localhost:8080/item/count?keyword=card
+     curl -X GET "localhost:8080/item/count?cat=Clothes&keyword=card"
+     curl -X GET localhost:8080/item/count?sellerID=2
+     curl -X GET "localhost:8080/item/count?cat=Clothes&sellerID=2"
+
+10. return the highest bid for the item with the given ID
+
+    curl -X GET localhost:8080/item/highestbid/1
