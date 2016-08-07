@@ -221,3 +221,9 @@ Item:
 10. return the highest bid for the item with the given ID
 
     curl -X GET localhost:8080/item/highestbid/1
+
+11. get three random pics of items the given seller is selling
+
+    curl -X GET localhost:8080/item/randompics/2
+
+    (if the seller has fewer than 3 pictures of items, it returns whatever pictures the seller has)
