@@ -94,14 +94,14 @@ public class ItemDAOImpl implements ItemDAO{
         toChange.setDescription(item.getDescription());
         return entityManager.find(Item.class, id);
     }
-
-    @Override
-    public Long findTotalNumOfItems(){
-        String queryString="select count(i) from Item i";
-        Query query=entityManager.createQuery(queryString);
-        List<Long> result=query.getResultList();
-        return result.get(0);
-    }
+//
+//    @Override
+//    public Long findTotalNumOfItems(){
+//        String queryString="select count(i) from Item i";
+//        Query query=entityManager.createQuery(queryString);
+//        List<Long> result=query.getResultList();
+//        return result.get(0);
+//    }
 
     @Override
     public List<Category> findSellerCategories(Long ownerId){

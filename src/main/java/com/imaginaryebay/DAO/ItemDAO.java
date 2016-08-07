@@ -25,7 +25,7 @@ public interface ItemDAO {
 
     public Item updateItemByID(Long id, Item item);
 
-    public Long findTotalNumOfItems();
+//    public Long findTotalNumOfItems();
 
     public List<Category> findSellerCategories(Long ownerId);
 

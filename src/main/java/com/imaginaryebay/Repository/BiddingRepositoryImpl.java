@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -146,11 +147,7 @@ public class BiddingRepositoryImpl implements BiddingRepository {
 
     @Override
     public List<Bidding> getBiddingByUserrID (Long id){
-        Userr user = userrDAO.getUserrByID(id);
-        if (null == user){
-            throw new RestException(NOT_AVAILABLE,
-                    "User with id " + id + " does not exist.", HttpStatus.OK);
-        }
+        bidderValidation(id);
         List<Bidding> toRet = this.biddingDAO.getBiddingByUserrID(id);
         if (toRet.isEmpty()){
             throw new RestException(NOT_AVAILABLE,
@@ -159,19 +156,19 @@ public class BiddingRepositoryImpl implements BiddingRepository {
         return toRet;
     }
 
-    @Override
-    public List<Bidding> getBiddingByItem (Item item){
-        Item it = itemDAO.find(item);
-        if (it == null){
-            throw new RestException(NOT_AVAILABLE, "The item does not exist.", HttpStatus.OK);
-        }
-        List<Bidding> toRet = this.biddingDAO.getBiddingByItem(item);
-        if (toRet.isEmpty()){
-            throw new RestException(NOT_AVAILABLE,
-                    "No bids have been made on this item.", HttpStatus.OK);
-        }
-        return toRet;
-    }
+//    @Override
+//    public List<Bidding> getBiddingByItem (Item item){
+//        Item it = itemDAO.find(item);
+//        if (it == null){
+//            throw new RestException(NOT_AVAILABLE, "The item does not exist.", HttpStatus.OK);
+//        }
+//        List<Bidding> toRet = this.biddingDAO.getBiddingByItem(item);
+//        if (toRet.isEmpty()){
+//            throw new RestException(NOT_AVAILABLE,
+//                    "No bids have been made on this item.", HttpStatus.OK);
+//        }
+//        return toRet;
+//    }
 
     @Override
     public List<Bidding> getBiddingByItemID (Long id){
@@ -252,19 +249,23 @@ public class BiddingRepositoryImpl implements BiddingRepository {
     }
 
     private void bidderValidation(Long bidderID){
-
         // can't bid if you're not logged in
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated()) {
             throw new RestException(NOT_AVAILABLE, "You must be logged in to find bids by bidder.", HttpStatus.UNAUTHORIZED);
         }
-
+        Boolean isAdmin = auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"));
         String email = auth.getName();
         Userr user = userrDAO.getUserrByEmail(email);
 
+        Userr givenUser = userrDAO.getUserrByID(bidderID);
+        if (null == givenUser){
+            throw new RestException(NOT_AVAILABLE, "User with id " + bidderID + " does not exist.", HttpStatus.OK);
+        }
+
         // can't bid on your own item
-        if (!bidderID.equals(user.getId())) {
-            throw new RestException(NOT_AVAILABLE, "You can only find look at your own bids.", HttpStatus.FORBIDDEN);
+        if (!bidderID.equals(user.getId()) && !isAdmin) {
+            throw new RestException(NOT_AVAILABLE, "You must be an administrator to look at other bidders' bids.", HttpStatus.FORBIDDEN);
         }
     }
 
