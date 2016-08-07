@@ -96,23 +96,27 @@ public interface ItemController {
                                                            @RequestParam("file") MultipartFile file);
 
 
-    /**
-     * Returns a list of all items if no category or name is specified.
-     * If only category is specified returns a list of all items of that category.
-     * If only keyword is specified returns a list of all items whose name matches or partially matches the given name.
-     * @param cat the category of items we want a list for
-     * @param keyword keyword to search by
-     * @return the list of items that fits the input
-     *
-     * Example:
-     * curl -X GET localhost:8080/item
-     * curl -X GET localhost:8080/item?cat=Clothes
-     * curl -X GET localhost:8080/item?keyword=card
-     * curl -X GET "localhost:8080/item?cat=Clothes&keyword=card"
-     * curl -X GET localhost:8080/item?sellerID=2
-     * curl -X GET "localhost:8080/item?cat=Clothes&sellerID=2"
-     * (with two parameters, make sure the  " " are there if you're using curl)
-     */
+    @RequestMapping(value = "/randompics/{sellerID}", method = RequestMethod.GET)
+    public ResponseEntity<List<ItemPicture>> findThreeRandomPicsBySeller(@PathVariable("sellerID") Long sellerID);
+
+
+        /**
+         * Returns a list of all items if no category or name is specified.
+         * If only category is specified returns a list of all items of that category.
+         * If only keyword is specified returns a list of all items whose name matches or partially matches the given name.
+         * @param cat the category of items we want a list for
+         * @param keyword keyword to search by
+         * @return the list of items that fits the input
+         *
+         * Example:
+         * curl -X GET localhost:8080/item
+         * curl -X GET localhost:8080/item?cat=Clothes
+         * curl -X GET localhost:8080/item?keyword=card
+         * curl -X GET "localhost:8080/item?cat=Clothes&keyword=card"
+         * curl -X GET localhost:8080/item?sellerID=2
+         * curl -X GET "localhost:8080/item?cat=Clothes&sellerID=2"
+         * (with two parameters, make sure the  " " are there if you're using curl)
+         */
     @RequestMapping(method= RequestMethod.GET)
     public ResponseEntity<List<Item>> getAllItems(@RequestParam(value = "cat", required = false) String cat, @RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "sellerID", required = false) Long sellerID);
 

@@ -36,6 +36,8 @@ public interface ItemRepository {
 
     public Double findHighestBidByID(Long id);
 
+    public List<ItemPicture> findThreeRandomPicsBySeller(Long sellerID);
+
     //////////////////////////////////////
     // Item Searches /////////////////////
     //////////////////////////////////////

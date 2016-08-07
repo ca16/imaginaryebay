@@ -10,7 +10,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -130,6 +132,26 @@ public class ItemDAOImpl implements ItemDAO{
         query =query.setParameter("id", id);
         List<ItemPicture> itemPictures = query.getResultList();
         return itemPictures;
+    }
+
+
+    public List<ItemPicture> findThreeRandomPicsBySeller(Long sellerID){
+        List<ItemPicture> pics = new ArrayList<>();
+        List<Item> items = findItemsBySeller(sellerID);
+        for (Item item : items){
+            pics.addAll(findAllItemPicturesForItemID(item.getId()));
+        }
+        if (pics.size() < 3){
+            return pics;
+        }
+        else {
+            Set<ItemPicture> toRet = new HashSet<>();
+            while (toRet.size() < 3) {
+                Integer select = (int )(Math.random() * pics.size());
+                toRet.add(pics.get(select));
+            }
+            return new ArrayList<>(toRet);
+        }
     }
 
     //////////////////////////////////////
