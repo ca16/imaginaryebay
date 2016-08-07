@@ -96,6 +96,15 @@ public interface ItemController {
                                                            @RequestParam("file") MultipartFile file);
 
 
+    /**
+     * returns 3 random pictures of items the seller with the given ID is selling.
+     * If there are fewer than 3 pictures available, returns all available pictures.
+     * @param sellerID the seller's ID
+     * @return three random pictures of items the seller is selling
+     *
+     * Example:
+     * curl -X GET localhost:8080/item/randompics/2
+     */
     @RequestMapping(value = "/randompics/{sellerID}", method = RequestMethod.GET)
     public ResponseEntity<List<ItemPicture>> findThreeRandomPicsBySeller(@PathVariable("sellerID") Long sellerID);
 
