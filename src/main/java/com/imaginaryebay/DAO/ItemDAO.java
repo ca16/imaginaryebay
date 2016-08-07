@@ -31,6 +31,7 @@ public interface ItemDAO {
 
     List<ItemPicture> findAllItemPictureURLsForItemID(Long id);
 
+    public List<ItemPicture> findThreeRandomPicsBySeller(Long sellerID);
 
     //////////////////////////////////////
     // Item Properties ///////////////////

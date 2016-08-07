@@ -308,6 +308,11 @@ public class ItemRepositoryImpl implements ItemRepository {
         return newPicture;
     }
 
+    public List<ItemPicture> findThreeRandomPicsBySeller(Long sellerID){
+        sellerValidation(sellerID);
+        return itemDAO.findThreeRandomPicsBySeller(sellerID);
+    }
+
     //////////////////////////////////////
     // Item Searches /////////////////////
     //////////////////////////////////////

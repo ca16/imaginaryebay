@@ -94,6 +94,10 @@ public class ItemControllerImpl implements ItemController {
         return new ResponseEntity<ItemPicture>(itemRepository.createItemPictureForItem(id, file), HttpStatus.OK);
     }
 
+    public ResponseEntity<List<ItemPicture>> findThreeRandomPicsBySeller(Long sellerID){
+        return new ResponseEntity<>(itemRepository.findThreeRandomPicsBySeller(sellerID), HttpStatus.OK);
+    }
+
     public ResponseEntity<List<Item>> findItemsBasedOnPage(int pageNum, int pageSize, String cat, String keyword, Long sellerID) {
         if ((null != cat) && (null != sellerID)) {
             return new ResponseEntity<>(this.itemRepository.findItemsByCategoryAndSellerBasedOnPage(cat, sellerID, pageNum, pageSize), HttpStatus.OK);
