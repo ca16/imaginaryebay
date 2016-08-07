@@ -5,23 +5,55 @@
 
     <div class="row">
         <div class="col-md-9">
-            <div class="thumbnail">
+            <div ng-show="validBid" class="alert alert-success">
+                <strong>{{bidMessage}}</strong>
+            </div>
+
+            <div ng-show="invalidBid" class="alert alert-danger">
+                <strong>{{bidMessage}}</strong>
+            </div>
+            <div class="thumbnail" style="overflow:hidden;">
                 <div uib-carousel active="active" no-wrap="noWrapSlides">
-                        <div uib-slide ng-repeat="slide in slides track by $index" index="$index">
-                            <img ng-src="{{slide.url}}" style="margin:auto;">
-                        </div>
+                    <div uib-slide ng-repeat="slide in slides track by $index" index="$index">
+                        <img ng-src="{{slide.url}}_thumb" style="margin:auto;">
+                    </div>
                 </div><!-- Image carousel-->
                 <div class="caption-full">
-                    <h3 class="pull-right">{{item.price | currency}}</h3>
-                    <h3>{{item.name}}</h3>
-                    <p>{{item.description}}</p>
-                    <a href="#/app/item/{{item.id}}/update" class="btn btn-primary">Update</a>
+                    <div class="pull-right well" style="margin-left: 1%">
+                        <div>
+                            <h3>Current Bid: {{ item.highestBid | currency }}</h3>
+                            <p ng-hide="auctionEndSoon">
+                                <span>Time left: </span>
+                                <span countdown end-date="{{item.endtime | date:'short'}}" units="days|hours|minutes"> </span>
+                            </p>
+                            <p ng-show="auctionEndSoon" style="color: red">
+                                <span>Time left: </span>
+                                <span countdown end-date="{{item.endtime | date:'short'}}" units="days|hours|minutes">span>
+                            </p>
+                        </div>
+                        <form class="form-horizontal" ng-show="loggedInFlag">
+                            <div class="form-group">
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" ng-model="newbidprice" ng-currency min="1">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-10">
+                                    <button class="btn btn-primary" ng-click="makeBid()">Bid Now!</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div style="margin-right: 1%">
+                        <h3>{{item.name}}</h3>
+                        <p>{{item.description}}</p>
+                        <a href="#/app/item/{{item.id}}/update" class="btn btn-primary">Update</a>
+                    </div>
                 </div>
             </div>
             <dir-disqus config="disqusConfig"></dir-disqus>
         </div>
     </div>
-
     <hr>
     <!-- Footer -->
     <footer>

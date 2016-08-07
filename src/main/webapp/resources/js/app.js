@@ -1,6 +1,6 @@
 'use strict';
 (function(){
-    var ShopApp=angular.module("ShopApp",["ngRoute", "ui.bootstrap"]);
+    var ShopApp=angular.module("ShopApp",["ngRoute", "ui.bootstrap", "ng-currency", "countdownTimer"]);
 
     
      /*ShopApp.run(['$rootScope',function($rootScope){
