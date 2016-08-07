@@ -156,20 +156,6 @@ public class BiddingRepositoryImpl implements BiddingRepository {
         return toRet;
     }
 
-//    @Override
-//    public List<Bidding> getBiddingByItem (Item item){
-//        Item it = itemDAO.find(item);
-//        if (it == null){
-//            throw new RestException(NOT_AVAILABLE, "The item does not exist.", HttpStatus.OK);
-//        }
-//        List<Bidding> toRet = this.biddingDAO.getBiddingByItem(item);
-//        if (toRet.isEmpty()){
-//            throw new RestException(NOT_AVAILABLE,
-//                    "No bids have been made on this item.", HttpStatus.OK);
-//        }
-//        return toRet;
-//    }
-
     @Override
     public List<Bidding> getBiddingByItemID (Long id){
         Item it = itemDAO.findByID(id);

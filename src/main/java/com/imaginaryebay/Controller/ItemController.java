@@ -152,10 +152,6 @@ public interface ItemController {
     public ResponseEntity<Double> getHighestBidByID(@PathVariable("id") Long id);
 
 
-//    @RequestMapping(value="/totalCount",method = RequestMethod.GET)
-//    public ResponseEntity<Long> findTotalNumOfItems();
-
-
 }
 
 

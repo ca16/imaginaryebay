@@ -228,10 +228,6 @@ public class ItemRepositoryImpl implements ItemRepository {
         return itemDAO.findSellerCategories(ownerId);
     }
 
-//    public Long findTotalNumOfItems(){
-//        return itemDAO.findTotalNumOfItems();
-//    }
-
     public List<ItemPicture> findAllItemPicturesForItem(Long id, String urlOnly) {
 
         List<ItemPicture> itemPictures;
