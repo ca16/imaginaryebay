@@ -6,17 +6,13 @@
 
 
 function navigationController($scope,$http,UserService){
-    //console.log("test");
     $scope.loggedInFlag=false;
     $scope.currentUser=UserService.returnUser();
     if ($scope.currentUser!=null){
         $scope.loggedInFlag=true;
         $scope.id = $scope.currentUser.id;
-       // $scope.adminFlag=$scope.currentUser.adminFlag;
+        $scope.adminFlag=$scope.currentUser.admin;
     }
-    $scope.adminFlag=true;
-
-
 
 
 }
