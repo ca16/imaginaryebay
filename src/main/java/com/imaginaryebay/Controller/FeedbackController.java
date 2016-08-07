@@ -23,5 +23,5 @@ public interface FeedbackController {
     ResponseEntity<List<Feedback>> getFeedbackForItem(@PathVariable(value = "id") Long itemId);
 
     @RequestMapping(value = "/item/{id}", method = RequestMethod.POST)
-    ResponseEntity<Feedback> createFeedbackForItem(@PathVariable(value = "id") Long itemId, @RequestBody Feedback feedback);
+    ResponseEntity<Feedback> createFeedbackForItem(@PathVariable(value = "id") Long itemId, @RequestParam(value = "feedback", required = false) String feedback);
 }

@@ -149,72 +149,6 @@ public class ItemRepositoryImpl implements ItemRepository {
         }
     }
 
-    public Userr findOwnerByID(Long id) {
-        Item item = this.itemDAO.findByID(id);
-        if (item != null) {
-            // No check for whether owner is null. All items should have an owner.
-            return itemDAO.findOwnerByID(id);
-        }
-
-        // non-existent items don't have owners
-        throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
-    }
-
-    public String findNameByID(Long id) {
-        Item item = this.itemDAO.findByID(id);
-        if (item != null) {
-            // No check for whether keyword is null. All items should have an keyword.
-            return itemDAO.findNameByID(id);
-        }
-
-        // non-existent items don't have names
-        throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
-    }
-
-    public Double findPriceByID(Long id) {
-        Item item = this.itemDAO.findByID(id);
-        if (item != null) {
-            // No check for whether price is null. All items should have an price.
-            return itemDAO.findPriceByID(id);
-        }
-
-        // non-existent items don't have prices
-        throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
-    }
-
-    public Timestamp findEndtimeByID(Long id) {
-        Item item = this.itemDAO.findByID(id);
-        if (item != null) {
-            // No check for whether end time is null. All items should have an end time.
-            return itemDAO.findEndtimeByID(id);
-        }
-
-        // non-existent items don't have end times
-        throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
-    }
-
-    public Category findCategoryByID(Long id) {
-        Item item = this.itemDAO.findByID(id);
-        if (item != null) {
-            Category cat = itemDAO.findCategoryByID(id);
-            if (cat != null) {
-                return cat;
-            }
-            // some items don't have categories
-            throw new RestException(NOT_AVAILABLE,
-                    detailedMessageConstructor(id, " does not have a category"), HttpStatus.OK);
-
-        }
-
-        // non-existent items don't have categories
-        throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
-    }
-
     public Double findHighestBidByID(Long id) {
         Item item = this.itemDAO.findByID(id);
         if (item != null) {
@@ -227,23 +161,6 @@ public class ItemRepositoryImpl implements ItemRepository {
                     detailedMessageConstructor(id, " does not have a highest bid."), HttpStatus.OK);
         }
         // non-existent items don't have highest bids
-        throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
-    }
-
-    public String findDescriptionByID(Long id) {
-        Item item = this.itemDAO.findByID(id);
-        if (item != null) {
-            String description = itemDAO.findDescriptionByID(id);
-            if (description != null) {
-                return description;
-            }
-            // some items don't have descriptions
-            throw new RestException(NOT_AVAILABLE,
-                    detailedMessageConstructor(id, " does not have a description"), HttpStatus.OK);
-
-        }
-        // non-existent items don't have descriptions
         throw new RestException(NOT_AVAILABLE,
                 detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
     }
@@ -309,10 +226,6 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     public List<Category> findSellerCategories(Long ownerId){
         return itemDAO.findSellerCategories(ownerId);
-    }
-
-    public Long findTotalNumOfItems(){
-        return itemDAO.findTotalNumOfItems();
     }
 
     public List<ItemPicture> findAllItemPicturesForItem(Long id, String urlOnly) {

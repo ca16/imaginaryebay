@@ -28,7 +28,8 @@ function displayController($scope,$http,$q){
                     //$scope.goods[1].itemPictures=[{"url": "http://placehold.it/800x500"}]
                     for (var i=0; i< $scope.goods.length; i++){
                         if ($scope.goods[i].itemPictures.length==0){
-                            $scope.goods[i].itemPictures.push({"url": $scope.picUrl});
+                            var theurl = $scope.picUrl + "_thumb";
+                            $scope.goods[i].itemPictures.push({"url": theurl});
                         }
                     }
 

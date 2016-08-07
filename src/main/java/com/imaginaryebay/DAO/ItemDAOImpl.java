@@ -96,14 +96,6 @@ public class ItemDAOImpl implements ItemDAO{
     }
 
     @Override
-    public Long findTotalNumOfItems(){
-        String queryString="select count(i) from Item i";
-        Query query=entityManager.createQuery(queryString);
-        List<Long> result=query.getResultList();
-        return result.get(0);
-    }
-
-    @Override
     public List<Category> findSellerCategories(Long ownerId){
         List<Category> toRet = new ArrayList<>();
         for (Item item : findItemsBySeller(ownerId)){
