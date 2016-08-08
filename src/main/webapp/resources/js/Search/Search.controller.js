@@ -9,11 +9,14 @@
     angular.module("ShopApp").controller("searchController",searchController);
 })();
 
-function searchController($scope, UserService){
+function searchController($scope, UserService, $location){
     this.numOfItemsOnEachPage=9;
     this.totalUrl="item/count";
     this.itemUrl="/item/page/";
     this.picUrl="http://placehold.it/800x400";
-    this.dumbParameter="";
+
+    var path=$location.path();
+
+    this.dumbParameter=path.split(/[/ ]+/).pop();
 
 }
