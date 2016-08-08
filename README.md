@@ -141,7 +141,7 @@ Item:
 1. post a new item
    requires authentication, name, endtime and price are required, the endtime must be in the future and the price must be greater than 0)
 
-    curl -X POST -H "Content-Type: application/json" -d '{ "description" : "watch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item"
+    curl -X POST -H "Content-Type: application/json" -d '{ "name" : "watch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item"
 
 2. get an item by its ID
 
@@ -154,7 +154,7 @@ Item:
 4. update an item by its ID,
    requires authentication the user must be the same as the item's owner, endtime and price must be valid (see requirements in posting an item)
 
-    curl -X PUT -H "Content-Type: application/json" -d '{ "description" : "notwatch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item/1"
+    curl -X PUT -H "Content-Type: application/json" -d '{ "name" : "notwatch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item/1"
 
 5. returns an HTTP response with the ItemPicture id, URL, and optionally the associated Item
 

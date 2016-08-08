@@ -27,7 +27,7 @@ public interface ItemController {
      * @param item the item to be saved
      *
      * Example:
-     * curl -X POST -H "Content-Type: application/json" -d '{ "description" : "watch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item"
+     * curl -X POST -H "Content-Type: application/json" -d '{ "name" : "watch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item"
      *
      */
     @RequestMapping(method= RequestMethod.POST)
