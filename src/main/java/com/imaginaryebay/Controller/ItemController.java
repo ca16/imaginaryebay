@@ -45,14 +45,16 @@ public interface ItemController {
 
     /**
      * returns the categories of items the seller with a given id sells
-     * @param id the seller's id
+     * if no ID is given returns all categories
+     * @param sellerID the seller's id
      * @return the categories of items the given seller sells
      *
      * Example:
-     * curl -X GET localhost:8080/item/sellercategories/1
+     * curl -X GET localhost:8080/item/sellercategories
+     * curl -X GET localhost:8080/item/sellercategories?sellerID=1
      */
-    @RequestMapping(value="/sellercategories/{id}", method= RequestMethod.GET)
-    public ResponseEntity<List<Category>> getSellerCategoriesByID(@PathVariable("id") Long id);
+    @RequestMapping(value="/sellercategories", method= RequestMethod.GET)
+    public ResponseEntity<List<Category>> getSellerCategoriesByID(@RequestParam(value = "sellerID", required = false) Long sellerID);
 
     /**
      * @param id the ID of the Item to be updated

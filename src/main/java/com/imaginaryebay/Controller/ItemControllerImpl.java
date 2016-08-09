@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -123,8 +125,13 @@ public class ItemControllerImpl implements ItemController {
 
     }
 
-    public ResponseEntity<List<Category>> getSellerCategoriesByID(@PathVariable("id") Long id) {
-        return new ResponseEntity<List<Category>>(this.itemRepository.findSellerCategories(id), HttpStatus.OK);
+    public ResponseEntity<List<Category>> getSellerCategoriesByID(Long sellerID) {
+        if (sellerID == null){
+            List<Category> cats = new ArrayList<Category>(Arrays.asList(Category.values()));
+            cats.remove(Category.Invalid);
+            return new ResponseEntity<List<Category>>(cats, HttpStatus.OK);
+        }
+        return new ResponseEntity<List<Category>>(this.itemRepository.findSellerCategories(sellerID), HttpStatus.OK);
     }
 
     public ResponseEntity<Integer> findItemsWithCount(String cat, String keyword, Long sellerID) {

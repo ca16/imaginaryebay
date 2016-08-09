@@ -147,9 +147,10 @@ Item:
 
     curl -X GET localhost:8080/item/1
 
-3. get the categories of items the given seller sells
+3. get the categories of items the given seller sells, returns all categories if no seller ID is specified
 
-    curl -X GET localhost:8080/item/sellercategories/1
+    curl -X GET localhost:8080/item/sellercategories
+    curl -X GET localhost:8080/item/sellercategories?sellerID=1
 
 4. update an item by its ID,
    requires authentication the user must be the same as the item's owner, endtime and price must be valid (see requirements in posting an item)
