@@ -29,6 +29,12 @@
     <%--Disqus directive--%>
     <script src="<c:url value="/resources/js/dirDisqus.js"/>"></script>
 
+    <%--ng-currency--%>
+    <script src="https://rawgit.com/aguirrel/ng-currency/master/dist/ng-currency.js"></script>
+
+    <%--countdown timer--%>
+    <script src="https://cdn.rawgit.com/globaljake/simple-inline-countdown-directive/master/directive/countdownTimer.js"></script>
+
     <%--ui-bootstrap for Angular--%>
     <script src="<c:url value="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.0.0/ui-bootstrap-tpls.min.js"/>"></script>
 

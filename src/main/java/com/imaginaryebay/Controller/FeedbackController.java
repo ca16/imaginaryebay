@@ -19,9 +19,28 @@ public interface FeedbackController {
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     ResponseEntity<List<Feedback>> getFeedbackForUser(@PathVariable(value = "id") Long userId);
 
+    /**
+     * Returns all feedback for a given auction item
+     * @param itemId The ID for the item
+     * @return List of Feedback  representing all feedback for a given Item
+     *
+     * Example:
+     * curl -X POST -d '{"content":"This was the worst product I ever bought!"}' "http://localhost:8080/feedback/1"
+     *
+     */
     @RequestMapping(value = "/item/{id}", method = RequestMethod.GET)
     ResponseEntity<List<Feedback>> getFeedbackForItem(@PathVariable(value = "id") Long itemId);
 
+    /**
+     * Returns all feedback for a given auction item
+     * @param itemId The ID for the item
+     * @param feedback A user's feedback for a given item
+     * @return Feedback object representing the Userr's feedback for a given Item
+     *
+     * Example:
+     * curl -X POST -d '{"content":"This was the worst product I ever bought!"}' "http://localhost:8080/feedback/1"
+     *
+     */
     @RequestMapping(value = "/item/{id}", method = RequestMethod.POST)
     ResponseEntity<Feedback> createFeedbackForItem(@PathVariable(value = "id") Long itemId, @RequestBody Feedback feedback);
 }
