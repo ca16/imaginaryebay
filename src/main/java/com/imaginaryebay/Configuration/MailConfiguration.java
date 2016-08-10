@@ -25,15 +25,15 @@ public class MailConfiguration {
         mailProperties.put("mail.smtp.starttls.enable", true);
         javaMailSender.setHost("smtp.gmail.com");
         javaMailSender.setPort(587);
-        javaMailSender.setUsername("tinavivio@gmail.com");
-        javaMailSender.setPassword("jingo123");
+        javaMailSender.setUsername("imaginaryebay@gmail.com");
+        javaMailSender.setPassword("poopsicle");
         javaMailSender.setJavaMailProperties(mailProperties);
         return javaMailSender;
     }
     @Bean
     public SimpleMailMessage accountCreationMessage() {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("tinavivio@gmail.com");
+        message.setFrom("imaginaryebay@gmail.com");
         message.setSubject("Your ImaginaryEbay Account Creation");
         return message;
     }
@@ -41,7 +41,7 @@ public class MailConfiguration {
     @Bean
     public SimpleMailMessage contactMessageToUser(){
     	SimpleMailMessage message = new SimpleMailMessage();
-    	message.setFrom("tinavivio@gmail.com");
+    	message.setFrom("imaginaryebay@gmail.com");
     	message.setSubject("Contact Form Submission Received");
     	message.setText("Thank you for contacting us. We will respond within 24-48 hours. From the team at ImaginaryEbay.");
     	return message;
@@ -51,14 +51,14 @@ public class MailConfiguration {
     public SimpleMailMessage contactMessageToAdmin(){
     	SimpleMailMessage message = new SimpleMailMessage();
     	message.setSubject("Contact Form Submission Received");
-    	message.setTo("tinavivio@gmail.com");
+    	message.setTo("imaginaryebay@gmail.com");
     	return message;
     }
     
     @Bean
     public SimpleMailMessage itemSoldMessage(){
     	SimpleMailMessage message = new SimpleMailMessage();
-    	message.setFrom("tinavivio@gmail.com");
+    	message.setFrom("imaginaryebay@gmail.com");
         message.setSubject("Your item has sold off ImaginaryEbay!");
         return message;
     }
@@ -66,7 +66,7 @@ public class MailConfiguration {
     @Bean
     public SimpleMailMessage itemWonMessage(){
     	SimpleMailMessage message = new SimpleMailMessage();
-    	message.setFrom("tinavivio@gmail.com");
+    	message.setFrom("imaginaryebay@gmail.com");
         message.setSubject("You have won an item off ImaginaryEbay!");
         return message;
     }
@@ -74,7 +74,7 @@ public class MailConfiguration {
     @Bean
     public SimpleMailMessage itemLostMessage(){
     	SimpleMailMessage message = new SimpleMailMessage();
-    	message.setFrom("tinavivio@gmail.com");
+    	message.setFrom("imaginaryebay@gmail.com");
         message.setSubject("Better luck next time!");
         return message;
     }
