@@ -6,6 +6,7 @@ import java.util.TimerTask;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -80,6 +81,7 @@ public class MailConfiguration {
     }
     
     @Bean
+    @Scope("prototype")
     public SendEmail sendEmail(){
     	SendEmail task = new SendEmail();
     	return task;
