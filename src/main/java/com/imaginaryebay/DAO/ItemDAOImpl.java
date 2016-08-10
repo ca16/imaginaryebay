@@ -10,7 +10,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -96,14 +98,6 @@ public class ItemDAOImpl implements ItemDAO{
     }
 
     @Override
-    public Long findTotalNumOfItems(){
-        String queryString="select count(i) from Item i";
-        Query query=entityManager.createQuery(queryString);
-        List<Long> result=query.getResultList();
-        return result.get(0);
-    }
-
-    @Override
     public List<Category> findSellerCategories(Long ownerId){
         List<Category> toRet = new ArrayList<>();
         for (Item item : findItemsBySeller(ownerId)){
@@ -138,6 +132,26 @@ public class ItemDAOImpl implements ItemDAO{
         query =query.setParameter("id", id);
         List<ItemPicture> itemPictures = query.getResultList();
         return itemPictures;
+    }
+
+
+    public List<ItemPicture> findThreeRandomPicsBySeller(Long sellerID){
+        List<ItemPicture> pics = new ArrayList<>();
+        List<Item> items = findItemsBySeller(sellerID);
+        for (Item item : items){
+            pics.addAll(findAllItemPicturesForItemID(item.getId()));
+        }
+        if (pics.size() < 3){
+            return pics;
+        }
+        else {
+            Set<ItemPicture> toRet = new HashSet<>();
+            while (toRet.size() < 3) {
+                Integer select = (int )(Math.random() * pics.size());
+                toRet.add(pics.get(select));
+            }
+            return new ArrayList<>(toRet);
+        }
     }
 
     //////////////////////////////////////
@@ -253,7 +267,7 @@ public class ItemDAOImpl implements ItemDAO{
 
     private Query byCategory(Category category){
         Query query = entityManager.createQuery(
-                "select i from Item i where i.category = ?1 order by i.price");
+                "select i from Item i where i.category = ?1 order by i.endtime desc");
         Query query2 = query.setParameter(1, category);
         return query2;
     }

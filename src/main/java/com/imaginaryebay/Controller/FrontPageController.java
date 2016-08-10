@@ -43,4 +43,8 @@ public interface FrontPageController {
 
     @RequestMapping(value = "/app/profile", method=RequestMethod.GET)
     public ModelAndView getProfilePage();
+
+    @RequestMapping(value = "/app/contact", method=RequestMethod.GET)
+    public ModelAndView getContactPage();
+
 }

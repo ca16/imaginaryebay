@@ -75,42 +75,6 @@ public class ItemEndpointsTest {
         }
 
         try {
-            template.getForEntity("http://localhost:8080/item/description/1", List.class);
-        } catch (Exception exc) {
-            if (exc.getClass() == HttpClientErrorException.class){
-                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
-                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
-            }
-        }
-
-        try {
-            template.getForEntity("http://localhost:8080/item/price/1", List.class);
-        } catch (Exception exc) {
-            if (exc.getClass() == HttpClientErrorException.class){
-                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
-                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
-            }
-        }
-
-        try {
-            template.getForEntity("http://localhost:8080/item/endtime/1", List.class);
-        } catch (Exception exc) {
-            if (exc.getClass() == HttpClientErrorException.class){
-                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
-                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
-            }
-        }
-
-        try {
-            template.getForEntity("http://localhost:8080/item/category/1", List.class);
-        } catch (Exception exc) {
-            if (exc.getClass() == HttpClientErrorException.class){
-                HttpClientErrorException httpExc = (HttpClientErrorException) exc;
-                assertNotEquals(httpExc.getStatusCode(), HttpStatus.NOT_FOUND);
-            }
-        }
-
-        try {
             template.getForEntity("http://localhost:8080/item/1/picture", List.class);
         } catch (Exception exc) {
             if (exc.getClass() == HttpClientErrorException.class) {

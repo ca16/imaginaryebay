@@ -17,8 +17,6 @@ public interface BiddingRepository {
 
     public List<Bidding> getBiddingByUserrID (Long id);
 
-    public List<Bidding> getBiddingByItem (Item item);
-
     public List<Bidding> getBiddingByItemID (Long id);
 
     public Bidding getHighestBiddingForItem (Long id);

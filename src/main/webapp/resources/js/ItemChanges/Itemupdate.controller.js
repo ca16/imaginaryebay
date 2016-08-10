@@ -21,6 +21,10 @@ function itemupdateController($scope, $http, UserService, $location, $routeParam
     $scope.auctet = date;
     var maxDescLen = 255;
     $scope.remChar = maxDescLen;
+    
+    $http.get("/item/sellercategories").success(function(res){
+        $scope.categories = res;
+    });
 
     $scope.create = function () {
 

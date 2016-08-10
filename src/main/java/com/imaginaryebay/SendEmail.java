@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.TimerTask;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -21,6 +22,8 @@ import com.imaginaryebay.Models.Userr;
  * Represents the tasks scheduled for auction endtime whenever a new item is posted.
  *
  */
+
+
 public class SendEmail extends TimerTask{
 	
 	@Autowired

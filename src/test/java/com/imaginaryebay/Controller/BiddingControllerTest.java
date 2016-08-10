@@ -115,9 +115,9 @@ public class BiddingControllerTest {
         when(biddingRepo.getBiddingByID(2L)).thenReturn(bid2);
         when(biddingRepo.getBiddingByID(3L)).thenReturn(bid3);
         when(biddingRepo.getBiddingByID(4L)).thenReturn(bid4);
-
-        when(biddingRepo.getBiddingByItem(item1)).thenReturn(bidsForItem1);
-        when(biddingRepo.getBiddingByItem(item2)).thenReturn(bidsForItem2);
+//
+//        when(biddingRepo.getBiddingByItem(item1)).thenReturn(bidsForItem1);
+//        when(biddingRepo.getBiddingByItem(item2)).thenReturn(bidsForItem2);
 
         when(biddingRepo.getBiddingByItemID(1L)).thenReturn(bidsForItem1);
         when(biddingRepo.getBiddingByItemID(2L)).thenReturn(bidsForItem2);

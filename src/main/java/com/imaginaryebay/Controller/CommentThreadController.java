@@ -20,9 +20,9 @@ public interface CommentThreadController {
      * @return CommentThread object containing all comments for the auction item with the given itemId
      *
      * Example:
-     * curl -X GET "http://localhost:8080/feedback/1
+     * curl -X GET "http://localhost:8080/comment/1
      *
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    ResponseEntity<CommentThread> getFeedbackForAuction(@PathVariable("id") Long itemId);
+    ResponseEntity<CommentThread> getCommentForAuction(@PathVariable("id") Long itemId);
 }

@@ -152,22 +152,22 @@ public class ItemControllerImplTest {
         item3picurlresponse=new ResponseEntity<>(item3picurls,HttpStatus.OK);
 
         when(itemRepo.findByID(1L)).thenReturn(item1);
-        when(itemRepo.findPriceByID(1L)).thenReturn(20.0);
-        when(itemRepo.findCategoryByID(1L)).thenReturn(Category.Clothes);
-        when(itemRepo.findDescriptionByID(1L)).thenReturn("Scarf");
-        when(itemRepo.findEndtimeByID(1L)).thenReturn(valueOf("2016-10-10 00:00:00"));
+//        when(itemRepo.findPriceByID(1L)).thenReturn(20.0);
+//        when(itemRepo.findCategoryByID(1L)).thenReturn(Category.Clothes);
+//        when(itemRepo.findDescriptionByID(1L)).thenReturn("Scarf");
+//        when(itemRepo.findEndtimeByID(1L)).thenReturn(valueOf("2016-10-10 00:00:00"));
 
         when(itemRepo.findByID(2L)).thenReturn(item2);
-        when(itemRepo.findPriceByID(2L)).thenReturn(200.0);
-        when(itemRepo.findCategoryByID(2L)).thenReturn(Category.Clothes);
-        when(itemRepo.findDescriptionByID(2L)).thenReturn("Expensive Scarf");
-        when(itemRepo.findEndtimeByID(2L)).thenReturn(valueOf("2016-11-5 06:00:00"));
+//        when(itemRepo.findPriceByID(2L)).thenReturn(200.0);
+//        when(itemRepo.findCategoryByID(2L)).thenReturn(Category.Clothes);
+//        when(itemRepo.findDescriptionByID(2L)).thenReturn("Expensive Scarf");
+//        when(itemRepo.findEndtimeByID(2L)).thenReturn(valueOf("2016-11-5 06:00:00"));
 
         when(itemRepo.findByID(10L)).thenReturn(item3);
-        when(itemRepo.findPriceByID(10L)).thenReturn(30.0);
-        when(itemRepo.findCategoryByID(10L)).thenReturn(Category.Electronics);
-        when(itemRepo.findDescriptionByID(10L)).thenReturn("Watch");
-        when(itemRepo.findEndtimeByID(10L)).thenReturn(valueOf("2016-9-2 11:10:10"));
+//        when(itemRepo.findPriceByID(10L)).thenReturn(30.0);
+//        when(itemRepo.findCategoryByID(10L)).thenReturn(Category.Electronics);
+//        when(itemRepo.findDescriptionByID(10L)).thenReturn("Watch");
+//        when(itemRepo.findEndtimeByID(10L)).thenReturn(valueOf("2016-9-2 11:10:10"));
 
         when(itemRepo.findAllItems()).thenReturn(all);
         when(itemRepo.findAllItemsByCategory("Clothes")).thenReturn(clothes);
@@ -214,55 +214,55 @@ public class ItemControllerImplTest {
 
 
     }
-
-    @Test
-    public void findPriceByID() throws Exception {
-        assertEquals(impl.getPriceByID(1L).getBody(), new Double(20.0));
-        assertEquals(impl.getPriceByID(2L).getBody(), new Double(200.0));
-        assertEquals(impl.getPriceByID(10L).getBody(), new Double(30.0));
-
-        assertEquals(impl.getPriceByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
-        assertEquals(impl.getPriceByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
-        assertEquals(impl.getPriceByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
-
-
-    }
-
-    @Test
-    public void findCategoryByID() throws Exception {
-        assertEquals(impl.getCategoryByID(1L).getBody(), Category.Clothes);
-        assertEquals(impl.getCategoryByID(2L).getBody(), Category.Clothes);
-        assertEquals(impl.getCategoryByID(10L).getBody(), Category.Electronics);
-
-        assertEquals(impl.getCategoryByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
-        assertEquals(impl.getCategoryByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
-        assertEquals(impl.getCategoryByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
-
-    }
-
-    @Test
-    public void findEndtimeByID() throws Exception {
-        assertEquals(impl.getEndtimeByID(1L).getBody(), valueOf("2016-10-10 00:00:00"));
-        assertEquals(impl.getEndtimeByID(2L).getBody(), valueOf("2016-11-5 06:00:00"));
-        assertEquals(impl.getEndtimeByID(10L).getBody(), valueOf("2016-9-2 11:10:10"));
-
-        assertEquals(impl.getEndtimeByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
-        assertEquals(impl.getEndtimeByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
-        assertEquals(impl.getEndtimeByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
-
-    }
-
-    @Test
-    public void findDescriptionByID() throws Exception {
-        assertEquals(impl.getDescriptionByID(1L).getBody(), "Scarf");
-        assertEquals(impl.getDescriptionByID(2L).getBody(), "Expensive Scarf");
-        assertEquals(impl.getDescriptionByID(10L).getBody(), "Watch");
-
-        assertEquals(impl.getDescriptionByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
-        assertEquals(impl.getDescriptionByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
-        assertEquals(impl.getDescriptionByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
-
-    }
+//
+//    @Test
+//    public void findPriceByID() throws Exception {
+//        assertEquals(impl.getPriceByID(1L).getBody(), new Double(20.0));
+//        assertEquals(impl.getPriceByID(2L).getBody(), new Double(200.0));
+//        assertEquals(impl.getPriceByID(10L).getBody(), new Double(30.0));
+//
+//        assertEquals(impl.getPriceByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+//        assertEquals(impl.getPriceByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+//        assertEquals(impl.getPriceByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+//
+//
+//    }
+//
+//    @Test
+//    public void findCategoryByID() throws Exception {
+//        assertEquals(impl.getCategoryByID(1L).getBody(), Category.Clothes);
+//        assertEquals(impl.getCategoryByID(2L).getBody(), Category.Clothes);
+//        assertEquals(impl.getCategoryByID(10L).getBody(), Category.Electronics);
+//
+//        assertEquals(impl.getCategoryByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+//        assertEquals(impl.getCategoryByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+//        assertEquals(impl.getCategoryByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+//
+//    }
+//
+//    @Test
+//    public void findEndtimeByID() throws Exception {
+//        assertEquals(impl.getEndtimeByID(1L).getBody(), valueOf("2016-10-10 00:00:00"));
+//        assertEquals(impl.getEndtimeByID(2L).getBody(), valueOf("2016-11-5 06:00:00"));
+//        assertEquals(impl.getEndtimeByID(10L).getBody(), valueOf("2016-9-2 11:10:10"));
+//
+//        assertEquals(impl.getEndtimeByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+//        assertEquals(impl.getEndtimeByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+//        assertEquals(impl.getEndtimeByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+//
+//    }
+//
+//    @Test
+//    public void findDescriptionByID() throws Exception {
+//        assertEquals(impl.getDescriptionByID(1L).getBody(), "Scarf");
+//        assertEquals(impl.getDescriptionByID(2L).getBody(), "Expensive Scarf");
+//        assertEquals(impl.getDescriptionByID(10L).getBody(), "Watch");
+//
+//        assertEquals(impl.getDescriptionByID(1L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+//        assertEquals(impl.getDescriptionByID(2L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+//        assertEquals(impl.getDescriptionByID(10L).getStatusCode(), org.springframework.http.HttpStatus.OK);
+//
+//    }
 
     @Test
     public void updateItemByID() throws Exception {

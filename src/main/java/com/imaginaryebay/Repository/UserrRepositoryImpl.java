@@ -59,7 +59,8 @@ public class UserrRepositoryImpl implements UserrRepository {
 
 	public void createNewUserr(Userr newUserr) {
 		Userr u = userrDao.getUserrByEmail(newUserr.getEmail());
-		if (u == null) {
+		List<Userr> u2= userrDao.getUserrByName(newUserr.getName());
+		if (u == null && u2.isEmpty()) {
 			userrDao.persist(newUserr);
 			//Send email to user upon account creation
 			SimpleMailMessage msg = new SimpleMailMessage(this.accountCreationMessage);
@@ -78,7 +79,7 @@ public class UserrRepositoryImpl implements UserrRepository {
 	        messageController.createNewMessage(new Message(newUserr,new Timestamp(msg.getSentDate().getTime())));
 		}
 		else{
-			throw new RestException("User cannot be created.", "User with email " + newUserr.getEmail() + " already exists.", HttpStatus.BAD_REQUEST);
+			throw new RestException("User cannot be created.", "User with email " + newUserr.getEmail() +" or with name "+newUserr.getName()+ " already exists.", HttpStatus.BAD_REQUEST);
 		}
 	}
 

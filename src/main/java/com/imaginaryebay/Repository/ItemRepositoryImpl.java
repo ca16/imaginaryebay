@@ -9,7 +9,10 @@ import com.imaginaryebay.DAO.UserrDao;
 import com.imaginaryebay.Models.*;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,7 +28,7 @@ import java.util.Timer;
  * Created by Chloe on 6/28/16.
  */
 @Transactional
-public class ItemRepositoryImpl implements ItemRepository {
+public class ItemRepositoryImpl implements ItemRepository , ApplicationContextAware {
 
     private static final Logger logger = Logger.getLogger(ItemControllerImpl.class);
     private static final String FAIL_STEM = "Unable to upload.";
@@ -37,9 +40,12 @@ public class ItemRepositoryImpl implements ItemRepository {
     private static final String INVALID_PARAMETER = "Invalid request parameter.";
     private static final String REQUIRED = "is required.";
 
+    private ApplicationContext applicationContext;
+
+
     private ItemDAO itemDAO;
-    @Autowired
-    private SendEmail sendEmail;
+
+
     @Autowired
     Timer timer;
     @Autowired
@@ -52,6 +58,19 @@ public class ItemRepositoryImpl implements ItemRepository {
     public void setUserrDAO(UserrDao userr) {
         this.userrDao = userr;
     }
+
+
+    public void setApplicationContext(
+            ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+
+    protected SendEmail createSendEmail() {
+        // notice the Spring API dependency!
+        return this.applicationContext.getBean("sendEmail", SendEmail.class);
+    }
+
 
     public Item save(Item item) {
         // user must be logged in to create an item
@@ -100,8 +119,15 @@ public class ItemRepositoryImpl implements ItemRepository {
         // 1. Send email to item owner indicating that the item has sold
         // 2. Send email to the user who placed the highest bid indicating that he/she has won the item
         // 3. Send email to all other bidders indicating that the auction is over and they have not won the item
-        this.sendEmail.setItemId(item.getId());
-        this.timer.schedule(this.sendEmail,item.getEndtime());
+
+        SendEmail sendEmail=createSendEmail();
+        String[] beanList=applicationContext.getBeanDefinitionNames();
+        for (String bean : beanList){
+            System.out.println(bean);
+        }
+        sendEmail.setItemId(item.getId());
+        this.timer.schedule(sendEmail,item.getEndtime());
+
         return item;
     }
 
@@ -149,72 +175,6 @@ public class ItemRepositoryImpl implements ItemRepository {
         }
     }
 
-    public Userr findOwnerByID(Long id) {
-        Item item = this.itemDAO.findByID(id);
-        if (item != null) {
-            // No check for whether owner is null. All items should have an owner.
-            return itemDAO.findOwnerByID(id);
-        }
-
-        // non-existent items don't have owners
-        throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
-    }
-
-    public String findNameByID(Long id) {
-        Item item = this.itemDAO.findByID(id);
-        if (item != null) {
-            // No check for whether keyword is null. All items should have an keyword.
-            return itemDAO.findNameByID(id);
-        }
-
-        // non-existent items don't have names
-        throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
-    }
-
-    public Double findPriceByID(Long id) {
-        Item item = this.itemDAO.findByID(id);
-        if (item != null) {
-            // No check for whether price is null. All items should have an price.
-            return itemDAO.findPriceByID(id);
-        }
-
-        // non-existent items don't have prices
-        throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
-    }
-
-    public Timestamp findEndtimeByID(Long id) {
-        Item item = this.itemDAO.findByID(id);
-        if (item != null) {
-            // No check for whether end time is null. All items should have an end time.
-            return itemDAO.findEndtimeByID(id);
-        }
-
-        // non-existent items don't have end times
-        throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
-    }
-
-    public Category findCategoryByID(Long id) {
-        Item item = this.itemDAO.findByID(id);
-        if (item != null) {
-            Category cat = itemDAO.findCategoryByID(id);
-            if (cat != null) {
-                return cat;
-            }
-            // some items don't have categories
-            throw new RestException(NOT_AVAILABLE,
-                    detailedMessageConstructor(id, " does not have a category"), HttpStatus.OK);
-
-        }
-
-        // non-existent items don't have categories
-        throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
-    }
-
     public Double findHighestBidByID(Long id) {
         Item item = this.itemDAO.findByID(id);
         if (item != null) {
@@ -227,23 +187,6 @@ public class ItemRepositoryImpl implements ItemRepository {
                     detailedMessageConstructor(id, " does not have a highest bid."), HttpStatus.OK);
         }
         // non-existent items don't have highest bids
-        throw new RestException(NOT_AVAILABLE,
-                detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
-    }
-
-    public String findDescriptionByID(Long id) {
-        Item item = this.itemDAO.findByID(id);
-        if (item != null) {
-            String description = itemDAO.findDescriptionByID(id);
-            if (description != null) {
-                return description;
-            }
-            // some items don't have descriptions
-            throw new RestException(NOT_AVAILABLE,
-                    detailedMessageConstructor(id, " does not have a description"), HttpStatus.OK);
-
-        }
-        // non-existent items don't have descriptions
         throw new RestException(NOT_AVAILABLE,
                 detailedMessageConstructor(id), HttpStatus.BAD_REQUEST);
     }
@@ -309,10 +252,6 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     public List<Category> findSellerCategories(Long ownerId){
         return itemDAO.findSellerCategories(ownerId);
-    }
-
-    public Long findTotalNumOfItems(){
-        return itemDAO.findTotalNumOfItems();
     }
 
     public List<ItemPicture> findAllItemPicturesForItem(Long id, String urlOnly) {
@@ -393,6 +332,11 @@ public class ItemRepositoryImpl implements ItemRepository {
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return newPicture;
+    }
+
+    public List<ItemPicture> findThreeRandomPicsBySeller(Long sellerID){
+        sellerValidation(sellerID);
+        return itemDAO.findThreeRandomPicsBySeller(sellerID);
     }
 
     //////////////////////////////////////

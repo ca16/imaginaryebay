@@ -19,6 +19,9 @@
                 <li>
                     <a href="/app/search">Browse</a>
                 </li>
+                <li ng-show="{{loggedInFlag}}">
+                    <a href="/app/item/create">Sell</a>
+                </li>
 
 
                 <li class="dropdown">
@@ -26,9 +29,11 @@
                     <ul class="dropdown-menu">
                         <li ng-show="!{{loggedInFlag}}"><a href="/app/login">Log in</a></li>
                         <li ng-show="!{{loggedInFlag}}"><a href="/app/registration">Register</a></li>
-                        <li ng-show="{{loggedInFlag}}"><a href="/app/shopperprofile">My profile</a></li>
+                        <li ng-show="{{loggedInFlag}}"><a href="/app/profile/{{id}}">My profile</a></li>
                         <li ng-show="{{loggedInFlag}}"><a href="/app/user/{{id}}/update">Update My Information</a></li>
                         <li ng-show="{{adminFlag}}"><a href="/app/admin">Administrator's Page</a></li>
+                        <li class="nav-divider"></li>
+                        <li><a href="/app/contact">Contact Us</a></li>
                     </ul>
                 </li>
 
@@ -37,45 +42,22 @@
 
 
 
-           <!-- <div class="input-group pull-right" >
-                <form class="navbar-form" role="search">
-                    <div class="input-group-btn search-panel">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span id="search_concept">Filter by</span> <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#contains">Contains</a></li>
-                            <li><a href="#its_equal">It's equal</a></li>
-                            <li><a href="#greather_than">Greather than ></a></li>
-                            <li><a href="#less_than">Less than < </a></li>
-                            <li class="divider"></li>
-                            <li><a href="#all">Anything</a></li>
-                        </ul>
-                    </div>
-                    <input type="text" class="form-control">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit">search</button>
-                     </span>
-                </form>
-            </div>-->
-
             <div class=" pull-right col-sm-5 col-md-4">
                 <form class="navbar-form" role="search">
                     <div class="row">
                         <div class="input-group">
                             <div class="input-group-btn search-panel">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span id="search_concept">Category</span> <span class="caret"></span>
+                                    <span id="search_concept">{{currentCategory}}</span> <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a>Test</a></li>
-                                    <li><a>Test 2</a></li>
+                                    <li ng-repeat="category in categories"><a ng-click="changeCategory(category)">{{category}}</a></li>
                                 </ul>
                             </div>
-                            <input type="hidden" name="search_param" value="all" id="search_param">
-                            <input type="text" class="form-control col-sm-3 col-md-3" name="x" placeholder="Search term...">
+                            <!--<input type="hidden" name="search_param" value="all" id="search_param">-->
+                            <input ng-model="searchTerm" type="text" class="form-control col-sm-3 col-md-3" name="x" placeholder="Search term...">
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">Go</button>
+                                <button class="btn btn-default" type="button" ng-click="search()">Go</button>
                              </span>
                         </div>
                     </div>

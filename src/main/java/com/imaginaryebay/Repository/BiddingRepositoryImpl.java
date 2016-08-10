@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -146,29 +147,11 @@ public class BiddingRepositoryImpl implements BiddingRepository {
 
     @Override
     public List<Bidding> getBiddingByUserrID (Long id){
-        Userr user = userrDAO.getUserrByID(id);
-        if (null == user){
-            throw new RestException(NOT_AVAILABLE,
-                    "User with id " + id + " does not exist.", HttpStatus.OK);
-        }
+        bidderValidation(id);
         List<Bidding> toRet = this.biddingDAO.getBiddingByUserrID(id);
         if (toRet.isEmpty()){
             throw new RestException(NOT_AVAILABLE,
                     "No bids have been made by user with id " + id + ".", HttpStatus.OK);
-        }
-        return toRet;
-    }
-
-    @Override
-    public List<Bidding> getBiddingByItem (Item item){
-        Item it = itemDAO.find(item);
-        if (it == null){
-            throw new RestException(NOT_AVAILABLE, "The item does not exist.", HttpStatus.OK);
-        }
-        List<Bidding> toRet = this.biddingDAO.getBiddingByItem(item);
-        if (toRet.isEmpty()){
-            throw new RestException(NOT_AVAILABLE,
-                    "No bids have been made on this item.", HttpStatus.OK);
         }
         return toRet;
     }
@@ -198,6 +181,7 @@ public class BiddingRepositoryImpl implements BiddingRepository {
 
     @Override
     public List<Item> getActiveBidItemsByBidder(Long bidderId){
+        bidderValidation(bidderId);
         Userr user = userrDAO.getUserrByID(bidderId);
         if (null == user){
             throw new RestException(NOT_AVAILABLE, "User with id " + bidderId + " does not exist.", HttpStatus.OK);
@@ -210,6 +194,7 @@ public class BiddingRepositoryImpl implements BiddingRepository {
 
     @Override
     public List<Item> getSuccessfulBidItemsByBidder(Long bidderId){
+        bidderValidation(bidderId);
         Userr user = userrDAO.getUserrByID(bidderId);
         if (null == user){
             throw new RestException(NOT_AVAILABLE, "User with id " + bidderId + " does not exist.", HttpStatus.OK);
@@ -220,6 +205,7 @@ public class BiddingRepositoryImpl implements BiddingRepository {
 
     @Override
     public List<Item> getActiveItemsByBidderByPage (Long bidderID, int pageNum, int pageSize) {
+        bidderValidation(bidderID);
         Userr user = userrDAO.getUserrByID(bidderID);
         if (null == user){
             throw new RestException(NOT_AVAILABLE, "User with id " + bidderID + " does not exist.", HttpStatus.OK);
@@ -230,6 +216,7 @@ public class BiddingRepositoryImpl implements BiddingRepository {
 
     @Override
     public List<Item> getSuccessfulAuctionItemsByBidderByPage (Long bidderID, int pageNum, int pageSize) {
+        bidderValidation(bidderID);
         Userr user = userrDAO.getUserrByID(bidderID);
         if (null == user){
             throw new RestException(NOT_AVAILABLE, "User with id " + bidderID + " does not exist.", HttpStatus.OK);
@@ -238,11 +225,34 @@ public class BiddingRepositoryImpl implements BiddingRepository {
     }
 
     public Integer getActiveBidItemsByBidderCount(Long bidderId){
+        bidderValidation(bidderId);
         return biddingDAO.getActiveBidItemsByBidderCount(bidderId);
     }
 
     public Integer getSuccessfulBidItemsByBidderCount(Long bidderId){
+        bidderValidation(bidderId);
         return biddingDAO.getSuccessfulBidItemsByBidderCount(bidderId);
+    }
+
+    private void bidderValidation(Long bidderID){
+        // can't bid if you're not logged in
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated()) {
+            throw new RestException(NOT_AVAILABLE, "You must be logged in to find bids by bidder.", HttpStatus.UNAUTHORIZED);
+        }
+        Boolean isAdmin = auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"));
+        String email = auth.getName();
+        Userr user = userrDAO.getUserrByEmail(email);
+
+        Userr givenUser = userrDAO.getUserrByID(bidderID);
+        if (null == givenUser){
+            throw new RestException(NOT_AVAILABLE, "User with id " + bidderID + " does not exist.", HttpStatus.OK);
+        }
+
+        // can't bid on your own item
+        if (!bidderID.equals(user.getId()) && !isAdmin) {
+            throw new RestException(NOT_AVAILABLE, "You must be an administrator to look at other bidders' bids.", HttpStatus.FORBIDDEN);
+        }
     }
 
 }

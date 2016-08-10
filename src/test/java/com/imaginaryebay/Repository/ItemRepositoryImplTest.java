@@ -282,95 +282,95 @@ public class ItemRepositoryImplTest {
         }
     }
 
-
-    @Test
-    public void findPriceByID() throws Exception {
-        assertEquals(impl.findPriceByID(1L), new Double(20.0));
-        assertEquals(impl.findPriceByID(2L), new Double(200.0));
-        assertEquals(impl.findPriceByID(10L), new Double(30.0));
-
-        try {
-            impl.findPriceByID(25L);
-            fail();
-        } catch (RestException exc) {
-            Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
-            Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
-
-        }
-    }
-
-    @Test
-    public void findCategoryByID() throws Exception {
-        assertEquals(impl.findCategoryByID(1L), Category.Clothes);
-        assertEquals(impl.findCategoryByID(2L), Category.Clothes);
-        assertEquals(impl.findCategoryByID(10L), Category.Electronics);
-
-        try {
-            impl.findCategoryByID(24L);
-            fail();
-        } catch (RestException exc) {
-            Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
-            Assert.assertEquals("Item with id 24 does not have a category", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.OK);
-
-        }
-
-        try {
-            impl.findCategoryByID(25L);
-            fail();
-        } catch (RestException exc) {
-            Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
-            Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
-
-        }
-    }
-
-    @Test
-    public void findEndtimeByID() throws Exception {
-        assertEquals(impl.findEndtimeByID(1L), valueOf("2016-10-10 00:00:00"));
-        assertEquals(impl.findEndtimeByID(2L), valueOf("2016-11-5 06:00:00"));
-        assertEquals(impl.findEndtimeByID(10L), valueOf("2016-9-2 11:10:10"));
-
-        try {
-            impl.findEndtimeByID(25L);
-            fail();
-        } catch (RestException exc) {
-            Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
-            Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
-
-        }
-    }
-
-    @Test
-    public void findDescriptionByID() throws Exception {
-        assertEquals(impl.findDescriptionByID(1L), "Wintery");
-        assertEquals(impl.findDescriptionByID(2L), "Summery");
-        assertEquals(impl.findDescriptionByID(10L), "Real Expensive");
-
-        try {
-            impl.findDescriptionByID(24L);
-            fail();
-        } catch (RestException exc) {
-            Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
-            Assert.assertEquals("Item with id 24 does not have a description", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.OK);
-
-        }
-
-        try {
-            impl.findDescriptionByID(25L);
-            fail();
-        } catch (RestException exc) {
-            Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
-            Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
-            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
-
-        }
-
-    }
+//
+//    @Test
+//    public void findPriceByID() throws Exception {
+//        assertEquals(impl.findPriceByID(1L), new Double(20.0));
+//        assertEquals(impl.findPriceByID(2L), new Double(200.0));
+//        assertEquals(impl.findPriceByID(10L), new Double(30.0));
+//
+//        try {
+//            impl.findPriceByID(25L);
+//            fail();
+//        } catch (RestException exc) {
+//            Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
+//            Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
+//            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+//
+//        }
+//    }
+//
+//    @Test
+//    public void findCategoryByID() throws Exception {
+//        assertEquals(impl.findCategoryByID(1L), Category.Clothes);
+//        assertEquals(impl.findCategoryByID(2L), Category.Clothes);
+//        assertEquals(impl.findCategoryByID(10L), Category.Electronics);
+//
+//        try {
+//            impl.findCategoryByID(24L);
+//            fail();
+//        } catch (RestException exc) {
+//            Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
+//            Assert.assertEquals("Item with id 24 does not have a category", exc.getDetailedMessage());
+//            Assert.assertEquals(exc.getStatusCode(), HttpStatus.OK);
+//
+//        }
+//
+//        try {
+//            impl.findCategoryByID(25L);
+//            fail();
+//        } catch (RestException exc) {
+//            Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
+//            Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
+//            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+//
+//        }
+//    }
+//
+//    @Test
+//    public void findEndtimeByID() throws Exception {
+//        assertEquals(impl.findEndtimeByID(1L), valueOf("2016-10-10 00:00:00"));
+//        assertEquals(impl.findEndtimeByID(2L), valueOf("2016-11-5 06:00:00"));
+//        assertEquals(impl.findEndtimeByID(10L), valueOf("2016-9-2 11:10:10"));
+//
+//        try {
+//            impl.findEndtimeByID(25L);
+//            fail();
+//        } catch (RestException exc) {
+//            Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
+//            Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
+//            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+//
+//        }
+//    }
+//
+//    @Test
+//    public void findDescriptionByID() throws Exception {
+//        assertEquals(impl.findDescriptionByID(1L), "Wintery");
+//        assertEquals(impl.findDescriptionByID(2L), "Summery");
+//        assertEquals(impl.findDescriptionByID(10L), "Real Expensive");
+//
+//        try {
+//            impl.findDescriptionByID(24L);
+//            fail();
+//        } catch (RestException exc) {
+//            Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
+//            Assert.assertEquals("Item with id 24 does not have a description", exc.getDetailedMessage());
+//            Assert.assertEquals(exc.getStatusCode(), HttpStatus.OK);
+//
+//        }
+//
+//        try {
+//            impl.findDescriptionByID(25L);
+//            fail();
+//        } catch (RestException exc) {
+//            Assert.assertEquals(NOT_AVAILABLE, exc.getMessage());
+//            Assert.assertEquals("Item with id 25 was not found", exc.getDetailedMessage());
+//            Assert.assertEquals(exc.getStatusCode(), HttpStatus.BAD_REQUEST);
+//
+//        }
+//
+//    }
 
     @Test
     public void update() throws Exception {

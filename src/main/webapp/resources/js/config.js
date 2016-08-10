@@ -33,13 +33,13 @@
             .when('/app/admin',{
                 templateUrl:'./resources/admin.html'
             })
-            .when('/app/search',{
+            .when('/app/search/:additionalInfo?',{
                 templateUrl:'./resources/searchResult.html'
             })
             .when('/app/user/:userId/update',{
                 templateUrl:'./resources/userupdate.html'
             })
-            .when('/app/profile',{
+            .when('/app/profile/:userId',{
                 templateUrl:'./resources/profile.html'
             })
             .otherwise({

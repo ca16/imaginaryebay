@@ -25,14 +25,13 @@ public interface ItemDAO {
 
     public Item updateItemByID(Long id, Item item);
 
-    public Long findTotalNumOfItems();
-
     public List<Category> findSellerCategories(Long ownerId);
 
     List<ItemPicture> findAllItemPicturesForItemID(Long id);
 
     List<ItemPicture> findAllItemPictureURLsForItemID(Long id);
 
+    public List<ItemPicture> findThreeRandomPicsBySeller(Long sellerID);
 
     //////////////////////////////////////
     // Item Properties ///////////////////

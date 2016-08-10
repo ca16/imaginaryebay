@@ -27,7 +27,7 @@ public interface ItemController {
      * @param item the item to be saved
      *
      * Example:
-     * curl -X POST -H "Content-Type: application/json" -d '{ "description" : "watch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item"
+     * curl -X POST -H "Content-Type: application/json" -d '{ "name" : "watch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item"
      *
      */
     @RequestMapping(method= RequestMethod.POST)
@@ -45,14 +45,16 @@ public interface ItemController {
 
     /**
      * returns the categories of items the seller with a given id sells
-     * @param id the seller's id
+     * if no ID is given returns all categories
+     * @param sellerID the seller's id
      * @return the categories of items the given seller sells
      *
      * Example:
-     * curl -X GET localhost:8080/item/sellercategories/1
+     * curl -X GET localhost:8080/item/sellercategories
+     * curl -X GET localhost:8080/item/sellercategories?sellerID=1
      */
-    @RequestMapping(value="/sellercategories/{id}", method= RequestMethod.GET)
-    public ResponseEntity<List<Category>> getSellerCategoriesByID(@PathVariable("id") Long id);
+    @RequestMapping(value="/sellercategories", method= RequestMethod.GET)
+    public ResponseEntity<List<Category>> getSellerCategoriesByID(@RequestParam(value = "sellerID", required = false) Long sellerID);
 
     /**
      * @param id the ID of the Item to be updated
@@ -97,22 +99,35 @@ public interface ItemController {
 
 
     /**
-     * Returns a list of all items if no category or name is specified.
-     * If only category is specified returns a list of all items of that category.
-     * If only keyword is specified returns a list of all items whose name matches or partially matches the given name.
-     * @param cat the category of items we want a list for
-     * @param keyword keyword to search by
-     * @return the list of items that fits the input
+     * returns 3 random pictures of items the seller with the given ID is selling.
+     * If there are fewer than 3 pictures available, returns all available pictures.
+     * @param sellerID the seller's ID
+     * @return three random pictures of items the seller is selling
      *
      * Example:
-     * curl -X GET localhost:8080/item
-     * curl -X GET localhost:8080/item?cat=Clothes
-     * curl -X GET localhost:8080/item?keyword=card
-     * curl -X GET "localhost:8080/item?cat=Clothes&keyword=card"
-     * curl -X GET localhost:8080/item?sellerID=2
-     * curl -X GET "localhost:8080/item?cat=Clothes&sellerID=2"
-     * (with two parameters, make sure the  " " are there if you're using curl)
+     * curl -X GET localhost:8080/item/randompics/2
      */
+    @RequestMapping(value = "/randompics/{sellerID}", method = RequestMethod.GET)
+    public ResponseEntity<List<ItemPicture>> findThreeRandomPicsBySeller(@PathVariable("sellerID") Long sellerID);
+
+
+        /**
+         * Returns a list of all items if no category or name is specified.
+         * If only category is specified returns a list of all items of that category.
+         * If only keyword is specified returns a list of all items whose name matches or partially matches the given name.
+         * @param cat the category of items we want a list for
+         * @param keyword keyword to search by
+         * @return the list of items that fits the input
+         *
+         * Example:
+         * curl -X GET localhost:8080/item
+         * curl -X GET localhost:8080/item?cat=Clothes
+         * curl -X GET localhost:8080/item?keyword=card
+         * curl -X GET "localhost:8080/item?cat=Clothes&keyword=card"
+         * curl -X GET localhost:8080/item?sellerID=2
+         * curl -X GET "localhost:8080/item?cat=Clothes&sellerID=2"
+         * (with two parameters, make sure the  " " are there if you're using curl)
+         */
     @RequestMapping(method= RequestMethod.GET)
     public ResponseEntity<List<Item>> getAllItems(@RequestParam(value = "cat", required = false) String cat, @RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "sellerID", required = false) Long sellerID);
 
@@ -140,35 +155,6 @@ public interface ItemController {
     @RequestMapping(value="/count",method= RequestMethod.GET)
     public ResponseEntity<Integer> findItemsWithCount(@RequestParam(value = "cat", required = false) String cat, @RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "sellerID", required = false) Long sellerID);
 
-
-    //////////////////////////////////////
-    // Item Properties ///////////////////
-    //////////////////////////////////////
-    // do we need all these?
-
-    /**
-     *
-     * @param id the item's ID
-     * @return the owner of the item with the given ID
-     *
-     * Example:
-     * curl -X GET localhost:8080/item/owner/1
-     *
-     */
-    @RequestMapping(value="/owner/{id}", method= RequestMethod.GET)
-    public ResponseEntity<Userr> getOwnerByID(@PathVariable("id") Long id);
-
-    /**
-     *
-     * @param id the item's ID
-     * @return the name of the item with the given ID
-     *
-     * Example:
-     * curl -X GET localhost:8080/item/name/1
-     */
-    @RequestMapping(value="/name/{id}", method= RequestMethod.GET)
-    public ResponseEntity<String> getNameByID(@PathVariable("id") Long id);
-
     /**
      *
      * @param id the item's ID
@@ -179,50 +165,6 @@ public interface ItemController {
      */
     @RequestMapping(value="/highestbid/{id}", method= RequestMethod.GET)
     public ResponseEntity<Double> getHighestBidByID(@PathVariable("id") Long id);
-
-
-    /**
-     * @param id the item's ID
-     * @return the price of the item with the given ID
-     *
-     * Example:
-     * curl -X GET localhost:8080/item/price/1
-     */
-    @RequestMapping(value="/price/{id}", method= RequestMethod.GET)
-    public ResponseEntity<Double> getPriceByID(@PathVariable("id") Long id);
-
-    /**
-     * @param id the item's ID
-     * @return category of the item with the given ID
-     *
-     * Example:
-     * curl -X GET localhost:8080/item/category/1
-     */
-    @RequestMapping(value="/category/{id}", method= RequestMethod.GET)
-    public ResponseEntity<Category> getCategoryByID(@PathVariable("id") Long id);
-
-    /**
-     * @param id the item's ID
-     * @return the description of the item with the given ID
-     *
-     * Example:
-     * curl -X GET localhost:8080/item/description/1
-     */
-    @RequestMapping(value="/description/{id}", method= RequestMethod.GET)
-    public ResponseEntity<String> getDescriptionByID(@PathVariable("id") Long id);
-
-    /**
-     * @param id the item's ID
-     * @return the endtime of the auction for the item with the given ID
-     *
-     * Example:
-     * curl -X GET localhost:8080/item/endtime/1
-     */
-    @RequestMapping(value="/endtime/{id}", method= RequestMethod.GET)
-    public ResponseEntity<Timestamp> getEndtimeByID(@PathVariable("id") Long id);
-
-    @RequestMapping(value="/totalCount",method = RequestMethod.GET)
-    public ResponseEntity<Long> findTotalNumOfItems();
 
 
 }

@@ -17,21 +17,22 @@ function registrationController($scope,UserService,$location,$http){
         else{
             var credential={
               name:$scope.name,
-              password:$scope.password
+              email:$scope.email,
+              password:$scope.password,
             };
             //console.log(credential);
             
-            $http.post("/registration",credential)
+            $http.post("/user/new",credential)
                 .then(
                     function(res){
                         var user=res.data;
-                        if (user.id<0){
-                            window.alert("this user has already been registered");
-                        }
-                        else{
-                            UserService.setUser(user);
-                            $location.path("/home");
-                        }
+                        UserService.setUser(user);
+                        window.alert("You are successfully registered, a confirmation email has been sent to you")
+                        $location.path("/app/home");
+
+                    },
+                    function(rej){
+                        window.alert("Username or email address has already existed");
                     }
                 )
         }

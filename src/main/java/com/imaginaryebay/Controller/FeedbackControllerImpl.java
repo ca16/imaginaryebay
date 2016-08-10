@@ -36,9 +36,10 @@ public class FeedbackControllerImpl implements FeedbackController {
     }
 
     @Override
-    public ResponseEntity<Feedback> createFeedbackForItem(@PathVariable(value = "id") Long itemId, Feedback feedback) {
+    public ResponseEntity<Feedback> createFeedbackForItem(@PathVariable(value = "id") Long itemId, String feedback) {
         System.out.println("here");
-        feedback = feedbackRepository.createFeedbackForItem(feedback, itemId);
-        return new ResponseEntity<>(feedback, HttpStatus.OK);
+//        feedback = feedbackRepository.createFeedbackForItem(feedback, itemId);
+//        return new ResponseEntity<>(feedback, HttpStatus.OK);
+        return new ResponseEntity<>(feedbackRepository.createFeedbackForItem(feedback, itemId), HttpStatus.OK);
     }
 }

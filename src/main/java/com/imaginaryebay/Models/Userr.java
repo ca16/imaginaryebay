@@ -28,20 +28,20 @@ public class Userr implements Serializable{
     @Column(nullable = false, unique=true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique=true)
     private String name;
 
     @Column(nullable = false)
     @JsonIgnore
     private String password;
 
-    @Column(nullable = false)
-    private Boolean isAdmin;
+    @Column(nullable = true)
+    private Boolean isAdmin=false;
 
     @Column(nullable = true)
     private String address;
 
-    private Boolean nonLocked;
+    private Boolean nonLocked=true;
 
 
     protected Userr(){}
