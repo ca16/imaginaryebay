@@ -26,8 +26,7 @@
                 <label for="itemcategory">Category</label>
                 <select class="form-control" id="itemcategory" ng-model="category">
                     <option value="" selected disabled>Categories</option>
-                    <option value="Clothes">Clothes</option>
-                    <option value="Electronics">Electronics</option>
+                    <option ng-repeat="cat in categories" value="{{cat}}">{{cat}}</option>
                     <option value="">No Category</option>
                 </select>
             </div>

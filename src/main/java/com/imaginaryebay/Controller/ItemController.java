@@ -27,7 +27,7 @@ public interface ItemController {
      * @param item the item to be saved
      *
      * Example:
-     * curl -X POST -H "Content-Type: application/json" -d '{ "description" : "watch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item"
+     * curl -X POST -H "Content-Type: application/json" -d '{ "name" : "watch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item"
      *
      */
     @RequestMapping(method= RequestMethod.POST)
@@ -45,14 +45,16 @@ public interface ItemController {
 
     /**
      * returns the categories of items the seller with a given id sells
-     * @param id the seller's id
+     * if no ID is given returns all categories
+     * @param sellerID the seller's id
      * @return the categories of items the given seller sells
      *
      * Example:
-     * curl -X GET localhost:8080/item/sellercategories/1
+     * curl -X GET localhost:8080/item/sellercategories
+     * curl -X GET localhost:8080/item/sellercategories?sellerID=1
      */
-    @RequestMapping(value="/sellercategories/{id}", method= RequestMethod.GET)
-    public ResponseEntity<List<Category>> getSellerCategoriesByID(@PathVariable("id") Long id);
+    @RequestMapping(value="/sellercategories", method= RequestMethod.GET)
+    public ResponseEntity<List<Category>> getSellerCategoriesByID(@RequestParam(value = "sellerID", required = false) Long sellerID);
 
     /**
      * @param id the ID of the Item to be updated
@@ -96,6 +98,15 @@ public interface ItemController {
                                                            @RequestParam("file") MultipartFile file);
 
 
+    /**
+     * returns 3 random pictures of items the seller with the given ID is selling.
+     * If there are fewer than 3 pictures available, returns all available pictures.
+     * @param sellerID the seller's ID
+     * @return three random pictures of items the seller is selling
+     *
+     * Example:
+     * curl -X GET localhost:8080/item/randompics/2
+     */
     @RequestMapping(value = "/randompics/{sellerID}", method = RequestMethod.GET)
     public ResponseEntity<List<ItemPicture>> findThreeRandomPicsBySeller(@PathVariable("sellerID") Long sellerID);
 

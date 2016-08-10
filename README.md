@@ -141,20 +141,21 @@ Item:
 1. post a new item
    requires authentication, name, endtime and price are required, the endtime must be in the future and the price must be greater than 0)
 
-    curl -X POST -H "Content-Type: application/json" -d '{ "description" : "watch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item"
+    curl -X POST -H "Content-Type: application/json" -d '{ "name" : "watch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item"
 
 2. get an item by its ID
 
     curl -X GET localhost:8080/item/1
 
-3. get the categories of items the given seller sells
+3. get the categories of items the given seller sells, returns all categories if no seller ID is specified
 
-    curl -X GET localhost:8080/item/sellercategories/1
+    curl -X GET localhost:8080/item/sellercategories
+    curl -X GET localhost:8080/item/sellercategories?sellerID=1
 
 4. update an item by its ID,
    requires authentication the user must be the same as the item's owner, endtime and price must be valid (see requirements in posting an item)
 
-    curl -X PUT -H "Content-Type: application/json" -d '{ "description" : "notwatch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item/1"
+    curl -X PUT -H "Content-Type: application/json" -d '{ "name" : "notwatch", "endtime":"2017-04-04T00:00:00", "category": "Electronics", "price": "20.0"}' "http://localhost:8080/item/1"
 
 5. returns an HTTP response with the ItemPicture id, URL, and optionally the associated Item
 
@@ -221,3 +222,9 @@ Item:
 10. return the highest bid for the item with the given ID
 
     curl -X GET localhost:8080/item/highestbid/1
+
+11. get three random pics of items the given seller is selling
+
+    curl -X GET localhost:8080/item/randompics/2
+
+    (if the seller has fewer than 3 pictures of items, it returns whatever pictures the seller has)

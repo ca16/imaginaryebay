@@ -267,7 +267,7 @@ public class ItemDAOImpl implements ItemDAO{
 
     private Query byCategory(Category category){
         Query query = entityManager.createQuery(
-                "select i from Item i where i.category = ?1 order by i.price");
+                "select i from Item i where i.category = ?1 order by i.endtime desc");
         Query query2 = query.setParameter(1, category);
         return query2;
     }
