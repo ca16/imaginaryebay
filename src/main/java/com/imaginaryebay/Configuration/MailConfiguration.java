@@ -80,7 +80,7 @@ public class MailConfiguration {
         return message;
     }
     
-    @Bean
+    @Bean(name="sendEmail")
     @Scope("prototype")
     public SendEmail sendEmail(){
     	SendEmail task = new SendEmail();
