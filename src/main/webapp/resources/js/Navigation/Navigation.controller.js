@@ -15,7 +15,7 @@ function navigationController($scope,$http,UserService,$location){
     }
 
     //ToDo: change this url
-    $http.get("/item/sellercategories/1").then(
+    $http.get("/item/sellercategories").then(
         function(res){
             $scope.categories=res.data;
 
