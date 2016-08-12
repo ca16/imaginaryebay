@@ -39,7 +39,7 @@
             .when('/app/user/:userId/update',{
                 templateUrl:'./resources/userupdate.html'
             })
-            .when('/app/profile/:userId',{
+            .when('/app/profile/:userID',{
                 templateUrl:'./resources/profile.html'
             })
             .otherwise({

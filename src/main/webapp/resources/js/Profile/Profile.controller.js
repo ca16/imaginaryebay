@@ -8,7 +8,7 @@
     module("ShopApp").controller("profileController",profileController);
 }());
 
-function profileController(UserService,$scope){
+function profileController(UserService,$scope,$routeParams){
     $scope.user=UserService.returnUser();
     $scope.userName=$scope.user.name;
     $scope.userEmail=$scope.user.email;
@@ -19,8 +19,13 @@ function profileController(UserService,$scope){
         $scope.userAddress = "Please update your address info";
     }
 
-
-
+    //stuff for display controller
+    this.numOfItemsOnEachPage=8;
+    this.userID=$routeParams.userID;
+    this.totalUrl="bidding/active/"+this.userID+"/count";
+    this.itemUrl="/bidding/active/"+this.userID+"/page/";
+    this.picUrl="http://placehold.it/800x400";
+    this.additionalInfo="";
 
 
 }

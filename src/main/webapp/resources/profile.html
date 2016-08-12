@@ -9,7 +9,7 @@
 
 
     <!-- Page Content -->
-    <div class="container" ng-controller="profileController">
+    <div class="container" ng-controller="profileController as pc">
 
         <!-- Introduction Row -->
         <div class="row">
@@ -28,7 +28,7 @@
             <h5 class="page-header">
                 <ul class="nav nav-pills">
                     <li class="active">
-                        <a  href="#" data-toggle="tab">Bidding History</a>
+                        <a  href="#" data-toggle="tab">Active Biddings</a>
                     </li>
                     <li><a href="#" data-toggle="tab">Successful Biddings</a>
                     </li>
@@ -38,26 +38,48 @@
 
 
 
+        <div class="container" ng-controller="displayController", ng-init="init(pc.numOfItemsOnEachPage, pc.totalUrl, pc.itemUrl, pc.picUrl, pc.dumbParameter)">
 
-        <!-- Project One -->
-        <div class="row">
-                <div class="col-md-7">
-                    <a href="#">
-                        <img class="img-responsive" src="http://placehold.it/800x400" alt="">
+            <!-- Project One -->
+            <div class="row">
+                <div ng-repeat="merchandise in goods">
+                    <div class="col-md-7">
+                    <a ng-href="/app/item/{{merchandise.id}}">
+                        <img class="img-responsive" ng-src="{{merchandise.itemPictures[0].url}}_thumb" alt="">
                     </a>
                 </div>
-                <div class="col-md-5">
-                    <h3>Project One</h3>
-                    <h4>Subheading</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium veniam exercitationem expedita laborum at voluptate. Labore, voluptates totam at aut nemo deserunt rem magni pariatur quos perspiciatis atque eveniet unde.</p>
-                    <a class="btn btn-primary" href="#">View Project <span class="glyphicon glyphicon-chevron-right"></span></a>
+                    <div class="col-md-5">
+                    <h3>{{merchandise.name}}</h3>
+                    <p>{{merchandise.description}}</p>
+                    <a class="btn btn-primary" ng-href="/app/item/{{merchandise.id}}">View Item <span class="glyphicon glyphicon-chevron-right"></span></a>
                 </div>
-
+                </div>
                 <hr>
             </div>
-        <!-- /.row -->
+            <!-- /.row -->
+
+            <!-- Pagination -->
+            <div class="row text-center" >
+                <div class="col-lg-12">
+                    <ul  class="pagination">
+                        <li>
+                            <a ng-hide="hide" ng-click="numbersToShowLeft()" style="cursor:pointer;">&laquo;</a>
+                        </li>
+
+                        <li ng-repeat="num in numberForPagination" ng-class="{'active': num == currentPage}" >
+                            <a ng-click="goToPage(num)" target="_self" style="cursor:pointer;">{{num}}</a>
+                        </li>
+
+                        <li>
+                            <a ng-hide="hide" ng-click="numbersToShowRight()" style="cursor:pointer;">&raquo;</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.row -->
 
 
+        </div>
 
 
         <hr>
