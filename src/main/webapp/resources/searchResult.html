@@ -35,7 +35,7 @@
             </div>-->
 
             <div ng-repeat="merchandise in goods" class="col-md-4 portfolio-item">
-                <a ng-href="/app/item/{{merchandise.id}}"><img class="img-responsive" ng-src="{{merchandise.itemPictures[0].url}}" alt=""></a>
+                <a ng-href="/app/item/{{merchandise.id}}"><img class="img-responsive" ng-src="{{merchandise.itemPictures[0].url}}_thumb" alt=""></a>
                     <h3>
                         {{merchandise.name}}
                     </h3>
