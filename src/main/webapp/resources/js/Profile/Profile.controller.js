@@ -28,4 +28,15 @@ function profileController(UserService,$scope,$routeParams){
     this.additionalInfo="";
 
 
+    $scope.activeBidding=function(){
+        this.totalUrl="bidding/active/"+this.userID+"/count";
+        this.itemUrl="/bidding/active/"+this.userID+"/page/";
+    }
+
+    $scope.successfullBidding=function(){
+        this.totalUrl="bidding/successful/"+this.userID+"/count";
+        this.itemUrl="/bidding/successful/"+this.userID+"/page/";
+    }
+
+
 }
