@@ -21,7 +21,7 @@ function itemController($scope, $routeParams, $http, UserService){
         $scope.disqusConfig = {
             disqus_shortname: 'guarded-journey-11719-herokuapp-com',
             disqus_identifier: 'auction-item' + itemId,
-            disqus_url: 'localhost:8081/app/item/' + itemId
+            disqus_url: 'http://localhost:8081/app/item/' + itemId
         };
 
         // Configure slideshow for item's pictures

@@ -4,6 +4,38 @@
     <link href="./resources/css/shop-item.css" rel="stylesheet">
 
     <div class="row">
+        <!--Seller info and bidding box-->
+        <div class="col-md-3">
+            <p class="lead">Seller: <a ng-href="/app/shop/{{item.userr.id}}">{{item.userr.name}}</a></p>
+            <a ng-show="userCanEdit" href="#/app/item/{{item.id}}/update" class="btn btn-primary">Update</a>
+            <div class="well">
+                <div>
+                    <h4>Current Bid: {{ item.highestBid | currency }}</h4>
+                    <p ng-show="!auctionEndSoon">
+                        <span>Ends in: </span>
+                        <span countdown end-date="{{item.endtime | date:'short'}}" units="days|hours|minutes"> </span>
+                    </p>
+                    <p ng-show="auctionEndSoon" style="color: red">
+                        <span>Ends in: </span>
+                        <span countdown end-date="{{item.endtime | date:'short'}}" units="days|hours|minutes"></span>
+                    </p>
+                </div>
+                <form class="form-horizontal" ng-show="loggedInFlag && !userCanEdit && !auctionOver">
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model="newbidprice" ng-currency min="1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <button class="btn btn-primary" ng-click="makeBid()">Bid Now!</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--End seller info and bidding box-->
+        <!--Item info and image slideshow-->
         <div class="col-md-9">
             <div ng-show="validBid" class="alert alert-success">
                 <strong>Bid successful!</strong>
@@ -19,40 +51,15 @@
                     </div>
                 </div><!-- Image carousel-->
                 <div class="caption-full">
-                    <div class="pull-right well" style="margin-left: 1%">
-                        <div>
-                            <h3>Current Bid: {{ item.highestBid | currency }}</h3>
-                            <p ng-show="!auctionEndSoon">
-                                <span>Time left: </span>
-                                <span countdown end-date="{{item.endtime | date:'short'}}" units="days|hours|minutes"> </span>
-                            </p>
-                            <p ng-show="auctionEndSoon" style="color: red">
-                                <span>Time left: </span>
-                                <span countdown end-date="{{item.endtime | date:'short'}}" units="days|hours|minutes"></span>
-                            </p>
-                        </div>
-                        <form class="form-horizontal" ng-show="loggedInFlag && !userCanEdit && !auctionOver">
-                            <div class="form-group">
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" ng-model="newbidprice" ng-currency min="1">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-10">
-                                    <button class="btn btn-primary" ng-click="makeBid()">Bid Now!</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
                     <div style="margin-right: 1%">
                         <h3>{{item.name}}</h3>
                         <p>{{item.description}}</p>
-                        <a ng-show="userCanEdit" href="#/app/item/{{item.id}}/update" class="btn btn-primary">Update</a>
                     </div>
                 </div>
             </div>
             <dir-disqus config="disqusConfig"></dir-disqus>
         </div>
+        <!-- End item info and image slideshow-->
     </div>
     <hr>
     <!-- Footer -->
