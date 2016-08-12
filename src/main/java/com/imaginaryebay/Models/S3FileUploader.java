@@ -126,6 +126,8 @@ public class S3FileUploader {
         return baos.toByteArray();
     }
 
+
+
     private BufferedImage resizeImageToThumbnail(ByteArrayInputStream bais) throws IOException{
         BufferedImage image = null;
         try{
