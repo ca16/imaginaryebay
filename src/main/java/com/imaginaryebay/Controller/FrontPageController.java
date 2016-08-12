@@ -41,7 +41,7 @@ public interface FrontPageController {
     @RequestMapping(value = "/app/user/{id}/update", method=RequestMethod.GET)
     public ModelAndView getUserUpdatePage();
 
-    @RequestMapping(value = "/app/profile", method=RequestMethod.GET)
+    @RequestMapping(value = "/app/profile/{userID}", method=RequestMethod.GET)
     public ModelAndView getProfilePage();
 
     @RequestMapping(value = "/app/contact", method=RequestMethod.GET)
