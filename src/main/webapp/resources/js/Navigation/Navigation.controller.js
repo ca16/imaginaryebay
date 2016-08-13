@@ -35,14 +35,16 @@ function navigationController($scope,$http,UserService,$location){
     $scope.search=function(){
         var additionalInfo;
         if ($scope.currentCategory!=="Category" && $scope.searchTerm!==null) {
-          additionalInfo = "cat=" +$scope.currentCategory+"&keyword="+$scope.searchTerm;
+            var newSearchTerm = $scope.searchTerm.replace(" ", "+");
+          additionalInfo = "cat=" +$scope.currentCategory+"&keyword="+newSearchTerm;
 
         }
         else if ($scope.currentCategory!=="Category"){
             additionalInfo = "cat=" +$scope.currentCategory;
         }
         else if ($scope.searchTerm!==null){
-            additionalInfo = "keyword="+$scope.searchTerm;
+            var newSearchTerm = $scope.searchTerm.replace(" ", "+");
+            additionalInfo = "keyword="+newSearchTerm;
         }
         else {
             additionalInfo = "";
