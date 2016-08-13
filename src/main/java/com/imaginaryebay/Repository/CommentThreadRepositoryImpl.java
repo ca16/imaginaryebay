@@ -66,17 +66,7 @@ public class CommentThreadRepositoryImpl implements CommentThreadRepository {
         return commentThreadResponse;
     }
 
-    public static String getThreadIdForIdentifier(Long itemId) {
-        // Build the URL for the list of posts
-        final String URL = THREAD_DETAILS_URL + AND_THREAD_LINK + LINK_STEM + itemId + AND_FORUM + FORUM;
-        ThreadIdResponse threadIdResponse = mapThreadIDResponseJSON(doGET(URL));
-        // Disqus returned success code, but no data
-        if (threadIdResponse == null){
-            throw new RestException("Not available.", "There is no feedback available.", HttpStatus.OK);
-        }
-        return threadIdResponse.getResponse().getId();
-    }
-//    POST message=Hello+There&thread=1
+
 
 
     private static String doGET(String url) {
@@ -119,73 +109,9 @@ public class CommentThreadRepositoryImpl implements CommentThreadRepository {
     }
 
 
-    private static void sendPOST(String url, String params){
-        try {
-            URL obj = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-            con.setRequestMethod("POST");
-            con.setRequestProperty("User-Agent", USER_AGENT);
 
-            // For POST only - START
-            con.setDoOutput(true);
-            OutputStream os = con.getOutputStream();
-            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(params);
-            os.flush();
-            os.close();
-            // For POST only - END
 
-            int responseCode = con.getResponseCode();
 
-            if (responseCode == HttpURLConnection.HTTP_OK) { //success
-                BufferedReader in = new BufferedReader(new InputStreamReader(
-                        con.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
-
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
-
-                // print result
-                System.out.println(response.toString());
-            } else {
-                // Disqus returned an error code
-                throw new RestException(Integer.toString(responseCode),
-                        "Received error status from remote feedback store. The requested thread may not exist.",
-                        HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }catch(IOException ioex){
-            ioex.printStackTrace();
-            throw new RestException("Internal server error!.",
-                    "Could not contact external feedback store.", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    public Comment createFeedbackCommentForItemAndUser(Long itemId, Comment comment, Long userId){
-        String requestUserName = "Brian";
-        if (userId != null){
-            Userr requestUser = userrDao.getUserrByID(userId);
-            String requestUserEmail = requestUser.getEmail();
-            requestUserName = requestUser.getName();
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String authEmail = auth.getName();
-
-            if (!(requestUserEmail.equals(authEmail) && requestUserName.equals(comment.getAuthor().getName()))){
-                throw new RestException(NOT_AVAILABLE, NO_AUTHORITY + "update this user.", HttpStatus.FORBIDDEN);
-            }
-        }else{
-            comment.getAuthor().setName("Anonymous");
-            requestUserName = "Anonymous";
-        }
-        String threadId = getThreadIdForIdentifier(itemId);
-        System.out.println(threadId);
-        final String URL = CREATE_POST_URL;
-        final String params = endpart + AND_THREAD_ID + threadId + AND_MESSAGE + comment.getRaw_message() + AND_NAME + requestUserName;
-        sendPOST(URL, params);
-        return comment;
-    }
 
     /**
      *
@@ -209,30 +135,5 @@ public class CommentThreadRepositoryImpl implements CommentThreadRepository {
         return commentThread;
     }
 
-    private static ThreadIdResponse mapThreadIDResponseJSON(String json){
-        ObjectMapper mapper = new ObjectMapper();
-        ThreadIdResponse threadIdResponse = null;
-        try {
-            // Convert input JSON-formatted String to CommentThread Object
-            threadIdResponse = mapper.readValue(json, ThreadIdResponse.class);
-        } catch (JsonGenerationException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return threadIdResponse;
-    }
 
-//    public static void main(String[] args){
-//        Comment fc = new Comment();
-//        CommentAuthor ca = new CommentAuthor();
-//        ca.setName("Brian");
-//        fc.setAuthor(ca);
-//        fc.setRaw_message("New comment");
-//        createFeedbackCommentForItemAndUser(1L, fc, null);
-//        System.out.println(getThreadIdForIdentifier(1L));
-//
-//    }
 }
