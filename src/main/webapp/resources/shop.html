@@ -79,7 +79,7 @@
                                     <img ng-src="{{merchandise.itemPictures[0].url}}" alt="">
                                     <div class="caption">
                                         <h4 class="pull-right">{{merchandise.price | currency}}</h4>
-                                        <h4>{{merchandise.name}}</h4>
+                                        <h4><a ng-href="/app/item/{{merchandise.id}}">{{merchandise.name}}</a></h4>
                                         <p>{{merchandise.description}}</p>
                                     </div>
                                 </div>

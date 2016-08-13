@@ -19,9 +19,9 @@ function itemController($scope, $routeParams, $http, UserService){
 
         // Enable disqus comments
         $scope.disqusConfig = {
-            disqus_shortname: 'guarded-journey-11719-herokuapp-com',
+            disqus_shortname: 'imaginaryebay-herokuapp-com',
             disqus_identifier: 'auction-item' + itemId,
-            disqus_url: 'http://localhost:8081/app/item/' + itemId
+            disqus_url: 'http://imaginaryebay.herokuapp.com/app/item/' + itemId
         };
 
         // Configure slideshow for item's pictures

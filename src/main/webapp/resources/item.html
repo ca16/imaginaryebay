@@ -44,7 +44,7 @@
             <div ng-show="invalidBid" class="alert alert-danger">
                 <strong>Sorry, your bid was unsuccessful.</strong>
             </div>
-            <div class="thumbnail" style="overflow:hidden;">
+            <div class="thumbnail" style="overflow:hidden;">-->
                 <div uib-carousel active="active" no-wrap="noWrapSlides">
                     <div uib-slide ng-repeat="slide in slides track by $index" index="$index">
                         <img ng-src="{{slide.url}}_thumb" style="margin:auto;">
@@ -52,7 +52,10 @@
                 </div><!-- Image carousel-->
                 <div class="caption-full">
                     <div style="margin-right: 1%">
-                        <h3>{{item.name}}</h3>
+                        <h4>{{item.name}}</h4>
+
+                        <h5 >Base price: {{item.price}}</h5>
+
                         <p>{{item.description}}</p>
                     </div>
                 </div>
