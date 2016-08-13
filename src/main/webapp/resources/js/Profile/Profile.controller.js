@@ -20,7 +20,7 @@ function profileController(UserService,$scope,$routeParams){
     }
 
     //stuff for display controller
-    this.numOfItemsOnEachPage=1;
+    this.numOfItemsOnEachPage=5;
     this.userID=$routeParams.userID;
     this.totalUrl="bidding/active/"+this.userID+"/count";
     this.itemUrl="/bidding/active/"+this.userID+"/page/";
