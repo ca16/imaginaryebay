@@ -15,6 +15,7 @@ import org.imgscalr.Scalr;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -67,6 +68,8 @@ public class S3FileUploader {
             // Get Original and thumbnail bytes
             byte[] originalBytes = multipartFile.getBytes();
             byte[] thumbnailBytes = getThumbnailBytes(originalBytes);
+
+            System.out.println("Here");
 
             // Create Object Metadata for S3
             ObjectMetadata omdOriginal = getImageObjectMetadata(fileType, fileName, originalBytes.length);
@@ -126,17 +129,37 @@ public class S3FileUploader {
         return baos.toByteArray();
     }
 
-
-
     private BufferedImage resizeImageToThumbnail(ByteArrayInputStream bais) throws IOException{
+        final int TARGET_WIDTH = 800;
+        final int TARGET_HEIGHT = 500;
+
         BufferedImage image = null;
         try{
             image = ImageIO.read(bais);
-            image = Scalr.resize(image,Scalr.Method.SPEED,330,200);
+            int width = image.getWidth() % 2 == 0 ? image.getWidth() : image.getWidth()+1;
+            int height = image.getHeight() % 2 == 0 ? image.getHeight() : image.getHeight()+1;
+
+            image = Scalr.pad(image, 800, Color.GRAY);
+            int newWidth = width;
+            int newHeight = height;
+
+            while(newHeight % TARGET_HEIGHT != 0){
+                newHeight += 2;
+            }
+            while(newWidth % TARGET_WIDTH != 0 || newWidth < newHeight){
+                newWidth += 2;
+            }
+
+            int start_x = (image.getWidth() - newWidth) / 2;
+            int start_y = (image.getHeight() - newHeight) / 2;
+
+            image = Scalr.crop(image, start_x, start_y, newWidth, newHeight);
+            image = Scalr.resize(image, Scalr.Method.SPEED, TARGET_WIDTH, TARGET_HEIGHT);
+            return image;
         }catch(IOException ioe){
             throw new IOException(ioe.getMessage());
         }
-        return image;
+//        return image;
     }
 
     private ObjectMetadata getImageObjectMetadata(String contentType, String fileName, Integer contentLength){
