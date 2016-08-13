@@ -39,6 +39,18 @@ function shopController($scope, $http,$routeParams,$location, UserService){
         }
     )
 
-
+    $http.get("/item/randompics/" + $routeParams.sellerID). then(
+        function(res){
+            $scope.randomPics=res.data;
+            /*
+            for (var i=1;i<=$scope.randomPics.length;i++){
+                $scope.randomPics[i-1].num=i;
+            }
+            console.log($scope.randomPics);
+            $scope.activeMenu=1;*/
+            $scope.noWrapSlides = false;
+            $scope.active = 0;
+        }
+    )
 
 }
