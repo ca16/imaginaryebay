@@ -131,7 +131,7 @@ public class S3FileUploader {
 
     private BufferedImage resizeImageToThumbnail(ByteArrayInputStream bais) throws IOException{
         final int TARGET_WIDTH = 800;
-        final int TARGET_HEIGHT = 500;
+        final int TARGET_HEIGHT = 400;
 
         BufferedImage image = null;
         try{
