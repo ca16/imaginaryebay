@@ -33,7 +33,7 @@ function shopController($scope, $http,$routeParams,$location, UserService){
         }
     )
 
-    $http.get("/item/sellercategories/" + $routeParams.sellerID).then(
+    $http.get("/item/sellercategories?sellerID=" + $routeParams.sellerID).then(
         function (res) {
             $scope.categories = res.data;
         }
