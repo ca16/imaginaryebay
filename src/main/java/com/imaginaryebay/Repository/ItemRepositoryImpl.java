@@ -121,10 +121,10 @@ public class ItemRepositoryImpl implements ItemRepository , ApplicationContextAw
         // 3. Send email to all other bidders indicating that the auction is over and they have not won the item
 
         SendEmail sendEmail=createSendEmail();
-        String[] beanList=applicationContext.getBeanDefinitionNames();
+        /*String[] beanList=applicationContext.getBeanDefinitionNames();
         for (String bean : beanList){
             System.out.println(bean);
-        }
+        }*/
         sendEmail.setItemId(item.getId());
         this.timer.schedule(sendEmail,item.getEndtime());
 
