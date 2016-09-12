@@ -3,9 +3,9 @@ Imaginary Ebay
 
 Intellij Configuration
 ---------------------
-1. postgresql://postgres::@localhost:5432/test
+1. DATABASE_URL    postgresql://postgres::@localhost:5432/test
 2. AWS_SECRET      HM8jw0ZSIZekX/b1Rcohu39Mfq1mlNWQ+o2Qk54N
-3. AWS_PUBLIC       AKIAJSNMBTJ6HVQZ3CKQ
+3. AWS_PUBLIC      AKIAJSNMBTJ6HVQZ3CKQ
 
 
 
