@@ -64,6 +64,10 @@ public class ItemRepositoryImpl implements ItemRepository , ApplicationContextAw
             ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
+    
+    public void setTimer(Timer timer){
+        this.timer = timer;
+    }
 
 
     protected SendEmail createSendEmail() {
