@@ -1,6 +1,8 @@
 Imaginary Ebay
 ===
 
+Source code for a class project. Users should be able to post items, update them and make bids.  
+
 To login:
 ----------
 1. not store the cookies:
