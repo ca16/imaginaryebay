@@ -1,7 +1,7 @@
 Imaginary Ebay
 ===
 
-Source code for a class project. Users should be able to post items, update them and make bids.  
+Source code for a class team project. Users should be able to post items, update them and make bids.  
 
 To login:
 ----------
